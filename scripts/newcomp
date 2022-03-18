@@ -1,0 +1,18 @@
+#!/usr/bin/env node
+const COMPONENT_NAME = process.argv[2];
+
+if (!COMPONENT_NAME) {
+	console.error("Please name the component you would like to create.");
+	process.exit(1);
+}
+
+const createMainFile = () => {
+	return `import React from 'react';
+`
+}
+
+const createTestFile = () => {
+
+}
+
+console.log("Component and tests created.");
