@@ -7,7 +7,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "pre-commit": "lint-staged",
-    "prepare": "husky install"
+    "prepare": "husky install && cp node_modules/pdfjs-dist/build/pdf.worker.min.js public"
   },
   "dependencies": {
     "@emotion/react": "^11.8.2",
@@ -16,7 +16,9 @@
     "@mui/material": "^5.5.1",
     "pdfjs-dist": "^2.13.216",
     "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "react-dom": "^17.0.2",
+    "react-draggable": "^4.4.4",
+    "react-resizable": "^3.0.4"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.16.2",
@@ -26,6 +28,7 @@
     "@types/node": "^16.11.26",
     "@types/react": "^17.0.40",
     "@types/react-dom": "^17.0.13",
+    "@types/react-resizable": "^1.7.4",
     "husky": "^7.0.4",
     "lint-staged": "^12.3.7",
     "prettier": "^2.6.0",
@@ -47,7 +50,10 @@
     "extends": [
       "react-app",
       "react-app/jest"
-    ]
+    ],
+    "rules": {
+      "testing-library/no-unnecessary-act": "off"
+    }
   },
   "browserslist": {
     "production": [

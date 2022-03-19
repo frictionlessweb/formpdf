@@ -1,13 +1,16 @@
 import React from "react";
 import Steps from "./Steps";
-import Box from "@mui/material/Box";
+import Box, { BoxProps } from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 
-interface HeadingProps {}
-
-const Heading: React.FC<HeadingProps> = () => {
+const Heading: React.FC<BoxProps> = (props) => {
   return (
-    <Box display="flex" position="relative" justifyContent="center">
+    <Box
+      display="flex"
+      position="relative"
+      justifyContent="center"
+      width="100%"
+      {...props}>
       <Typography variant="h3" color="orange" position="absolute" left="0">
         A11y
       </Typography>

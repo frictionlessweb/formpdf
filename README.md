@@ -55,3 +55,22 @@ That will scaffold a new component for you following best practices automaticall
 
 ## Testing
 Run `npm test` from the command line.
+
+### Testing PDF Rendering
+Since rendering the PDF involves some fairly complicated logic involving `useEffect`
+and friends, you'll need to wrap the renders with `act` and `async/await` like so:
+
+```tsx
+import { render, act } from "@testing-library/react";
+import App from "./App";
+
+test("Does not crash immediately", async () => {
+  await act(async () => {
+    render(<App />);
+  });
+});
+```
+
+This will ensure you don't get spurious warnings. (It is also the reason 
+we disable the testing-library/no-unnecessary-act rule.)
+
