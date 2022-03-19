@@ -1,18 +1,43 @@
 #!/usr/bin/env node
+const fs = require("fs");
 const COMPONENT_NAME = process.argv[2];
 
 if (!COMPONENT_NAME) {
-	console.error("Please name the component you would like to create.");
-	process.exit(1);
+  console.error("Please name the component you would like to create.");
+  process.exit(1);
 }
 
 const createMainFile = () => {
-	return `import React from 'react';
-`
+  return `import React from 'react';
+
+interface ${COMPONENT_NAME}Props{};
+
+const ${COMPONENT_NAME}: React.FC<${COMPONENT_NAME}Props> = () => {
+	return <div />;
 }
+
+export default ${COMPONENT_NAME};
+`;
+};
 
 const createTestFile = () => {
+  return `import ${COMPONENT_NAME} from './${COMPONENT_NAME}';
+import { render } from '@testing-library/react';
 
-}
+describe("Our ${COMPONENT_NAME} component", () => {
+	test("Does not crash on rendering", () => {
+	  render(<${COMPONENT_NAME} />);
+	});
+})
+`;
+};
+
+fs.writeFileSync(`${COMPONENT_NAME}.tsx`, createMainFile(), {
+  encoding: "utf8",
+});
+
+fs.writeFileSync(`${COMPONENT_NAME}.test.tsx`, createTestFile(), {
+  encoding: "utf8",
+});
 
 console.log("Component and tests created.");

@@ -1,11 +1,28 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import App from "./App";
-import "normalize.css";
 import reportWebVitals from "./reportWebVitals";
+import App from "./App";
+
+// Font imports: When we compile the project, React will copy the right files
+// out of node_modules and generate an HTML file that links to the fonts.
+// Hosting our own fonts improves performance and is slightly easier to manage
+// than having to manage script tags in the HTML ourselves.
+import "@fontsource/roboto";
+// Different browsers have different styling quirks; Material UI can smooth
+// these over if we import it at the top level.
+import CssBaseline from "@mui/material/CssBaseline";
+
+// In order to render PDF files, we use FireFox's PDF renderer. Setting it up
+// requires configuring a web worker so that it can render PDF documents to a
+// canvas on a separate thread; below we include the ritual to make that work.
+import { GlobalWorkerOptions } from "pdfjs-dist";
+// @ts-ignore
+import pdfjsWorker from "pdfjs-dist/build/pdf.worker.entry";
+GlobalWorkerOptions.workerSrc = pdfjsWorker;
 
 ReactDOM.render(
   <React.StrictMode>
+    <CssBaseline />
     <App />
   </React.StrictMode>,
   document.getElementById("root")
