@@ -1,5 +1,5 @@
 import Annotation, { makeContainerStyles } from "./Annotation";
-import { render } from "@testing-library/react";
+import { render } from "../testUtils";
 
 describe("Our Annotation component", () => {
   test("Does not crash on rendering", () => {

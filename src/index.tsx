@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import reportWebVitals from "./reportWebVitals";
 import App from "./App";
+import AccessibleForm from "./app/AccessibleForm";
 
 // Font imports: When we compile the project, React will copy the right files
 // out of node_modules and generate an HTML file that links to the fonts.
@@ -25,7 +26,9 @@ GlobalWorkerOptions.workerSrc = "/pdf.worker.min.js";
 ReactDOM.render(
   <React.StrictMode>
     <CssBaseline />
-    <App />
+    <AccessibleForm>
+      <App />
+    </AccessibleForm>
   </React.StrictMode>,
   document.getElementById("root")
 );

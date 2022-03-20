@@ -3,9 +3,12 @@ import React from "react";
 import { CSSObject } from "@emotion/react";
 import Draggable from "react-draggable";
 import { Resizable } from "react-resizable";
-import { AnnotationStatic, AnnotationControls } from "../utils/annotation";
+import {
+  Annotation as AnnotationStatic,
+  AnnotationUIState,
+} from "./AccessibleForm";
 
-type AnnotationProps = AnnotationStatic & AnnotationControls;
+type AnnotationProps = AnnotationStatic & AnnotationUIState & { zoom: number };
 
 export const makeContainerStyles = (props: AnnotationProps): CSSObject => {
   const { width, height, top, left, draggable } = props;
@@ -26,7 +29,7 @@ const Annotation: React.FC<AnnotationProps> = (props) => {
   const ref = React.useRef<HTMLDivElement | null>(null);
 
   const core = (
-    <div css={makeContainerStyles({ ...props, width, height })} ref={ref}>
+    <div css={makeContainerStyles(props)} ref={ref}>
       <div
         css={{
           width: "100%",

@@ -1,8 +1,8 @@
 /** @jsxImportSource @emotion/react */
 import Box from "@mui/material/Box";
-import Heading from "./components/Heading";
-import PDF from "./components/PDF";
-import Annotation from "./components/Annotation";
+import Heading from "./app/Heading";
+import PDF from "./app/PDF";
+import Annotation from "./app/Annotation";
 
 const App = () => {
   return (

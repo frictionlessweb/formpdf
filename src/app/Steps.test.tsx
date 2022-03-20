@@ -1,5 +1,5 @@
 import Steps from "./Steps";
-import { render } from "@testing-library/react";
+import { render } from "../testUtils";
 
 describe("Our Steps component", () => {
   test("Does not crash on rendering", () => {
