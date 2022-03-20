@@ -1,24 +1,30 @@
-# formpdf 
+# formpdf
+
 Code for accessible PDF rendering.
 
 ## Getting Started
+
 Clone the repository and run `npm install`.
 
 ...that's it. 🥳
 
 ## Developing
+
 Run `npm start` to edit your changes live.
 
 ### Adding PDF Files
+
 Move the PDF into the `public` folder to make it accessible.
 
 ### UI Components
+
 Material UI v5 provides us with nice buttons, accordions, and other such goodies. You
 can find documentation here: https://mui.com/components/
 
 ### Styles
-We're using `@emotion/react` to do CSS in JS. That means that when you want to style a 
-component that *isn't* from Material UI, you can usually do so inline by editing its 
+
+We're using `@emotion/react` to do CSS in JS. That means that when you want to style a
+component that _isn't_ from Material UI, you can usually do so inline by editing its
 CSS object after including the right magic comment:
 
 ```tsx
@@ -26,12 +32,8 @@ CSS object after including the right magic comment:
 // The line above is *required!* Otherwise, your styles won't work!
 
 const MyFancyComponent = () => {
-   return (
-	   <div css={{ backgroundColor: 'hotpink' }}>
-		   Hello!
-		 </div>
-   );
-}
+  return <div css={{ backgroundColor: "hotpink" }}>Hello!</div>;
+};
 
 export default MyFancyComponent;
 ```
@@ -39,6 +41,7 @@ export default MyFancyComponent;
 For more information about emotion, see here: https://emotion.sh/docs/introduction
 
 ### Adding a New File
+
 Creating a new slice of the UI usually involves a lot of boilerplate: You have
 to define a new component, export it, create a test file, and write a little
 test to make sure that all of the glue is in place. We can automate all of that
@@ -54,9 +57,11 @@ newcomp MyComponent
 That will scaffold a new component for you following best practices automatically.
 
 ## Testing
+
 Run `npm test` from the command line.
 
 ### Testing PDF Rendering
+
 Since rendering the PDF involves some fairly complicated logic involving `useEffect`
 and friends, you'll need to wrap the renders with `act` and `async/await` like so:
 
@@ -71,6 +76,5 @@ test("Does not crash immediately", async () => {
 });
 ```
 
-This will ensure you don't get spurious warnings. (It is also the reason 
+This will ensure you don't get spurious warnings. (It is also the reason
 we disable the testing-library/no-unnecessary-act rule.)
-

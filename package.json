@@ -41,7 +41,7 @@
       "prettier --write",
       "eslint --fix"
     ],
-    "*.json": "prettier --write"
+    "*.{json,md}": "prettier --write"
   },
   "prettier": {
     "bracketSameLine": true
