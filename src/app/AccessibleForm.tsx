@@ -74,7 +74,7 @@ type AccessibleFormAction =
 // to the immer library. immer takes care of cloning the previous state for us
 // so that we don't need to worry about using the spread operator everywhere;
 // we can just mutate the draft state to look the way we'd like, and immer will
-// handle the rest.
+// handle making copies of everything.
 export const reduceAccessibleForm = (
   previous: AccessibleForm | undefined,
   action: AccessibleFormAction
