@@ -22,7 +22,7 @@ export default ${COMPONENT_NAME};
 
 const createTestFile = () => {
   return `import ${COMPONENT_NAME} from './${COMPONENT_NAME}';
-import { render } from '@testing-library/react';
+import { render } from '../testUtils';
 
 describe("Our ${COMPONENT_NAME} component", () => {
 	test("Does not crash on rendering", () => {

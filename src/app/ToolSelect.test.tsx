@@ -1,5 +1,5 @@
 import ToolSelect from "./ToolSelect";
-import { render } from "@testing-library/react";
+import { render } from "../testUtils";
 
 describe("Our ToolSelect component", () => {
   test("Does not crash on rendering", () => {
