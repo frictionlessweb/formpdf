@@ -1,7 +1,12 @@
 import React from "react";
 import produce from "immer";
 import { createStore } from "redux";
-import { Provider } from "react-redux";
+import {
+  Provider,
+  useSelector as useSelectorRedux,
+  useDispatch as useDispatchRedux,
+  TypedUseSelectorHook,
+} from "react-redux";
 import { devToolsEnhancer } from "@redux-devtools/extension";
 
 //     _                      _        _   _
@@ -45,18 +50,28 @@ export interface AnnotationUIState {
 // -----------------------------------------------------------------------
 // An accessible form puts together all of the state described above into a
 // coherent data structure that we manipulate throughout the application.
+
+export type TOOL = "CREATE" | "RESIZE" | "MOVE";
+
 interface AccessibleForm {
   // What step is the user on of their editing process?
-  currentStep: number;
+  step: number;
   // How far has the user Zoomed in or out of the PDF?
   zoom: number;
+  // Which page of the PDF are we on? WARNING: This is indexed from *1*, not
+  // from zero!
+  page: number;
   // What are all of the annotations we've kept track of so far?
   annotations: Record<AnnotationId, Annotation>;
+  // Which tool is active right now?
+  tool: TOOL;
 }
 
 export const DEFAULT_ACCESSIBLE_FORM: AccessibleForm = {
-  currentStep: 0,
+  step: 0,
+  tool: "CREATE",
   zoom: 1,
+  page: 1,
   annotations: {},
 };
 
@@ -64,7 +79,9 @@ export const DEFAULT_ACCESSIBLE_FORM: AccessibleForm = {
 // could take while editing the PDF UI.
 type AccessibleFormAction =
   | { type: "CHANGE_CURRENT_STEP"; payload: number }
-  | { type: "CHANGE_ZOOM"; payload: number };
+  | { type: "CHANGE_ZOOM"; payload: number }
+  | { type: "CHANGE_PAGE"; payload: number }
+  | { type: "CHANGE_TOOL"; payload: TOOL };
 
 // reduceAccessibleForm determines how to update the state after a UI action
 // takes place. It is *intentionally* very big and relies on pattern matching
@@ -74,7 +91,7 @@ type AccessibleFormAction =
 // to the immer library. immer takes care of cloning the previous state for us
 // so that we don't need to worry about using the spread operator everywhere;
 // we can just mutate the draft state to look the way we'd like, and immer will
-// handle the rest.
+// handle making copies of everything.
 export const reduceAccessibleForm = (
   previous: AccessibleForm | undefined,
   action: AccessibleFormAction
@@ -83,11 +100,19 @@ export const reduceAccessibleForm = (
   return produce(previous, (draft) => {
     switch (action.type) {
       case "CHANGE_CURRENT_STEP": {
-        draft.currentStep = action.payload;
+        draft.step = action.payload;
         return;
       }
       case "CHANGE_ZOOM": {
         draft.zoom = action.payload;
+        return;
+      }
+      case "CHANGE_TOOL": {
+        draft.tool = action.payload;
+        return;
+      }
+      case "CHANGE_PAGE": {
+        draft.page = action.payload;
         return;
       }
       default: {
@@ -123,5 +148,11 @@ const AccessibleFormProvider: React.FC<{ children: React.ReactNode }> = (
   const { children } = props;
   return <Provider store={store}>{children}</Provider>;
 };
+
+// See https://react-redux.js.org/using-react-redux/usage-with-typescript#define-typed-hooks
+export const useSelector: TypedUseSelectorHook<AccessibleForm> =
+  useSelectorRedux;
+
+export const useDispatch = () => useDispatchRedux<typeof store.dispatch>();
 
 export default AccessibleFormProvider;

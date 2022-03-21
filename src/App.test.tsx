@@ -1,4 +1,4 @@
-import { render, act } from "@testing-library/react";
+import { render, act } from "./testUtils";
 import App from "./App";
 
 test("Does not crash immediately", async () => {
