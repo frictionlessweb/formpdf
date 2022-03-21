@@ -80,3 +80,31 @@ test("Does not crash immediately", async () => {
 
 This will ensure you don't get spurious warnings. (It is also the reason
 we disable the testing-library/no-unnecessary-act rule.)
+
+## Bugs/Limitations
+
+### Ugly Empty Divs
+
+In order to get the page layout just right, we have some empty divs throughout
+the code base that exist to make sure the layout works just right. For example:
+
+```tsx
+const App = () => {
+  return (
+    <Box display="flex" width="100%">
+      <div css={{ width: "150px" }} />
+      <MiddleApp />
+      <Toolbar />
+    </Box>
+  );
+};
+```
+
+Are these divs a problem, and is there a way to get rid of them? I'm not sure
+if there's an easier/better way to do the styling.
+
+### Props/Store
+
+Should things like the current page/zoom level be part of the store, or should
+they be passed as props? We might need to do refactoring; I'm not sure what the
+right answer is in this case.
