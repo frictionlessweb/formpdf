@@ -14,7 +14,9 @@ Run `npm start` to edit your changes live.
 
 ### Adding PDF Files
 
-Move the PDF into the `public` folder to make it accessible.
+Move the PDF into the `public` folder to make it accessible. Then, change the
+URL in `app.tsx` to `/pdf-name.pdf`, where "pdf-name" is whatever the file name
+of the PDF file is.
 
 ### UI Components
 

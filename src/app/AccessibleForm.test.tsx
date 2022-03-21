@@ -10,10 +10,14 @@ describe("Our form reducer", () => {
   });
   test("Works with changing the current step", () => {
     const res = reduce(init, { type: "CHANGE_CURRENT_STEP", payload: 2 });
-    expect(res.currentStep).toEqual(2);
+    expect(res.step).toEqual(2);
   });
   test("Works with changing the zoom level", () => {
     const res = reduce(init, { type: "CHANGE_ZOOM", payload: 0.2 });
     expect(res.zoom).toEqual(0.2);
+  });
+  test("We can change the active tool", () => {
+    const res = reduce(init, { type: "CHANGE_TOOL", payload: "RESIZE" });
+    expect(res.tool).toEqual("RESIZE");
   });
 });

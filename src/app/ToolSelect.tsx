@@ -1,34 +1,49 @@
 import React from "react";
-import Box from "@mui/material/Box";
+import { useSelector, useDispatch, TOOL } from "./AccessibleForm";
+import Box, { BoxProps } from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import LocationSearch from "@mui/icons-material/LocationSearching";
 import AspectRatio from "@mui/icons-material/AspectRatio";
 import Create from "@mui/icons-material/Create";
 
-interface ToolSelectProps {}
+interface ToolButtonProps {
+  toolName: TOOL;
+  activeTool: string;
+  Icon: React.FC;
+}
 
-const ToolSelect: React.FC<ToolSelectProps> = () => {
+const ToolButton: React.FC<ToolButtonProps> = (props) => {
+  const { toolName, activeTool, Icon } = props;
+  const dispatch = useDispatch();
   return (
-    <Box
-      paddingX="24px"
-      display="flex"
-      flexDirection="column"
-      position="absolute"
-      alignItems="center"
-      left="66%">
+    <Button
+      onClick={() => dispatch({ type: "CHANGE_TOOL", payload: toolName })}
+      sx={{ marginBottom: "16px" }}
+      variant={toolName === activeTool ? "contained" : "outlined"}>
+      <Icon />
+    </Button>
+  );
+};
+
+const ToolSelect: React.FC<BoxProps> = (props) => {
+  const activeTool = useSelector((state) => state.tool);
+  return (
+    <Box display="flex" flexDirection="column" alignItems="center" {...props}>
       <Typography sx={{ marginBottom: "16px" }} fontWeight="bold" variant="h4">
         Tools
       </Typography>
-      <Button sx={{ marginBottom: "16px" }} variant="outlined">
-        <Create />
-      </Button>
-      <Button sx={{ marginBottom: "16px" }} variant="contained">
-        <LocationSearch />
-      </Button>
-      <Button variant="outlined">
-        <AspectRatio />
-      </Button>
+      <ToolButton activeTool={activeTool} toolName="CREATE" Icon={Create} />
+      <ToolButton
+        activeTool={activeTool}
+        toolName="MOVE"
+        Icon={LocationSearch}
+      />
+      <ToolButton
+        activeTool={activeTool}
+        toolName="RESIZE"
+        Icon={AspectRatio}
+      />
     </Box>
   );
 };
