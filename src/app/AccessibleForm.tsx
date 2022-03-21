@@ -20,20 +20,23 @@ import { devToolsEnhancer } from "@redux-devtools/extension";
 
 type AnnotationId = string;
 
-export interface Annotation {
-  // What is the ID of the annotation?
-  id: AnnotationId;
-  // The background color of the annotation.
-  backgroundColor: string;
-  // How tall should this annotation be?
-  height: number;
-  // How wide should this annotation be?
-  width: number;
-  // How far from the top should this annotation be?
+export interface Bounds {
+  // How far from the top of the canvas should this annotation be?
   top: number;
-  // How far from the left should this annotation be?
+  // How far from the left of the canvas should this annotation be?
   left: number;
+  // How wide is this annotation?
+  width: number;
+  // How tall is this annotation?
+  height: number;
 }
+
+export type Annotation = Bounds & {
+  // What is the ID of the annotation -- how do we uniquely identify it?
+  id: AnnotationId;
+  // What is the color of the annotation?
+  backgroundColor: string;
+};
 
 export interface AnnotationUIState {
   // Do we have the ability to drag/drop this component?
