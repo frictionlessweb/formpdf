@@ -20,4 +20,8 @@ describe("Our form reducer", () => {
     const res = reduce(init, { type: "CHANGE_TOOL", payload: "RESIZE" });
     expect(res.tool).toEqual("RESIZE");
   });
+  test("We can change the current page", () => {
+    const res = reduce(init, { type: "CHANGE_PAGE", payload: 2 });
+    expect(res.page).toEqual(2);
+  });
 });

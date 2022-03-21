@@ -58,6 +58,9 @@ interface AccessibleForm {
   step: number;
   // How far has the user Zoomed in or out of the PDF?
   zoom: number;
+  // Which page of the PDF are we on? WARNING: This is indexed from *1*, not
+  // from zero!
+  page: number;
   // What are all of the annotations we've kept track of so far?
   annotations: Record<AnnotationId, Annotation>;
   // Which tool is active right now?
@@ -68,6 +71,7 @@ export const DEFAULT_ACCESSIBLE_FORM: AccessibleForm = {
   step: 0,
   tool: "CREATE",
   zoom: 1,
+  page: 1,
   annotations: {},
 };
 
@@ -76,6 +80,7 @@ export const DEFAULT_ACCESSIBLE_FORM: AccessibleForm = {
 type AccessibleFormAction =
   | { type: "CHANGE_CURRENT_STEP"; payload: number }
   | { type: "CHANGE_ZOOM"; payload: number }
+  | { type: "CHANGE_PAGE"; payload: number }
   | { type: "CHANGE_TOOL"; payload: TOOL };
 
 // reduceAccessibleForm determines how to update the state after a UI action
@@ -104,6 +109,10 @@ export const reduceAccessibleForm = (
       }
       case "CHANGE_TOOL": {
         draft.tool = action.payload;
+        return;
+      }
+      case "CHANGE_PAGE": {
+        draft.page = action.payload;
         return;
       }
       default: {
