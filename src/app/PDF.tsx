@@ -8,6 +8,19 @@ import {
   PDFPageProxy,
   RenderTask,
 } from "pdfjs-dist";
+import Loading from "@mui/material/CircularProgress";
+
+/**
+ * HOW TO RENDER THINGS ON TOP OF A PDF AS EASILY AS POSSIBLE
+ * ----------------------------------------------------------
+ * The basic trick around which our app revolves is that we can render a
+ * PDF document into a canvas and position a div right atop the PDF. From
+ * there, we can render other drag/droppable divs that line up with elements
+ * on the canvas, adjusting the position/scale accordingly based on the
+ * zoom level and other factors. We get panning over the PDF for free by
+ * limiting the size of the canvas's container and using overflow: scroll
+ * in the CSS.
+ */
 
 interface PDFProps {
   // Where is the PDF located?
@@ -24,11 +37,6 @@ interface PDFProps {
   children?: React.ReactNode;
 }
 
-/**
- * HOW TO RENDER THINGS ON TOP OF A PDF AS EASILY AS POSSIBLE
- * ----------------------------------------------------------
- */
-
 const PDF: React.FC<PDFProps> = (props) => {
   const { url, currentPage, zoom, width, height, children } = props;
 
@@ -44,6 +52,10 @@ const PDF: React.FC<PDFProps> = (props) => {
    * slow down the app considerably and create an undesireable user experience.
    */
 
+  // Track whether we're about to show a PDF; when true, we show a nice spinner,
+  // and when false, we show the desired PDF file.
+  const [loading, setLoading] = React.useState<boolean>(true);
+
   // Step 1: Fetch the document.
   const [pdfDocument, setPdfDocument] = React.useState<PDFDocumentProxy | null>(
     null
@@ -52,6 +64,12 @@ const PDF: React.FC<PDFProps> = (props) => {
     const fetchDocument = async () => {
       const unloadedDocument = getDocument(url);
       const doc = await unloadedDocument.promise;
+      // Getting the document happens very quickly during development, but
+      // in production it can be slow and potentially lead to a bad user
+      // experience. To test the slow path, try adding a delay right here
+      // using the function below:
+      //
+      // const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
       setPdfDocument(doc);
     };
     fetchDocument();
@@ -95,6 +113,12 @@ const PDF: React.FC<PDFProps> = (props) => {
       canvas.width = viewport.width;
       canvas.height = viewport.height;
       renderingRef.current = page.render({ viewport, canvasContext });
+
+      // Now that we've triggered a render, we've fetched everything we've needed
+      // to from the network, so we can set loading to false again. Other PDF
+      // operations are generally fast enough that we don't need to display a
+      // spinner.
+      setLoading(false);
     };
     displayPdf();
   }, [page, canvasRef, renderingRef, width, height, zoom]);
@@ -110,8 +134,18 @@ const PDF: React.FC<PDFProps> = (props) => {
         overflowX: "scroll",
         position: "relative",
       }}>
-      <canvas ref={canvasRef} id="pdf" />
-      {children}
+      <canvas ref={canvasRef} />
+      {loading ? (
+        <Loading
+          sx={{
+            top: 20,
+            left: "48%",
+            position: "absolute",
+          }}
+        />
+      ) : (
+        children
+      )}
     </div>
   );
 };
