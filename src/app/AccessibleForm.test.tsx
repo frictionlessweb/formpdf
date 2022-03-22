@@ -40,4 +40,24 @@ describe("Our form reducer", () => {
     });
     expect(res.annotations["1"]).toEqual(payload);
   });
+  test("We can delete an annotation after we create it", () => {
+    const payload = {
+      id: "1",
+      backgroundColor: "lightpink",
+      height: 10,
+      width: 10,
+      top: 5,
+      left: 5,
+      borderColor: "pink",
+    };
+    const created = reduce(init, {
+      type: "CREATE_ANNOTATION",
+      payload,
+    });
+    const deleted = reduce(created, {
+      type: "DELETE_ANNOTATION",
+      payload: "1",
+    });
+    expect(deleted.annotations["1"]).toBe(undefined);
+  });
 });

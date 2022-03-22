@@ -87,7 +87,8 @@ type AccessibleFormAction =
   | { type: "CHANGE_ZOOM"; payload: number }
   | { type: "CHANGE_PAGE"; payload: number }
   | { type: "CHANGE_TOOL"; payload: TOOL }
-  | { type: "CREATE_ANNOTATION"; payload: Annotation };
+  | { type: "CREATE_ANNOTATION"; payload: Annotation }
+  | { type: "DELETE_ANNOTATION"; payload: AnnotationId };
 
 // reduceAccessibleForm determines how to update the state after a UI action
 // takes place. It is *intentionally* very big and relies on pattern matching
@@ -123,6 +124,10 @@ export const reduceAccessibleForm = (
       }
       case "CREATE_ANNOTATION": {
         draft.annotations[action.payload.id] = action.payload;
+        return;
+      }
+      case "DELETE_ANNOTATION": {
+        delete draft.annotations[action.payload];
         return;
       }
       default: {
