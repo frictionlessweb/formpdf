@@ -6,12 +6,14 @@ import { Bounds } from "./AccessibleForm";
 type TranslucentBoxProps = React.DetailedHTMLProps<
   React.HTMLAttributes<HTMLDivElement>,
   HTMLDivElement
-> & { css: CSSObject & { backgroundColor: string } };
+> & { css: CSSObject };
 
 export const TranslucentBox: React.FC<TranslucentBoxProps> = (props) => {
+  const { css, ...divProps } = props;
   return (
-    <div css={props.css}>
+    <div css={css}>
       <div
+        {...divProps}
         css={{
           width: "100%",
           height: "100%",
@@ -51,8 +53,8 @@ export const mapCreationBoundsToCss = (bounds: CreationBounds): CSSObject => {
 
   // When the distances are negative, we have to flip the div 180 degrees,
   // which we can accomplish via a CSS transform.
-  const flipY = height < 0 ? -180 : 0;
-  const flipX = width < 0 ? -180 : 0;
+  const flipY = width < 0 ? -180 : 0;
+  const flipX = height < 0 ? -180 : 0;
 
   return {
     top,

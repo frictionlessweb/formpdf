@@ -45,9 +45,9 @@ export interface LarvalAnnotationBounds {
   // Where is the left of the annotation?
   left: number;
   // How far horizontally have we displaced the annotation?
-  right: number;
-  // How far from the bottom have we displaced the annotation?
-  bottom: number;
+  movedLeft: number;
+  // How far from the movedTop have we displaced the annotation?
+  movedTop: number;
 }
 
 export type Annotation = Bounds & {

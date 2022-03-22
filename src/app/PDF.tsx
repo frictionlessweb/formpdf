@@ -20,6 +20,11 @@ import {
 import Loading from "@mui/material/CircularProgress";
 import { useSelector, LarvalAnnotationBounds } from "./AccessibleForm";
 import { CSSObject } from "@emotion/react";
+import {
+  TranslucentBox,
+  mapCreationBoundsToCss,
+  useCreationBounds,
+} from "./Annotation";
 
 interface PDFProps {
   // Where is the PDF located?
@@ -163,103 +168,35 @@ interface CanvasHandlers {
   // Are we in the middle of highlighting something? If so, what is it?
   creationBounds: null | LarvalAnnotationBounds;
   // What should we do when our mouse moves over a region of the Canvas?
-  onMouseUp: React.MouseEventHandler<HTMLCanvasElement>;
-  // What should we do when we click down on the Canvas?
-  onMouseDown: React.MouseEventHandler<HTMLCanvasElement>;
-  // What should we do when our mouse moves on the canvas?
-  onMouseMove: React.MouseEventHandler<HTMLCanvasElement>;
-}
-
-interface LarvalAnnotationProps {
-  // Where is this LarvalAnnotation located?
-  bounds: LarvalAnnotationBounds;
-  // What is the background color of the annotation?
-  backgroundColor: string;
-  // What should we do when our mouse moves over a region of the div?
   onMouseUp: React.MouseEventHandler;
-  // What should we do when we click down on the div?
+  // What should we do when we click down on the Canvas?
   onMouseDown: React.MouseEventHandler;
-  // What should we do when our mouse moves on the div?
+  // What should we do when our mouse moves on the canvas?
   onMouseMove: React.MouseEventHandler;
+  // What should we do when our mouse leaves the canvas?
+  onMouseLeave: React.MouseEventHandler;
 }
 
-export const larvalContainerCss = (
-  bounds: LarvalAnnotationBounds
-): CSSObject => {
-  const { bottom, right, top, left } = bounds;
-  const height = bottom - top;
-  const width = right - left;
-  // When the user has dragged the cursor to the left or above where we
-  // started, we need to flip the div above itself or below itself
-  // respectively.
-  const rotateY = width < 0 ? -180 : 0;
-  const rotateX = height < 0 ? -180 : 0;
-  return {
-    position: "absolute",
-    top,
-    left,
-    width: Math.abs(width),
-    height: Math.abs(height),
-    transform: `rotateY(${rotateY}deg) rotateX(${rotateX}deg)`,
-    transformOrigin: "top left",
-  };
-};
-
-const LarvalAnnotation: React.FC<LarvalAnnotationProps> = (props) => {
-  const { bounds, backgroundColor, ...handlers } = props;
-  return (
-    <div {...handlers} css={larvalContainerCss(props.bounds)}>
-      <div
-        {...handlers}
-        css={{
-          width: "100%",
-          height: "100%",
-          backgroundColor: props.backgroundColor,
-          opacity: 0.33,
-        }}
-      />
-    </div>
-  );
-};
+const NO_OP: React.MouseEventHandler = () => {};
 
 const useCanvasHandlers = (): CanvasHandlers => {
   const tool = useSelector((state) => state.tool);
-  const container = React.useRef<HTMLDivElement | null>(null);
-  const [creationBounds, setBounds] =
-    React.useState<LarvalAnnotationBounds | null>(null);
+  const {
+    div: container,
+    bounds: creationBounds,
+    createBounds,
+    resetBounds,
+    updateBounds,
+  } = useCreationBounds();
   switch (tool) {
     case "CREATE": {
       return {
         cursor: "crosshair",
         creationBounds,
         container,
-        onMouseDown: (e) => {
-          if (!creationBounds && container.current) {
-            const top =
-              e.pageY -
-              container.current.offsetTop +
-              container.current.scrollTop;
-            const left =
-              e.pageX -
-              container.current.offsetLeft +
-              container.current.scrollLeft;
-            setBounds({ top, left, bottom: top, right: left });
-          }
-        },
-        onMouseMove: (e) => {
-          setBounds((prevBounds) => {
-            if (!prevBounds || !container.current) return null;
-            const bottom =
-              e.pageY -
-              container.current.offsetTop +
-              container.current.scrollTop;
-            const right =
-              e.pageX -
-              container.current.offsetLeft +
-              container.current.scrollLeft;
-            return { ...prevBounds, right, bottom };
-          });
-        },
+        onMouseDown: createBounds,
+        onMouseMove: updateBounds,
+        onMouseLeave: resetBounds,
         onMouseUp: (_) => {
           // TODO: Once the user releases the mouse button, we have enough
           // information to create an annotation. We will need to:
@@ -268,7 +205,7 @@ const useCanvasHandlers = (): CanvasHandlers => {
           // with plain-old width/height.
           // 3. Dispatch an update to the store that causes the annotation
           // to be placed into the document.
-          setBounds(null);
+          resetBounds();
         },
       };
     }
@@ -277,9 +214,10 @@ const useCanvasHandlers = (): CanvasHandlers => {
         cursor: "auto",
         creationBounds: null,
         container,
-        onMouseMove: (_) => {},
-        onMouseUp: (_) => {},
-        onMouseDown: (_) => {},
+        onMouseMove: NO_OP,
+        onMouseUp: NO_OP,
+        onMouseDown: NO_OP,
+        onMouseLeave: NO_OP,
       };
   }
 };
@@ -296,10 +234,11 @@ const useCanvasHandlers = (): CanvasHandlers => {
 const PDF: React.FC<PDFProps> = (props) => {
   const { url, width, height, children } = props;
   const { canvas, loading } = useFetchPDF(url);
-  const { cursor, container, creationBounds, ...handlers } =
+  const { cursor, container, creationBounds, onMouseLeave, ...handlers } =
     useCanvasHandlers();
   return (
     <div
+      onMouseLeave={onMouseLeave}
       ref={container}
       css={{
         border: "2px solid black",
@@ -323,9 +262,13 @@ const PDF: React.FC<PDFProps> = (props) => {
       ) : (
         <>
           {creationBounds ? (
-            <LarvalAnnotation
-              backgroundColor="green"
-              bounds={creationBounds}
+            <TranslucentBox
+              css={{
+                position: "absolute",
+                backgroundColor: "lightgreen",
+                border: "3px solid green",
+                ...mapCreationBoundsToCss(creationBounds),
+              }}
               {...handlers}
             />
           ) : null}
