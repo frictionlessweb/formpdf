@@ -4,20 +4,20 @@ import { CSSObject } from "@emotion/react";
 import {
   Bounds,
   Annotation as AnnotationStatic,
-  AnnotationUIState,
-  useSelector,
   useDispatch,
+  useSelector,
 } from "./AccessibleForm";
+import Draggable from "react-draggable";
 
 type TranslucentBoxProps = React.DetailedHTMLProps<
   React.HTMLAttributes<HTMLDivElement>,
   HTMLDivElement
-> & { css: CSSObject };
+> & { css: CSSObject; nodeRef?: React.MutableRefObject<HTMLDivElement | null> };
 
 export const TranslucentBox: React.FC<TranslucentBoxProps> = (props) => {
-  const { css, ...divProps } = props;
+  const { css, nodeRef, ...divProps } = props;
   return (
-    <div css={css}>
+    <div css={css} ref={nodeRef}>
       <div
         {...divProps}
         css={{
@@ -125,65 +125,66 @@ export const useCreationBounds = () => {
   return { div, bounds, resetBounds, updateBounds, createBounds };
 };
 
-//  ____       _      _
-// |  _ \  ___| | ___| |_ ___
-// | | | |/ _ \ |/ _ \ __/ _ \
-// | |_| |  __/ |  __/ ||  __/
-// |____/ \___|_|\___|\__\___|
+//     _                      _        _   _
+//    / \   _ __  _ __   ___ | |_ __ _| |_(_) ___  _ __
+//   / _ \ | '_ \| '_ \ / _ \| __/ _` | __| |/ _ \| '_ \
+//  / ___ \| | | | | | | (_) | || (_| | |_| | (_) | | | |
+// /_/   \_\_| |_|_| |_|\___/ \__\__,_|\__|_|\___/|_| |_|
 
-interface AnnotationHandlers {
-  // What should the cursor look like when our mouse hovers over it?
-  cursor: string;
-  // What should happen when we click the annotation?
-  onClick?: React.MouseEventHandler;
-}
-
-const useAnnotationHandlers = (
-  props: AnnotationProps & { tool: string }
-): AnnotationHandlers => {
-  const dispatch = useDispatch();
-  switch (props.tool) {
-    case "DELETE": {
-      return {
-        cursor: "not-allowed",
-        onClick: () => {
-          dispatch({ type: "DELETE_ANNOTATION", payload: props.id });
-        },
-      };
-    }
-    default: {
-      return {
-        cursor: "inherit",
-      };
-    }
-  }
+type AnnotationProps = AnnotationStatic & {
+  css?: CSSObject;
 };
-
-type AnnotationProps = AnnotationUIState &
-  AnnotationStatic & { css?: CSSObject };
 
 const Annotation: React.FC<AnnotationProps> = (props) => {
   const tool = useSelector((state) => state.tool);
-  const { left, top, width, height, backgroundColor, borderColor } = props;
-  const { cursor, ...fns } = useAnnotationHandlers({ tool, ...props });
-  const core = (
-    <TranslucentBox
-      {...fns}
-      css={{
-        position: "absolute",
-        cursor,
-        left,
-        top,
-        width,
-        height,
-        backgroundColor,
-        border: `3px solid ${borderColor}`,
-      }}
-    />
-  );
+  const dispatch = useDispatch();
+  const ref = React.useRef<HTMLDivElement | null>(null);
+  const { id, children: _, ...cssProps } = props;
+  const css = {
+    ...cssProps,
+    position: "absolute" as const,
+  };
   switch (tool) {
-    default:
-      return core;
+    case "CREATE": {
+      return (
+        <TranslucentBox nodeRef={ref} css={{ cursor: "inherit", ...css }} />
+      );
+    }
+    case "DELETE": {
+      return (
+        <TranslucentBox
+          nodeRef={ref}
+          onClick={() => {
+            dispatch({ type: "DELETE_ANNOTATION", payload: props.id });
+          }}
+          css={{ cursor: "not-allowed", ...css }}
+        />
+      );
+    }
+    case "MOVE": {
+      return (
+        <Draggable
+          nodeRef={ref}
+          // This tells react-draggable to treat the place we start at as the
+          // origin.
+          position={{ x: 0, y: 0 }}
+          onStop={(_, data) => {
+            dispatch({
+              type: "MOVE_ANNOTATION",
+              payload: {
+                id,
+                x: data.x,
+                y: data.y,
+              },
+            });
+          }}>
+          <TranslucentBox nodeRef={ref} css={{ cursor: "move", ...css }} />
+        </Draggable>
+      );
+    }
+    case "RESIZE": {
+      return <TranslucentBox css={{ cursor: "resize-nw", ...css }} />;
+    }
   }
 };
 

@@ -195,7 +195,7 @@ const useCanvasHandlers = (): CanvasHandlers => {
             payload: {
               id: window.crypto.randomUUID(),
               backgroundColor: "lightpink",
-              borderColor: "red",
+              border: "3px solid red",
               ...mapCreationBoundsToFinalBounds(creationBounds),
             },
           });
@@ -290,14 +290,7 @@ const PDF: React.FC<PDFUIProps> = (props) => {
   return (
     <PDFUI url={url} width={width} height={height}>
       {annotations.map((annotation) => {
-        return (
-          <Annotation
-            key={annotation.id}
-            draggable={false}
-            resizable={false}
-            {...annotation}
-          />
-        );
+        return <Annotation key={annotation.id} {...annotation} />;
       })}
     </PDFUI>
   );

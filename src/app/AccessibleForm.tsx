@@ -36,16 +36,9 @@ export type Annotation = Bounds & {
   id: AnnotationId;
   // What is the color of the annotation?
   backgroundColor: string;
-  // What is the border color of the annotation?
-  borderColor: string;
+  // What is the border of the annotation?
+  border: string;
 };
-
-export interface AnnotationUIState {
-  // Do we have the ability to drag/drop this component?
-  draggable: boolean;
-  // Do we have the ability to resize this component?
-  resizable: boolean;
-}
 
 //     _                         _ _     _      _____
 //    / \   ___ ___ ___  ___ ___(_) |__ | | ___|  ___|__  _ __ _ __ ___
@@ -88,7 +81,11 @@ type AccessibleFormAction =
   | { type: "CHANGE_PAGE"; payload: number }
   | { type: "CHANGE_TOOL"; payload: TOOL }
   | { type: "CREATE_ANNOTATION"; payload: Annotation }
-  | { type: "DELETE_ANNOTATION"; payload: AnnotationId };
+  | { type: "DELETE_ANNOTATION"; payload: AnnotationId }
+  | {
+      type: "MOVE_ANNOTATION";
+      payload: { id: AnnotationId; x: number; y: number };
+    };
 
 // reduceAccessibleForm determines how to update the state after a UI action
 // takes place. It is *intentionally* very big and relies on pattern matching
@@ -124,6 +121,12 @@ export const reduceAccessibleForm = (
       }
       case "CREATE_ANNOTATION": {
         draft.annotations[action.payload.id] = action.payload;
+        return;
+      }
+      case "MOVE_ANNOTATION": {
+        const annotation = draft.annotations[action.payload.id];
+        annotation.left += action.payload.x;
+        annotation.top += action.payload.y;
         return;
       }
       case "DELETE_ANNOTATION": {

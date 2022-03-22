@@ -32,7 +32,7 @@ describe("Our form reducer", () => {
       width: 10,
       top: 5,
       left: 5,
-      borderColor: "pink",
+      border: "pink",
     };
     const res = reduce(init, {
       type: "CREATE_ANNOTATION",
@@ -48,7 +48,7 @@ describe("Our form reducer", () => {
       width: 10,
       top: 5,
       left: 5,
-      borderColor: "pink",
+      border: "pink",
     };
     const created = reduce(init, {
       type: "CREATE_ANNOTATION",
@@ -59,5 +59,30 @@ describe("Our form reducer", () => {
       payload: "1",
     });
     expect(deleted.annotations["1"]).toBe(undefined);
+  });
+  test("We can move an annotation", () => {
+    const payload = {
+      id: "1",
+      backgroundColor: "lightpink",
+      top: 10,
+      left: 10,
+      height: 10,
+      width: 10,
+      border: "pink",
+    };
+    const created = reduce(init, {
+      type: "CREATE_ANNOTATION",
+      payload,
+    });
+    const moved = reduce(created, {
+      type: "MOVE_ANNOTATION",
+      payload: {
+        id: "1",
+        x: 5,
+        y: 5,
+      },
+    });
+    expect(moved.annotations["1"].top).toBe(15);
+    expect(moved.annotations["1"].left).toBe(15);
   });
 });

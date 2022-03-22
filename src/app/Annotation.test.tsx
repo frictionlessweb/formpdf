@@ -13,9 +13,7 @@ describe("Our Annotation component", () => {
         width={10}
         height={10}
         backgroundColor="hotpink"
-        borderColor="pink"
-        draggable={false}
-        resizable={false}
+        border="3px solid pink"
         id="234"
       />
     );
