@@ -31,6 +31,25 @@ export interface Bounds {
   height: number;
 }
 
+// When we're creating an annotation, the bounds are special because we
+// don't exactly know where the user is ultimately going to put the box
+// they draw: We don't know the width/height. All we can calculate is the
+// displacement between the origin (y: top, x: left) and where they started.
+//
+// To avoid confusion, we therefore introduce the concept of a *Larval*
+// annotation, which represents an annotation that we're creating for the
+// first time.
+export interface LarvalAnnotationBounds {
+  // Where is the top of the annotation?
+  top: number;
+  // Where is the left of the annotation?
+  left: number;
+  // How far horizontally have we displaced the annotation?
+  right: number;
+  // How far from the bottom have we displaced the annotation?
+  bottom: number;
+}
+
 export type Annotation = Bounds & {
   // What is the ID of the annotation -- how do we uniquely identify it?
   id: AnnotationId;

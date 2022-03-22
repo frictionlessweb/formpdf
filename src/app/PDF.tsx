@@ -18,8 +18,8 @@ import {
   RenderTask,
 } from "pdfjs-dist";
 import Loading from "@mui/material/CircularProgress";
-import { useSelector, useDispatch, Bounds } from "./AccessibleForm";
-import Annotation from "./Annotation";
+import { useSelector, LarvalAnnotationBounds } from "./AccessibleForm";
+import { CSSObject } from "@emotion/react";
 
 interface PDFProps {
   // Where is the PDF located?
@@ -155,22 +155,6 @@ const useFetchPDF = (url: string): FetchingPdf => {
 // *not* the right place to put that logic. Instead, take a look at the
 // Annotation component and the handlers that we've placed there.
 
-// When we're creating an annotation, the bounds are special because we
-// don't exactly know where the user is ultimately going to put the box
-// they draw: We don't know the width/height. All we can calculate is the
-// displacement between the origin (y: top, x: left) and where they started
-// using left/top.
-interface LarvalAnnotationBounds {
-  // Where is the top of the annotation?
-  top: number;
-  // Where is the left of the annotation?
-  left: number;
-  // How far horizontally have we displaced the annotation?
-  right: number;
-  // How far from the bottom have we displaced the annotation?
-  bottom: number;
-}
-
 interface CanvasHandlers {
   // What is the containing div?
   container: React.MutableRefObject<HTMLDivElement | null>;
@@ -186,12 +170,61 @@ interface CanvasHandlers {
   onMouseMove: React.MouseEventHandler<HTMLCanvasElement>;
 }
 
-const LarvalAnnotation = () => {};
+interface LarvalAnnotationProps {
+  // Where is this LarvalAnnotation located?
+  bounds: LarvalAnnotationBounds;
+  // What is the background color of the annotation?
+  backgroundColor: string;
+  // What should we do when our mouse moves over a region of the div?
+  onMouseUp: React.MouseEventHandler;
+  // What should we do when we click down on the div?
+  onMouseDown: React.MouseEventHandler;
+  // What should we do when our mouse moves on the div?
+  onMouseMove: React.MouseEventHandler;
+}
+
+export const larvalContainerCss = (
+  bounds: LarvalAnnotationBounds
+): CSSObject => {
+  const { bottom, right, top, left } = bounds;
+  const height = bottom - top;
+  const width = right - left;
+  // When the user has dragged the cursor to the left or above where we
+  // started, we need to flip the div above itself or below itself
+  // respectively.
+  const rotateY = width < 0 ? -180 : 0;
+  const rotateX = height < 0 ? -180 : 0;
+  return {
+    position: "absolute",
+    top,
+    left,
+    width: Math.abs(width),
+    height: Math.abs(height),
+    transform: `rotateY(${rotateY}deg) rotateX(${rotateX}deg)`,
+    transformOrigin: "top left",
+  };
+};
+
+const LarvalAnnotation: React.FC<LarvalAnnotationProps> = (props) => {
+  const { bounds, backgroundColor, ...handlers } = props;
+  return (
+    <div {...handlers} css={larvalContainerCss(props.bounds)}>
+      <div
+        {...handlers}
+        css={{
+          width: "100%",
+          height: "100%",
+          backgroundColor: props.backgroundColor,
+          opacity: 0.33,
+        }}
+      />
+    </div>
+  );
+};
 
 const useCanvasHandlers = (): CanvasHandlers => {
   const tool = useSelector((state) => state.tool);
   const container = React.useRef<HTMLDivElement | null>(null);
-  const dispatch = useDispatch();
   const [creationBounds, setBounds] =
     React.useState<LarvalAnnotationBounds | null>(null);
   switch (tool) {
@@ -202,20 +235,39 @@ const useCanvasHandlers = (): CanvasHandlers => {
         container,
         onMouseDown: (e) => {
           if (!creationBounds && container.current) {
-            const top = e.pageY - container.current.offsetTop;
-            const left = e.pageX - container.current.offsetLeft;
+            const top =
+              e.pageY -
+              container.current.offsetTop +
+              container.current.scrollTop;
+            const left =
+              e.pageX -
+              container.current.offsetLeft +
+              container.current.scrollLeft;
             setBounds({ top, left, bottom: top, right: left });
           }
         },
         onMouseMove: (e) => {
           setBounds((prevBounds) => {
             if (!prevBounds || !container.current) return null;
-            const bottom = e.pageY - container.current.offsetTop;
-            const right = e.pageX - container.current.offsetLeft;
+            const bottom =
+              e.pageY -
+              container.current.offsetTop +
+              container.current.scrollTop;
+            const right =
+              e.pageX -
+              container.current.offsetLeft +
+              container.current.scrollLeft;
             return { ...prevBounds, right, bottom };
           });
         },
         onMouseUp: (_) => {
+          // TODO: Once the user releases the mouse button, we have enough
+          // information to create an annotation. We will need to:
+          // 1) Create a unique ID.
+          // 2) Convert the bounds such that we have a regular annotation
+          // with plain-old width/height.
+          // 3. Dispatch an update to the store that causes the annotation
+          // to be placed into the document.
           setBounds(null);
         },
       };
@@ -270,7 +322,13 @@ const PDF: React.FC<PDFProps> = (props) => {
         />
       ) : (
         <>
-          {creationBounds ? <h1>Write me</h1> : null}
+          {creationBounds ? (
+            <LarvalAnnotation
+              backgroundColor="green"
+              bounds={creationBounds}
+              {...handlers}
+            />
+          ) : null}
           {children}
         </>
       )}
