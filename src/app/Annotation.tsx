@@ -1,7 +1,11 @@
 /** @jsxImportSource @emotion/react */
 import React from "react";
 import { CSSObject } from "@emotion/react";
-import { Bounds } from "./AccessibleForm";
+import {
+  Bounds,
+  Annotation as AnnotationStatic,
+  AnnotationUIState,
+} from "./AccessibleForm";
 
 type TranslucentBoxProps = React.DetailedHTMLProps<
   React.HTMLAttributes<HTMLDivElement>,
@@ -119,6 +123,24 @@ export const useCreationBounds = () => {
   return { div, bounds, resetBounds, updateBounds, createBounds };
 };
 
-const Annotation = TranslucentBox;
+type AnnotationProps = AnnotationUIState &
+  AnnotationStatic & { css?: CSSObject };
+
+const Annotation: React.FC<AnnotationProps> = (props) => {
+  const { left, top, width, height, backgroundColor, borderColor } = props;
+  return (
+    <TranslucentBox
+      css={{
+        position: "absolute",
+        left,
+        top,
+        width,
+        height,
+        backgroundColor,
+        border: `3px solid ${borderColor}`,
+      }}
+    />
+  );
+};
 
 export default Annotation;

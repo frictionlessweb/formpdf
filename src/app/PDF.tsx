@@ -1,12 +1,12 @@
 /** @jsxImportSource @emotion/react */
 
-// HOW TO RENDER THINGS ON TOP OF A PDF AS EASILY AS POSSIBLE
+// HOW TO RENDER THINGS ON TOP OF A PDFUI AS EASILY AS POSSIBLE
 // ----------------------------------------------------------
 // The basic trick around which our app revolves is that we can render a
-// PDF document into a canvas and position a div right atop the PDF. From
+// PDFUI document into a canvas and position a div right atop the PDFUI. From
 // there, we can render other drag/droppable divs that line up with elements
 // on the canvas, adjusting the position/scale accordingly based on the
-// zoom level and other factors. We get panning over the PDF for free by
+// zoom level and other factors. We get panning over the PDFUI for free by
 // limiting the size of the canvas's container and using overflow: scroll
 // in the CSS.
 
@@ -18,24 +18,14 @@ import {
   RenderTask,
 } from "pdfjs-dist";
 import Loading from "@mui/material/CircularProgress";
-import { useSelector, LarvalAnnotationBounds } from "./AccessibleForm";
-import { CSSObject } from "@emotion/react";
-import {
+import { useSelector, useDispatch } from "./AccessibleForm";
+import Annotation, {
   TranslucentBox,
   mapCreationBoundsToCss,
+  mapCreationBoundsToFinalBounds,
   useCreationBounds,
+  CreationBounds,
 } from "./Annotation";
-
-interface PDFProps {
-  // Where is the PDF located?
-  url: string;
-  // How wide is the PDF?
-  width: number;
-  // How tall is the PDF?
-  height: number;
-  // Other components to render inside the PDF div.
-  children?: React.ReactNode;
-}
 
 //  _____    _       _     ____     _  __
 // |  ___|__| |_ ___| |__ |  _ \ __| |/ _|
@@ -43,20 +33,20 @@ interface PDFProps {
 // |  _|  __/ || (__| | | |  __/ (_| |  _|
 // |_|  \___|\__\___|_| |_|_|   \__,_|_|
 
-// Encapsulate all of the logic for downloading a PDF and rendering it onto a
-// canvas into a single hook. All we need is the URL of where the PDF file
+// Encapsulate all of the logic for downloading a PDFUI and rendering it onto a
+// canvas into a single hook. All we need is the URL of where the PDFUI file
 // is located; the code below takes care of the rest.
 
 interface FetchingPdf {
-  // Are we still getting the PDF?
+  // Are we still getting the PDFUI?
   loading: boolean;
-  // Reference to the Canvas element into which we ultimately display the PDF.
+  // Reference to the Canvas element into which we ultimately display the PDFUI.
   canvas: React.MutableRefObject<HTMLCanvasElement | null>;
 }
 
-const useFetchPDF = (url: string): FetchingPdf => {
-  // Three things need to happen for us to display the PDF with pdfjs:
-  // 1. We need to download the PDF file and get a PDFDocumentProxy object.
+const useFetchPDFUI = (url: string): FetchingPdf => {
+  // Three things need to happen for us to display the PDFUI with pdfjs:
+  // 1. We need to download the PDFUI file and get a PDFDocumentProxy object.
   // 2. We need to extract the current page from the PDFDocumentProxy.
   // 3. We need to render the current page to a canvas element.
 
@@ -66,8 +56,8 @@ const useFetchPDF = (url: string): FetchingPdf => {
   // slow down the app considerably and create an undesireable user experience.
   // --------------------------------------------------------------------------
 
-  // Track whether we're about to show a PDF; when true, we show a nice spinner,
-  // and when false, we show the desired PDF file.
+  // Track whether we're about to show a PDFUI; when true, we show a nice spinner,
+  // and when false, we show the desired PDFUI file.
   const [loading, setLoading] = React.useState<boolean>(true);
 
   // Extract some metadata from the Redux store.
@@ -112,7 +102,7 @@ const useFetchPDF = (url: string): FetchingPdf => {
   const renderingRef = React.useRef<RenderTask | null>(null);
   React.useEffect(() => {
     const displayPdf = async () => {
-      // If the PDF or the DOM isn't ready yet, just return and try again later.
+      // If the PDFUI or the DOM isn't ready yet, just return and try again later.
       if (!pageProxy) return;
       const canvas = canvasRef?.current;
       if (!canvas) return;
@@ -127,7 +117,7 @@ const useFetchPDF = (url: string): FetchingPdf => {
         await renderingRef.current?.promise;
       }
 
-      // By default, PDFJS will render an extremely blurry PDF, so we need to set
+      // By default, PDFUIJS will render an extremely blurry PDFUI, so we need to set
       // the viewport correctly in order to avoid an unpleasant user experience.
       const scale = window.devicePixelRatio || 1;
       const viewport = pageProxy.getViewport({ scale: zoom * scale });
@@ -136,7 +126,7 @@ const useFetchPDF = (url: string): FetchingPdf => {
       renderingRef.current = pageProxy.render({ viewport, canvasContext });
 
       // Now that we've triggered a render, we've fetched everything we've needed
-      // to from the network, so we can set loading to false again. Other PDF
+      // to from the network, so we can set loading to false again. Other PDFUI
       // operations are generally fast enough that we don't need to display a
       // spinner.
       setLoading(false);
@@ -166,7 +156,7 @@ interface CanvasHandlers {
   // What shape should the cursor be?
   cursor: string;
   // Are we in the middle of highlighting something? If so, what is it?
-  creationBounds: null | LarvalAnnotationBounds;
+  creationBounds: null | CreationBounds;
   // What should we do when our mouse moves over a region of the Canvas?
   onMouseUp: React.MouseEventHandler;
   // What should we do when we click down on the Canvas?
@@ -181,6 +171,7 @@ const NO_OP: React.MouseEventHandler = () => {};
 
 const useCanvasHandlers = (): CanvasHandlers => {
   const tool = useSelector((state) => state.tool);
+  const dispatch = useDispatch();
   const {
     div: container,
     bounds: creationBounds,
@@ -198,13 +189,16 @@ const useCanvasHandlers = (): CanvasHandlers => {
         onMouseMove: updateBounds,
         onMouseLeave: resetBounds,
         onMouseUp: (_) => {
-          // TODO: Once the user releases the mouse button, we have enough
-          // information to create an annotation. We will need to:
-          // 1) Create a unique ID.
-          // 2) Convert the bounds such that we have a regular annotation
-          // with plain-old width/height.
-          // 3. Dispatch an update to the store that causes the annotation
-          // to be placed into the document.
+          if (!creationBounds) return;
+          dispatch({
+            type: "CREATE_ANNOTATION",
+            payload: {
+              id: window.crypto.randomUUID(),
+              backgroundColor: "lightpink",
+              borderColor: "red",
+              ...mapCreationBoundsToFinalBounds(creationBounds),
+            },
+          });
           resetBounds();
         },
       };
@@ -222,18 +216,29 @@ const useCanvasHandlers = (): CanvasHandlers => {
   }
 };
 
-//  ____  ____  _____
-// |  _ \|  _ \|  ___|
-// | |_) | | | | |_
-// |  __/| |_| |  _|
-// |_|   |____/|_|
+//  ____  ____  _____  _   _ ___
+// |  _ \|  _ \|  ___ | | | |_ _|
+// | |_) | | | | |_   | | | || |
+// |  __/| |_| |  _|  | |_| || |
+// |_|   |____/|_|     \___/|___|
 
-// Actually render the PDF onto the screen. Ideally, the code in this component
+interface PDFUIProps {
+  // Where is the PDFUI located?
+  url: string;
+  // How wide is the PDFUI?
+  width: number;
+  // How tall is the PDFUI?
+  height: number;
+  // Other components to render inside the PDFUI div.
+  children?: React.ReactNode;
+}
+
+// Actually render the PDFUI onto the screen. Ideally, the code in this component
 // should be extremely simple; most of the complicated functionality gets pushed
-// to hooks in other places. 🎉
-const PDF: React.FC<PDFProps> = (props) => {
+// to hooks in other places.
+const PDFUI: React.FC<PDFUIProps> = (props) => {
   const { url, width, height, children } = props;
-  const { canvas, loading } = useFetchPDF(url);
+  const { canvas, loading } = useFetchPDFUI(url);
   const { cursor, container, creationBounds, onMouseLeave, ...handlers } =
     useCanvasHandlers();
   return (
@@ -276,6 +281,25 @@ const PDF: React.FC<PDFProps> = (props) => {
         </>
       )}
     </div>
+  );
+};
+
+const PDF: React.FC<PDFUIProps> = (props) => {
+  const { url, width, height } = props;
+  const annotations = useSelector((state) => Object.values(state.annotations));
+  return (
+    <PDFUI url={url} width={width} height={height}>
+      {annotations.map((annotation) => {
+        return (
+          <Annotation
+            key={annotation.id}
+            draggable={false}
+            resizable={false}
+            {...annotation}
+          />
+        );
+      })}
+    </PDFUI>
   );
 };
 

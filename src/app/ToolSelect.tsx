@@ -6,6 +6,7 @@ import Button from "@mui/material/Button";
 import LocationSearch from "@mui/icons-material/LocationSearching";
 import AspectRatio from "@mui/icons-material/AspectRatio";
 import Create from "@mui/icons-material/Create";
+import Delete from "@mui/icons-material/Delete";
 
 interface ToolButtonProps {
   toolName: TOOL;
@@ -44,6 +45,7 @@ const ToolSelect: React.FC<BoxProps> = (props) => {
         toolName="RESIZE"
         Icon={AspectRatio}
       />
+      <ToolButton activeTool={activeTool} toolName="DELETE" Icon={Delete} />
     </Box>
   );
 };

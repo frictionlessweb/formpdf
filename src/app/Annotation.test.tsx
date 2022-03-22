@@ -6,7 +6,19 @@ import { render } from "../testUtils";
 
 describe("Our Annotation component", () => {
   test("Does not crash on rendering", () => {
-    render(<Annotation css={{ backgroundColor: "" }} />);
+    render(
+      <Annotation
+        left={0}
+        top={0}
+        width={10}
+        height={10}
+        backgroundColor="hotpink"
+        borderColor="pink"
+        draggable={false}
+        resizable={false}
+        id="234"
+      />
+    );
   });
 });
 

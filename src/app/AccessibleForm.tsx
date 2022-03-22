@@ -31,30 +31,13 @@ export interface Bounds {
   height: number;
 }
 
-// When we're creating an annotation, the bounds are special because we
-// don't exactly know where the user is ultimately going to put the box
-// they draw: We don't know the width/height. All we can calculate is the
-// displacement between the origin (y: top, x: left) and where they started.
-//
-// To avoid confusion, we therefore introduce the concept of a *Larval*
-// annotation, which represents an annotation that we're creating for the
-// first time.
-export interface LarvalAnnotationBounds {
-  // Where is the top of the annotation?
-  top: number;
-  // Where is the left of the annotation?
-  left: number;
-  // How far horizontally have we displaced the annotation?
-  movedLeft: number;
-  // How far from the movedTop have we displaced the annotation?
-  movedTop: number;
-}
-
 export type Annotation = Bounds & {
   // What is the ID of the annotation -- how do we uniquely identify it?
   id: AnnotationId;
   // What is the color of the annotation?
   backgroundColor: string;
+  // What is the border color of the annotation?
+  borderColor: string;
 };
 
 export interface AnnotationUIState {
@@ -73,7 +56,7 @@ export interface AnnotationUIState {
 // An accessible form puts together all of the state described above into a
 // coherent data structure that we manipulate throughout the application.
 
-export type TOOL = "CREATE" | "RESIZE" | "MOVE";
+export type TOOL = "CREATE" | "RESIZE" | "MOVE" | "DELETE";
 
 interface AccessibleForm {
   // What step is the user on of their editing process?
@@ -103,7 +86,8 @@ type AccessibleFormAction =
   | { type: "CHANGE_CURRENT_STEP"; payload: number }
   | { type: "CHANGE_ZOOM"; payload: number }
   | { type: "CHANGE_PAGE"; payload: number }
-  | { type: "CHANGE_TOOL"; payload: TOOL };
+  | { type: "CHANGE_TOOL"; payload: TOOL }
+  | { type: "CREATE_ANNOTATION"; payload: Annotation };
 
 // reduceAccessibleForm determines how to update the state after a UI action
 // takes place. It is *intentionally* very big and relies on pattern matching
@@ -135,6 +119,10 @@ export const reduceAccessibleForm = (
       }
       case "CHANGE_PAGE": {
         draft.page = action.payload;
+        return;
+      }
+      case "CREATE_ANNOTATION": {
+        draft.annotations[action.payload.id] = action.payload;
         return;
       }
       default: {
