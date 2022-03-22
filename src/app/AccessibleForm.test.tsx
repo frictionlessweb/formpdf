@@ -24,4 +24,20 @@ describe("Our form reducer", () => {
     const res = reduce(init, { type: "CHANGE_PAGE", payload: 2 });
     expect(res.page).toEqual(2);
   });
+  test("We can add an annotation", () => {
+    const payload = {
+      id: "1",
+      backgroundColor: "lightpink",
+      height: 10,
+      width: 10,
+      top: 5,
+      left: 5,
+      borderColor: "pink",
+    };
+    const res = reduce(init, {
+      type: "CREATE_ANNOTATION",
+      payload,
+    });
+    expect(res.annotations["1"]).toEqual(payload);
+  });
 });
