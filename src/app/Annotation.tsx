@@ -8,6 +8,7 @@ import {
   useSelector,
 } from "./AccessibleForm";
 import Draggable from "react-draggable";
+import { Resizable } from "react-resizable";
 
 type TranslucentBoxProps = React.DetailedHTMLProps<
   React.HTMLAttributes<HTMLDivElement>,
@@ -183,7 +184,26 @@ const Annotation: React.FC<AnnotationProps> = (props) => {
       );
     }
     case "RESIZE": {
-      return <TranslucentBox css={{ cursor: "resize-nw", ...css }} />;
+      return (
+        <Resizable
+          width={props.width}
+          height={props.height}
+          onResize={(_, data) => {
+            dispatch({
+              type: "RESIZE_ANNOTATION",
+              payload: {
+                id: props.id,
+                width: data.size.width,
+                height: data.size.height,
+              },
+            });
+          }}>
+          <TranslucentBox
+            nodeRef={ref}
+            css={{ cursor: "resize-nswe", ...css }}
+          />
+        </Resizable>
+      );
     }
   }
 };

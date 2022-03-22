@@ -85,4 +85,29 @@ describe("Our form reducer", () => {
     expect(moved.annotations["1"].top).toBe(15);
     expect(moved.annotations["1"].left).toBe(15);
   });
+  test("We can resize an annotation", () => {
+    const payload = {
+      id: "1",
+      backgroundColor: "lightpink",
+      top: 10,
+      left: 10,
+      height: 10,
+      width: 10,
+      border: "pink",
+    };
+    const created = reduce(init, {
+      type: "CREATE_ANNOTATION",
+      payload,
+    });
+    const moved = reduce(created, {
+      type: "RESIZE_ANNOTATION",
+      payload: {
+        id: "1",
+        width: 50,
+        height: 40,
+      },
+    });
+    expect(moved.annotations["1"].width).toBe(50);
+    expect(moved.annotations["1"].height).toBe(40);
+  });
 });

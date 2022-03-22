@@ -85,6 +85,10 @@ type AccessibleFormAction =
   | {
       type: "MOVE_ANNOTATION";
       payload: { id: AnnotationId; x: number; y: number };
+    }
+  | {
+      type: "RESIZE_ANNOTATION";
+      payload: { id: AnnotationId; width: number; height: number };
     };
 
 // reduceAccessibleForm determines how to update the state after a UI action
@@ -127,6 +131,12 @@ export const reduceAccessibleForm = (
         const annotation = draft.annotations[action.payload.id];
         annotation.left += action.payload.x;
         annotation.top += action.payload.y;
+        return;
+      }
+      case "RESIZE_ANNOTATION": {
+        const annotation = draft.annotations[action.payload.id];
+        annotation.width = action.payload.width;
+        annotation.height = action.payload.height;
         return;
       }
       case "DELETE_ANNOTATION": {
