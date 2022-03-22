@@ -5,6 +5,8 @@ import {
   Bounds,
   Annotation as AnnotationStatic,
   AnnotationUIState,
+  useSelector,
+  useDispatch,
 } from "./AccessibleForm";
 
 type TranslucentBoxProps = React.DetailedHTMLProps<
@@ -123,15 +125,53 @@ export const useCreationBounds = () => {
   return { div, bounds, resetBounds, updateBounds, createBounds };
 };
 
+//  ____       _      _
+// |  _ \  ___| | ___| |_ ___
+// | | | |/ _ \ |/ _ \ __/ _ \
+// | |_| |  __/ |  __/ ||  __/
+// |____/ \___|_|\___|\__\___|
+
+interface AnnotationHandlers {
+  // What should the cursor look like when our mouse hovers over it?
+  cursor: string;
+  // What should happen when we click the annotation?
+  onClick?: React.MouseEventHandler;
+}
+
+const useAnnotationHandlers = (
+  props: AnnotationProps & { tool: string }
+): AnnotationHandlers => {
+  const dispatch = useDispatch();
+  switch (props.tool) {
+    case "DELETE": {
+      return {
+        cursor: "not-allowed",
+        onClick: () => {
+          dispatch({ type: "DELETE_ANNOTATION", payload: props.id });
+        },
+      };
+    }
+    default: {
+      return {
+        cursor: "inherit",
+      };
+    }
+  }
+};
+
 type AnnotationProps = AnnotationUIState &
   AnnotationStatic & { css?: CSSObject };
 
 const Annotation: React.FC<AnnotationProps> = (props) => {
+  const tool = useSelector((state) => state.tool);
   const { left, top, width, height, backgroundColor, borderColor } = props;
-  return (
+  const { cursor, ...fns } = useAnnotationHandlers({ tool, ...props });
+  const core = (
     <TranslucentBox
+      {...fns}
       css={{
         position: "absolute",
+        cursor,
         left,
         top,
         width,
@@ -141,6 +181,10 @@ const Annotation: React.FC<AnnotationProps> = (props) => {
       }}
     />
   );
+  switch (tool) {
+    default:
+      return core;
+  }
 };
 
 export default Annotation;
