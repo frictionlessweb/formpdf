@@ -110,4 +110,15 @@ describe("Our form reducer", () => {
     expect(moved.annotations["1"].width).toBe(50);
     expect(moved.annotations["1"].height).toBe(40);
   });
+  test("We can hypdrate the store", () => {
+    const payload = {
+      annotations: {},
+      page: 2,
+      tool: "CREATE",
+      step: 1,
+      zoom: 3,
+    } as const;
+    const res = reduce(init, { type: "HYDRATE_STORE", payload });
+    expect(res).toEqual(payload);
+  });
 });
