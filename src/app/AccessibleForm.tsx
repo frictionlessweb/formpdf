@@ -51,7 +51,7 @@ export type Annotation = Bounds & {
 
 export type TOOL = "CREATE" | "RESIZE" | "MOVE" | "DELETE" | "SELECT";
 
-interface AccessibleForm {
+export interface AccessibleForm {
   // What step is the user on of their editing process?
   step: number;
   // How far has the user Zoomed in or out of the PDF?
@@ -103,6 +103,10 @@ type AccessibleFormAction =
     }
   | {
       type: "DESELECT_ALL_ANNOTATION";
+    }
+  | {
+      type: "HYDRATE_STORE";
+      payload: AccessibleForm;
     };
 
 // reduceAccessibleForm determines how to update the state after a UI action
@@ -168,6 +172,9 @@ export const reduceAccessibleForm = (
       case "DESELECT_ALL_ANNOTATION": {
         draft.selectedAnnotations = {};
         return;
+      }
+      case "HYDRATE_STORE": {
+        return action.payload;
       }
       default: {
         // We should never encounter this case; if we do, it means that

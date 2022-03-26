@@ -3,8 +3,10 @@ import Box from "@mui/material/Box";
 import Heading from "./app/Heading";
 import PDF from "./app/PDF";
 import ToolSelect from "./app/ToolSelect";
+import { useSaveState } from "./app/utils";
 
 const App = () => {
+  useSaveState();
   return (
     <Box
       width="100%"

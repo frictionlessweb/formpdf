@@ -194,4 +194,16 @@ describe("Our form reducer", () => {
     });
     expect(deSelectedAll.selectedAnnotations).toEqual({});
   });
+  test("We can hypdrate the store", () => {
+    const payload = {
+      annotations: {},
+      selectedAnnotations: {},
+      page: 2,
+      tool: "CREATE",
+      step: 1,
+      zoom: 3,
+    } as const;
+    const res = reduce(init, { type: "HYDRATE_STORE", payload });
+    expect(res).toEqual(payload);
+  });
 });
