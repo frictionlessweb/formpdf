@@ -49,7 +49,7 @@ export type Annotation = Bounds & {
 // An accessible form puts together all of the state described above into a
 // coherent data structure that we manipulate throughout the application.
 
-export type TOOL = "CREATE" | "RESIZE" | "MOVE" | "DELETE";
+export type TOOL = "CREATE" | "RESIZE" | "MOVE" | "DELETE" | "SELECT";
 
 export interface AccessibleForm {
   // What step is the user on of their editing process?
@@ -63,6 +63,8 @@ export interface AccessibleForm {
   annotations: Record<AnnotationId, Annotation>;
   // Which tool is active right now?
   tool: TOOL;
+  // Which annotations are selected currently.
+  selectedAnnotations: Record<AnnotationId, boolean>;
 }
 
 export const DEFAULT_ACCESSIBLE_FORM: AccessibleForm = {
@@ -71,6 +73,7 @@ export const DEFAULT_ACCESSIBLE_FORM: AccessibleForm = {
   zoom: 1,
   page: 1,
   annotations: {},
+  selectedAnnotations: {},
 };
 
 // AccessibleFormAction describes every important possible action that a user
@@ -95,6 +98,17 @@ type AccessibleFormAction =
         width: number;
         height: number;
       };
+    }
+  | {
+      type: "SELECT_ANNOTATION";
+      payload: AnnotationId;
+    }
+  | {
+      type: "DESELECT_ANNOTATION";
+      payload: AnnotationId;
+    }
+  | {
+      type: "DESELECT_ALL_ANNOTATION";
     }
   | {
       type: "HYDRATE_STORE";
@@ -153,6 +167,18 @@ export const reduceAccessibleForm = (
       }
       case "DELETE_ANNOTATION": {
         delete draft.annotations[action.payload];
+        return;
+      }
+      case "SELECT_ANNOTATION": {
+        draft.selectedAnnotations[action.payload] = true;
+        return;
+      }
+      case "DESELECT_ANNOTATION": {
+        delete draft.selectedAnnotations[action.payload];
+        return;
+      }
+      case "DESELECT_ALL_ANNOTATION": {
+        draft.selectedAnnotations = {};
         return;
       }
       case "HYDRATE_STORE": {
