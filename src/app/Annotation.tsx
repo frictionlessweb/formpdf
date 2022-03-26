@@ -181,6 +181,7 @@ const Annotation: React.FC<AnnotationProps> = (props) => {
             x: props.left + MYSTERIOUS_RND_OFFSET,
             y: props.top + MYSTERIOUS_RND_OFFSET,
           }}
+          size={{ height: props.height, width: props.width }}
           onDragStop={(_, delta) => {
             dispatch({
               type: "MOVE_ANNOTATION",
@@ -203,7 +204,6 @@ const Annotation: React.FC<AnnotationProps> = (props) => {
               },
             });
           }}
-          size={{ height: props.height, width: props.width }}
         />
       );
     }
