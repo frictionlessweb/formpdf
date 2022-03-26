@@ -88,7 +88,13 @@ type AccessibleFormAction =
     }
   | {
       type: "RESIZE_ANNOTATION";
-      payload: { id: AnnotationId; width: number; height: number };
+      payload: {
+        id: AnnotationId;
+        x: number;
+        y: number;
+        width: number;
+        height: number;
+      };
     }
   | {
       type: "HYDRATE_STORE";
@@ -133,14 +139,16 @@ export const reduceAccessibleForm = (
       }
       case "MOVE_ANNOTATION": {
         const annotation = draft.annotations[action.payload.id];
-        annotation.left += action.payload.x;
-        annotation.top += action.payload.y;
+        annotation.left = action.payload.x;
+        annotation.top = action.payload.y;
         return;
       }
       case "RESIZE_ANNOTATION": {
         const annotation = draft.annotations[action.payload.id];
         annotation.width = action.payload.width;
         annotation.height = action.payload.height;
+        annotation.top = action.payload.y;
+        annotation.left = action.payload.x;
         return;
       }
       case "DELETE_ANNOTATION": {

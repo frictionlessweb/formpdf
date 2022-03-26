@@ -7,8 +7,7 @@ import {
   useDispatch,
   useSelector,
 } from "./AccessibleForm";
-import Draggable from "react-draggable";
-import { Resizable } from "react-resizable";
+import { Rnd } from "react-rnd";
 
 type TranslucentBoxProps = React.DetailedHTMLProps<
   React.HTMLAttributes<HTMLDivElement>,
@@ -136,6 +135,10 @@ type AnnotationProps = AnnotationStatic & {
   css?: CSSObject;
 };
 
+// For some reason, with React RND, if you don't offset the top and the left
+// by *exactly* two pixels, it doesn't look right.
+const MYSTERIOUS_RND_OFFSET = 2;
+
 const Annotation: React.FC<AnnotationProps> = (props) => {
   const tool = useSelector((state) => state.tool);
   const dispatch = useDispatch();
@@ -163,46 +166,45 @@ const Annotation: React.FC<AnnotationProps> = (props) => {
       );
     }
     case "MOVE": {
-      return (
-        <Draggable
-          nodeRef={ref}
-          // This tells react-draggable to treat the place we start at as the
-          // origin.
-          position={{ x: 0, y: 0 }}
-          onStop={(_, data) => {
-            dispatch({
-              type: "MOVE_ANNOTATION",
-              payload: {
-                id,
-                x: data.x,
-                y: data.y,
-              },
-            });
-          }}>
-          <TranslucentBox nodeRef={ref} css={{ cursor: "move", ...css }} />
-        </Draggable>
-      );
+      return <TranslucentBox nodeRef={ref} css={{ cursor: "move", ...css }} />;
     }
     case "RESIZE": {
       return (
-        <Resizable
-          width={props.width}
-          height={props.height}
-          onResize={(_, data) => {
+        <Rnd
+          style={{
+            position: "absolute",
+            border: props.border,
+            backgroundColor: props.backgroundColor,
+            opacity: 0.33,
+          }}
+          position={{
+            x: props.left + MYSTERIOUS_RND_OFFSET,
+            y: props.top + MYSTERIOUS_RND_OFFSET,
+          }}
+          onDragStop={(_, delta) => {
+            dispatch({
+              type: "MOVE_ANNOTATION",
+              payload: {
+                id: props.id,
+                x: delta.x - MYSTERIOUS_RND_OFFSET,
+                y: delta.y - MYSTERIOUS_RND_OFFSET,
+              },
+            });
+          }}
+          onResize={(_, __, ref, ___, el) => {
             dispatch({
               type: "RESIZE_ANNOTATION",
               payload: {
                 id: props.id,
-                width: data.size.width,
-                height: data.size.height,
+                width: ref.offsetWidth,
+                height: ref.offsetHeight,
+                x: el.x - MYSTERIOUS_RND_OFFSET,
+                y: el.y - MYSTERIOUS_RND_OFFSET,
               },
             });
-          }}>
-          <TranslucentBox
-            nodeRef={ref}
-            css={{ cursor: "resize-nswe", ...css }}
-          />
-        </Resizable>
+          }}
+          size={{ height: props.height, width: props.width }}
+        />
       );
     }
   }

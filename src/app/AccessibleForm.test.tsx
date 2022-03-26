@@ -82,8 +82,8 @@ describe("Our form reducer", () => {
         y: 5,
       },
     });
-    expect(moved.annotations["1"].top).toBe(15);
-    expect(moved.annotations["1"].left).toBe(15);
+    expect(moved.annotations["1"].top).toBe(5);
+    expect(moved.annotations["1"].left).toBe(5);
   });
   test("We can resize an annotation", () => {
     const payload = {
@@ -105,10 +105,14 @@ describe("Our form reducer", () => {
         id: "1",
         width: 50,
         height: 40,
+        x: 10,
+        y: 20,
       },
     });
     expect(moved.annotations["1"].width).toBe(50);
     expect(moved.annotations["1"].height).toBe(40);
+    expect(moved.annotations["1"].top).toBe(20);
+    expect(moved.annotations["1"].left).toBe(10);
   });
   test("We can hypdrate the store", () => {
     const payload = {
