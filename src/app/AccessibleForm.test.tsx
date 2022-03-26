@@ -110,9 +110,94 @@ describe("Our form reducer", () => {
     expect(moved.annotations["1"].width).toBe(50);
     expect(moved.annotations["1"].height).toBe(40);
   });
+  test("We can select an annotation", () => {
+    const payload = {
+      id: "1",
+      backgroundColor: "lightpink",
+      top: 10,
+      left: 10,
+      height: 10,
+      width: 10,
+      border: "pink",
+    };
+    const created = reduce(init, {
+      type: "CREATE_ANNOTATION",
+      payload,
+    });
+    const selected = reduce(created, {
+      type: "SELECT_ANNOTATION",
+      payload: "1",
+    });
+    expect(selected.selectedAnnotations).toEqual({ "1": true });
+  });
+  test("We can deselect an annotation", () => {
+    const payload = {
+      id: "1",
+      backgroundColor: "lightpink",
+      top: 10,
+      left: 10,
+      height: 10,
+      width: 10,
+      border: "pink",
+    };
+    const created = reduce(init, {
+      type: "CREATE_ANNOTATION",
+      payload,
+    });
+    const selected = reduce(created, {
+      type: "SELECT_ANNOTATION",
+      payload: "1",
+    });
+    const deSelected = reduce(selected, {
+      type: "DESELECT_ANNOTATION",
+      payload: "1",
+    });
+    expect(deSelected.selectedAnnotations).toEqual({});
+  });
+  test("We can deselect all annotations at once", () => {
+    const payload1 = {
+      id: "1",
+      backgroundColor: "lightpink",
+      top: 10,
+      left: 10,
+      height: 10,
+      width: 10,
+      border: "pink",
+    };
+    const payload2 = {
+      id: "2",
+      backgroundColor: "lightpink",
+      top: 20,
+      left: 20,
+      height: 5,
+      width: 5,
+      border: "pink",
+    };
+    const createdFirst = reduce(init, {
+      type: "CREATE_ANNOTATION",
+      payload: payload1,
+    });
+    const createdSecond = reduce(createdFirst, {
+      type: "CREATE_ANNOTATION",
+      payload: payload2,
+    });
+    const selectedFirst = reduce(createdSecond, {
+      type: "SELECT_ANNOTATION",
+      payload: "1",
+    });
+    const selectedSecond = reduce(selectedFirst, {
+      type: "SELECT_ANNOTATION",
+      payload: "1",
+    });
+    const deSelectedAll = reduce(selectedSecond, {
+      type: "DESELECT_ALL_ANNOTATION",
+    });
+    expect(deSelectedAll.selectedAnnotations).toEqual({});
+  });
   test("We can hypdrate the store", () => {
     const payload = {
       annotations: {},
+      selectedAnnotations: {},
       page: 2,
       tool: "CREATE",
       step: 1,

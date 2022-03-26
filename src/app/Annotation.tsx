@@ -137,7 +137,10 @@ type AnnotationProps = AnnotationStatic & {
 };
 
 const Annotation: React.FC<AnnotationProps> = (props) => {
-  const tool = useSelector((state) => state.tool);
+  const [tool, selectedAnnotations] = useSelector((state) => [
+    state.tool,
+    state.selectedAnnotations,
+  ]);
   const dispatch = useDispatch();
   const ref = React.useRef<HTMLDivElement | null>(null);
   const { id, children: _, ...cssProps } = props;
@@ -149,6 +152,26 @@ const Annotation: React.FC<AnnotationProps> = (props) => {
     case "CREATE": {
       return (
         <TranslucentBox nodeRef={ref} css={{ cursor: "inherit", ...css }} />
+      );
+    }
+    case "SELECT": {
+      const isSelected = Boolean(selectedAnnotations[props.id]);
+      return (
+        <TranslucentBox
+          nodeRef={ref}
+          onClick={(e) => {
+            if (isSelected) {
+              dispatch({ type: "DESELECT_ANNOTATION", payload: props.id });
+            } else {
+              dispatch({ type: "SELECT_ANNOTATION", payload: props.id });
+            }
+            e.stopPropagation();
+          }}
+          css={{
+            ...css,
+            border: isSelected ? "2px solid black" : css.border,
+          }}
+        />
       );
     }
     case "DELETE": {
