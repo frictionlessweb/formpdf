@@ -17,8 +17,8 @@ describe("Our form reducer", () => {
     expect(res.zoom).toEqual(0.2);
   });
   test("We can change the active tool", () => {
-    const res = reduce(init, { type: "CHANGE_TOOL", payload: "RESIZE" });
-    expect(res.tool).toEqual("RESIZE");
+    const res = reduce(init, { type: "CHANGE_TOOL", payload: "SELECT" });
+    expect(res.tool).toEqual("SELECT");
   });
   test("We can change the current page", () => {
     const res = reduce(init, { type: "CHANGE_PAGE", payload: 2 });

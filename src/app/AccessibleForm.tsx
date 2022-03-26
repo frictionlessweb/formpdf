@@ -49,7 +49,7 @@ export type Annotation = Bounds & {
 // An accessible form puts together all of the state described above into a
 // coherent data structure that we manipulate throughout the application.
 
-export type TOOL = "CREATE" | "RESIZE" | "MOVE" | "DELETE" | "SELECT";
+export type TOOL = "CREATE" | "DELETE" | "SELECT";
 
 export interface AccessibleForm {
   // What step is the user on of their editing process?

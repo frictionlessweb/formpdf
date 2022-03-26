@@ -157,26 +157,6 @@ const Annotation: React.FC<AnnotationProps> = (props) => {
         <TranslucentBox nodeRef={ref} css={{ cursor: "inherit", ...css }} />
       );
     }
-    case "SELECT": {
-      const isSelected = Boolean(selectedAnnotations[props.id]);
-      return (
-        <TranslucentBox
-          nodeRef={ref}
-          onClick={(e) => {
-            if (isSelected) {
-              dispatch({ type: "DESELECT_ANNOTATION", payload: props.id });
-            } else {
-              dispatch({ type: "SELECT_ANNOTATION", payload: props.id });
-            }
-            e.stopPropagation();
-          }}
-          css={{
-            ...css,
-            border: isSelected ? "2px solid black" : css.border,
-          }}
-        />
-      );
-    }
     case "DELETE": {
       return (
         <TranslucentBox
@@ -188,15 +168,13 @@ const Annotation: React.FC<AnnotationProps> = (props) => {
         />
       );
     }
-    case "MOVE": {
-      return <TranslucentBox nodeRef={ref} css={{ cursor: "move", ...css }} />;
-    }
-    case "RESIZE": {
+    case "SELECT": {
+      const isSelected = Boolean(selectedAnnotations[props.id]);
       return (
         <Rnd
           style={{
             position: "absolute",
-            border: props.border,
+            border: isSelected ? "3px solid black" : props.border,
             backgroundColor: props.backgroundColor,
             opacity: 0.33,
           }}
@@ -205,6 +183,15 @@ const Annotation: React.FC<AnnotationProps> = (props) => {
             y: props.top + MYSTERIOUS_RND_OFFSET,
           }}
           size={{ height: props.height, width: props.width }}
+          onClick={(e: React.MouseEvent) => {
+            if (e.shiftKey) {
+              dispatch({
+                payload: props.id,
+                type: isSelected ? "DESELECT_ANNOTATION" : "SELECT_ANNOTATION",
+              });
+            }
+            e.stopPropagation();
+          }}
           onDragStop={(_, delta) => {
             dispatch({
               type: "MOVE_ANNOTATION",
