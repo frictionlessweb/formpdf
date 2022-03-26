@@ -51,7 +51,7 @@ export type Annotation = Bounds & {
 
 export type TOOL = "CREATE" | "RESIZE" | "MOVE" | "DELETE";
 
-interface AccessibleForm {
+export interface AccessibleForm {
   // What step is the user on of their editing process?
   step: number;
   // How far has the user Zoomed in or out of the PDF?
@@ -89,6 +89,10 @@ type AccessibleFormAction =
   | {
       type: "RESIZE_ANNOTATION";
       payload: { id: AnnotationId; width: number; height: number };
+    }
+  | {
+      type: "HYDRATE_STORE";
+      payload: AccessibleForm;
     };
 
 // reduceAccessibleForm determines how to update the state after a UI action
@@ -142,6 +146,9 @@ export const reduceAccessibleForm = (
       case "DELETE_ANNOTATION": {
         delete draft.annotations[action.payload];
         return;
+      }
+      case "HYDRATE_STORE": {
+        return action.payload;
       }
       default: {
         // We should never encounter this case; if we do, it means that
