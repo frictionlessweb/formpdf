@@ -239,10 +239,19 @@ interface PDFUIProps {
 const PDFUI: React.FC<PDFUIProps> = (props) => {
   const { url, width, height, children } = props;
   const { canvas, loading } = useFetchPDFUI(url);
+  const tool = useSelector((state) => state.tool);
+  const dispatch = useDispatch();
+
   const { cursor, container, creationBounds, onMouseLeave, ...handlers } =
     useCanvasHandlers();
+  const onClick = () => {
+    if (tool === "SELECT") {
+      dispatch({ type: "DESELECT_ALL_ANNOTATION" });
+    }
+  };
   return (
     <div
+      onClick={onClick}
       onMouseLeave={onMouseLeave}
       ref={container}
       css={{
