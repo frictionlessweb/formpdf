@@ -150,13 +150,15 @@ const useFetchPDFUI = (url: string): FetchingPdf => {
 // *not* the right place to put that logic. Instead, take a look at the
 // Annotation component and the handlers that we've placed there.
 
-interface CanvasHandlers {
+interface Handlers {
   // What is the containing div?
   container: React.MutableRefObject<HTMLDivElement | null>;
   // What shape should the cursor be?
   cursor: string;
   // Are we in the middle of highlighting something? If so, what is it?
   creationBounds: null | CreationBounds;
+  // What should we do when our mouse is clicked over a region in the container div?
+  onClick: React.MouseEventHandler;
   // What should we do when our mouse moves over a region of the Canvas?
   onMouseUp: React.MouseEventHandler;
   // What should we do when we click down on the Canvas?
@@ -169,7 +171,7 @@ interface CanvasHandlers {
 
 const NO_OP: React.MouseEventHandler = () => {};
 
-const useCanvasHandlers = (): CanvasHandlers => {
+const useHandlers = (): Handlers => {
   const tool = useSelector((state) => state.tool);
   const dispatch = useDispatch();
   const {
@@ -185,6 +187,7 @@ const useCanvasHandlers = (): CanvasHandlers => {
         cursor: "crosshair",
         creationBounds,
         container,
+        onClick: NO_OP,
         onMouseDown: createBounds,
         onMouseMove: updateBounds,
         onMouseLeave: resetBounds,
@@ -203,11 +206,28 @@ const useCanvasHandlers = (): CanvasHandlers => {
         },
       };
     }
+    case "SELECT": {
+      return {
+        cursor: "auto",
+        creationBounds: null,
+        container,
+        onMouseMove: NO_OP,
+        onMouseUp: NO_OP,
+        onMouseDown: NO_OP,
+        onMouseLeave: NO_OP,
+        onClick: () => {
+          if (tool === "SELECT") {
+            dispatch({ type: "DESELECT_ALL_ANNOTATION" });
+          }
+        },
+      };
+    }
     default:
       return {
         cursor: "auto",
         creationBounds: null,
         container,
+        onClick: NO_OP,
         onMouseMove: NO_OP,
         onMouseUp: NO_OP,
         onMouseDown: NO_OP,
@@ -239,16 +259,16 @@ interface PDFUIProps {
 const PDFUI: React.FC<PDFUIProps> = (props) => {
   const { url, width, height, children } = props;
   const { canvas, loading } = useFetchPDFUI(url);
-  const tool = useSelector((state) => state.tool);
-  const dispatch = useDispatch();
 
-  const { cursor, container, creationBounds, onMouseLeave, ...handlers } =
-    useCanvasHandlers();
-  const onClick = () => {
-    if (tool === "SELECT") {
-      dispatch({ type: "DESELECT_ALL_ANNOTATION" });
-    }
-  };
+  const {
+    cursor,
+    container,
+    creationBounds,
+    onMouseLeave,
+    onClick,
+    ...handlers
+  } = useHandlers();
+
   return (
     <div
       onClick={onClick}
