@@ -162,7 +162,6 @@ const Annotation: React.FC<AnnotationProps> = (props) => {
           onClick={(e) => {
             if (isSelected) {
               dispatch({ type: "DESELECT_ANNOTATION", payload: props.id });
-              return;
             } else {
               dispatch({ type: "SELECT_ANNOTATION", payload: props.id });
             }
