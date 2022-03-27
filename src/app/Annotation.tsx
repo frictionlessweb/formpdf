@@ -6,6 +6,7 @@ import {
   Annotation as AnnotationStatic,
   useDispatch,
   useSelector,
+  FIELD_TYPE,
 } from "./AccessibleForm";
 import Draggable from "react-draggable";
 import { Resizable } from "react-resizable";
@@ -13,10 +14,14 @@ import { Resizable } from "react-resizable";
 type TranslucentBoxProps = React.DetailedHTMLProps<
   React.HTMLAttributes<HTMLDivElement>,
   HTMLDivElement
-> & { css: CSSObject; nodeRef?: React.MutableRefObject<HTMLDivElement | null> };
+> & {
+  type: FIELD_TYPE;
+  css: CSSObject;
+  nodeRef?: React.MutableRefObject<HTMLDivElement | null>;
+};
 
 export const TranslucentBox: React.FC<TranslucentBoxProps> = (props) => {
-  const { css, nodeRef, ...divProps } = props;
+  const { css, nodeRef, type, ...divProps } = props;
   return (
     <div css={css} ref={nodeRef}>
       <div
@@ -26,8 +31,9 @@ export const TranslucentBox: React.FC<TranslucentBoxProps> = (props) => {
           height: "100%",
           backgroundColor: props?.css?.backgroundColor,
           opacity: 0.33,
-        }}
-      />
+        }}>
+        {type}
+      </div>
     </div>
   );
 };
@@ -143,7 +149,7 @@ const Annotation: React.FC<AnnotationProps> = (props) => {
   ]);
   const dispatch = useDispatch();
   const ref = React.useRef<HTMLDivElement | null>(null);
-  const { id, children: _, ...cssProps } = props;
+  const { id, type, children: _, ...cssProps } = props;
   const css = {
     ...cssProps,
     position: "absolute" as const,
@@ -151,13 +157,18 @@ const Annotation: React.FC<AnnotationProps> = (props) => {
   switch (tool) {
     case "CREATE": {
       return (
-        <TranslucentBox nodeRef={ref} css={{ cursor: "inherit", ...css }} />
+        <TranslucentBox
+          type={type}
+          nodeRef={ref}
+          css={{ cursor: "inherit", ...css }}
+        />
       );
     }
     case "SELECT": {
       const isSelected = Boolean(selectedAnnotations[props.id]);
       return (
         <TranslucentBox
+          type={type}
           nodeRef={ref}
           onClick={(e) => {
             if (isSelected) {
@@ -177,6 +188,7 @@ const Annotation: React.FC<AnnotationProps> = (props) => {
     case "DELETE": {
       return (
         <TranslucentBox
+          type={type}
           nodeRef={ref}
           onClick={() => {
             dispatch({ type: "DELETE_ANNOTATION", payload: props.id });
@@ -202,7 +214,11 @@ const Annotation: React.FC<AnnotationProps> = (props) => {
               },
             });
           }}>
-          <TranslucentBox nodeRef={ref} css={{ cursor: "move", ...css }} />
+          <TranslucentBox
+            type={type}
+            nodeRef={ref}
+            css={{ cursor: "move", ...css }}
+          />
         </Draggable>
       );
     }
@@ -222,6 +238,7 @@ const Annotation: React.FC<AnnotationProps> = (props) => {
             });
           }}>
           <TranslucentBox
+            type={type}
             nodeRef={ref}
             css={{ cursor: "resize-nswe", ...css }}
           />

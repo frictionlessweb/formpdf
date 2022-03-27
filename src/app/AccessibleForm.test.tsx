@@ -1,6 +1,7 @@
 import {
   reduceAccessibleForm as reduce,
   DEFAULT_ACCESSIBLE_FORM as init,
+  FIELD_TYPE,
 } from "./AccessibleForm";
 
 describe("Our form reducer", () => {
@@ -24,10 +25,12 @@ describe("Our form reducer", () => {
     const res = reduce(init, { type: "CHANGE_PAGE", payload: 2 });
     expect(res.page).toEqual(2);
   });
+  //FIXME: is typecasting TEXTBOX needed?
   test("We can add an annotation", () => {
     const payload = {
       id: "1",
       backgroundColor: "lightpink",
+      type: "TEXTBOX" as FIELD_TYPE,
       height: 10,
       width: 10,
       top: 5,
@@ -44,6 +47,7 @@ describe("Our form reducer", () => {
     const payload = {
       id: "1",
       backgroundColor: "lightpink",
+      type: "TEXTBOX" as FIELD_TYPE,
       height: 10,
       width: 10,
       top: 5,
@@ -64,6 +68,7 @@ describe("Our form reducer", () => {
     const payload = {
       id: "1",
       backgroundColor: "lightpink",
+      type: "TEXTBOX" as FIELD_TYPE,
       top: 10,
       left: 10,
       height: 10,
@@ -89,6 +94,7 @@ describe("Our form reducer", () => {
     const payload = {
       id: "1",
       backgroundColor: "lightpink",
+      type: "TEXTBOX" as FIELD_TYPE,
       top: 10,
       left: 10,
       height: 10,
@@ -114,6 +120,7 @@ describe("Our form reducer", () => {
     const payload = {
       id: "1",
       backgroundColor: "lightpink",
+      type: "TEXTBOX" as FIELD_TYPE,
       top: 10,
       left: 10,
       height: 10,
@@ -134,6 +141,7 @@ describe("Our form reducer", () => {
     const payload = {
       id: "1",
       backgroundColor: "lightpink",
+      type: "TEXTBOX" as FIELD_TYPE,
       top: 10,
       left: 10,
       height: 10,
@@ -158,6 +166,7 @@ describe("Our form reducer", () => {
     const payload1 = {
       id: "1",
       backgroundColor: "lightpink",
+      type: "TEXTBOX" as FIELD_TYPE,
       top: 10,
       left: 10,
       height: 10,
@@ -167,6 +176,7 @@ describe("Our form reducer", () => {
     const payload2 = {
       id: "2",
       backgroundColor: "lightpink",
+      type: "TEXTBOX" as FIELD_TYPE,
       top: 20,
       left: 20,
       height: 5,

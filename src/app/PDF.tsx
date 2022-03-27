@@ -199,6 +199,7 @@ const useHandlers = (): Handlers => {
               id: window.crypto.randomUUID(),
               backgroundColor: "lightpink",
               border: "3px solid red",
+              type: "TEXTBOX",
               ...mapCreationBoundsToFinalBounds(creationBounds),
             },
           });
@@ -296,7 +297,9 @@ const PDFUI: React.FC<PDFUIProps> = (props) => {
       ) : (
         <>
           {creationBounds ? (
+            // FIXME: TEXTBOX will not be default. We will use the last created field type as current value.
             <TranslucentBox
+              type="TEXTBOX"
               css={{
                 position: "absolute",
                 backgroundColor: "lightgreen",

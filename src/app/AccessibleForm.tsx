@@ -31,6 +31,9 @@ export interface Bounds {
   height: number;
 }
 
+// What are the different types of annotation fields
+export type FIELD_TYPE = "TEXTBOX" | "RADIOBOX" | "CHECKBOX";
+
 export type Annotation = Bounds & {
   // What is the ID of the annotation -- how do we uniquely identify it?
   id: AnnotationId;
@@ -38,6 +41,8 @@ export type Annotation = Bounds & {
   backgroundColor: string;
   // What is the border of the annotation?
   border: string;
+  // What is the the type of the annotation?
+  type: FIELD_TYPE;
 };
 
 //     _                         _ _     _      _____
