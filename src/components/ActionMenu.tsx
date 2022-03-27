@@ -3,6 +3,9 @@
 import React from "react";
 import color from "./color";
 import styled from "@emotion/styled";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
+import { FIELD_TYPE } from "../app/AccessibleForm";
 
 interface ActionMenuProps {
   // Other components to render inside the ActionMenu div.
@@ -13,7 +16,7 @@ export const ActionMenu: React.FC<ActionMenuProps> = ({ children }) => {
   return (
     <div
       css={{
-        transform: "translateY(-130%)",
+        transform: "translateY(-180%)",
         position: "absolute",
         width: "auto",
         height: "2.5rem",
@@ -36,36 +39,45 @@ export const ActionMenu: React.FC<ActionMenuProps> = ({ children }) => {
 };
 
 interface FieldLayerActionMenuProps {
-  // Other components to render inside the ActionMenu div.
-  handleDelete: () => void;
+  // FIXME: Is this the right way to define function type in TS.
+  onDelete: () => void;
+  onFieldTypeChange: (value: FIELD_TYPE) => void;
 }
 
 export const FieldLayerActionMenu: React.FC<FieldLayerActionMenuProps> = ({
-  handleDelete,
+  onDelete,
+  onFieldTypeChange,
 }) => {
   return (
     <ActionMenu>
-      <MenuItem>TextField</MenuItem>
-      <MenuItem>Duplicate</MenuItem>
-      <MenuItem
+      <Select
+        defaultValue={"TEXTBOX"}
+        onChange={(e) => onFieldTypeChange(e.target.value as FIELD_TYPE)}
+        css={{ height: "40px" }}>
+        <MenuItem value={"TEXTBOX" as FIELD_TYPE}>Textbox</MenuItem>
+        <MenuItem value={"RADIOBOX" as FIELD_TYPE}>Radiobox</MenuItem>
+        <MenuItem value={"CHECKBOX" as FIELD_TYPE}>Checkbox</MenuItem>
+      </Select>
+      <ActionMenuItem>Duplicate</ActionMenuItem>
+      <ActionMenuItem
         // We have to prevent the default behaviour for
         // the pdf canvas here, in order to be able to capture
         // the click event.
         onClick={(e) => {
-          handleDelete();
+          onDelete();
           e.stopPropagation();
         }}
         onMouseDown={(e) => {
           e.stopPropagation();
         }}>
         Delete
-      </MenuItem>
+      </ActionMenuItem>
     </ActionMenu>
   );
 };
 
 // FIXME: Change styled component to css object.
-const MenuItem = styled.span`
+const ActionMenuItem = styled.span`
   width: auto;
   min-width: 4rem;
   height: 100%;

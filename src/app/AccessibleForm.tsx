@@ -112,6 +112,10 @@ type AccessibleFormAction =
   | {
       type: "HYDRATE_STORE";
       payload: AccessibleForm;
+    }
+  | {
+      type: "SET_ANNOTATION_TYPE";
+      payload: { id: AnnotationId; type: FIELD_TYPE };
     };
 
 // reduceAccessibleForm determines how to update the state after a UI action
@@ -180,6 +184,11 @@ export const reduceAccessibleForm = (
       }
       case "HYDRATE_STORE": {
         return action.payload;
+      }
+      case "SET_ANNOTATION_TYPE": {
+        const annotation = draft.annotations[action.payload.id];
+        annotation.type = action.payload.type;
+        return;
       }
       default: {
         // We should never encounter this case; if we do, it means that

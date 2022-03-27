@@ -299,6 +299,8 @@ const PDFUI: React.FC<PDFUIProps> = (props) => {
           {creationBounds ? (
             // FIXME: TEXTBOX will not be default. We will use the last created field type as current value.
             <TranslucentBox
+              onDelete={() => {}}
+              onFieldTypeChange={() => {}}
               type="TEXTBOX"
               css={{
                 position: "absolute",

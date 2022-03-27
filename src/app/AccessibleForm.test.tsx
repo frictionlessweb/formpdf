@@ -216,4 +216,28 @@ describe("Our form reducer", () => {
     const res = reduce(init, { type: "HYDRATE_STORE", payload });
     expect(res).toEqual(payload);
   });
+  test("We set annotation type", () => {
+    const payload = {
+      id: "1",
+      backgroundColor: "lightpink",
+      type: "TEXTBOX" as FIELD_TYPE,
+      top: 20,
+      left: 20,
+      height: 5,
+      width: 5,
+      border: "pink",
+    };
+    const created = reduce(init, {
+      type: "CREATE_ANNOTATION",
+      payload: payload,
+    });
+    const changed = reduce(created, {
+      type: "SET_ANNOTATION_TYPE",
+      payload: {
+        id: "1",
+        type: "CHECKBOX",
+      },
+    });
+    expect(changed.annotations["1"].type).toBe("CHECKBOX");
+  });
 });

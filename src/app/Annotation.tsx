@@ -10,6 +10,7 @@ import {
 } from "./AccessibleForm";
 import Draggable from "react-draggable";
 import { Resizable } from "react-resizable";
+import { FieldLayerActionMenu } from "../components/ActionMenu";
 
 type TranslucentBoxProps = React.DetailedHTMLProps<
   React.HTMLAttributes<HTMLDivElement>,
@@ -17,11 +18,15 @@ type TranslucentBoxProps = React.DetailedHTMLProps<
 > & {
   type: FIELD_TYPE;
   css: CSSObject;
+  onDelete: () => void;
+  onFieldTypeChange: (value: FIELD_TYPE) => void;
   nodeRef?: React.MutableRefObject<HTMLDivElement | null>;
 };
 
+// FIXME: Why are we not using default Props instead of using placeholders such as NO_OP.
 export const TranslucentBox: React.FC<TranslucentBoxProps> = (props) => {
-  const { css, nodeRef, type, ...divProps } = props;
+  const { css, nodeRef, onDelete, onFieldTypeChange, type, ...divProps } =
+    props;
   return (
     <div css={css} ref={nodeRef}>
       <div
@@ -30,9 +35,12 @@ export const TranslucentBox: React.FC<TranslucentBoxProps> = (props) => {
           width: "100%",
           height: "100%",
           backgroundColor: props?.css?.backgroundColor,
-          opacity: 0.33,
         }}>
         {type}
+        <FieldLayerActionMenu
+          onDelete={onDelete}
+          onFieldTypeChange={onFieldTypeChange}
+        />
       </div>
     </div>
   );
@@ -158,6 +166,15 @@ const Annotation: React.FC<AnnotationProps> = (props) => {
     case "CREATE": {
       return (
         <TranslucentBox
+          onDelete={() => {
+            dispatch({ type: "DELETE_ANNOTATION", payload: props.id });
+          }}
+          onFieldTypeChange={(value) => {
+            dispatch({
+              type: "SET_ANNOTATION_TYPE",
+              payload: { id: props.id, type: value },
+            });
+          }}
           type={type}
           nodeRef={ref}
           css={{ cursor: "inherit", ...css }}
@@ -168,6 +185,8 @@ const Annotation: React.FC<AnnotationProps> = (props) => {
       const isSelected = Boolean(selectedAnnotations[props.id]);
       return (
         <TranslucentBox
+          onDelete={() => {}}
+          onFieldTypeChange={() => {}}
           type={type}
           nodeRef={ref}
           onClick={(e) => {
@@ -188,6 +207,8 @@ const Annotation: React.FC<AnnotationProps> = (props) => {
     case "DELETE": {
       return (
         <TranslucentBox
+          onDelete={() => {}}
+          onFieldTypeChange={() => {}}
           type={type}
           nodeRef={ref}
           onClick={() => {
@@ -215,6 +236,8 @@ const Annotation: React.FC<AnnotationProps> = (props) => {
             });
           }}>
           <TranslucentBox
+            onDelete={() => {}}
+            onFieldTypeChange={() => {}}
             type={type}
             nodeRef={ref}
             css={{ cursor: "move", ...css }}
@@ -238,6 +261,8 @@ const Annotation: React.FC<AnnotationProps> = (props) => {
             });
           }}>
           <TranslucentBox
+            onDelete={() => {}}
+            onFieldTypeChange={() => {}}
             type={type}
             nodeRef={ref}
             css={{ cursor: "resize-nswe", ...css }}
