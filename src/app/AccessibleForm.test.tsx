@@ -212,6 +212,8 @@ describe("Our form reducer", () => {
       tool: "CREATE",
       step: 1,
       zoom: 3,
+      canRedo: false,
+      canUndo: false,
     } as const;
     const res = reduce(init, { type: "HYDRATE_STORE", payload });
     expect(res).toEqual(payload);

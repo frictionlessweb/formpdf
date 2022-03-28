@@ -1,5 +1,5 @@
 import React from "react";
-import produce from "immer";
+import produce, { enablePatches, applyPatches } from "immer";
 import { createStore } from "redux";
 import {
   Provider,
@@ -8,6 +8,9 @@ import {
   TypedUseSelectorHook,
 } from "react-redux";
 import { devToolsEnhancer } from "@redux-devtools/extension";
+
+// This is required to enable immer patches
+enablePatches();
 
 //     _                      _        _   _
 //    / \   _ __  _ __   ___ | |_ __ _| |_(_) ___  _ __  ___
@@ -70,6 +73,10 @@ export interface AccessibleForm {
   tool: TOOL;
   // Which annotations are selected currently.
   selectedAnnotations: Record<AnnotationId, boolean>;
+  // Can undo be performed.
+  canUndo: boolean;
+  // Can redo be performed.
+  canRedo: boolean;
 }
 
 export const DEFAULT_ACCESSIBLE_FORM: AccessibleForm = {
@@ -79,6 +86,8 @@ export const DEFAULT_ACCESSIBLE_FORM: AccessibleForm = {
   page: 1,
   annotations: {},
   selectedAnnotations: {},
+  canRedo: false,
+  canUndo: false,
 };
 
 // AccessibleFormAction describes every important possible action that a user
@@ -116,6 +125,12 @@ type AccessibleFormAction =
   | {
       type: "SET_ANNOTATION_TYPE";
       payload: { id: AnnotationId; type: FIELD_TYPE };
+    }
+  | {
+      type: "UNDO";
+    }
+  | {
+      type: "REDO";
     };
 
 // reduceAccessibleForm determines how to update the state after a UI action
@@ -127,86 +142,143 @@ type AccessibleFormAction =
 // so that we don't need to worry about using the spread operator everywhere;
 // we can just mutate the draft state to look the way we'd like, and immer will
 // handle making copies of everything.
+
+const changes: any = {};
+// This points to the current version number from where redo and undo is performed.
+let currentVersion = -1;
+// This dictates how many versions of the state we keep in memory.
+const noOfVersionsSupported = 10;
+// Not all actions are undoable. For example, change tool or hydrate.
+const undoableActions = [
+  "CREATE_ANNOTATION",
+  "MOVE_ANNOTATION",
+  "RESIZE_ANNOTATION",
+  "DELETE_ANNOTATION",
+  "SET_ANNOTATION_TYPE",
+];
+
 export const reduceAccessibleForm = (
   previous: AccessibleForm | undefined,
   action: AccessibleFormAction
 ): AccessibleForm => {
   if (previous === undefined) return DEFAULT_ACCESSIBLE_FORM;
-  return produce(previous, (draft) => {
-    switch (action.type) {
-      case "CHANGE_CURRENT_STEP": {
-        draft.step = action.payload;
-        return;
+  return produce(
+    previous,
+    (draft) => {
+      // When we receive an undoable action – we can always undo but
+      // cannot redo anymore. That’s how undo-redo works in Google Docs.
+      if (undoableActions.indexOf(action.type) !== -1) {
+        draft.canUndo = true;
+        draft.canRedo = false;
       }
-      case "CHANGE_ZOOM": {
-        draft.zoom = action.payload;
-        return;
+      switch (action.type) {
+        case "CHANGE_CURRENT_STEP": {
+          draft.step = action.payload;
+          return;
+        }
+        case "CHANGE_ZOOM": {
+          draft.zoom = action.payload;
+          return;
+        }
+        case "CHANGE_TOOL": {
+          draft.tool = action.payload;
+          return;
+        }
+        case "CHANGE_PAGE": {
+          draft.page = action.payload;
+          return;
+        }
+        case "CREATE_ANNOTATION": {
+          draft.annotations[action.payload.id] = action.payload;
+          return;
+        }
+        case "MOVE_ANNOTATION": {
+          const annotation = draft.annotations[action.payload.id];
+          annotation.left += action.payload.x;
+          annotation.top += action.payload.y;
+          return;
+        }
+        case "RESIZE_ANNOTATION": {
+          const annotation = draft.annotations[action.payload.id];
+          annotation.width = action.payload.width;
+          annotation.height = action.payload.height;
+          return;
+        }
+        case "DELETE_ANNOTATION": {
+          delete draft.annotations[action.payload];
+          return;
+        }
+        case "SELECT_ANNOTATION": {
+          draft.selectedAnnotations[action.payload] = true;
+          return;
+        }
+        case "DESELECT_ANNOTATION": {
+          delete draft.selectedAnnotations[action.payload];
+          return;
+        }
+        case "DESELECT_ALL_ANNOTATION": {
+          draft.selectedAnnotations = {};
+          return;
+        }
+        case "HYDRATE_STORE": {
+          return action.payload;
+        }
+        case "SET_ANNOTATION_TYPE": {
+          const annotation = draft.annotations[action.payload.id];
+          annotation.type = action.payload.type;
+          return;
+        }
+        case "UNDO": {
+          return produce(
+            applyPatches(previous, changes[currentVersion--].undo),
+            (newDraft) => {
+              newDraft.canUndo = changes.hasOwnProperty(currentVersion);
+              newDraft.canRedo = true;
+            }
+          );
+        }
+        case "REDO": {
+          return produce(
+            applyPatches(previous, changes[++currentVersion].redo),
+            (newDraft) => {
+              newDraft.canUndo = true;
+              newDraft.canRedo = changes.hasOwnProperty(currentVersion + 1);
+            }
+          );
+        }
+        default: {
+          // We should never encounter this case; if we do, it means that
+          // we've dispatched an action at runtime with a shape that we haven't
+          // described in the AccessibleFormAction, which should raise an error
+          // at compile time.
+          //
+          // To help the compiler enforce this envariant, we specify that missingCase
+          // has the "never" type, which will cause a compiler error if we add a type
+          // to the AccessibleFormAction that we don't handle in the switch statements
+          // above.
+          const missingCase: never = action;
+          throw new Error(
+            `Our reducer is missing ${JSON.stringify(missingCase, null, 2)}`
+          );
+        }
       }
-      case "CHANGE_TOOL": {
-        draft.tool = action.payload;
-        return;
-      }
-      case "CHANGE_PAGE": {
-        draft.page = action.payload;
-        return;
-      }
-      case "CREATE_ANNOTATION": {
-        draft.annotations[action.payload.id] = action.payload;
-        return;
-      }
-      case "MOVE_ANNOTATION": {
-        const annotation = draft.annotations[action.payload.id];
-        annotation.left += action.payload.x;
-        annotation.top += action.payload.y;
-        return;
-      }
-      case "RESIZE_ANNOTATION": {
-        const annotation = draft.annotations[action.payload.id];
-        annotation.width = action.payload.width;
-        annotation.height = action.payload.height;
-        return;
-      }
-      case "DELETE_ANNOTATION": {
-        delete draft.annotations[action.payload];
-        return;
-      }
-      case "SELECT_ANNOTATION": {
-        draft.selectedAnnotations[action.payload] = true;
-        return;
-      }
-      case "DESELECT_ANNOTATION": {
-        delete draft.selectedAnnotations[action.payload];
-        return;
-      }
-      case "DESELECT_ALL_ANNOTATION": {
-        draft.selectedAnnotations = {};
-        return;
-      }
-      case "HYDRATE_STORE": {
-        return action.payload;
-      }
-      case "SET_ANNOTATION_TYPE": {
-        const annotation = draft.annotations[action.payload.id];
-        annotation.type = action.payload.type;
-        return;
-      }
-      default: {
-        // We should never encounter this case; if we do, it means that
-        // we've dispatched an action at runtime with a shape that we haven't
-        // described in the AccessibleFormAction, which should raise an error
-        // at compile time.
-        //
-        // To help the compiler enforce this envariant, we specify that missingCase
-        // has the "never" type, which will cause a compiler error if we add a type
-        // to the AccessibleFormAction that we don't handle in the switch statements
-        // above.
-        const missingCase: never = action;
-        throw new Error(
-          `Our reducer is missing ${JSON.stringify(missingCase, null, 2)}`
-        );
+    },
+    (patches, inversePatches) => {
+      if (undoableActions.indexOf(action.type) !== -1) {
+        currentVersion++;
+
+        changes[currentVersion] = {
+          redo: patches,
+          undo: inversePatches,
+        };
+
+        // this disables redo after undoable action is performed.
+        delete changes[currentVersion + 1];
+        // this removes older change versions.
+        delete changes[currentVersion - noOfVersionsSupported];
       }
     }
-  });
+  );
 };
 
 //  ____                 _   ____          _
