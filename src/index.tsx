@@ -12,10 +12,6 @@ import "@fontsource/roboto";
 // Different browsers have different styling quirks; Material UI can smooth
 // these over if we import it at the top level.
 import CssBaseline from "@mui/material/CssBaseline";
-// The library that we use for resizing divs needs this CSS to be imported, so
-// we go ahead and do that here. If the handles mysteriously disappear one day,
-// check this line of code.
-import "react-resizable/css/styles.css";
 
 // In order to render PDF files, we use FireFox's PDF renderer. Setting it up
 // requires configuring a web worker so that it can render PDF documents to a

@@ -17,8 +17,8 @@ describe("Our form reducer", () => {
     expect(res.zoom).toEqual(0.2);
   });
   test("We can change the active tool", () => {
-    const res = reduce(init, { type: "CHANGE_TOOL", payload: "RESIZE" });
-    expect(res.tool).toEqual("RESIZE");
+    const res = reduce(init, { type: "CHANGE_TOOL", payload: "SELECT" });
+    expect(res.tool).toEqual("SELECT");
   });
   test("We can change the current page", () => {
     const res = reduce(init, { type: "CHANGE_PAGE", payload: 2 });
@@ -40,6 +40,47 @@ describe("Our form reducer", () => {
       payload,
     });
     expect(res.annotations["1"]).toEqual(payload);
+  });
+  test("Adding an annotation does the right thing with undo/rdo", () => {
+    const payload = {
+      id: "1",
+      backgroundColor: "lightpink",
+      type: "TEXTBOX",
+      height: 10,
+      width: 10,
+      top: 5,
+      left: 5,
+      border: "pink",
+    } as const;
+    const res = reduce(init, {
+      type: "CREATE_ANNOTATION",
+      payload,
+    });
+    expect(res.currentVersion).toBe(0);
+    expect(Array.isArray(res.versions[0].redo)).toBe(true);
+  });
+  test("We can undo/redo a create", () => {
+    const payload = {
+      id: "1",
+      backgroundColor: "lightpink",
+      type: "TEXTBOX",
+      height: 10,
+      width: 10,
+      top: 5,
+      left: 5,
+      border: "pink",
+    } as const;
+    const created = reduce(init, {
+      type: "CREATE_ANNOTATION",
+      payload,
+    });
+    expect(Object.keys(created.annotations)).toHaveLength(1);
+    console.log(created);
+    const undo = reduce(created, { type: "UNDO" });
+    console.log(undo);
+    // expect(Object.keys(undo.annotations)).toHaveLength(0);
+    // const redo = reduce(undo, { type: 'REDO' });
+    // expect(Object.keys(redo.annotations)).toHaveLength(1);
   });
   test("We can delete an annotation after we create it", () => {
     const payload = {
@@ -85,8 +126,8 @@ describe("Our form reducer", () => {
         y: 5,
       },
     });
-    expect(moved.annotations["1"].top).toBe(15);
-    expect(moved.annotations["1"].left).toBe(15);
+    expect(moved.annotations["1"].top).toBe(5);
+    expect(moved.annotations["1"].left).toBe(5);
   });
   test("We can resize an annotation", () => {
     const payload = {
@@ -109,10 +150,14 @@ describe("Our form reducer", () => {
         id: "1",
         width: 50,
         height: 40,
+        x: 10,
+        y: 20,
       },
     });
     expect(moved.annotations["1"].width).toBe(50);
     expect(moved.annotations["1"].height).toBe(40);
+    expect(moved.annotations["1"].top).toBe(20);
+    expect(moved.annotations["1"].left).toBe(10);
   });
   test("We can select an annotation", () => {
     const payload = {
@@ -212,6 +257,8 @@ describe("Our form reducer", () => {
       zoom: 3,
       canRedo: false,
       canUndo: false,
+      versions: {},
+      currentVersion: -1,
     } as const;
     const res = reduce(init, { type: "HYDRATE_STORE", payload });
     expect(res).toEqual(payload);

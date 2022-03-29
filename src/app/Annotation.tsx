@@ -8,9 +8,8 @@ import {
   useSelector,
   FIELD_TYPE,
 } from "./AccessibleForm";
-import Draggable from "react-draggable";
-import { Resizable } from "react-resizable";
 import { FieldLayerActionMenu } from "../components/ActionMenu";
+import { Rnd } from "react-rnd";
 
 type TranslucentBoxProps = React.DetailedHTMLProps<
   React.HTMLAttributes<HTMLDivElement>,
@@ -146,6 +145,10 @@ type AnnotationProps = AnnotationStatic & {
   css?: CSSObject;
 };
 
+// For some reason, with React RND, if you don't offset the top and the left
+// by *exactly* two pixels, it doesn't look right.
+const MYSTERIOUS_RND_OFFSET = 2;
+
 const Annotation: React.FC<AnnotationProps> = (props) => {
   const [tool, selectedAnnotations] = useSelector((state) => [
     state.tool,
@@ -182,10 +185,19 @@ const Annotation: React.FC<AnnotationProps> = (props) => {
     case "SELECT": {
       const isSelected = Boolean(selectedAnnotations[props.id]);
       return (
-        <TranslucentBox
-          type={type}
-          nodeRef={ref}
-          onClick={(e) => {
+        <Rnd
+          allowAnyClick
+          style={{
+            position: "absolute",
+            border: isSelected ? "3px solid black" : props.border,
+            backgroundColor: props.backgroundColor,
+          }}
+          position={{
+            x: props.left + MYSTERIOUS_RND_OFFSET,
+            y: props.top + MYSTERIOUS_RND_OFFSET,
+          }}
+          size={{ height: props.height, width: props.width }}
+          onClick={(e: any) => {
             if (isSelected) {
               dispatch({ type: "DESELECT_ANNOTATION", payload: props.id });
             } else {
@@ -197,69 +209,44 @@ const Annotation: React.FC<AnnotationProps> = (props) => {
             ...css,
             border: isSelected ? "2px solid black" : css.border,
           }}
-        />
-      );
-    }
-    case "DELETE": {
-      return (
-        <TranslucentBox
-          type={type}
-          nodeRef={ref}
-          onClick={() => {
-            dispatch({ type: "DELETE_ANNOTATION", payload: props.id });
-          }}
-          css={{ cursor: "not-allowed", ...css }}
-        />
-      );
-    }
-    case "MOVE": {
-      return (
-        <Draggable
-          nodeRef={ref}
-          // This tells react-draggable to treat the place we start at as the
-          // origin.
-          position={{ x: 0, y: 0 }}
-          onStop={(_, data) => {
+          onDragStop={(_, delta) => {
             dispatch({
               type: "MOVE_ANNOTATION",
               payload: {
-                id,
-                x: data.x,
-                y: data.y,
+                id: props.id,
+                x: delta.x - MYSTERIOUS_RND_OFFSET,
+                y: delta.y - MYSTERIOUS_RND_OFFSET,
               },
             });
-          }}>
-          <TranslucentBox
-            type={type}
-            nodeRef={ref}
-            css={{ cursor: "move", ...css }}
-          />
-        </Draggable>
-      );
-    }
-    case "RESIZE": {
-      return (
-        <Resizable
-          width={props.width}
-          height={props.height}
-          onResize={(_, data) => {
+          }}
+          onResize={(_, __, ref, ___, el) => {
             dispatch({
               type: "RESIZE_ANNOTATION",
               payload: {
                 id: props.id,
-                width: data.size.width,
-                height: data.size.height,
+                width: ref.offsetWidth,
+                height: ref.offsetHeight,
+                x: el.x - MYSTERIOUS_RND_OFFSET,
+                y: el.y - MYSTERIOUS_RND_OFFSET,
               },
             });
           }}>
-          <TranslucentBox
-            type={type}
-            nodeRef={ref}
-            css={{ cursor: "resize-nswe", ...css }}
+          <FieldLayerActionMenu
+            onDelete={() => {
+              dispatch({ type: "DELETE_ANNOTATION", payload: props.id });
+            }}
+            onFieldTypeChange={(value) => {
+              dispatch({
+                type: "SET_ANNOTATION_TYPE",
+                payload: { id: props.id, type: value },
+              });
+            }}
           />
-        </Resizable>
+        </Rnd>
       );
     }
+    default:
+      return null;
   }
 };
 
