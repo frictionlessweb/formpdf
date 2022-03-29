@@ -197,7 +197,7 @@ const useHandlers = (): Handlers => {
             type: "CREATE_ANNOTATION",
             payload: {
               id: window.crypto.randomUUID(),
-              backgroundColor: "lightpink",
+              backgroundColor: "rgb(255, 182, 193, 0.3)",
               border: "3px solid red",
               type: "TEXTBOX",
               ...mapCreationBoundsToFinalBounds(creationBounds),
@@ -299,12 +299,10 @@ const PDFUI: React.FC<PDFUIProps> = (props) => {
           {creationBounds ? (
             // FIXME: TEXTBOX will not be default. We will use the last created field type as current value.
             <TranslucentBox
-              onDelete={() => {}}
-              onFieldTypeChange={() => {}}
               type="TEXTBOX"
               css={{
                 position: "absolute",
-                backgroundColor: "lightgreen",
+                backgroundColor: "rgb(144, 238, 144, 0.3)",
                 border: "3px solid green",
                 ...mapCreationBoundsToCss(creationBounds),
               }}

@@ -1,5 +1,5 @@
 import React from "react";
-import produce, { enablePatches, applyPatches } from "immer";
+import produce, { enablePatches, applyPatches, Patch } from "immer";
 import { createStore } from "redux";
 import {
   Provider,
@@ -143,7 +143,12 @@ type AccessibleFormAction =
 // we can just mutate the draft state to look the way we'd like, and immer will
 // handle making copies of everything.
 
-const changes: any = {};
+interface Changes {
+  redo: Array<Patch>;
+  undo: Array<Patch>;
+}
+
+const changes: Record<number, Changes> = {};
 // This points to the current version number from where redo and undo is performed.
 let currentVersion = -1;
 // This dictates how many versions of the state we keep in memory.

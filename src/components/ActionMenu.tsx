@@ -2,7 +2,6 @@
 
 import React from "react";
 import color from "./color";
-import styled from "@emotion/styled";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import { FIELD_TYPE } from "../app/AccessibleForm";
@@ -39,7 +38,6 @@ export const ActionMenu: React.FC<ActionMenuProps> = ({ children }) => {
 };
 
 interface FieldLayerActionMenuProps {
-  // FIXME: Is this the right way to define function type in TS.
   onDelete: () => void;
   onFieldTypeChange: (value: FIELD_TYPE) => void;
 }
@@ -76,41 +74,52 @@ export const FieldLayerActionMenu: React.FC<FieldLayerActionMenuProps> = ({
   );
 };
 
-// FIXME: Change styled component to css object.
-const ActionMenuItem = styled.span`
-  width: auto;
-  min-width: 4rem;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.25rem 0.75rem;
-  font-size: 0.875rem;
-  font-family: "Roboto", sans-serif;
-  font-weight: 700;
-  border-right: 1px solid ${color.gray.line};
-  img {
-    width: 100%;
-    height: 100%;
-    max-width: 1rem;
-    max-height: 1.125rem;
-  }
-  &:last-of-type {
-    border-right: none;
-  }
+interface ActionMenuItemProps {
+  children?: React.ReactNode;
+  onClick?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+  onMouseDown?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+}
 
-  &:hover {
-    background: ${color.gray.line};
-    cursor: pointer;
-  }
-
-  &:first-of-type:hover {
-    border-top-left-radius: 0.5rem;
-    border-bottom-left-radius: 0.5rem;
-  }
-
-  &:last-of-type:hover {
-    border-top-right-radius: 0.5rem;
-    border-bottom-right-radius: 0.5rem;
-  }
-`;
+const ActionMenuItem: React.FC<ActionMenuItemProps> = (props) => {
+  const { children, ...rest } = props;
+  return (
+    <span
+      {...rest}
+      css={{
+        width: "auto",
+        minWidth: "4rem",
+        height: "100%",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: "0.25rem 0.75rem",
+        fontSize: "0.875rem",
+        fontFamily: "Roboto, sans-serif",
+        fontWeight: 700,
+        borderRight: `1px solid ${color.gray.line}`,
+        img: {
+          width: "100%",
+          height: "100%",
+          maxWidth: "1rem",
+          maxHeight: "1.125rem",
+        },
+        "&:lastOfType": {
+          borderRight: "none",
+        },
+        "&:hover": {
+          background: color.gray.line,
+          cursor: "pointer",
+        },
+        "&:firstOfType:hover": {
+          borderTopLeftRadius: "0.5rem",
+          borderBottomLeftRadius: "0.5rem",
+        },
+        "&:lastOfType:hover": {
+          borderTopRightRadius: "0.5rem",
+          borderBottomRightRadius: "0.5rem",
+        },
+      }}>
+      {children}
+    </span>
+  );
+};

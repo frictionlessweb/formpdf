@@ -1,7 +1,6 @@
 import {
   reduceAccessibleForm as reduce,
   DEFAULT_ACCESSIBLE_FORM as init,
-  FIELD_TYPE,
 } from "./AccessibleForm";
 
 describe("Our form reducer", () => {
@@ -25,18 +24,17 @@ describe("Our form reducer", () => {
     const res = reduce(init, { type: "CHANGE_PAGE", payload: 2 });
     expect(res.page).toEqual(2);
   });
-  //FIXME: is typecasting TEXTBOX needed?
   test("We can add an annotation", () => {
     const payload = {
       id: "1",
       backgroundColor: "lightpink",
-      type: "TEXTBOX" as FIELD_TYPE,
+      type: "TEXTBOX",
       height: 10,
       width: 10,
       top: 5,
       left: 5,
       border: "pink",
-    };
+    } as const;
     const res = reduce(init, {
       type: "CREATE_ANNOTATION",
       payload,
@@ -47,13 +45,13 @@ describe("Our form reducer", () => {
     const payload = {
       id: "1",
       backgroundColor: "lightpink",
-      type: "TEXTBOX" as FIELD_TYPE,
+      type: "TEXTBOX",
       height: 10,
       width: 10,
       top: 5,
       left: 5,
       border: "pink",
-    };
+    } as const;
     const created = reduce(init, {
       type: "CREATE_ANNOTATION",
       payload,
@@ -68,13 +66,13 @@ describe("Our form reducer", () => {
     const payload = {
       id: "1",
       backgroundColor: "lightpink",
-      type: "TEXTBOX" as FIELD_TYPE,
+      type: "TEXTBOX",
       top: 10,
       left: 10,
       height: 10,
       width: 10,
       border: "pink",
-    };
+    } as const;
     const created = reduce(init, {
       type: "CREATE_ANNOTATION",
       payload,
@@ -94,13 +92,13 @@ describe("Our form reducer", () => {
     const payload = {
       id: "1",
       backgroundColor: "lightpink",
-      type: "TEXTBOX" as FIELD_TYPE,
+      type: "TEXTBOX",
       top: 10,
       left: 10,
       height: 10,
       width: 10,
       border: "pink",
-    };
+    } as const;
     const created = reduce(init, {
       type: "CREATE_ANNOTATION",
       payload,
@@ -120,13 +118,13 @@ describe("Our form reducer", () => {
     const payload = {
       id: "1",
       backgroundColor: "lightpink",
-      type: "TEXTBOX" as FIELD_TYPE,
+      type: "TEXTBOX",
       top: 10,
       left: 10,
       height: 10,
       width: 10,
       border: "pink",
-    };
+    } as const;
     const created = reduce(init, {
       type: "CREATE_ANNOTATION",
       payload,
@@ -141,13 +139,13 @@ describe("Our form reducer", () => {
     const payload = {
       id: "1",
       backgroundColor: "lightpink",
-      type: "TEXTBOX" as FIELD_TYPE,
+      type: "TEXTBOX",
       top: 10,
       left: 10,
       height: 10,
       width: 10,
       border: "pink",
-    };
+    } as const;
     const created = reduce(init, {
       type: "CREATE_ANNOTATION",
       payload,
@@ -166,23 +164,23 @@ describe("Our form reducer", () => {
     const payload1 = {
       id: "1",
       backgroundColor: "lightpink",
-      type: "TEXTBOX" as FIELD_TYPE,
+      type: "TEXTBOX",
       top: 10,
       left: 10,
       height: 10,
       width: 10,
       border: "pink",
-    };
+    } as const;
     const payload2 = {
       id: "2",
       backgroundColor: "lightpink",
-      type: "TEXTBOX" as FIELD_TYPE,
+      type: "TEXTBOX",
       top: 20,
       left: 20,
       height: 5,
       width: 5,
       border: "pink",
-    };
+    } as const;
     const createdFirst = reduce(init, {
       type: "CREATE_ANNOTATION",
       payload: payload1,
@@ -222,13 +220,13 @@ describe("Our form reducer", () => {
     const payload = {
       id: "1",
       backgroundColor: "lightpink",
-      type: "TEXTBOX" as FIELD_TYPE,
+      type: "TEXTBOX",
       top: 20,
       left: 20,
       height: 5,
       width: 5,
       border: "pink",
-    };
+    } as const;
     const created = reduce(init, {
       type: "CREATE_ANNOTATION",
       payload: payload,

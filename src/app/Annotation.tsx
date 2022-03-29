@@ -18,30 +18,26 @@ type TranslucentBoxProps = React.DetailedHTMLProps<
 > & {
   type: FIELD_TYPE;
   css: CSSObject;
-  onDelete: () => void;
-  onFieldTypeChange: (value: FIELD_TYPE) => void;
   nodeRef?: React.MutableRefObject<HTMLDivElement | null>;
+  children?: React.ReactNode;
 };
 
 // FIXME: Why are we not using default Props instead of using placeholders such as NO_OP.
 export const TranslucentBox: React.FC<TranslucentBoxProps> = (props) => {
-  const { css, nodeRef, onDelete, onFieldTypeChange, type, ...divProps } =
-    props;
+  const { css, nodeRef, type, children, ...divProps } = props;
   return (
-    <div css={css} ref={nodeRef}>
-      <div
-        {...divProps}
-        css={{
-          width: "100%",
-          height: "100%",
-          backgroundColor: props?.css?.backgroundColor,
-        }}>
-        {type}
-        <FieldLayerActionMenu
-          onDelete={onDelete}
-          onFieldTypeChange={onFieldTypeChange}
-        />
-      </div>
+    <div
+      ref={nodeRef}
+      {...divProps}
+      css={{
+        width: "100%",
+        height: "100%",
+        // using opacity on this components makes its children transparent, thus it is
+        // recommeded to use rgba(0,0,0,0.3) for the background color.
+        backgroundColor: props?.css?.backgroundColor,
+      }}>
+      {type}
+      {children}
     </div>
   );
 };
@@ -166,27 +162,27 @@ const Annotation: React.FC<AnnotationProps> = (props) => {
     case "CREATE": {
       return (
         <TranslucentBox
-          onDelete={() => {
-            dispatch({ type: "DELETE_ANNOTATION", payload: props.id });
-          }}
-          onFieldTypeChange={(value) => {
-            dispatch({
-              type: "SET_ANNOTATION_TYPE",
-              payload: { id: props.id, type: value },
-            });
-          }}
           type={type}
           nodeRef={ref}
-          css={{ cursor: "inherit", ...css }}
-        />
+          css={{ cursor: "inherit", ...css }}>
+          <FieldLayerActionMenu
+            onDelete={() => {
+              dispatch({ type: "DELETE_ANNOTATION", payload: props.id });
+            }}
+            onFieldTypeChange={(value) => {
+              dispatch({
+                type: "SET_ANNOTATION_TYPE",
+                payload: { id: props.id, type: value },
+              });
+            }}
+          />
+        </TranslucentBox>
       );
     }
     case "SELECT": {
       const isSelected = Boolean(selectedAnnotations[props.id]);
       return (
         <TranslucentBox
-          onDelete={() => {}}
-          onFieldTypeChange={() => {}}
           type={type}
           nodeRef={ref}
           onClick={(e) => {
@@ -207,8 +203,6 @@ const Annotation: React.FC<AnnotationProps> = (props) => {
     case "DELETE": {
       return (
         <TranslucentBox
-          onDelete={() => {}}
-          onFieldTypeChange={() => {}}
           type={type}
           nodeRef={ref}
           onClick={() => {
@@ -236,8 +230,6 @@ const Annotation: React.FC<AnnotationProps> = (props) => {
             });
           }}>
           <TranslucentBox
-            onDelete={() => {}}
-            onFieldTypeChange={() => {}}
             type={type}
             nodeRef={ref}
             css={{ cursor: "move", ...css }}
@@ -261,8 +253,6 @@ const Annotation: React.FC<AnnotationProps> = (props) => {
             });
           }}>
           <TranslucentBox
-            onDelete={() => {}}
-            onFieldTypeChange={() => {}}
             type={type}
             nodeRef={ref}
             css={{ cursor: "resize-nswe", ...css }}
