@@ -170,20 +170,27 @@ type AccessibleFormAction =
 // we can just mutate the draft state to look the way we'd like, and immer will
 // handle making copies of everything.
 
-const MAX_VERSION = 10;
+const MAX_VERSION = 3;
 
-// This points to the current version number from where redo and undo is performed.
-// let currentVersion = -1;
-// This dictates how many versions of the state we keep in memory.
-// const noOfVersionsSupported = 10;
-// Not all actions are undoable. For example, change tool or hydrate.
-const undoableActions = [
-  "CREATE_ANNOTATION",
-  "MOVE_ANNOTATION",
-  "RESIZE_ANNOTATION",
-  "DELETE_ANNOTATION",
-  "SET_ANNOTATION_TYPE",
-];
+type Producer = (draft: AccessibleForm) => void;
+
+const produceWithUndo = (previous: AccessibleForm, producer: Producer) => {
+  const [nextState, patches, inversePatches] = produceWithPatches(
+    previous,
+    producer
+  );
+  return produce(nextState, (draft) => {
+    draft.canRedo = false;
+    draft.canUndo = true;
+    draft.currentVersion += 1;
+    draft.versions[draft.currentVersion] = {
+      undo: inversePatches,
+      redo: patches,
+    };
+    delete draft.versions[draft.currentVersion + 1];
+    delete draft.versions[draft.currentVersion - MAX_VERSION];
+  });
+};
 
 export const reduceAccessibleForm = (
   previous: AccessibleForm | undefined,
@@ -215,25 +222,13 @@ export const reduceAccessibleForm = (
       });
     }
     case "CREATE_ANNOTATION": {
-      const [nextState, patches, inversePatches] = produceWithPatches(
-        previous,
-        (draft) => {
-          draft.annotations[action.payload.id] = action.payload;
-          return;
-        }
-      );
-      return produce(nextState, (draft) => {
-        draft.currentVersion += 1;
-        draft.versions[draft.currentVersion] = {
-          undo: inversePatches,
-          redo: patches,
-        };
-        delete draft.versions[draft.currentVersion + 1];
-        delete draft.versions[draft.currentVersion - MAX_VERSION];
+      return produceWithUndo(previous, (draft) => {
+        draft.annotations[action.payload.id] = action.payload;
+        return;
       });
     }
     case "MOVE_ANNOTATION": {
-      return produce(previous, (draft) => {
+      return produceWithUndo(previous, (draft) => {
         const annotation = draft.annotations[action.payload.id];
         annotation.left = action.payload.x;
         annotation.top = action.payload.y;
@@ -241,7 +236,7 @@ export const reduceAccessibleForm = (
       });
     }
     case "RESIZE_ANNOTATION": {
-      return produce(previous, (draft) => {
+      return produceWithUndo(previous, (draft) => {
         const annotation = draft.annotations[action.payload.id];
         annotation.width = action.payload.width;
         annotation.height = action.payload.height;
@@ -251,7 +246,7 @@ export const reduceAccessibleForm = (
       });
     }
     case "DELETE_ANNOTATION": {
-      return produce(previous, (draft) => {
+      return produceWithUndo(previous, (draft) => {
         delete draft.annotations[action.payload];
         return;
       });
@@ -278,7 +273,7 @@ export const reduceAccessibleForm = (
       return action.payload;
     }
     case "SET_ANNOTATION_TYPE": {
-      return produce(previous, (draft) => {
+      return produceWithUndo(previous, (draft) => {
         const annotation = draft.annotations[action.payload.id];
         annotation.type = action.payload.type;
         return;
@@ -303,74 +298,13 @@ export const reduceAccessibleForm = (
       );
       return produce(tmp, (draft) => {
         draft.canUndo = true;
-        draft.canRedo = Boolean(previous.versions[draft.currentVersion + 1]);
+        draft.canRedo = Boolean(previous.versions[draft.currentVersion + 2]);
         draft.currentVersion += 1;
         return;
       });
     }
   }
 };
-// case "UNDO": {
-//   return produce(
-//     applyPatches(previous, changes[currentVersion--].undo),
-//     (newDraft) => {
-//       newDraft.canUndo = changes.hasOwnProperty(currentVersion);
-//       newDraft.canRedo = true;
-//     }
-//   );
-// }
-// case "REDO": {
-//   return produce(
-//     applyPatches(previous, changes[++currentVersion].redo),
-//     (newDraft) => {
-//       newDraft.canUndo = true;
-//       newDraft.canRedo = changes.hasOwnProperty(currentVersion + 1);
-//     }
-//   );
-// }
-// default: {
-// We should never encounter this case; if we do, it means that
-// we've dispatched an action at runtime with a shape that we haven't
-// described in the AccessibleFormAction, which should raise an error
-// at compile time.
-//
-// To help the compiler enforce this envariant, we specify that missingCase
-// has the "never" type, which will cause a compiler error if we add a type
-// to the AccessibleFormAction that we don't handle in the switch statements
-// above.
-// const missingCase: never = action;
-// throw new Error(
-//   `Our reducer is missing ${JSON.stringify(missingCase, null, 2)}`
-// );
-// }
-// }
-// return produce(
-//   previous,
-//   (draft) => {
-//     // When we receive an undoable action – we can always undo but
-//     // cannot redo anymore. That’s how undo-redo works in Google Docs.
-//     if (undoableActions.indexOf(action.type) !== -1) {
-//       draft.canUndo = true;
-//       draft.canRedo = false;
-//     }
-//   },
-//   (patches, inversePatches) => {
-//     if (undoableActions.indexOf(action.type) !== -1) {
-//       currentVersion++;
-
-//       changes[currentVersion] = {
-//         redo: patches,
-//         undo: inversePatches,
-//       };
-
-//       // this disables redo after undoable action is performed.
-//       delete changes[currentVersion + 1];
-//       // this removes older change versions.
-//       delete changes[currentVersion - noOfVersionsSupported];
-//     }
-//   }
-// );
-// };
 
 //  ____                 _   ____          _
 // |  _ \ ___  __ _  ___| |_|  _ \ ___  __| |_   ___  __

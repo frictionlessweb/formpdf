@@ -41,7 +41,7 @@ describe("Our form reducer", () => {
     });
     expect(res.annotations["1"]).toEqual(payload);
   });
-  test("Adding an annotation does the right thing with undo/rdo", () => {
+  test("Adding an annotation does the right thing with undo/redo", () => {
     const payload = {
       id: "1",
       backgroundColor: "lightpink",
@@ -58,6 +58,8 @@ describe("Our form reducer", () => {
     });
     expect(res.currentVersion).toBe(0);
     expect(Array.isArray(res.versions[0].redo)).toBe(true);
+    expect(res.canRedo).toBe(false);
+    expect(res.canUndo).toBe(true);
   });
   test("We can undo/redo a create", () => {
     const payload = {
@@ -75,12 +77,32 @@ describe("Our form reducer", () => {
       payload,
     });
     expect(Object.keys(created.annotations)).toHaveLength(1);
-    console.log(created);
     const undo = reduce(created, { type: "UNDO" });
-    console.log(undo);
-    // expect(Object.keys(undo.annotations)).toHaveLength(0);
-    // const redo = reduce(undo, { type: 'REDO' });
-    // expect(Object.keys(redo.annotations)).toHaveLength(1);
+    expect(Object.keys(undo.annotations)).toHaveLength(0);
+    const redo = reduce(undo, { type: "REDO" });
+    expect(Object.keys(redo.annotations)).toHaveLength(1);
+  });
+  test("canUndo and canRedo work properly", () => {
+    const payload = {
+      id: "1",
+      backgroundColor: "lightpink",
+      type: "TEXTBOX",
+      height: 10,
+      width: 10,
+      top: 5,
+      left: 5,
+      border: "pink",
+    } as const;
+    const created = reduce(init, {
+      type: "CREATE_ANNOTATION",
+      payload,
+    });
+    const undo = reduce(created, { type: "UNDO" });
+    expect(undo.canUndo).toBeFalsy();
+    expect(undo.canRedo).toBeTruthy();
+    const redo = reduce(undo, { type: "REDO" });
+    expect(redo.canUndo).toBeTruthy();
+    expect(redo.canRedo).toBeFalsy();
   });
   test("We can delete an annotation after we create it", () => {
     const payload = {
@@ -247,7 +269,7 @@ describe("Our form reducer", () => {
     });
     expect(deSelectedAll.selectedAnnotations).toEqual({});
   });
-  test("We can hypdrate the store", () => {
+  test("We can hydrate the store", () => {
     const payload = {
       annotations: {},
       selectedAnnotations: {},
