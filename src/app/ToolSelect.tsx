@@ -35,7 +35,6 @@ const ToolSelect: React.FC<BoxProps> = (props) => {
       </Typography>
       <ToolButton activeTool={activeTool} toolName="CREATE" Icon={Create} />
       <ToolButton activeTool={activeTool} toolName="SELECT" Icon={SelectAll} />
-      <ToolButton activeTool={activeTool} toolName="DELETE" Icon={Delete} />
     </Box>
   );
 };

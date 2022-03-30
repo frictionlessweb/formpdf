@@ -62,7 +62,7 @@ export type Annotation = Bounds & {
 // An accessible form puts together all of the state described above into a
 // coherent data structure that we manipulate throughout the application.
 
-export type TOOL = "CREATE" | "RESIZE" | "MOVE" | "DELETE" | "SELECT";
+export type TOOL = "CREATE" | "SELECT";
 
 // What are the changes that we care about?
 interface Changes {
@@ -170,7 +170,7 @@ type AccessibleFormAction =
 // we can just mutate the draft state to look the way we'd like, and immer will
 // handle making copies of everything.
 
-const MAX_VERSION = 3;
+const MAX_VERSION = 10;
 
 type Producer = (draft: AccessibleForm) => void;
 
