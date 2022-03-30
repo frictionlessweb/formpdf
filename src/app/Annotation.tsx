@@ -6,28 +6,37 @@ import {
   Annotation as AnnotationStatic,
   useDispatch,
   useSelector,
+  FIELD_TYPE,
 } from "./AccessibleForm";
-import Draggable from "react-draggable";
-import { Resizable } from "react-resizable";
+import { FieldLayerActionMenu } from "../components/ActionMenu";
+import { Rnd } from "react-rnd";
 
 type TranslucentBoxProps = React.DetailedHTMLProps<
   React.HTMLAttributes<HTMLDivElement>,
   HTMLDivElement
-> & { css: CSSObject; nodeRef?: React.MutableRefObject<HTMLDivElement | null> };
+> & {
+  type: FIELD_TYPE;
+  css: CSSObject;
+  nodeRef?: React.MutableRefObject<HTMLDivElement | null>;
+  children?: React.ReactNode;
+};
 
+// FIXME: Why are we not using default Props instead of using placeholders such as NO_OP.
 export const TranslucentBox: React.FC<TranslucentBoxProps> = (props) => {
-  const { css, nodeRef, ...divProps } = props;
+  const { css, nodeRef, type, children, ...divProps } = props;
   return (
-    <div css={css} ref={nodeRef}>
-      <div
-        {...divProps}
-        css={{
-          width: "100%",
-          height: "100%",
-          backgroundColor: props?.css?.backgroundColor,
-          opacity: 0.33,
-        }}
-      />
+    <div
+      ref={nodeRef}
+      {...divProps}
+      css={{
+        width: "100%",
+        height: "100%",
+        // using opacity on this components makes its children transparent, thus it is
+        // recommeded to use rgba(0,0,0,0.3) for the background color.
+        backgroundColor: props?.css?.backgroundColor,
+      }}>
+      {type}
+      {children}
     </div>
   );
 };
@@ -136,6 +145,10 @@ type AnnotationProps = AnnotationStatic & {
   css?: CSSObject;
 };
 
+// For some reason, with React RND, if you don't offset the top and the left
+// by *exactly* two pixels, it doesn't look right.
+const MYSTERIOUS_RND_OFFSET = 2;
+
 const Annotation: React.FC<AnnotationProps> = (props) => {
   const [tool, selectedAnnotations] = useSelector((state) => [
     state.tool,
@@ -143,7 +156,7 @@ const Annotation: React.FC<AnnotationProps> = (props) => {
   ]);
   const dispatch = useDispatch();
   const ref = React.useRef<HTMLDivElement | null>(null);
-  const { id, children: _, ...cssProps } = props;
+  const { id, type, children: _, ...cssProps } = props;
   const css = {
     ...cssProps,
     position: "absolute" as const,
@@ -151,15 +164,40 @@ const Annotation: React.FC<AnnotationProps> = (props) => {
   switch (tool) {
     case "CREATE": {
       return (
-        <TranslucentBox nodeRef={ref} css={{ cursor: "inherit", ...css }} />
+        <TranslucentBox
+          type={type}
+          nodeRef={ref}
+          css={{ cursor: "inherit", ...css }}>
+          <FieldLayerActionMenu
+            onDelete={() => {
+              dispatch({ type: "DELETE_ANNOTATION", payload: props.id });
+            }}
+            onFieldTypeChange={(value) => {
+              dispatch({
+                type: "SET_ANNOTATION_TYPE",
+                payload: { id: props.id, type: value },
+              });
+            }}
+          />
+        </TranslucentBox>
       );
     }
     case "SELECT": {
       const isSelected = Boolean(selectedAnnotations[props.id]);
       return (
-        <TranslucentBox
-          nodeRef={ref}
-          onClick={(e) => {
+        <Rnd
+          allowAnyClick
+          style={{
+            position: "absolute",
+            border: isSelected ? "3px solid black" : props.border,
+            backgroundColor: props.backgroundColor,
+          }}
+          position={{
+            x: props.left + MYSTERIOUS_RND_OFFSET,
+            y: props.top + MYSTERIOUS_RND_OFFSET,
+          }}
+          size={{ height: props.height, width: props.width }}
+          onClick={(e: any) => {
             if (isSelected) {
               dispatch({ type: "DESELECT_ANNOTATION", payload: props.id });
             } else {
@@ -171,63 +209,44 @@ const Annotation: React.FC<AnnotationProps> = (props) => {
             ...css,
             border: isSelected ? "2px solid black" : css.border,
           }}
-        />
-      );
-    }
-    case "DELETE": {
-      return (
-        <TranslucentBox
-          nodeRef={ref}
-          onClick={() => {
-            dispatch({ type: "DELETE_ANNOTATION", payload: props.id });
-          }}
-          css={{ cursor: "not-allowed", ...css }}
-        />
-      );
-    }
-    case "MOVE": {
-      return (
-        <Draggable
-          nodeRef={ref}
-          // This tells react-draggable to treat the place we start at as the
-          // origin.
-          position={{ x: 0, y: 0 }}
-          onStop={(_, data) => {
+          onDragStop={(_, delta) => {
             dispatch({
               type: "MOVE_ANNOTATION",
               payload: {
-                id,
-                x: data.x,
-                y: data.y,
+                id: props.id,
+                x: delta.x - MYSTERIOUS_RND_OFFSET,
+                y: delta.y - MYSTERIOUS_RND_OFFSET,
               },
             });
-          }}>
-          <TranslucentBox nodeRef={ref} css={{ cursor: "move", ...css }} />
-        </Draggable>
-      );
-    }
-    case "RESIZE": {
-      return (
-        <Resizable
-          width={props.width}
-          height={props.height}
-          onResize={(_, data) => {
+          }}
+          onResize={(_, __, ref, ___, el) => {
             dispatch({
               type: "RESIZE_ANNOTATION",
               payload: {
                 id: props.id,
-                width: data.size.width,
-                height: data.size.height,
+                width: ref.offsetWidth,
+                height: ref.offsetHeight,
+                x: el.x - MYSTERIOUS_RND_OFFSET,
+                y: el.y - MYSTERIOUS_RND_OFFSET,
               },
             });
           }}>
-          <TranslucentBox
-            nodeRef={ref}
-            css={{ cursor: "resize-nswe", ...css }}
+          <FieldLayerActionMenu
+            onDelete={() => {
+              dispatch({ type: "DELETE_ANNOTATION", payload: props.id });
+            }}
+            onFieldTypeChange={(value) => {
+              dispatch({
+                type: "SET_ANNOTATION_TYPE",
+                payload: { id: props.id, type: value },
+              });
+            }}
           />
-        </Resizable>
+        </Rnd>
       );
     }
+    default:
+      return null;
   }
 };
 

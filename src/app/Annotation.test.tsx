@@ -8,6 +8,7 @@ describe("Our Annotation component", () => {
   test("Does not crash on rendering", () => {
     render(
       <Annotation
+        type="TEXTBOX"
         left={0}
         top={0}
         width={10}

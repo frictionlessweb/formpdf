@@ -1,5 +1,10 @@
 import React from "react";
-import produce from "immer";
+import produce, {
+  enablePatches,
+  applyPatches,
+  produceWithPatches,
+  Patch,
+} from "immer";
 import { createStore } from "redux";
 import {
   Provider,
@@ -8,6 +13,9 @@ import {
   TypedUseSelectorHook,
 } from "react-redux";
 import { devToolsEnhancer } from "@redux-devtools/extension";
+
+// This is required to enable immer patches
+enablePatches();
 
 //     _                      _        _   _
 //    / \   _ __  _ __   ___ | |_ __ _| |_(_) ___  _ __  ___
@@ -31,6 +39,9 @@ export interface Bounds {
   height: number;
 }
 
+// What are the different types of annotation fields
+export type FIELD_TYPE = "TEXTBOX" | "RADIOBOX" | "CHECKBOX";
+
 export type Annotation = Bounds & {
   // What is the ID of the annotation -- how do we uniquely identify it?
   id: AnnotationId;
@@ -38,6 +49,8 @@ export type Annotation = Bounds & {
   backgroundColor: string;
   // What is the border of the annotation?
   border: string;
+  // What is the the type of the annotation?
+  type: FIELD_TYPE;
 };
 
 //     _                         _ _     _      _____
@@ -50,6 +63,16 @@ export type Annotation = Bounds & {
 // coherent data structure that we manipulate throughout the application.
 
 export type TOOL = "CREATE" | "RESIZE" | "MOVE" | "DELETE" | "SELECT";
+
+// What are the changes that we care about?
+interface Changes {
+  // Redo changes
+  redo: Array<Patch>;
+  // Undo changes
+  undo: Array<Patch>;
+}
+
+type VersionId = number;
 
 export interface AccessibleForm {
   // What step is the user on of their editing process?
@@ -65,6 +88,14 @@ export interface AccessibleForm {
   tool: TOOL;
   // Which annotations are selected currently.
   selectedAnnotations: Record<AnnotationId, boolean>;
+  // What are the patches that we need to keep track of?
+  versions: Record<VersionId, Changes>;
+  // What is the current version that we are working on?
+  currentVersion: number;
+  // Can undo be performed.
+  canUndo: boolean;
+  // Can redo be performed.
+  canRedo: boolean;
 }
 
 export const DEFAULT_ACCESSIBLE_FORM: AccessibleForm = {
@@ -74,6 +105,10 @@ export const DEFAULT_ACCESSIBLE_FORM: AccessibleForm = {
   page: 1,
   annotations: {},
   selectedAnnotations: {},
+  canRedo: false,
+  canUndo: false,
+  currentVersion: -1,
+  versions: {},
 };
 
 // AccessibleFormAction describes every important possible action that a user
@@ -91,7 +126,13 @@ type AccessibleFormAction =
     }
   | {
       type: "RESIZE_ANNOTATION";
-      payload: { id: AnnotationId; width: number; height: number };
+      payload: {
+        id: AnnotationId;
+        x: number;
+        y: number;
+        width: number;
+        height: number;
+      };
     }
   | {
       type: "SELECT_ANNOTATION";
@@ -107,6 +148,16 @@ type AccessibleFormAction =
   | {
       type: "HYDRATE_STORE";
       payload: AccessibleForm;
+    }
+  | {
+      type: "SET_ANNOTATION_TYPE";
+      payload: { id: AnnotationId; type: FIELD_TYPE };
+    }
+  | {
+      type: "UNDO";
+    }
+  | {
+      type: "REDO";
     };
 
 // reduceAccessibleForm determines how to update the state after a UI action
@@ -118,81 +169,141 @@ type AccessibleFormAction =
 // so that we don't need to worry about using the spread operator everywhere;
 // we can just mutate the draft state to look the way we'd like, and immer will
 // handle making copies of everything.
+
+const MAX_VERSION = 3;
+
+type Producer = (draft: AccessibleForm) => void;
+
+const produceWithUndo = (previous: AccessibleForm, producer: Producer) => {
+  const [nextState, patches, inversePatches] = produceWithPatches(
+    previous,
+    producer
+  );
+  return produce(nextState, (draft) => {
+    draft.canRedo = false;
+    draft.canUndo = true;
+    draft.currentVersion += 1;
+    draft.versions[draft.currentVersion] = {
+      undo: inversePatches,
+      redo: patches,
+    };
+    delete draft.versions[draft.currentVersion + 1];
+    delete draft.versions[draft.currentVersion - MAX_VERSION];
+  });
+};
+
 export const reduceAccessibleForm = (
   previous: AccessibleForm | undefined,
   action: AccessibleFormAction
 ): AccessibleForm => {
   if (previous === undefined) return DEFAULT_ACCESSIBLE_FORM;
-  return produce(previous, (draft) => {
-    switch (action.type) {
-      case "CHANGE_CURRENT_STEP": {
+  switch (action.type) {
+    case "CHANGE_CURRENT_STEP": {
+      return produce(previous, (draft) => {
         draft.step = action.payload;
-        return;
-      }
-      case "CHANGE_ZOOM": {
+      });
+    }
+    case "CHANGE_ZOOM": {
+      return produce(previous, (draft) => {
         draft.zoom = action.payload;
         return;
-      }
-      case "CHANGE_TOOL": {
+      });
+    }
+    case "CHANGE_TOOL": {
+      return produce(previous, (draft) => {
         draft.tool = action.payload;
         return;
-      }
-      case "CHANGE_PAGE": {
+      });
+    }
+    case "CHANGE_PAGE": {
+      return produce(previous, (draft) => {
         draft.page = action.payload;
         return;
-      }
-      case "CREATE_ANNOTATION": {
+      });
+    }
+    case "CREATE_ANNOTATION": {
+      return produceWithUndo(previous, (draft) => {
         draft.annotations[action.payload.id] = action.payload;
         return;
-      }
-      case "MOVE_ANNOTATION": {
+      });
+    }
+    case "MOVE_ANNOTATION": {
+      return produceWithUndo(previous, (draft) => {
         const annotation = draft.annotations[action.payload.id];
-        annotation.left += action.payload.x;
-        annotation.top += action.payload.y;
+        annotation.left = action.payload.x;
+        annotation.top = action.payload.y;
         return;
-      }
-      case "RESIZE_ANNOTATION": {
+      });
+    }
+    case "RESIZE_ANNOTATION": {
+      return produceWithUndo(previous, (draft) => {
         const annotation = draft.annotations[action.payload.id];
         annotation.width = action.payload.width;
         annotation.height = action.payload.height;
+        annotation.top = action.payload.y;
+        annotation.left = action.payload.x;
         return;
-      }
-      case "DELETE_ANNOTATION": {
+      });
+    }
+    case "DELETE_ANNOTATION": {
+      return produceWithUndo(previous, (draft) => {
         delete draft.annotations[action.payload];
         return;
-      }
-      case "SELECT_ANNOTATION": {
+      });
+    }
+    case "SELECT_ANNOTATION": {
+      return produce(previous, (draft) => {
         draft.selectedAnnotations[action.payload] = true;
         return;
-      }
-      case "DESELECT_ANNOTATION": {
+      });
+    }
+    case "DESELECT_ANNOTATION": {
+      return produce(previous, (draft) => {
         delete draft.selectedAnnotations[action.payload];
         return;
-      }
-      case "DESELECT_ALL_ANNOTATION": {
+      });
+    }
+    case "DESELECT_ALL_ANNOTATION": {
+      return produce(previous, (draft) => {
         draft.selectedAnnotations = {};
         return;
-      }
-      case "HYDRATE_STORE": {
-        return action.payload;
-      }
-      default: {
-        // We should never encounter this case; if we do, it means that
-        // we've dispatched an action at runtime with a shape that we haven't
-        // described in the AccessibleFormAction, which should raise an error
-        // at compile time.
-        //
-        // To help the compiler enforce this envariant, we specify that missingCase
-        // has the "never" type, which will cause a compiler error if we add a type
-        // to the AccessibleFormAction that we don't handle in the switch statements
-        // above.
-        const missingCase: never = action;
-        throw new Error(
-          `Our reducer is missing ${JSON.stringify(missingCase, null, 2)}`
-        );
-      }
+      });
     }
-  });
+    case "HYDRATE_STORE": {
+      return action.payload;
+    }
+    case "SET_ANNOTATION_TYPE": {
+      return produceWithUndo(previous, (draft) => {
+        const annotation = draft.annotations[action.payload.id];
+        annotation.type = action.payload.type;
+        return;
+      });
+    }
+    case "UNDO": {
+      const tmp = applyPatches(
+        previous,
+        previous.versions[previous.currentVersion].undo
+      );
+      return produce(tmp, (draft) => {
+        draft.canUndo = Boolean(draft.versions[draft.currentVersion - 1]);
+        draft.canRedo = true;
+        draft.currentVersion -= 1;
+        return;
+      });
+    }
+    case "REDO": {
+      const tmp = applyPatches(
+        previous,
+        previous.versions[previous.currentVersion + 1].redo
+      );
+      return produce(tmp, (draft) => {
+        draft.canUndo = true;
+        draft.canRedo = Boolean(previous.versions[draft.currentVersion + 2]);
+        draft.currentVersion += 1;
+        return;
+      });
+    }
+  }
 };
 
 //  ____                 _   ____          _
