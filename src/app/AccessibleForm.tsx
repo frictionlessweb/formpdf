@@ -62,7 +62,7 @@ export type Annotation = Bounds & {
 // An accessible form puts together all of the state described above into a
 // coherent data structure that we manipulate throughout the application.
 
-export type TOOL = "CREATE" | "RESIZE" | "MOVE" | "DELETE" | "SELECT";
+export type TOOL = "CREATE" | "SELECT";
 
 // What are the changes that we care about?
 interface Changes {
@@ -119,7 +119,7 @@ type AccessibleFormAction =
   | { type: "CHANGE_PAGE"; payload: number }
   | { type: "CHANGE_TOOL"; payload: TOOL }
   | { type: "CREATE_ANNOTATION"; payload: Annotation }
-  | { type: "DELETE_ANNOTATION"; payload: AnnotationId }
+  | { type: "DELETE_ANNOTATION"; payload: Array<AnnotationId> }
   | {
       type: "MOVE_ANNOTATION";
       payload: { id: AnnotationId; x: number; y: number };
@@ -151,7 +151,7 @@ type AccessibleFormAction =
     }
   | {
       type: "SET_ANNOTATION_TYPE";
-      payload: { id: AnnotationId; type: FIELD_TYPE };
+      payload: { ids: Array<AnnotationId>; type: FIELD_TYPE };
     }
   | {
       type: "UNDO";
@@ -170,7 +170,7 @@ type AccessibleFormAction =
 // we can just mutate the draft state to look the way we'd like, and immer will
 // handle making copies of everything.
 
-const MAX_VERSION = 3;
+const MAX_VERSION = 10;
 
 type Producer = (draft: AccessibleForm) => void;
 
@@ -205,7 +205,17 @@ export const reduceAccessibleForm = (
     }
     case "CHANGE_ZOOM": {
       return produce(previous, (draft) => {
+        const previousZoom = draft.zoom;
         draft.zoom = action.payload;
+        const annotationIds = Object.keys(draft.annotations);
+        const scale = action.payload / previousZoom;
+        for (const annotationId of annotationIds) {
+          const annotation = draft.annotations[annotationId];
+          annotation.left = scale * annotation.left;
+          annotation.top = scale * annotation.top;
+          annotation.height = scale * annotation.height;
+          annotation.width = scale * annotation.width;
+        }
         return;
       });
     }
@@ -228,7 +238,7 @@ export const reduceAccessibleForm = (
       });
     }
     case "MOVE_ANNOTATION": {
-      return produceWithUndo(previous, (draft) => {
+      return produce(previous, (draft) => {
         const annotation = draft.annotations[action.payload.id];
         annotation.left = action.payload.x;
         annotation.top = action.payload.y;
@@ -236,7 +246,7 @@ export const reduceAccessibleForm = (
       });
     }
     case "RESIZE_ANNOTATION": {
-      return produceWithUndo(previous, (draft) => {
+      return produce(previous, (draft) => {
         const annotation = draft.annotations[action.payload.id];
         annotation.width = action.payload.width;
         annotation.height = action.payload.height;
@@ -247,7 +257,9 @@ export const reduceAccessibleForm = (
     }
     case "DELETE_ANNOTATION": {
       return produceWithUndo(previous, (draft) => {
-        delete draft.annotations[action.payload];
+        action.payload.forEach((id) => {
+          delete draft.annotations[id];
+        });
         return;
       });
     }
@@ -274,8 +286,10 @@ export const reduceAccessibleForm = (
     }
     case "SET_ANNOTATION_TYPE": {
       return produceWithUndo(previous, (draft) => {
-        const annotation = draft.annotations[action.payload.id];
-        annotation.type = action.payload.type;
+        action.payload.ids.forEach((id) => {
+          const annotation = draft.annotations[id];
+          annotation.type = action.payload.type;
+        });
         return;
       });
     }
