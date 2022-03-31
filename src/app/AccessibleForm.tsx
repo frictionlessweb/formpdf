@@ -228,7 +228,7 @@ export const reduceAccessibleForm = (
       });
     }
     case "MOVE_ANNOTATION": {
-      return produceWithUndo(previous, (draft) => {
+      return produce(previous, (draft) => {
         const annotation = draft.annotations[action.payload.id];
         annotation.left = action.payload.x;
         annotation.top = action.payload.y;
@@ -236,7 +236,7 @@ export const reduceAccessibleForm = (
       });
     }
     case "RESIZE_ANNOTATION": {
-      return produceWithUndo(previous, (draft) => {
+      return produce(previous, (draft) => {
         const annotation = draft.annotations[action.payload.id];
         annotation.width = action.payload.width;
         annotation.height = action.payload.height;
