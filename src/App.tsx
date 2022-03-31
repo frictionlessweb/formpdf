@@ -2,6 +2,7 @@
 import Box from "@mui/material/Box";
 import Heading from "./app/Heading";
 import PDF from "./app/PDF";
+import Zoom from "./app/Zoom";
 import ToolSelect from "./app/ToolSelect";
 import { useSaveState } from "./app/utils";
 
@@ -21,6 +22,7 @@ const App = () => {
         <PDF width={1000} height={550} url="/sample_form.pdf" />
         <div css={{ width: "180px", paddingX: "16px" }} />
       </Box>
+      <Zoom />
     </Box>
   );
 };
