@@ -167,19 +167,8 @@ const Annotation: React.FC<AnnotationProps> = (props) => {
         <TranslucentBox
           type={type}
           nodeRef={ref}
-          css={{ cursor: "inherit", ...css }}>
-          <FieldLayerActionMenu
-            onDelete={() => {
-              dispatch({ type: "DELETE_ANNOTATION", payload: props.id });
-            }}
-            onFieldTypeChange={(value) => {
-              dispatch({
-                type: "SET_ANNOTATION_TYPE",
-                payload: { id: props.id, type: value },
-              });
-            }}
-          />
-        </TranslucentBox>
+          css={{ cursor: "inherit", ...css }}
+        />
       );
     }
     case "SELECT": {
@@ -197,13 +186,17 @@ const Annotation: React.FC<AnnotationProps> = (props) => {
             y: props.top + MYSTERIOUS_RND_OFFSET,
           }}
           size={{ height: props.height, width: props.width }}
-          onClick={(e: any) => {
+          onClick={(e: React.MouseEvent<HTMLElement>) => {
+            e.stopPropagation();
+            const shiftNotPressed = !e.shiftKey;
+            if (shiftNotPressed) {
+              dispatch({ type: "DESELECT_ALL_ANNOTATION" });
+            }
             if (isSelected) {
               dispatch({ type: "DESELECT_ANNOTATION", payload: props.id });
             } else {
               dispatch({ type: "SELECT_ANNOTATION", payload: props.id });
             }
-            e.stopPropagation();
           }}
           css={{
             ...css,
@@ -231,17 +224,20 @@ const Annotation: React.FC<AnnotationProps> = (props) => {
               },
             });
           }}>
-          <FieldLayerActionMenu
-            onDelete={() => {
-              dispatch({ type: "DELETE_ANNOTATION", payload: props.id });
-            }}
-            onFieldTypeChange={(value) => {
-              dispatch({
-                type: "SET_ANNOTATION_TYPE",
-                payload: { id: props.id, type: value },
-              });
-            }}
-          />
+          {props.type}
+          {selectedAnnotations[props.id] && (
+            <FieldLayerActionMenu
+              onDelete={() => {
+                dispatch({ type: "DELETE_ANNOTATION", payload: props.id });
+              }}
+              onFieldTypeChange={(value) => {
+                dispatch({
+                  type: "SET_ANNOTATION_TYPE",
+                  payload: { id: props.id, type: value },
+                });
+              }}
+            />
+          )}
         </Rnd>
       );
     }
