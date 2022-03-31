@@ -110,11 +110,9 @@ const useFetchPDFUI = (url: string): FetchingPdf => {
       if (!canvasContext) return;
 
       if (renderingRef.current) {
-        // If we're trying to render something else, wait for it to finish, and
-        // then continue. This is especially nice during development, since it
-        // means that we can edit the external state of this component without
-        // triggering an error.
-        await renderingRef.current?.promise;
+        // If we're trying to render something else, prevent it from finishing,
+        // then continue.
+        renderingRef.current?.cancel();
       }
 
       // By default, PDFUIJS will render an extremely blurry PDFUI, so we need to set
