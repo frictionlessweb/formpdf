@@ -142,7 +142,7 @@ describe("Our form reducer", () => {
     });
     const deleted = reduce(created, {
       type: "DELETE_ANNOTATION",
-      payload: "1",
+      payload: ["1"],
     });
     expect(deleted.annotations["1"]).toBe(undefined);
   });
@@ -324,7 +324,7 @@ describe("Our form reducer", () => {
     const changed = reduce(created, {
       type: "SET_ANNOTATION_TYPE",
       payload: {
-        id: "1",
+        ids: ["1"],
         type: "CHECKBOX",
       },
     });

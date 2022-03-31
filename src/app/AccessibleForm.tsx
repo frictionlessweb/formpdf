@@ -119,7 +119,7 @@ type AccessibleFormAction =
   | { type: "CHANGE_PAGE"; payload: number }
   | { type: "CHANGE_TOOL"; payload: TOOL }
   | { type: "CREATE_ANNOTATION"; payload: Annotation }
-  | { type: "DELETE_ANNOTATION"; payload: AnnotationId }
+  | { type: "DELETE_ANNOTATION"; payload: Array<AnnotationId> }
   | {
       type: "MOVE_ANNOTATION";
       payload: { id: AnnotationId; x: number; y: number };
@@ -151,7 +151,7 @@ type AccessibleFormAction =
     }
   | {
       type: "SET_ANNOTATION_TYPE";
-      payload: { id: AnnotationId; type: FIELD_TYPE };
+      payload: { ids: Array<AnnotationId>; type: FIELD_TYPE };
     }
   | {
       type: "UNDO";
@@ -257,7 +257,9 @@ export const reduceAccessibleForm = (
     }
     case "DELETE_ANNOTATION": {
       return produceWithUndo(previous, (draft) => {
-        delete draft.annotations[action.payload];
+        action.payload.forEach((id) => {
+          delete draft.annotations[id];
+        });
         return;
       });
     }
@@ -284,8 +286,10 @@ export const reduceAccessibleForm = (
     }
     case "SET_ANNOTATION_TYPE": {
       return produceWithUndo(previous, (draft) => {
-        const annotation = draft.annotations[action.payload.id];
-        annotation.type = action.payload.type;
+        action.payload.ids.forEach((id) => {
+          const annotation = draft.annotations[id];
+          annotation.type = action.payload.type;
+        });
         return;
       });
     }

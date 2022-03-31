@@ -173,6 +173,9 @@ const Annotation: React.FC<AnnotationProps> = (props) => {
     }
     case "SELECT": {
       const isSelected = Boolean(selectedAnnotations[props.id]);
+      // When multiple selections are made, we want to show action menu on
+      // the annotation which was selected first from the set.
+      const isFirstSelection = Object.keys(selectedAnnotations)[0] === props.id;
       return (
         <Rnd
           allowAnyClick
@@ -225,15 +228,21 @@ const Annotation: React.FC<AnnotationProps> = (props) => {
             });
           }}>
           {props.type}
-          {selectedAnnotations[props.id] && (
+          {isFirstSelection && (
             <FieldLayerActionMenu
               onDelete={() => {
-                dispatch({ type: "DELETE_ANNOTATION", payload: props.id });
+                dispatch({
+                  type: "DELETE_ANNOTATION",
+                  payload: Object.keys(selectedAnnotations),
+                });
               }}
               onFieldTypeChange={(value) => {
                 dispatch({
                   type: "SET_ANNOTATION_TYPE",
-                  payload: { id: props.id, type: value },
+                  payload: {
+                    ids: Object.keys(selectedAnnotations),
+                    type: value,
+                  },
                 });
               }}
             />
