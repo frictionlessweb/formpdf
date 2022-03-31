@@ -8,24 +8,6 @@ import ZoomInIcon from "@mui/icons-material/ZoomIn";
 
 interface ZoomProps {}
 
-// We keep the Zoom at a multiple of 0.5 - 1.5 internally, but
-// the UI shows 50 - 150%. Rather than worry about problems with
-// floating point math, we just store all possible values in a
-// dict.
-const ZOOM_VALUE_MAP = {
-  50: 0.5,
-  60: 0.6,
-  70: 0.7,
-  80: 0.8,
-  90: 0.9,
-  100: 1,
-  110: 1.1,
-  120: 1.2,
-  130: 1.3,
-  140: 1.4,
-  150: 1.5,
-};
-
 const Zoom: React.FC<ZoomProps> = () => {
   const zoom = useSelector((state) => state.zoom);
   const dispatch = useDispatch();
@@ -45,8 +27,7 @@ const Zoom: React.FC<ZoomProps> = () => {
           }
           dispatch({
             type: "CHANGE_ZOOM",
-            // Floating point math...
-            payload: ZOOM_VALUE_MAP[value as keyof typeof ZOOM_VALUE_MAP],
+            payload: value / 100,
           });
         }}
         aria-label="Temperature"
