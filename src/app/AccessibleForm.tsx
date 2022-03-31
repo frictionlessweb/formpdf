@@ -205,7 +205,17 @@ export const reduceAccessibleForm = (
     }
     case "CHANGE_ZOOM": {
       return produce(previous, (draft) => {
+        const previousZoom = draft.zoom;
         draft.zoom = action.payload;
+        const annotationIds = Object.keys(draft.annotations);
+        const scale = action.payload / previousZoom;
+        for (const annotationId of annotationIds) {
+          const annotation = draft.annotations[annotationId];
+          annotation.left = scale * annotation.left;
+          annotation.top = scale * annotation.top;
+          annotation.height = scale * annotation.height;
+          annotation.width = scale * annotation.width;
+        }
         return;
       });
     }

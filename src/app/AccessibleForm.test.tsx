@@ -16,6 +16,27 @@ describe("Our form reducer", () => {
     const res = reduce(init, { type: "CHANGE_ZOOM", payload: 0.2 });
     expect(res.zoom).toEqual(0.2);
   });
+  test("Zoom changes the annotation sizes appropriately", () => {
+    const annotation = {
+      id: "1",
+      backgroundColor: "lightpink",
+      type: "TEXTBOX",
+      height: 10,
+      width: 10,
+      top: 5,
+      left: 5,
+      border: "pink",
+    } as const;
+    const created = reduce(init, {
+      type: "CREATE_ANNOTATION",
+      payload: annotation,
+    });
+    const withAnnotation = reduce(created, { type: "CHANGE_ZOOM", payload: 2 });
+    expect(withAnnotation.annotations["1"].height).toEqual(20);
+    expect(withAnnotation.annotations["1"].width).toEqual(20);
+    expect(withAnnotation.annotations["1"].top).toEqual(10);
+    expect(withAnnotation.annotations["1"].left).toEqual(10);
+  });
   test("We can change the active tool", () => {
     const res = reduce(init, { type: "CHANGE_TOOL", payload: "SELECT" });
     expect(res.tool).toEqual("SELECT");
