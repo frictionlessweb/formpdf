@@ -38,6 +38,15 @@ describe("Our form reducer", () => {
     expect(withAnnotation.annotations["1"].top).toEqual(10);
     expect(withAnnotation.annotations["1"].left).toEqual(10);
   });
+  test("Zoom changes the token sizes appropriately", () => {
+    const res = reduce(init, { type: "CHANGE_ZOOM", payload: 2 });
+    expect(res.zoom).toEqual(2);
+    expect(res.tokens[0].page.height).toBe(init.tokens[0].page.height * 2);
+    expect(res.tokens[0].page.width).toBe(init.tokens[0].page.width * 2);
+    expect(res.tokens[0].tokens[0].width).toBe(
+      init.tokens[0].tokens[0].width * 2
+    );
+  });
   test("We can change the active tool", () => {
     const res = reduce(init, { type: "CHANGE_TOOL", payload: "SELECT" });
     expect(res.tool).toEqual("SELECT");

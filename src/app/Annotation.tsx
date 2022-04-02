@@ -3,10 +3,10 @@ import React from "react";
 import { CSSObject } from "@emotion/react";
 import {
   Bounds,
+  Token,
   Annotation as AnnotationStatic,
   useDispatch,
   useSelector,
-  FIELD_TYPE,
 } from "./AccessibleForm";
 import { FieldLayerActionMenu } from "../components/ActionMenu";
 import { Rnd } from "react-rnd";
@@ -15,7 +15,6 @@ type TranslucentBoxProps = React.DetailedHTMLProps<
   React.HTMLAttributes<HTMLDivElement>,
   HTMLDivElement
 > & {
-  type: FIELD_TYPE;
   css: CSSObject;
   nodeRef?: React.MutableRefObject<HTMLDivElement | null>;
   children?: React.ReactNode;
@@ -23,7 +22,7 @@ type TranslucentBoxProps = React.DetailedHTMLProps<
 
 // FIXME: Why are we not using default Props instead of using placeholders such as NO_OP.
 export const TranslucentBox: React.FC<TranslucentBoxProps> = (props) => {
-  const { css, nodeRef, type, children, ...divProps } = props;
+  const { css, nodeRef, children, ...divProps } = props;
   return (
     <div
       ref={nodeRef}
@@ -35,7 +34,6 @@ export const TranslucentBox: React.FC<TranslucentBoxProps> = (props) => {
         // recommeded to use rgba(0,0,0,0.3) for the background color.
         backgroundColor: props?.css?.backgroundColor,
       }}>
-      {type}
       {children}
     </div>
   );
@@ -135,6 +133,74 @@ export const useCreationBounds = () => {
   return { div, bounds, resetBounds, updateBounds, createBounds };
 };
 
+interface AnnotationBeingCreatedProps {
+  // What are the bounds of the box that's being created?
+  creationBounds: CreationBounds | null;
+  // What should we do when we press the mouse down?
+  onMouseDown: React.MouseEventHandler;
+  // What should we do when we unpress the mouse (release a click)?
+  onMouseUp: React.MouseEventHandler;
+  // What should we do when we move the mouse?
+  onMouseMove: React.MouseEventHandler;
+}
+
+export const filterTokensToDisplay = (
+  realBounds: Bounds,
+  tokens: Token[] | undefined
+) => {
+  if (!tokens) return [];
+  return tokens.filter((token) => {
+    return (
+      token.top <= realBounds.top &&
+      token.left <= realBounds.left &&
+      token.width <= realBounds.width &&
+      token.height <= realBounds.height
+    );
+  });
+};
+
+export const AnnotationBeingCreated: React.FC<AnnotationBeingCreatedProps> = (
+  props
+) => {
+  const { creationBounds, ...handlers } = props;
+  const tokens = useSelector((state) => {
+    const { page, tokens: allTokens } = state;
+    return allTokens.find((aToken) => aToken.page.index === page);
+  });
+  console.log(tokens);
+  if (!creationBounds) return null;
+  const realBounds = mapCreationBoundsToFinalBounds(creationBounds);
+  const displayTokens = filterTokensToDisplay(realBounds, tokens?.tokens);
+  return (
+    // FIXME: TEXTBOX will not be default. We will use the last created field type as current value.
+    <TranslucentBox
+      css={{
+        position: "absolute",
+        backgroundColor: "rgb(144, 238, 144, 0.3)",
+        border: "3px solid green",
+        ...mapCreationBoundsToCss(creationBounds),
+      }}
+      {...handlers}>
+      {displayTokens.map((token) => {
+        return (
+          <TranslucentBox
+            key={token.top * token.left}
+            css={{
+              position: "absolute",
+              backgroundColor: "rgb(144, 238, 144, 0.3)",
+              border: "3px solid blue",
+              top: token.top,
+              left: token.left,
+              width: token.width,
+              height: token.height,
+            }}
+          />
+        );
+      })}
+    </TranslucentBox>
+  );
+};
+
 //     _                      _        _   _
 //    / \   _ __  _ __   ___ | |_ __ _| |_(_) ___  _ __
 //   / _ \ | '_ \| '_ \ / _ \| __/ _` | __| |/ _ \| '_ \
@@ -164,11 +230,7 @@ const Annotation: React.FC<AnnotationProps> = (props) => {
   switch (tool) {
     case "CREATE": {
       return (
-        <TranslucentBox
-          type={type}
-          nodeRef={ref}
-          css={{ cursor: "inherit", ...css }}
-        />
+        <TranslucentBox nodeRef={ref} css={{ cursor: "inherit", ...css }} />
       );
     }
     case "SELECT": {
@@ -227,7 +289,6 @@ const Annotation: React.FC<AnnotationProps> = (props) => {
               },
             });
           }}>
-          {props.type}
           {isFirstSelection && (
             <FieldLayerActionMenu
               onDelete={() => {

@@ -77,7 +77,7 @@ interface Page {
 }
 
 // A Token represents information about some piece of text in the document.
-type Token = Bounds & {
+export type Token = Bounds & {
   text: string;
 };
 
@@ -248,10 +248,20 @@ export const reduceAccessibleForm = (
         const scale = action.payload / previousZoom;
         for (const annotationId of annotationIds) {
           const annotation = draft.annotations[annotationId];
-          annotation.left = scale * annotation.left;
-          annotation.top = scale * annotation.top;
-          annotation.height = scale * annotation.height;
-          annotation.width = scale * annotation.width;
+          annotation.left *= scale;
+          annotation.top *= scale;
+          annotation.height *= scale;
+          annotation.width *= scale;
+        }
+        for (const tokenPage of draft.tokens) {
+          tokenPage.page.width *= scale;
+          tokenPage.page.height *= scale;
+          for (const token of tokenPage.tokens) {
+            token.left *= scale;
+            token.top *= scale;
+            token.height *= scale;
+            token.width *= scale;
+          }
         }
         return;
       });

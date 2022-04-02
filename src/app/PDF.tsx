@@ -16,15 +16,15 @@ import {
   PDFDocumentProxy,
   PDFPageProxy,
   RenderTask,
+  RenderingCancelledException,
 } from "pdfjs-dist";
 import Loading from "@mui/material/CircularProgress";
 import { useSelector, useDispatch } from "./AccessibleForm";
 import Annotation, {
-  TranslucentBox,
-  mapCreationBoundsToCss,
   mapCreationBoundsToFinalBounds,
   useCreationBounds,
   CreationBounds,
+  AnnotationBeingCreated,
 } from "./Annotation";
 
 //  _____    _       _     ____     _  __
@@ -102,32 +102,41 @@ const useFetchPDFUI = (url: string): FetchingPdf => {
   const renderingRef = React.useRef<RenderTask | null>(null);
   React.useEffect(() => {
     const displayPdf = async () => {
-      // If the PDFUI or the DOM isn't ready yet, just return and try again later.
-      if (!pageProxy) return;
-      const canvas = canvasRef?.current;
-      if (!canvas) return;
-      const canvasContext = canvas.getContext("2d");
-      if (!canvasContext) return;
+      try {
+        // If the PDFUI or the DOM isn't ready yet, just return and try again later.
+        if (!pageProxy) return;
+        const canvas = canvasRef?.current;
+        if (!canvas) return;
+        const canvasContext = canvas.getContext("2d");
+        if (!canvasContext) return;
 
-      if (renderingRef.current) {
-        // If we're trying to render something else, prevent it from finishing,
-        // then continue.
-        renderingRef.current?.cancel();
+        if (renderingRef.current) {
+          // If we're trying to render something else, prevent it from finishing,
+          // then continue. This will throw an exception we deliberately choose
+          // to ignore below.
+          renderingRef.current?.cancel();
+        }
+
+        // By default, PDFUIJS will render an extremely blurry PDFUI, so we need to set
+        // the viewport correctly in order to avoid an unpleasant user experience.
+        const scale = window.devicePixelRatio || 1;
+        const viewport = pageProxy.getViewport({ scale: zoom * scale });
+        canvas.width = viewport.width;
+        canvas.height = viewport.height;
+        renderingRef.current = pageProxy.render({ viewport, canvasContext });
+        await renderingRef.current.promise;
+      } catch (err) {
+        if (!(err instanceof RenderingCancelledException)) {
+          // An error that we didn't expect happened; throw it.
+          throw err;
+        }
+      } finally {
+        // Now that we've triggered a render, we've fetched everything we've needed
+        // to from the network, so we can set loading to false again. Other PDFUI
+        // operations are generally fast enough that we don't need to display a
+        // spinner.
+        setLoading(false);
       }
-
-      // By default, PDFUIJS will render an extremely blurry PDFUI, so we need to set
-      // the viewport correctly in order to avoid an unpleasant user experience.
-      const scale = window.devicePixelRatio || 1;
-      const viewport = pageProxy.getViewport({ scale: zoom * scale });
-      canvas.width = viewport.width;
-      canvas.height = viewport.height;
-      renderingRef.current = pageProxy.render({ viewport, canvasContext });
-
-      // Now that we've triggered a render, we've fetched everything we've needed
-      // to from the network, so we can set loading to false again. Other PDFUI
-      // operations are generally fast enough that we don't need to display a
-      // spinner.
-      setLoading(false);
     };
     displayPdf();
   }, [pageProxy, canvasRef, renderingRef, zoom]);
@@ -294,19 +303,10 @@ const PDFUI: React.FC<PDFUIProps> = (props) => {
         />
       ) : (
         <>
-          {creationBounds ? (
-            // FIXME: TEXTBOX will not be default. We will use the last created field type as current value.
-            <TranslucentBox
-              type="TEXTBOX"
-              css={{
-                position: "absolute",
-                backgroundColor: "rgb(144, 238, 144, 0.3)",
-                border: "3px solid green",
-                ...mapCreationBoundsToCss(creationBounds),
-              }}
-              {...handlers}
-            />
-          ) : null}
+          <AnnotationBeingCreated
+            creationBounds={creationBounds}
+            {...handlers}
+          />
           {children}
         </>
       )}
