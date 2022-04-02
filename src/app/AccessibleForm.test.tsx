@@ -1,6 +1,7 @@
 import {
   reduceAccessibleForm as reduce,
   DEFAULT_ACCESSIBLE_FORM as init,
+  PageTokens,
 } from "./AccessibleForm";
 
 describe("Our form reducer", () => {
@@ -302,6 +303,7 @@ describe("Our form reducer", () => {
       canUndo: false,
       versions: {},
       currentVersion: -1,
+      tokens: [] as PageTokens[],
     } as const;
     const res = reduce(init, { type: "HYDRATE_STORE", payload });
     expect(res).toEqual(payload);

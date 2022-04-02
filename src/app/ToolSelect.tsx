@@ -1,7 +1,13 @@
 import React from "react";
-import { useSelector, useDispatch, TOOL } from "./AccessibleForm";
+import {
+  useSelector,
+  useDispatch,
+  TOOL,
+  DEFAULT_ACCESSIBLE_FORM,
+} from "./AccessibleForm";
 import Box, { BoxProps } from "@mui/material/Box";
 import Button from "@mui/material/Button";
+import RestartAlt from "@mui/icons-material/RestartAlt";
 
 interface ToolButtonProps {
   toolName: TOOL;
@@ -23,6 +29,24 @@ const ToolButton: React.FC<ToolButtonProps> = (props) => {
   );
 };
 
+/** TODO: Once we stabalize the data model, getting rid of this button
+ * probably makes sense. Until then, we'll include it to help unblock
+ * people who want to try the app and get stuck
+ */
+
+const ResetButton = () => {
+  const dispatch = useDispatch();
+  return (
+    <Button
+      variant="contained"
+      onClick={() =>
+        dispatch({ type: "HYDRATE_STORE", payload: DEFAULT_ACCESSIBLE_FORM })
+      }>
+      <RestartAlt />
+    </Button>
+  );
+};
+
 const ToolSelect: React.FC<BoxProps> = (props) => {
   const activeTool = useSelector((state) => state.tool);
   return (
@@ -39,6 +63,7 @@ const ToolSelect: React.FC<BoxProps> = (props) => {
         src="./fieldIcon.svg"
         alt="field icon"
       />
+      <ResetButton />
     </Box>
   );
 };

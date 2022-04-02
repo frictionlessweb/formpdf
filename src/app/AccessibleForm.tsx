@@ -82,7 +82,7 @@ type Token = Bounds & {
 };
 
 // PageTokens represents the token information about a particular page.
-interface PageTokens {
+export interface PageTokens {
   page: Page;
   tokens: Token[];
 }
