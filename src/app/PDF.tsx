@@ -181,6 +181,8 @@ const NO_OP: React.MouseEventHandler = () => {};
 const useHandlers = (): Handlers => {
   const tool = useSelector((state) => state.tool);
   const dispatch = useDispatch();
+  // @ts-ignore
+  window.dispatch = dispatch;
   const {
     div: container,
     bounds: creationBounds,

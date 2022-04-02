@@ -54,39 +54,6 @@ export type Annotation = Bounds & {
   type: FIELD_TYPE;
 };
 
-//   _____     _
-//  |_   _|__ | | _____ _ __  ___
-//    | |/ _ \| |/ / _ \ '_ \/ __|
-//    | | (_) |   <  __/ | | \__ \
-//    |_|\___/|_|\_\___|_| |_|___/
-//
-// Tokens represent the elements on the PDF. Other code we don't have to
-// worry about takes care of preprocessing them into a nice format; here,
-// we use them when creating annotations to make snapping work nicely.
-
-// Page represents information about the particular part of the PDF
-// we're on.
-interface Page {
-  // How wide is the page?
-  width: number;
-  // How tall is the page?
-  height: number;
-  // Which page are we on? WARNING: This should be indexed by one, as in
-  // accordance with PDF.js!
-  index: number;
-}
-
-// A Token represents information about some piece of text in the document.
-export type Token = Bounds & {
-  text: string;
-};
-
-// PageTokens represents the token information about a particular page.
-export interface PageTokens {
-  page: Page;
-  tokens: Token[];
-}
-
 //     _                         _ _     _      _____
 //    / \   ___ ___ ___  ___ ___(_) |__ | | ___|  ___|__  _ __ _ __ ___
 //   / _ \ / __/ __/ _ \/ __/ __| | '_ \| |/ _ \ |_ / _ \| '__| '_ ` _ \
@@ -131,7 +98,7 @@ export interface AccessibleForm {
   // Can redo be performed.
   canRedo: boolean;
   // What are the tokens associated with the document?
-  tokens: PageTokens[];
+  tokens: Array<Bounds[]>;
 }
 
 export const DEFAULT_ACCESSIBLE_FORM: AccessibleForm = {
@@ -253,10 +220,8 @@ export const reduceAccessibleForm = (
           annotation.height *= scale;
           annotation.width *= scale;
         }
-        for (const tokenPage of draft.tokens) {
-          tokenPage.page.width *= scale;
-          tokenPage.page.height *= scale;
-          for (const token of tokenPage.tokens) {
+        for (const pageTokens of draft.tokens) {
+          for (const token of pageTokens) {
             token.left *= scale;
             token.top *= scale;
             token.height *= scale;

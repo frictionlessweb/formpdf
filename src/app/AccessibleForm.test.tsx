@@ -1,7 +1,7 @@
 import {
   reduceAccessibleForm as reduce,
   DEFAULT_ACCESSIBLE_FORM as init,
-  PageTokens,
+  Bounds,
 } from "./AccessibleForm";
 
 describe("Our form reducer", () => {
@@ -41,11 +41,10 @@ describe("Our form reducer", () => {
   test("Zoom changes the token sizes appropriately", () => {
     const res = reduce(init, { type: "CHANGE_ZOOM", payload: 2 });
     expect(res.zoom).toEqual(2);
-    expect(res.tokens[0].page.height).toBe(init.tokens[0].page.height * 2);
-    expect(res.tokens[0].page.width).toBe(init.tokens[0].page.width * 2);
-    expect(res.tokens[0].tokens[0].width).toBe(
-      init.tokens[0].tokens[0].width * 2
-    );
+    expect(res.tokens[0][0].height).toBe(init.tokens[0][0].height * 2);
+    expect(res.tokens[0][0].width).toBe(init.tokens[0][0].width * 2);
+    expect(res.tokens[0][0].top).toBe(init.tokens[0][0].top * 2);
+    expect(res.tokens[0][0].left).toBe(init.tokens[0][0].left * 2);
   });
   test("We can change the active tool", () => {
     const res = reduce(init, { type: "CHANGE_TOOL", payload: "SELECT" });
@@ -312,7 +311,7 @@ describe("Our form reducer", () => {
       canUndo: false,
       versions: {},
       currentVersion: -1,
-      tokens: [] as PageTokens[],
+      tokens: [] as Bounds[][],
     } as const;
     const res = reduce(init, { type: "HYDRATE_STORE", payload });
     expect(res).toEqual(payload);

@@ -3,7 +3,6 @@ import React from "react";
 import { CSSObject } from "@emotion/react";
 import {
   Bounds,
-  Token,
   Annotation as AnnotationStatic,
   useDispatch,
   useSelector,
@@ -146,7 +145,7 @@ interface AnnotationBeingCreatedProps {
 
 export const filterTokensToDisplay = (
   realBounds: Bounds,
-  tokens: Token[] | undefined
+  tokens: Bounds[] | undefined
 ) => {
   if (!tokens) return [];
   return tokens.filter((token) => {
@@ -164,13 +163,31 @@ export const AnnotationBeingCreated: React.FC<AnnotationBeingCreatedProps> = (
 ) => {
   const { creationBounds, ...handlers } = props;
   const tokens = useSelector((state) => {
-    const { page, tokens: allTokens } = state;
-    return allTokens.find((aToken) => aToken.page.index === page);
+    return state.tokens[state.page - 1];
   });
-  console.log(tokens);
-  if (!creationBounds) return null;
-  const realBounds = mapCreationBoundsToFinalBounds(creationBounds);
-  const displayTokens = filterTokensToDisplay(realBounds, tokens?.tokens);
+  if (!creationBounds)
+    return (
+      <>
+        {tokens.map((token) => {
+          return (
+            <TranslucentBox
+              key={JSON.stringify(token)}
+              css={{
+                position: "absolute",
+                backgroundColor: "rgb(144, 238, 144, 0.3)",
+                border: "1px solid blue",
+                top: token.top,
+                left: token.left,
+                width: token.width,
+                height: token.height,
+              }}
+            />
+          );
+        })}
+      </>
+    );
+  // const realBounds = mapCreationBoundsToFinalBounds(creationBounds);
+  const displayTokens: Array<any> = [];
   return (
     // FIXME: TEXTBOX will not be default. We will use the last created field type as current value.
     <TranslucentBox

@@ -1,5 +1,5 @@
 import React from "react";
-import ReactDOM from "react-dom";
+import * as ReactDOMClient from "react-dom/client";
 import reportWebVitals from "./reportWebVitals";
 import App from "./App";
 import AccessibleForm from "./app/AccessibleForm";
@@ -19,14 +19,13 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { GlobalWorkerOptions } from "pdfjs-dist";
 GlobalWorkerOptions.workerSrc = "/pdf.worker.min.js";
 
-ReactDOM.render(
+ReactDOMClient.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <CssBaseline />
     <AccessibleForm>
       <App />
     </AccessibleForm>
-  </React.StrictMode>,
-  document.getElementById("root")
+  </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function
