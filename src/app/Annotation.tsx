@@ -143,20 +143,20 @@ interface AnnotationBeingCreatedProps {
   onMouseMove: React.MouseEventHandler;
 }
 
+export const doOverlap = (boxOne: Bounds, boxTwo: Bounds): boolean => {
+  const verticallySeparate =
+    boxOne.top >= boxTwo.top + boxTwo.height ||
+    boxTwo.top >= boxOne.top + boxOne.height;
+  const horizontallySeparate =
+    boxOne.left >= boxTwo.left + boxTwo.width ||
+    boxTwo.left >= boxOne.left + boxOne.width;
+  return !verticallySeparate && !horizontallySeparate;
+};
+
 export const filterTokensToDisplay = (
   realBounds: Bounds,
   tokens: Bounds[] | undefined
-) => {
-  if (!tokens) return [];
-  return tokens.filter((token) => {
-    return (
-      token.top <= realBounds.top &&
-      token.left <= realBounds.left &&
-      token.width <= realBounds.width &&
-      token.height <= realBounds.height
-    );
-  });
-};
+) => tokens?.filter((token) => doOverlap(token, realBounds)) || [];
 
 export const AnnotationBeingCreated: React.FC<AnnotationBeingCreatedProps> = (
   props
@@ -165,39 +165,21 @@ export const AnnotationBeingCreated: React.FC<AnnotationBeingCreatedProps> = (
   const tokens = useSelector((state) => {
     return state.tokens[state.page - 1];
   });
-  if (!creationBounds)
-    return (
-      <>
-        {tokens.map((token) => {
-          return (
-            <TranslucentBox
-              key={JSON.stringify(token)}
-              css={{
-                position: "absolute",
-                backgroundColor: "rgb(144, 238, 144, 0.3)",
-                border: "1px solid blue",
-                top: token.top,
-                left: token.left,
-                width: token.width,
-                height: token.height,
-              }}
-            />
-          );
-        })}
-      </>
-    );
-  // const realBounds = mapCreationBoundsToFinalBounds(creationBounds);
-  const displayTokens: Array<any> = [];
+  if (!creationBounds) return null;
+  const realBounds = mapCreationBoundsToFinalBounds(creationBounds);
+  const displayTokens = filterTokensToDisplay(realBounds, tokens);
   return (
     // FIXME: TEXTBOX will not be default. We will use the last created field type as current value.
-    <TranslucentBox
-      css={{
-        position: "absolute",
-        backgroundColor: "rgb(144, 238, 144, 0.3)",
-        border: "3px solid green",
-        ...mapCreationBoundsToCss(creationBounds),
-      }}
-      {...handlers}>
+    <>
+      <TranslucentBox
+        css={{
+          position: "absolute",
+          backgroundColor: "rgb(144, 238, 144, 0.3)",
+          border: "3px solid green",
+          ...mapCreationBoundsToCss(creationBounds),
+        }}
+        {...handlers}
+      />
       {displayTokens.map((token) => {
         return (
           <TranslucentBox
@@ -205,7 +187,7 @@ export const AnnotationBeingCreated: React.FC<AnnotationBeingCreatedProps> = (
             css={{
               position: "absolute",
               backgroundColor: "rgb(144, 238, 144, 0.3)",
-              border: "3px solid blue",
+              border: "1px solid blue",
               top: token.top,
               left: token.left,
               width: token.width,
@@ -214,7 +196,7 @@ export const AnnotationBeingCreated: React.FC<AnnotationBeingCreatedProps> = (
           />
         );
       })}
-    </TranslucentBox>
+    </>
   );
 };
 
