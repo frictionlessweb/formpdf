@@ -13,8 +13,9 @@ import {
   TypedUseSelectorHook,
 } from "react-redux";
 import { devToolsEnhancer } from "@redux-devtools/extension";
+import TOKENS from "./tokens.json";
 
-// This is required to enable immer patches
+// This is required to enable immer patches.
 enablePatches();
 
 //     _                      _        _   _
@@ -39,7 +40,7 @@ export interface Bounds {
   height: number;
 }
 
-// What are the different types of annotation fields
+// What are the different types of annotation fields?
 export type FIELD_TYPE = "TEXTBOX" | "RADIOBOX" | "CHECKBOX";
 
 export type Annotation = Bounds & {
@@ -52,6 +53,39 @@ export type Annotation = Bounds & {
   // What is the the type of the annotation?
   type: FIELD_TYPE;
 };
+
+//   _____     _
+//  |_   _|__ | | _____ _ __  ___
+//    | |/ _ \| |/ / _ \ '_ \/ __|
+//    | | (_) |   <  __/ | | \__ \
+//    |_|\___/|_|\_\___|_| |_|___/
+//
+// Tokens represent the elements on the PDF. Other code we don't have to
+// worry about takes care of preprocessing them into a nice format; here,
+// we use them when creating annotations to make snapping work nicely.
+
+// Page represents information about the particular part of the PDF
+// we're on.
+interface Page {
+  // How wide is the page?
+  width: number;
+  // How tall is the page?
+  height: number;
+  // Which page are we on? WARNING: This should be indexed by one, as in
+  // accordance with PDF.js!
+  index: number;
+}
+
+// A Token represents information about some piece of text in the document.
+type Token = Bounds & {
+  text: string;
+};
+
+// PageTokens represents the token information about a particular page.
+interface PageTokens {
+  page: Page;
+  tokens: Token[];
+}
 
 //     _                         _ _     _      _____
 //    / \   ___ ___ ___  ___ ___(_) |__ | | ___|  ___|__  _ __ _ __ ___
@@ -96,6 +130,8 @@ export interface AccessibleForm {
   canUndo: boolean;
   // Can redo be performed.
   canRedo: boolean;
+  // What are the tokens associated with the document?
+  tokens: PageTokens[];
 }
 
 export const DEFAULT_ACCESSIBLE_FORM: AccessibleForm = {
@@ -109,6 +145,7 @@ export const DEFAULT_ACCESSIBLE_FORM: AccessibleForm = {
   canUndo: false,
   currentVersion: -1,
   versions: {},
+  tokens: TOKENS,
 };
 
 // AccessibleFormAction describes every important possible action that a user
