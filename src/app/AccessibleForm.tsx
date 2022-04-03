@@ -204,23 +204,23 @@ const produceWithUndo = (previous: AccessibleForm, producer: Producer) => {
 
 // See https://github.com/allenai/pawls/blob/3cc57533248e7ca787b71cafcca5fb66e96b2166/ui/src/context/PDFStore.ts#L31
 const boxContaining = (tokens: Bounds[], padding: number): Bounds => {
-  const box = {
-    left: Number.MAX_VALUE,
-    top: Number.MAX_VALUE,
-    right: 0,
-    bottom: 0,
-  };
+  let left = Number.MAX_VALUE;
+  let top = Number.MAX_VALUE;
+  let right = 0;
+  let bottom = 0;
   for (const token of tokens) {
-    box.top = Math.min(token.top, box.top);
-    box.left = Math.min(token.left, box.left);
-    box.right = Math.max(token.left + token.width, box.right);
-    box.bottom = Math.max(token.top + token.height, box.bottom);
+    top = Math.min(token.top, top);
+    left = Math.min(token.left, left);
+    right = Math.max(token.left + token.width, right);
+    bottom = Math.max(token.top + token.height, bottom);
   }
+  const width = right - left;
+  const height = bottom - top;
   return {
-    top: box.top,
-    left: box.left,
-    height: box.bottom - box.top,
-    width: box.right - box.left,
+    top: top - padding,
+    left: left - padding,
+    width: width + padding,
+    height: height + padding,
   };
 };
 
