@@ -23,9 +23,8 @@ import json
 # That will emit a JSON with the relevant token information which you can
 # copy paste with the relevant UI code.
 
-# Magic number that controls how good the generated tokens are.
-# 145 produces acceptable output, but you will probably need to
-# fiddle with it until you're happy with the results.
+# Configure the scale of the image inside your PDF. You may need to adjust
+# this number to get good results.
 DPI = 145
 
 images = convert_from_path("plumb.pdf", DPI)
@@ -48,6 +47,5 @@ for i, image in enumerate(images):
     ]
     all_tokens.append(tokens)
 
-# print(all_tokens[0][0])
 with open("tokens.json", "w", encoding="utf-8") as f:
     json.dump(all_tokens, f, ensure_ascii=False, indent=4)
