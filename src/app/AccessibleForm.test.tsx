@@ -2,6 +2,7 @@ import {
   reduceAccessibleForm as reduce,
   DEFAULT_ACCESSIBLE_FORM as init,
   Bounds,
+  FIELD_TYPE,
 } from "./AccessibleForm";
 
 describe("Our form reducer", () => {
@@ -70,6 +71,25 @@ describe("Our form reducer", () => {
       payload,
     });
     expect(res.annotations["1"]).toEqual(payload);
+  });
+  test("We can create an annotation from one token", () => {
+    const payload = {
+      tokens: [{ height: 10, width: 10, top: 0, left: 0 }],
+      ui: {
+        type: "TEXTBOX" as FIELD_TYPE,
+        id: "1",
+        backgroundColor: "red",
+        border: "2px solid blue",
+      },
+    };
+    const res = reduce(init, {
+      type: "CREATE_ANNOTATION_FROM_TOKENS",
+      payload,
+    });
+    expect(res.annotations["1"].height).toBe(10);
+    expect(res.annotations["1"].width).toBe(10);
+    expect(res.annotations["1"].top).toBe(0);
+    expect(res.annotations["1"].left).toBe(0);
   });
   test("Adding an annotation does the right thing with undo/redo", () => {
     const payload = {

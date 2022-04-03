@@ -43,7 +43,7 @@ export interface Bounds {
 // What are the different types of annotation fields?
 export type FIELD_TYPE = "TEXTBOX" | "RADIOBOX" | "CHECKBOX";
 
-export type Annotation = Bounds & {
+export type AnnotationUIState = {
   // What is the ID of the annotation -- how do we uniquely identify it?
   id: AnnotationId;
   // What is the color of the annotation?
@@ -53,6 +53,8 @@ export type Annotation = Bounds & {
   // What is the the type of the annotation?
   type: FIELD_TYPE;
 };
+
+export type Annotation = Bounds & AnnotationUIState;
 
 //     _                         _ _     _      _____
 //    / \   ___ ___ ___  ___ ___(_) |__ | | ___|  ___|__  _ __ _ __ ___
@@ -123,6 +125,10 @@ type AccessibleFormAction =
   | { type: "CHANGE_PAGE"; payload: number }
   | { type: "CHANGE_TOOL"; payload: TOOL }
   | { type: "CREATE_ANNOTATION"; payload: Annotation }
+  | {
+      type: "CREATE_ANNOTATION_FROM_TOKENS";
+      payload: { ui: AnnotationUIState; tokens: Bounds[] };
+    }
   | { type: "DELETE_ANNOTATION"; payload: Array<AnnotationId> }
   | {
       type: "MOVE_ANNOTATION";
@@ -196,6 +202,28 @@ const produceWithUndo = (previous: AccessibleForm, producer: Producer) => {
   });
 };
 
+// See https://github.com/allenai/pawls/blob/3cc57533248e7ca787b71cafcca5fb66e96b2166/ui/src/context/PDFStore.ts#L31
+const boxContaining = (tokens: Bounds[], padding: number): Bounds => {
+  const box = {
+    left: Number.MAX_VALUE,
+    top: Number.MAX_VALUE,
+    right: 0,
+    bottom: 0,
+  };
+  for (const token of tokens) {
+    box.top = Math.min(token.top, box.top);
+    box.left = Math.min(token.left, box.left);
+    box.right = Math.max(token.left + token.width, box.right);
+    box.bottom = Math.max(token.top + token.height, box.bottom);
+  }
+  return {
+    top: box.top,
+    left: box.left,
+    height: box.bottom - box.top,
+    width: box.right - box.left,
+  };
+};
+
 export const reduceAccessibleForm = (
   previous: AccessibleForm | undefined,
   action: AccessibleFormAction
@@ -247,6 +275,14 @@ export const reduceAccessibleForm = (
       return produceWithUndo(previous, (draft) => {
         draft.annotations[action.payload.id] = action.payload;
         return;
+      });
+    }
+    case "CREATE_ANNOTATION_FROM_TOKENS": {
+      return produce(previous, (draft) => {
+        draft.annotations[action.payload.ui.id] = {
+          ...action.payload.ui,
+          ...boxContaining(action.payload.tokens, 3),
+        };
       });
     }
     case "MOVE_ANNOTATION": {

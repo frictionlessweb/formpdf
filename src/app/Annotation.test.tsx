@@ -1,6 +1,7 @@
 import Annotation, {
   mapCreationBoundsToCss,
   mapCreationBoundsToFinalBounds,
+  doOverlap,
 } from "./Annotation";
 import { render } from "../testUtils";
 
@@ -18,6 +19,25 @@ describe("Our Annotation component", () => {
         id="234"
       />
     );
+  });
+});
+
+describe("doOverlap", () => {
+  test("Is true when they do overlap", () => {
+    expect(
+      doOverlap(
+        { left: 0, top: 0, width: 10, height: 10 },
+        { left: 0, top: 0, width: 5, height: 5 }
+      )
+    ).toBeTruthy();
+  });
+  test("Is false when they don't overlap", () => {
+    expect(
+      doOverlap(
+        { left: 0, top: 0, width: 10, height: 10 },
+        { left: 100, top: 100, width: 10, height: 10 }
+      )
+    ).toBeFalsy();
   });
 });
 

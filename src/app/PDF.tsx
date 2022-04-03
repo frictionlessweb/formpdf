@@ -22,8 +22,8 @@ import Loading from "@mui/material/CircularProgress";
 import { useSelector, useDispatch } from "./AccessibleForm";
 import Annotation, {
   mapCreationBoundsToFinalBounds,
-  useCreationBounds,
-  CreationBounds,
+  useCreateAnnotation,
+  CreationState,
   AnnotationBeingCreated,
 } from "./Annotation";
 
@@ -163,7 +163,7 @@ interface Handlers {
   // What shape should the cursor be?
   cursor: string;
   // Are we in the middle of highlighting something? If so, what is it?
-  creationBounds: null | CreationBounds;
+  creationState: null | CreationState;
   // What should we do when our mouse is clicked over a region in the container div?
   onClick: React.MouseEventHandler;
   // What should we do when our mouse moves over a region of the Canvas?
@@ -181,45 +181,45 @@ const NO_OP: React.MouseEventHandler = () => {};
 const useHandlers = (): Handlers => {
   const tool = useSelector((state) => state.tool);
   const dispatch = useDispatch();
-  // @ts-ignore
-  window.dispatch = dispatch;
   const {
     div: container,
-    bounds: creationBounds,
-    createBounds,
-    resetBounds,
-    updateBounds,
-  } = useCreationBounds();
+    creationState,
+    newCreationBounds,
+    resetCreationState,
+    updateCreationState,
+  } = useCreateAnnotation();
   switch (tool) {
     case "CREATE": {
       return {
         cursor: "crosshair",
-        creationBounds,
+        creationState,
         container,
         onClick: NO_OP,
-        onMouseDown: createBounds,
-        onMouseMove: updateBounds,
-        onMouseLeave: resetBounds,
+        onMouseDown: newCreationBounds,
+        onMouseMove: updateCreationState,
+        onMouseLeave: resetCreationState,
         onMouseUp: (_) => {
-          if (!creationBounds) return;
+          if (!creationState) return;
           dispatch({
-            type: "CREATE_ANNOTATION",
+            type: "CREATE_ANNOTATION_FROM_TOKENS",
             payload: {
-              id: window.crypto.randomUUID(),
-              backgroundColor: "rgb(255, 182, 193, 0.3)",
-              border: "3px solid red",
-              type: "TEXTBOX",
-              ...mapCreationBoundsToFinalBounds(creationBounds),
+              ui: {
+                id: window.crypto.randomUUID(),
+                backgroundColor: "rgb(255, 182, 193, 0.3)",
+                border: "3px solid red",
+                type: "TEXTBOX",
+              },
+              tokens: creationState.tokens,
             },
           });
-          resetBounds();
+          resetCreationState();
         },
       };
     }
     case "SELECT": {
       return {
         cursor: "auto",
-        creationBounds: null,
+        creationState,
         container,
         onMouseMove: NO_OP,
         onMouseUp: NO_OP,
@@ -235,7 +235,7 @@ const useHandlers = (): Handlers => {
     default:
       return {
         cursor: "auto",
-        creationBounds: null,
+        creationState,
         container,
         onClick: NO_OP,
         onMouseMove: NO_OP,
@@ -273,7 +273,7 @@ const PDFUI: React.FC<PDFUIProps> = (props) => {
   const {
     cursor,
     container,
-    creationBounds,
+    creationState,
     onMouseLeave,
     onClick,
     ...handlers
@@ -305,10 +305,7 @@ const PDFUI: React.FC<PDFUIProps> = (props) => {
         />
       ) : (
         <>
-          <AnnotationBeingCreated
-            creationBounds={creationBounds}
-            {...handlers}
-          />
+          <AnnotationBeingCreated creationState={creationState} {...handlers} />
           {children}
         </>
       )}
