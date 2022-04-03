@@ -21,7 +21,6 @@ import {
 import Loading from "@mui/material/CircularProgress";
 import { useSelector, useDispatch } from "./AccessibleForm";
 import Annotation, {
-  mapCreationBoundsToFinalBounds,
   useCreateAnnotation,
   CreationState,
   AnnotationBeingCreated,

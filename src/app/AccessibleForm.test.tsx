@@ -72,9 +72,9 @@ describe("Our form reducer", () => {
     });
     expect(res.annotations["1"]).toEqual(payload);
   });
-  test("We can create an annotation from one token", () => {
+  test("We can create an annotation from a token", () => {
     const payload = {
-      tokens: [{ height: 10, width: 10, top: 0, left: 0 }],
+      tokens: [{ height: 10, width: 10, top: 3, left: 3 }],
       ui: {
         type: "TEXTBOX" as FIELD_TYPE,
         id: "1",
@@ -86,8 +86,8 @@ describe("Our form reducer", () => {
       type: "CREATE_ANNOTATION_FROM_TOKENS",
       payload,
     });
-    expect(res.annotations["1"].height).toBe(10);
-    expect(res.annotations["1"].width).toBe(10);
+    expect(res.annotations["1"].height).toBe(13);
+    expect(res.annotations["1"].width).toBe(13);
     expect(res.annotations["1"].top).toBe(0);
     expect(res.annotations["1"].left).toBe(0);
   });
