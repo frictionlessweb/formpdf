@@ -47,5 +47,5 @@ for i, image in enumerate(images):
     ]
     all_tokens.append(tokens)
 
-with open("tokens.json", "w", encoding="utf-8") as f:
+with open("../tokens.json", "w", encoding="utf-8") as f:
     json.dump(all_tokens, f, ensure_ascii=False, indent=4)
