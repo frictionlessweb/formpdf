@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import reportWebVitals from "./reportWebVitals";
 import App from "./App";
-import AccessibleForm from "./app/AccessibleForm";
+import StoreProvider from "./app/StoreProvider";
 
 // Font imports: When we compile the project, React will copy the right files
 // out of node_modules and generate an HTML file that links to the fonts.
@@ -22,9 +22,9 @@ GlobalWorkerOptions.workerSrc = "/pdf.worker.min.js";
 ReactDOM.render(
   <React.StrictMode>
     <CssBaseline />
-    <AccessibleForm>
+    <StoreProvider>
       <App />
-    </AccessibleForm>
+    </StoreProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );

@@ -4,7 +4,7 @@ import React from "react";
 import color from "./color";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
-import { FIELD_TYPE } from "../app/AccessibleForm";
+import { FIELD_TYPE } from "../app/StoreProvider";
 
 interface ActionMenuProps {
   // Other components to render inside the ActionMenu div.

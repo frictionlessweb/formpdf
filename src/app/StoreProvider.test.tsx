@@ -3,7 +3,7 @@ import {
   DEFAULT_ACCESSIBLE_FORM as init,
   Bounds,
   FIELD_TYPE,
-} from "./AccessibleForm";
+} from "./StoreProvider";
 
 describe("Our form reducer", () => {
   test("Returns the default initial state if it didn't previously exist", () => {

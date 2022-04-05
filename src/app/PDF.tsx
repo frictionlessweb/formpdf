@@ -19,11 +19,12 @@ import {
   RenderingCancelledException,
 } from "pdfjs-dist";
 import Loading from "@mui/material/CircularProgress";
-import { useSelector, useDispatch } from "./AccessibleForm";
+import { useSelector, useDispatch } from "./StoreProvider";
 import Annotation, {
   useCreateAnnotation,
   CreationState,
   AnnotationBeingCreated,
+  mapCreationBoundsToFinalBounds,
 } from "./Annotation";
 
 //  _____    _       _     ____     _  __

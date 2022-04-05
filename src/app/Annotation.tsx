@@ -6,7 +6,7 @@ import {
   Annotation as AnnotationStatic,
   useDispatch,
   useSelector,
-} from "./AccessibleForm";
+} from "./StoreProvider";
 import { FieldLayerActionMenu } from "../components/ActionMenu";
 import { Rnd } from "react-rnd";
 
@@ -124,7 +124,9 @@ export const useCreateAnnotation = () => {
   // We need to know the container so that we can figure out where relative
   // in the page we should position the bounds.
   const div = React.useRef<HTMLDivElement | null>(null);
-  const allTokens = useSelector((state) => state.tokens[state.page - 1]);
+  const allTokens = useSelector(
+    (state) => state.tokens && state.tokens[state.page - 1]
+  );
   const [creationState, setState] = React.useState<CreationState | null>(null);
 
   const resetCreationState = () => {
@@ -191,7 +193,29 @@ export const AnnotationBeingCreated: React.FC<AnnotationBeingCreatedProps> = (
   props
 ) => {
   const { creationState, ...handlers } = props;
+  const tokens = useSelector((state) => state.tokens[0]);
   if (!creationState) return null;
+  // if (!creationState) {
+  //   return (
+  //     <>
+  //       {tokens.map((token) => (
+  //         <TranslucentBox
+  //           key={token.top * token.left}
+  //           css={{
+  //             position: "absolute",
+  //             backgroundColor: "rgb(144, 238, 144, 0.3)",
+  //             border: "1px solid blue",
+  //             top: token.top,
+  //             left: token.left,
+  //             width: token.width,
+  //             height: token.height,
+  //           }}
+  //           {...handlers}
+  //         />
+  //       ))}
+  //     </>
+  //   );
+  // }
   const { bounds: creationBounds, tokens: displayTokens } = creationState;
   return (
     // FIXME: TEXTBOX will not be default. We will use the last created field type as current value.

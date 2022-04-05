@@ -376,9 +376,7 @@ export const reduceAccessibleForm = (
 
 const store = createStore(reduceAccessibleForm, devToolsEnhancer());
 
-const AccessibleFormProvider: React.FC<{ children: React.ReactNode }> = (
-  props
-) => {
+const StoreProvider: React.FC<{ children: React.ReactNode }> = (props) => {
   const { children } = props;
   return <Provider store={store}>{children}</Provider>;
 };
@@ -389,4 +387,4 @@ export const useSelector: TypedUseSelectorHook<AccessibleForm> =
 
 export const useDispatch = () => useDispatchRedux<typeof store.dispatch>();
 
-export default AccessibleFormProvider;
+export default StoreProvider;

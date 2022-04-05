@@ -4,7 +4,7 @@ import {
   useDispatch,
   AccessibleForm,
   DEFAULT_ACCESSIBLE_FORM,
-} from "./AccessibleForm";
+} from "./StoreProvider";
 
 const LOCAL_STORAGE_KEY = "a11yform";
 const SAVE_INTERVAL = 1000;

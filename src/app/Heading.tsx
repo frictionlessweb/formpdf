@@ -3,7 +3,7 @@ import React from "react";
 import Steps from "./Steps";
 import Box, { BoxProps } from "@mui/material/Box";
 import Panel from "../components/Panel";
-import { useSelector } from "./AccessibleForm";
+import { useSelector } from "./StoreProvider";
 
 const Heading: React.FC<BoxProps> = (props) => {
   const activeStep = useSelector((state) => state.step);
