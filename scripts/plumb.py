@@ -27,9 +27,9 @@ import json
 # this number to get good results.
 DPI = 450
 
-images = convert_from_path("plumb.pdf", DPI)
+images = convert_from_path("form.pdf", DPI)
 all_tokens = []
-scale_factor = 0.16
+ocr_scale_factor = 0.16
 
 for i, image in enumerate(images):
     image
@@ -37,16 +37,31 @@ for i, image in enumerate(images):
     num_details = len(details["top"])
     tokens = [
         {
-            "top": details["top"][i] * scale_factor,
-            "left": details["left"][i] * scale_factor,
-            "width": details["width"][i] * scale_factor,
-            "height": details["height"][i] * scale_factor,
-            "text": details["text"][i]
+            "top": details["top"][i] * ocr_scale_factor,
+            "left": details["left"][i] * ocr_scale_factor,
+            "width": details["width"][i] * ocr_scale_factor,
+            "height": details["height"][i] * ocr_scale_factor,
+            "text": details["text"][i],
+            "class": "text",
         }
         for i in range(num_details)
         if details["text"][i].strip() != ""
     ]
     all_tokens.append(tokens)
 
-with open("../../src/app/tokens.json", "w", encoding="utf-8") as f:
+form_data = json.load(open("form.json"))
+form_scale_factor = 0.36
+
+for token_class in form_data.keys():
+    for token in form_data[token_class]:
+        if(token["jsonClass"] == "Field"):
+            all_tokens[0].append({
+                "top": token["y"] * form_scale_factor,
+                "left": token["x"] * form_scale_factor,
+                "width": token["w"] * form_scale_factor,
+                "height": token["h"] * form_scale_factor,
+                "class": token["jsonClass"],
+            })
+
+with open("../src/app/tokens.json", "w", encoding="utf-8") as f:
     json.dump(all_tokens, f, ensure_ascii=False, indent=4)
