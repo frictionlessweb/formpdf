@@ -25,10 +25,11 @@ import json
 
 # Configure the scale of the image inside your PDF. You may need to adjust
 # this number to get good results.
-DPI = 145
+DPI = 450
 
 images = convert_from_path("plumb.pdf", DPI)
 all_tokens = []
+scale_factor = 0.16
 
 for i, image in enumerate(images):
     image
@@ -36,16 +37,16 @@ for i, image in enumerate(images):
     num_details = len(details["top"])
     tokens = [
         {
-            "top": details["top"][i],
-            "left": details["left"][i],
-            "width": details["width"][i],
-            "height": details["height"][i],
-            "text": details["text"][i],
+            "top": details["top"][i] * scale_factor,
+            "left": details["left"][i] * scale_factor,
+            "width": details["width"][i] * scale_factor,
+            "height": details["height"][i] * scale_factor,
+            "text": details["text"][i]
         }
         for i in range(num_details)
         if details["text"][i].strip() != ""
     ]
     all_tokens.append(tokens)
 
-with open("../tokens.json", "w", encoding="utf-8") as f:
+with open("../../src/app/tokens.json", "w", encoding="utf-8") as f:
     json.dump(all_tokens, f, ensure_ascii=False, indent=4)
