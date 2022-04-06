@@ -330,7 +330,33 @@ export const reduceAccessibleForm = (
       });
     }
     case "HYDRATE_STORE": {
-      return action.payload;
+      return produce(action.payload, (draft) => {
+        // NOTE: Depending on the size of the screen, our token data can be off by a factor of
+        // two. To handle the problem at runtime since we're testing remotely and we don't know
+        // the user's screen size, we multiply by 2 when the screen is sufficiently small so that
+        // we don't have the problem.
+        //
+        // TODO: If there is away to avoid this clever trick, please let us know!
+        const scale = window.innerWidth < 1800 ? 2 : 1;
+        console.log(scale);
+        const annotationIds = Object.keys(draft.annotations);
+        for (const annotationId of annotationIds) {
+          const annotation = draft.annotations[annotationId];
+          annotation.left *= scale;
+          annotation.top *= scale;
+          annotation.height *= scale;
+          annotation.width *= scale;
+        }
+        for (const pageTokens of draft.tokens) {
+          for (const token of pageTokens) {
+            token.left *= scale;
+            token.top *= scale;
+            token.height *= scale;
+            token.width *= scale;
+          }
+        }
+        return;
+      });
     }
     case "SET_ANNOTATION_TYPE": {
       return produceWithUndo(previous, (draft) => {
