@@ -336,13 +336,15 @@ export const reduceAccessibleForm = (
     }
     case "HYDRATE_STORE": {
       return produce(action.payload, (draft) => {
-        // This is a bit of a hack. We provide a scale factor based on the width of the
-        // screen. If there is a better solution, please fix it.
-        // FIXME: Gives unexpected behaviour on larger screens.
-        const screenWidth = document.getElementById("pdf")?.offsetWidth || 0;
-        const scale = screenWidth > 1800 ? 1 : 2;
+        // NOTE: Depending on the size of the screen, our token data can be off by a factor of
+        // two. To handle the problem at runtime since we're testing remotely and we don't know
+        // the user's screen size, we multiply by 2 when the screen is sufficiently small so that
+        // we don't have the problem.
+        //
+        // TODO: If there is away to avoid this clever trick, please let us know!
+        const scale = window.innerWidth < 1800 ? 2 : 1;
+        console.log(scale);
         const annotationIds = Object.keys(draft.annotations);
-
         for (const annotationId of annotationIds) {
           const annotation = draft.annotations[annotationId];
           annotation.left *= scale;
