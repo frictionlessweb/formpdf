@@ -360,4 +360,11 @@ describe("Our form reducer", () => {
     });
     expect(changed.annotations["1"].type).toBe("CHECKBOX");
   });
+  test("We can set step of the process", () => {
+    const changedStep = reduce(init, {
+      type: "SET_STEP",
+      payload: 3,
+    });
+    expect(changedStep.step).toBe(3);
+  });
 });

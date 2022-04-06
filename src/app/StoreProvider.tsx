@@ -164,6 +164,10 @@ type AccessibleFormAction =
       payload: { ids: Array<AnnotationId>; type: ANNOTATION_TYPE };
     }
   | {
+      type: "SET_STEP";
+      payload: number;
+    }
+  | {
       type: "UNDO";
     }
   | {
@@ -203,6 +207,7 @@ const produceWithUndo = (previous: AccessibleForm, producer: Producer) => {
 };
 
 // See https://github.com/allenai/pawls/blob/3cc57533248e7ca787b71cafcca5fb66e96b2166/ui/src/context/PDFStore.ts#L31
+// FIXME: This logic should be moved out of store file.
 const boxContaining = (tokens: Bounds[], padding: number): Bounds => {
   let left = Number.MAX_VALUE;
   let top = Number.MAX_VALUE;
@@ -363,6 +368,13 @@ export const reduceAccessibleForm = (
           annotation.type = action.payload.type;
         });
         return;
+      });
+    }
+    case "SET_STEP": {
+      // TODO: When step changes we might want to clean undo and redo. So, that
+      // users don't accidently undo or redo steps out of their view.
+      return produce(previous, (draft) => {
+        draft.step = action.payload;
       });
     }
     case "UNDO": {
