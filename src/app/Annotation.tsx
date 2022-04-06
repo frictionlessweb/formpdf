@@ -193,8 +193,14 @@ export const AnnotationBeingCreated: React.FC<AnnotationBeingCreatedProps> = (
   props
 ) => {
   const { creationState, ...handlers } = props;
-  const tokens = useSelector((state) => state.tokens[0]);
+
   if (!creationState) return null;
+  // If the tokens are wrong, then none of the logic for snap-to-token will
+  // work, which can make debugging rather confusing. To check if the bounding
+  // boxes look correct, comment out the line above and uncomment the code
+  // below:
+  //
+  // const tokens = useSelector((state) => state.tokens[0]);
   // if (!creationState) {
   //   return (
   //     <>
@@ -362,8 +368,6 @@ const Annotation: React.FC<AnnotationProps> = (props) => {
         </Rnd>
       );
     }
-    default:
-      return null;
   }
 };
 
