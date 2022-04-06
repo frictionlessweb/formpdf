@@ -23,10 +23,7 @@ import json
 # That will emit a JSON with the relevant token information which you can
 # copy paste with the relevant UI code.
 
-# Configure the scale of the image inside your PDF. You may need to adjust
-# this number to get good results.
 DPI = 450
-
 images = convert_from_path("form.pdf", DPI)
 all_tokens = []
 ocr_scale_factor = 0.16
