@@ -4,14 +4,14 @@ import React from "react";
 import color from "./color";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
-import { FIELD_TYPE } from "../app/StoreProvider";
+import { ANNOTATION_TYPE } from "../app/StoreProvider";
 
-interface ActionMenuProps {
-  // Other components to render inside the ActionMenu div.
+interface ContainerProps {
+  // Other components to render inside the Container div.
   children?: React.ReactNode;
 }
 
-export const ActionMenu: React.FC<ActionMenuProps> = ({ children }) => {
+export const Container: React.FC<ContainerProps> = ({ children }) => {
   return (
     <div
       css={{
@@ -39,7 +39,7 @@ export const ActionMenu: React.FC<ActionMenuProps> = ({ children }) => {
 
 interface FieldLayerActionMenuProps {
   onDelete: () => void;
-  onFieldTypeChange: (value: FIELD_TYPE) => void;
+  onFieldTypeChange: (value: ANNOTATION_TYPE) => void;
 }
 
 export const FieldLayerActionMenu: React.FC<FieldLayerActionMenuProps> = ({
@@ -47,14 +47,14 @@ export const FieldLayerActionMenu: React.FC<FieldLayerActionMenuProps> = ({
   onFieldTypeChange,
 }) => {
   return (
-    <ActionMenu>
+    <Container>
       <Select
         defaultValue={"TEXTBOX"}
-        onChange={(e) => onFieldTypeChange(e.target.value as FIELD_TYPE)}
+        onChange={(e) => onFieldTypeChange(e.target.value as ANNOTATION_TYPE)}
         css={{ height: "40px" }}>
-        <MenuItem value={"TEXTBOX" as FIELD_TYPE}>Textbox</MenuItem>
-        <MenuItem value={"RADIOBOX" as FIELD_TYPE}>Radiobox</MenuItem>
-        <MenuItem value={"CHECKBOX" as FIELD_TYPE}>Checkbox</MenuItem>
+        <MenuItem value={"TEXTBOX" as ANNOTATION_TYPE}>Textbox</MenuItem>
+        <MenuItem value={"RADIOBOX" as ANNOTATION_TYPE}>Radiobox</MenuItem>
+        <MenuItem value={"CHECKBOX" as ANNOTATION_TYPE}>Checkbox</MenuItem>
       </Select>
       <ActionMenuItem>Duplicate</ActionMenuItem>
       <ActionMenuItem
@@ -70,7 +70,48 @@ export const FieldLayerActionMenu: React.FC<FieldLayerActionMenuProps> = ({
         }}>
         Delete
       </ActionMenuItem>
-    </ActionMenu>
+    </Container>
+  );
+};
+
+interface LabelLayerActionMenuProps {
+  onUpdateLabel: () => void;
+  onDelete: () => void;
+}
+
+export const LabelLayerActionMenu: React.FC<LabelLayerActionMenuProps> = ({
+  onDelete,
+  onUpdateLabel,
+}) => {
+  return (
+    <Container>
+      <ActionMenuItem
+        // We have to prevent the default behaviour for
+        // the pdf canvas here, in order to be able to capture
+        // the click event.
+        onClick={(e) => {
+          onUpdateLabel();
+          e.stopPropagation();
+        }}
+        onMouseDown={(e) => {
+          e.stopPropagation();
+        }}>
+        Delete
+      </ActionMenuItem>
+      <ActionMenuItem
+        // We have to prevent the default behaviour for
+        // the pdf canvas here, in order to be able to capture
+        // the click event.
+        onClick={(e) => {
+          onDelete();
+          e.stopPropagation();
+        }}
+        onMouseDown={(e) => {
+          e.stopPropagation();
+        }}>
+        Delete
+      </ActionMenuItem>
+    </Container>
   );
 };
 

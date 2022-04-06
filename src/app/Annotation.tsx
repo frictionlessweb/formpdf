@@ -19,7 +19,6 @@ type TranslucentBoxProps = React.DetailedHTMLProps<
   children?: React.ReactNode;
 };
 
-// FIXME: Why are we not using default Props instead of using placeholders such as NO_OP.
 export const TranslucentBox: React.FC<TranslucentBoxProps> = (props) => {
   const { css, nodeRef, children, ...divProps } = props;
   return (

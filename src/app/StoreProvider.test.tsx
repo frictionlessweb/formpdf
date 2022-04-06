@@ -2,7 +2,7 @@ import {
   reduceAccessibleForm as reduce,
   DEFAULT_ACCESSIBLE_FORM as init,
   Bounds,
-  FIELD_TYPE,
+  ANNOTATION_TYPE,
 } from "./StoreProvider";
 
 describe("Our form reducer", () => {
@@ -76,7 +76,7 @@ describe("Our form reducer", () => {
     const payload = {
       tokens: [{ height: 10, width: 10, top: 3, left: 3 }],
       ui: {
-        type: "TEXTBOX" as FIELD_TYPE,
+        type: "TEXTBOX" as ANNOTATION_TYPE,
         id: "1",
         backgroundColor: "red",
         border: "2px solid blue",

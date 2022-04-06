@@ -41,7 +41,7 @@ export interface Bounds {
 }
 
 // What are the different types of annotation fields?
-export type FIELD_TYPE = "TEXTBOX" | "RADIOBOX" | "CHECKBOX";
+export type ANNOTATION_TYPE = "TEXTBOX" | "RADIOBOX" | "CHECKBOX" | "LABEL";
 
 export type AnnotationUIState = {
   // What is the ID of the annotation -- how do we uniquely identify it?
@@ -51,7 +51,7 @@ export type AnnotationUIState = {
   // What is the border of the annotation?
   border: string;
   // What is the the type of the annotation?
-  type: FIELD_TYPE;
+  type: ANNOTATION_TYPE;
 };
 
 export type Annotation = Bounds & AnnotationUIState;
@@ -161,7 +161,7 @@ type AccessibleFormAction =
     }
   | {
       type: "SET_ANNOTATION_TYPE";
-      payload: { ids: Array<AnnotationId>; type: FIELD_TYPE };
+      payload: { ids: Array<AnnotationId>; type: ANNOTATION_TYPE };
     }
   | {
       type: "UNDO";
@@ -330,7 +330,31 @@ export const reduceAccessibleForm = (
       });
     }
     case "HYDRATE_STORE": {
-      return action.payload;
+      return produce(action.payload, (draft) => {
+        // This is a bit of a hack. We provide a scale factor based on the width of the
+        // screen. If there is a better solution, please fix it.
+        // FIXME: Gives unexpected behaviour on larger screens.
+        const screenWidth = document.getElementById("pdf")?.offsetWidth || 0;
+        const scale = screenWidth > 1800 ? 1 : 2;
+        const annotationIds = Object.keys(draft.annotations);
+
+        for (const annotationId of annotationIds) {
+          const annotation = draft.annotations[annotationId];
+          annotation.left *= scale;
+          annotation.top *= scale;
+          annotation.height *= scale;
+          annotation.width *= scale;
+        }
+        for (const pageTokens of draft.tokens) {
+          for (const token of pageTokens) {
+            token.left *= scale;
+            token.top *= scale;
+            token.height *= scale;
+            token.width *= scale;
+          }
+        }
+        return;
+      });
     }
     case "SET_ANNOTATION_TYPE": {
       return produceWithUndo(previous, (draft) => {
