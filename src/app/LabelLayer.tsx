@@ -1,6 +1,14 @@
 /** @jsxImportSource @emotion/react */
+
+// This file contains code related to the label step. Earlier, we had
+// code related to each step spread across multiple files, the reason
+// was that we architected the intial technical spike around tools.
+// Now, we have a single file for each step. Eventhough we have a lot
+// of repetitive code because of this change, eventually, we will
+// refactor and fix it.
+
 import { Dispatch } from "redux";
-import { FieldLayerActionMenu } from "../components/ActionMenu";
+import { LabelLayerActionMenu } from "../components/ActionMenu";
 import { AnnotationProps, TranslucentBox } from "./Annotation";
 import { CreateAnnotationAttr, NO_OP } from "./PDF";
 import { AccessibleForm, TOOL } from "./StoreProvider";
@@ -35,9 +43,9 @@ export const labelLayerHandlers = (
             payload: {
               ui: {
                 id: window.crypto.randomUUID(),
-                backgroundColor: "rgb(255, 182, 193, 0.3)",
-                border: "3px solid red",
-                type: "TEXTBOX",
+                backgroundColor: "rgb(36, 148, 178, 0.4)",
+                border: "3px solid rgb(36, 148, 178)",
+                type: "LABEL",
               },
               tokens: creationState.tokens,
             },
@@ -77,13 +85,12 @@ export const LabelLayerTools = (
     ...cssProps,
     position: "absolute" as const,
   };
-  const typeLabel = type.slice(0, 1);
   switch (tool) {
     case "CREATE": {
       return (
-        <TranslucentBox nodeRef={ref} css={{ cursor: "inherit", ...css }}>
-          {typeLabel}
-        </TranslucentBox>
+        <TranslucentBox
+          nodeRef={ref}
+          css={{ cursor: "inherit", ...css }}></TranslucentBox>
       );
     }
     case "SELECT": {
@@ -109,25 +116,21 @@ export const LabelLayerTools = (
             }
           }}>
           {isFirstSelection && (
-            <FieldLayerActionMenu
+            <LabelLayerActionMenu
               onDelete={() => {
                 dispatch({
                   type: "DELETE_ANNOTATION",
                   payload: Object.keys(selectedAnnotations),
                 });
               }}
-              onFieldTypeChange={(value) => {
+              onUpdateLabel={() => {
                 dispatch({
-                  type: "SET_ANNOTATION_TYPE",
-                  payload: {
-                    ids: Object.keys(selectedAnnotations),
-                    type: value,
-                  },
+                  type: "CHANGE_TOOL",
+                  payload: "CREATE",
                 });
               }}
             />
           )}
-          {typeLabel}
         </TranslucentBox>
       );
     }

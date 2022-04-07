@@ -97,7 +97,7 @@ export const LabelLayerActionMenu: React.FC<LabelLayerActionMenuProps> = ({
         onMouseDown={(e) => {
           e.stopPropagation();
         }}>
-        Delete
+        Update Label
       </ActionMenuItem>
       <ActionMenuItem
         // We have to prevent the default behaviour for

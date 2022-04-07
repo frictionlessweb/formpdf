@@ -1,5 +1,12 @@
 /** @jsxImportSource @emotion/react */
 
+// This file contains code related to the field step. Earlier, we had
+// code related to each step spread across multiple files, the reason
+// was that we architected the intial technical spike around tools.
+// Now, we have a single file for each step. Eventhough we have a lot
+// of repetitive code because of this change, eventually, we will
+// refactor and fix it.
+
 import { Dispatch } from "redux";
 import { CreateAnnotationAttr, NO_OP } from "./PDF";
 import { mapCreationBoundsToFinalBounds } from "./Annotation";
