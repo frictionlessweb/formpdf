@@ -19,7 +19,11 @@ import {
   RenderingCancelledException,
 } from "pdfjs-dist";
 import Loading from "@mui/material/CircularProgress";
-import { useSelector, useDispatch } from "./StoreProvider";
+import {
+  useSelector,
+  useDispatch,
+  Annotation as AnnotationType,
+} from "./StoreProvider";
 import Annotation, {
   useCreateAnnotation,
   CreationState,
@@ -228,12 +232,62 @@ interface PDFUIProps {
   children?: React.ReactNode;
 }
 
+interface RenderAnnotationsHandler {
+  onMouseUp: React.MouseEventHandler;
+  // What should we do when we click down on the Canvas?
+  onMouseDown: React.MouseEventHandler;
+  // What should we do when our mouse moves on the canvas?
+  onMouseMove: React.MouseEventHandler;
+}
+
+const renderAnnotations = (
+  step: number,
+  creationState: CreationState | null,
+  handlers: RenderAnnotationsHandler,
+  annotations: Array<AnnotationType>
+) => {
+  switch (step) {
+    case 0: {
+      return (
+        <>
+          <AnnotationBeingCreated
+            creationState={creationState}
+            showTokens={false}
+            {...handlers}
+          />
+          {annotations.map((annotation) => {
+            return <Annotation key={annotation.id} {...annotation} />;
+          })}
+        </>
+      );
+    }
+    case 1: {
+      return (
+        <>
+          <AnnotationBeingCreated
+            creationState={creationState}
+            showTokens={true}
+            {...handlers}
+          />
+          {annotations.map((annotation) => {
+            return <Annotation key={annotation.id} {...annotation} />;
+          })}
+        </>
+      );
+    }
+  }
+};
+
 // Actually render the PDFUI onto the screen. Ideally, the code in this component
 // should be extremely simple; most of the complicated functionality gets pushed
 // to hooks in other places.
 const PDFUI: React.FC<PDFUIProps> = (props) => {
-  const { url, width, height, children } = props;
+  const { url, width, height } = props;
   const { canvas, loading } = useFetchPDFUI(url);
+  const [annotations, step] = useSelector((state) => [
+    Object.values(state.annotations),
+    state.step,
+  ]);
 
   const {
     cursor,
@@ -243,6 +297,13 @@ const PDFUI: React.FC<PDFUIProps> = (props) => {
     onClick,
     ...handlers
   } = useHandlers();
+
+  const allAnnotations = renderAnnotations(
+    step,
+    creationState,
+    handlers,
+    annotations
+  );
 
   return (
     <div
@@ -269,25 +330,10 @@ const PDFUI: React.FC<PDFUIProps> = (props) => {
           }}
         />
       ) : (
-        <>
-          <AnnotationBeingCreated creationState={creationState} {...handlers} />
-          {children}
-        </>
+        allAnnotations
       )}
     </div>
   );
 };
 
-const PDF: React.FC<PDFUIProps> = (props) => {
-  const { url, width, height } = props;
-  const annotations = useSelector((state) => Object.values(state.annotations));
-  return (
-    <PDFUI url={url} width={width} height={height}>
-      {annotations.map((annotation) => {
-        return <Annotation key={annotation.id} {...annotation} />;
-      })}
-    </PDFUI>
-  );
-};
-
-export default PDF;
+export default PDFUI;

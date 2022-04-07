@@ -186,12 +186,14 @@ interface AnnotationBeingCreatedProps {
   onMouseUp: React.MouseEventHandler;
   // What should we do when we move the mouse?
   onMouseMove: React.MouseEventHandler;
+  // should tokens be shown while annotation is being created ?
+  showTokens: boolean;
 }
 
 export const AnnotationBeingCreated: React.FC<AnnotationBeingCreatedProps> = (
   props
 ) => {
-  const { creationState, ...handlers } = props;
+  const { creationState, showTokens, ...handlers } = props;
 
   if (!creationState) return null;
   // If the tokens are wrong, then none of the logic for snap-to-token will
@@ -234,25 +236,26 @@ export const AnnotationBeingCreated: React.FC<AnnotationBeingCreatedProps> = (
         }}
         {...handlers}
       />
-      {displayTokens.map((token) => {
-        // These tokens are *not* the child of TranslucentBox because the css
-        // position: absolute confuses the math we've done.
-        return (
-          <TranslucentBox
-            key={token.top * token.left}
-            css={{
-              position: "absolute",
-              backgroundColor: "rgb(144, 238, 144, 0.3)",
-              border: "1px solid blue",
-              top: token.top,
-              left: token.left,
-              width: token.width,
-              height: token.height,
-            }}
-            {...handlers}
-          />
-        );
-      })}
+      {showTokens &&
+        displayTokens.map((token) => {
+          // These tokens are *not* the child of TranslucentBox because the css
+          // position: absolute confuses the math we've done.
+          return (
+            <TranslucentBox
+              key={token.top * token.left}
+              css={{
+                position: "absolute",
+                backgroundColor: "rgb(144, 238, 144, 0.3)",
+                border: "1px solid blue",
+                top: token.top,
+                left: token.left,
+                width: token.width,
+                height: token.height,
+              }}
+              {...handlers}
+            />
+          );
+        })}
     </>
   );
 };

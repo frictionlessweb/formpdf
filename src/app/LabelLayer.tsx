@@ -1,5 +1,4 @@
 /** @jsxImportSource @emotion/react */
-
 import { Dispatch } from "redux";
 import { FieldLayerActionMenu } from "../components/ActionMenu";
 import { AnnotationProps, TranslucentBox } from "./Annotation";
