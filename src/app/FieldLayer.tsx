@@ -1,3 +1,5 @@
+/** @jsxImportSource @emotion/react */
+
 import { Dispatch } from "redux";
 import { CreateAnnotationAttr, NO_OP } from "./PDF";
 import { mapCreationBoundsToFinalBounds } from "./Annotation";
@@ -82,9 +84,10 @@ export const FieldLayerTools = (
   };
   switch (tool) {
     case "CREATE": {
-      console.log(css);
       return (
-        <TranslucentBox nodeRef={ref} css={{ cursor: "inherit", ...css }} />
+        <TranslucentBox nodeRef={ref} css={{ cursor: "inherit", ...css }}>
+          {type}
+        </TranslucentBox>
       );
     }
     case "SELECT": {
@@ -162,6 +165,7 @@ export const FieldLayerTools = (
               }}
             />
           )}
+          {type}
         </Rnd>
       );
     }

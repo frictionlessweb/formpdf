@@ -1,3 +1,5 @@
+/** @jsxImportSource @emotion/react */
+
 import { Dispatch } from "redux";
 import { FieldLayerActionMenu } from "../components/ActionMenu";
 import { AnnotationProps, TranslucentBox } from "./Annotation";
@@ -79,7 +81,9 @@ export const LabelLayerTools = (
   switch (tool) {
     case "CREATE": {
       return (
-        <TranslucentBox nodeRef={ref} css={{ cursor: "inherit", ...css }} />
+        <TranslucentBox nodeRef={ref} css={{ cursor: "inherit", ...css }}>
+          {type}
+        </TranslucentBox>
       );
     }
     case "SELECT": {
@@ -123,6 +127,7 @@ export const LabelLayerTools = (
               }}
             />
           )}
+          {type}
         </TranslucentBox>
       );
     }
