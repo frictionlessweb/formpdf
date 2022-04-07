@@ -77,11 +77,12 @@ export const LabelLayerTools = (
     ...cssProps,
     position: "absolute" as const,
   };
+  const typeLabel = type.slice(0, 1);
   switch (tool) {
     case "CREATE": {
       return (
         <TranslucentBox nodeRef={ref} css={{ cursor: "inherit", ...css }}>
-          {type}
+          {typeLabel}
         </TranslucentBox>
       );
     }
@@ -126,7 +127,7 @@ export const LabelLayerTools = (
               }}
             />
           )}
-          {type}
+          {typeLabel}
         </TranslucentBox>
       );
     }

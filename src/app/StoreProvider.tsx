@@ -14,6 +14,7 @@ import {
 } from "react-redux";
 import { devToolsEnhancer } from "@redux-devtools/extension";
 import TOKENS from "./tokens.json";
+import PREDICTIONS from "./predictions.json";
 
 // This is required to enable immer patches.
 enablePatches();
@@ -103,12 +104,35 @@ export interface AccessibleForm {
   tokens: Array<Bounds[]>;
 }
 
+// FIXME: Here we need to implement page logic.
+// This function grabs the prediction from prediction.json, creates
+// annotation out of them and its output is used to populate annotations
+// in DEFAULT_ACCESSIBLE_FORM.
+const getPredictedAnnotations = () => {
+  const predictedAnnotations: Record<AnnotationId, Annotation> = {};
+  PREDICTIONS.forEach((prediction) => {
+    const { top, left, width, height } = prediction;
+    const id: AnnotationId = window.crypto.randomUUID();
+    predictedAnnotations[id] = {
+      id,
+      backgroundColor: "rgb(255, 182, 193, 0.3)",
+      border: "3px solid red",
+      type: "TEXTBOX",
+      top,
+      left,
+      width,
+      height,
+    };
+  });
+  return predictedAnnotations;
+};
+
 export const DEFAULT_ACCESSIBLE_FORM: AccessibleForm = {
   step: 0,
   tool: "CREATE",
   zoom: 1,
   page: 1,
-  annotations: {},
+  annotations: getPredictedAnnotations(),
   selectedAnnotations: {},
   canRedo: false,
   canUndo: false,

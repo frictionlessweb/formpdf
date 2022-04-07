@@ -49,10 +49,12 @@ for i, image in enumerate(images):
 form_data = json.load(open("form.json"))
 form_scale_factor = 0.36
 
+# FIXME: Here we don't take into account the page number. We need to fix this!
+all_predictions=[]
 for token_class in form_data.keys():
     for token in form_data[token_class]:
-        if(token["jsonClass"] == "Field"):
-            all_tokens[0].append({
+        if(token["jsonClass"] == "Widget"):
+            all_predictions.append({
                 "top": token["y"] * form_scale_factor,
                 "left": token["x"] * form_scale_factor,
                 "width": token["w"] * form_scale_factor,
@@ -62,3 +64,6 @@ for token_class in form_data.keys():
 
 with open("../src/app/tokens.json", "w", encoding="utf-8") as f:
     json.dump(all_tokens, f, ensure_ascii=False, indent=4)
+    
+with open("../src/app/predictions.json", "w", encoding="utf-8") as f:
+    json.dump(all_predictions, f, ensure_ascii=False, indent=4)
