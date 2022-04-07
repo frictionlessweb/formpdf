@@ -20,6 +20,7 @@ export const Container: React.FC<ContainerProps> = ({ children }) => {
         width: "auto",
         height: "2.5rem",
         zIndex: 11,
+        userSelect: "none",
       }}>
       <div
         css={{

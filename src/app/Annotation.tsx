@@ -7,10 +7,10 @@ import {
   useDispatch,
   useSelector,
 } from "./StoreProvider";
-import { FieldLayerActionMenu } from "../components/ActionMenu";
-import { Rnd } from "react-rnd";
+import { LabelLayerTools } from "./LabelLayer";
+import { FieldLayerTools } from "./FieldLayer";
 
-type TranslucentBoxProps = React.DetailedHTMLProps<
+export type TranslucentBoxProps = React.DetailedHTMLProps<
   React.HTMLAttributes<HTMLDivElement>,
   HTMLDivElement
 > & {
@@ -263,110 +263,22 @@ export const AnnotationBeingCreated: React.FC<AnnotationBeingCreatedProps> = (
 //  / ___ \| | | | | | | (_) | || (_| | |_| | (_) | | | |
 // /_/   \_\_| |_|_| |_|\___/ \__\__,_|\__|_|\___/|_| |_|
 
-type AnnotationProps = AnnotationStatic & {
+export type AnnotationProps = AnnotationStatic & {
   css?: CSSObject;
 };
 
-// For some reason, with React RND, if you don't offset the top and the left
-// by *exactly* two pixels, it doesn't look right.
-const MYSTERIOUS_RND_OFFSET = 2;
-
 const Annotation: React.FC<AnnotationProps> = (props) => {
-  const [tool, selectedAnnotations] = useSelector((state) => [
-    state.tool,
-    state.selectedAnnotations,
-  ]);
-  const dispatch = useDispatch();
+  const state = useSelector((state) => state);
+  const { step } = state;
   const ref = React.useRef<HTMLDivElement | null>(null);
-  const { id, type, children: _, ...cssProps } = props;
-  const css = {
-    ...cssProps,
-    position: "absolute" as const,
-  };
-  switch (tool) {
-    case "CREATE": {
-      return (
-        <TranslucentBox nodeRef={ref} css={{ cursor: "inherit", ...css }} />
-      );
-    }
-    case "SELECT": {
-      const isSelected = Boolean(selectedAnnotations[props.id]);
-      // When multiple selections are made, we want to show action menu on
-      // the annotation which was selected first from the set.
-      const isFirstSelection = Object.keys(selectedAnnotations)[0] === props.id;
-      return (
-        <Rnd
-          allowAnyClick
-          style={{
-            position: "absolute",
-            border: isSelected ? "3px solid black" : props.border,
-            backgroundColor: props.backgroundColor,
-          }}
-          position={{
-            x: props.left + MYSTERIOUS_RND_OFFSET,
-            y: props.top + MYSTERIOUS_RND_OFFSET,
-          }}
-          size={{ height: props.height, width: props.width }}
-          onClick={(e: React.MouseEvent<HTMLElement>) => {
-            e.stopPropagation();
-            const shiftNotPressed = !e.shiftKey;
-            if (shiftNotPressed) {
-              dispatch({ type: "DESELECT_ALL_ANNOTATION" });
-            }
-            if (isSelected) {
-              dispatch({ type: "DESELECT_ANNOTATION", payload: props.id });
-            } else {
-              dispatch({ type: "SELECT_ANNOTATION", payload: props.id });
-            }
-          }}
-          css={{
-            ...css,
-            border: isSelected ? "2px solid black" : css.border,
-          }}
-          onDragStop={(_, delta) => {
-            dispatch({
-              type: "MOVE_ANNOTATION",
-              payload: {
-                id: props.id,
-                x: delta.x - MYSTERIOUS_RND_OFFSET,
-                y: delta.y - MYSTERIOUS_RND_OFFSET,
-              },
-            });
-          }}
-          onResize={(_, __, ref, ___, el) => {
-            dispatch({
-              type: "RESIZE_ANNOTATION",
-              payload: {
-                id: props.id,
-                width: ref.offsetWidth,
-                height: ref.offsetHeight,
-                x: el.x - MYSTERIOUS_RND_OFFSET,
-                y: el.y - MYSTERIOUS_RND_OFFSET,
-              },
-            });
-          }}>
-          {isFirstSelection && (
-            <FieldLayerActionMenu
-              onDelete={() => {
-                dispatch({
-                  type: "DELETE_ANNOTATION",
-                  payload: Object.keys(selectedAnnotations),
-                });
-              }}
-              onFieldTypeChange={(value) => {
-                dispatch({
-                  type: "SET_ANNOTATION_TYPE",
-                  payload: {
-                    ids: Object.keys(selectedAnnotations),
-                    type: value,
-                  },
-                });
-              }}
-            />
-          )}
-        </Rnd>
-      );
-    }
+  const dispatch = useDispatch();
+  switch (step) {
+    case 0:
+      return FieldLayerTools(props, ref, state, dispatch);
+    case 1:
+      return LabelLayerTools(props, ref, state, dispatch);
+    default:
+      return null;
   }
 };
 

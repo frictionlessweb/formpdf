@@ -24,8 +24,9 @@ import Annotation, {
   useCreateAnnotation,
   CreationState,
   AnnotationBeingCreated,
-  mapCreationBoundsToFinalBounds,
 } from "./Annotation";
+import { fieldLayerHandlers } from "./FieldLayer";
+import { labelLayerHandlers } from "./LabelLayer";
 
 //  _____    _       _     ____     _  __
 // |  ___|__| |_ ___| |__ |  _ \ __| |/ _|
@@ -176,62 +177,26 @@ interface Handlers {
   onMouseLeave: React.MouseEventHandler;
 }
 
-const NO_OP: React.MouseEventHandler = () => {};
+export const NO_OP: React.MouseEventHandler = () => {};
+
+export interface CreateAnnotationAttr {
+  div: React.MutableRefObject<HTMLDivElement | null>;
+  creationState: null | CreationState;
+  newCreationBounds: React.MouseEventHandler;
+  resetCreationState: () => void;
+  updateCreationState: React.MouseEventHandler;
+}
 
 const useHandlers = (): Handlers => {
-  const tool = useSelector((state) => state.tool);
+  const [step, tool] = useSelector((state) => [state.step, state.tool]);
   const dispatch = useDispatch();
-  const {
-    div: container,
-    creationState,
-    newCreationBounds,
-    resetCreationState,
-    updateCreationState,
-  } = useCreateAnnotation();
-  switch (tool) {
-    case "CREATE": {
-      return {
-        cursor: "crosshair",
-        creationState,
-        container,
-        onClick: NO_OP,
-        onMouseDown: newCreationBounds,
-        onMouseMove: updateCreationState,
-        onMouseLeave: resetCreationState,
-        onMouseUp: (_) => {
-          if (!creationState) return;
-          dispatch({
-            type: "CREATE_ANNOTATION_FROM_TOKENS",
-            payload: {
-              ui: {
-                id: window.crypto.randomUUID(),
-                backgroundColor: "rgb(255, 182, 193, 0.3)",
-                border: "3px solid red",
-                type: "TEXTBOX",
-              },
-              tokens: creationState.tokens,
-            },
-          });
-          resetCreationState();
-        },
-      };
-    }
-    case "SELECT": {
-      return {
-        cursor: "auto",
-        creationState,
-        container,
-        onMouseMove: NO_OP,
-        onMouseUp: NO_OP,
-        onMouseDown: NO_OP,
-        onMouseLeave: NO_OP,
-        onClick: () => {
-          if (tool === "SELECT") {
-            dispatch({ type: "DESELECT_ALL_ANNOTATION" });
-          }
-        },
-      };
-    }
+  const createAnnotationAttr = useCreateAnnotation();
+  const { creationState, div: container } = createAnnotationAttr;
+  switch (step) {
+    case 0:
+      return fieldLayerHandlers(tool, dispatch, createAnnotationAttr);
+    case 1:
+      return labelLayerHandlers(tool, dispatch, createAnnotationAttr);
     default:
       return {
         cursor: "auto",

@@ -16,6 +16,8 @@ interface ToolButtonProps {
   alt: string;
 }
 
+// ADD HERE: Switch statement for each step
+
 const ToolButton: React.FC<ToolButtonProps> = (props) => {
   const { toolName, activeTool, src, alt } = props;
   const dispatch = useDispatch();
@@ -48,22 +50,56 @@ const ResetButton = () => {
 };
 
 const ToolSelect: React.FC<BoxProps> = (props) => {
-  const activeTool = useSelector((state) => state.tool);
+  const [activeTool, activeStep] = useSelector((state) => [
+    state.tool,
+    state.step,
+  ]);
+  let tools = <></>;
+  switch (activeStep) {
+    case 0: {
+      tools = (
+        <>
+          <ToolButton
+            activeTool={activeTool}
+            toolName="SELECT"
+            src="./cursorIcon.svg"
+            alt="cursor icon"
+          />
+          <ToolButton
+            activeTool={activeTool}
+            toolName="CREATE"
+            src="./fieldIcon.svg"
+            alt="field icon"
+          />
+          <ResetButton />
+        </>
+      );
+      break;
+    }
+    case 1: {
+      tools = (
+        <>
+          <ToolButton
+            activeTool={activeTool}
+            toolName="SELECT"
+            src="./cursorIcon.svg"
+            alt="cursor icon"
+          />
+          <ToolButton
+            activeTool={activeTool}
+            toolName="CREATE"
+            src="./fieldIcon.svg"
+            alt="field icon"
+          />
+          <ResetButton />
+        </>
+      );
+      break;
+    }
+  }
   return (
     <Box display="flex" flexDirection="column" alignItems="center" {...props}>
-      <ToolButton
-        activeTool={activeTool}
-        toolName="SELECT"
-        src="./cursorIcon.svg"
-        alt="cursor icon"
-      />
-      <ToolButton
-        activeTool={activeTool}
-        toolName="CREATE"
-        src="./fieldIcon.svg"
-        alt="field icon"
-      />
-      <ResetButton />
+      {tools}
     </Box>
   );
 };
