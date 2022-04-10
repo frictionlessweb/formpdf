@@ -4,11 +4,10 @@ import { CSSObject } from "@emotion/react";
 import {
   Bounds,
   Annotation as AnnotationStatic,
-  useDispatch,
   useSelector,
 } from "./StoreProvider";
-import { LabelLayerTools } from "./LabelLayer";
-import { FieldLayerTools } from "./FieldLayer";
+import { LabelLayerAnnotation } from "./LabelLayer";
+import { FieldLayerAnnotation } from "./FieldLayer";
 
 export type TranslucentBoxProps = React.DetailedHTMLProps<
   React.HTMLAttributes<HTMLDivElement>,
@@ -53,7 +52,6 @@ export interface CreationBounds {
   // Where is the user's cursor vertically right now?
   movedTop: number;
   // Where is the user's cursor horizontally right now?
-  // What
   movedLeft: number;
 }
 
@@ -271,15 +269,17 @@ export type AnnotationProps = AnnotationStatic & {
 };
 
 const Annotation: React.FC<AnnotationProps> = (props) => {
-  const state = useSelector((state) => state);
-  const { step } = state;
+  const step = useSelector((state) => state.step);
   const ref = React.useRef<HTMLDivElement | null>(null);
-  const dispatch = useDispatch();
   switch (step) {
     case 0:
-      return FieldLayerTools(props, ref, state, dispatch);
+      return (
+        <FieldLayerAnnotation annotationProps={props} annotationRef={ref} />
+      );
     case 1:
-      return LabelLayerTools(props, ref, state, dispatch);
+      return (
+        <LabelLayerAnnotation annotationProps={props} annotationRef={ref} />
+      );
     default:
       return null;
   }

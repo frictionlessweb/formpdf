@@ -11,7 +11,6 @@ img = cv2.imread(sys.argv[1])
 color = (255, 0, 0)
 json_data = json.loads(open(sys.argv[2]).read())
 for j in json_data[sectiontype]:
-    print(j)
     x =int(j["x"])
     y =int(j["y"])
     w =int(j["w"])

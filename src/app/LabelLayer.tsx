@@ -17,10 +17,11 @@ import Annotation, {
 } from "./Annotation";
 import { CreateAnnotationAttr, NO_OP, RenderAnnotationsHandler } from "./PDF";
 import {
-  AccessibleForm,
   TOOL,
   Annotation as AnnotationType,
   Bounds,
+  useSelector,
+  useDispatch,
 } from "./StoreProvider";
 
 export const labelLayerHandlers = (
@@ -88,14 +89,16 @@ export const labelLayerHandlers = (
   }
 };
 
-export const LabelLayerTools = (
-  props: AnnotationProps,
-  ref: React.MutableRefObject<HTMLDivElement | null> | undefined,
-  state: AccessibleForm,
-  dispatch: Dispatch
-) => {
-  const { tool, selectedAnnotations } = state;
-  const { id, type, ...cssProps } = props;
+export const LabelLayerAnnotation: React.FC<{
+  annotationProps: AnnotationProps;
+  annotationRef: React.MutableRefObject<HTMLDivElement | null> | undefined;
+}> = ({ annotationProps, annotationRef }) => {
+  const [tool, selectedAnnotations] = useSelector((state) => [
+    state.tool,
+    state.selectedAnnotations,
+  ]);
+  const dispatch = useDispatch();
+  const { id, type, ...cssProps } = annotationProps;
   const css = {
     ...cssProps,
     position: "absolute" as const,
@@ -104,13 +107,14 @@ export const LabelLayerTools = (
     case "CREATE": {
       return (
         <TranslucentBox
-          nodeRef={ref}
+          nodeRef={annotationRef}
           css={{ cursor: "inherit", ...css }}></TranslucentBox>
       );
     }
     case "SELECT": {
-      const isSelected = Boolean(selectedAnnotations[props.id]);
-      const isFirstSelection = Object.keys(selectedAnnotations)[0] === props.id;
+      const isSelected = Boolean(selectedAnnotations[annotationProps.id]);
+      const isFirstSelection =
+        Object.keys(selectedAnnotations)[0] === annotationProps.id;
       return (
         <TranslucentBox
           css={{
@@ -125,9 +129,15 @@ export const LabelLayerTools = (
               dispatch({ type: "DESELECT_ALL_ANNOTATION" });
             }
             if (isSelected) {
-              dispatch({ type: "DESELECT_ANNOTATION", payload: props.id });
+              dispatch({
+                type: "DESELECT_ANNOTATION",
+                payload: annotationProps.id,
+              });
             } else {
-              dispatch({ type: "SELECT_ANNOTATION", payload: props.id });
+              dispatch({
+                type: "SELECT_ANNOTATION",
+                payload: annotationProps.id,
+              });
             }
           }}>
           {isFirstSelection && (

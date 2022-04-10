@@ -17,9 +17,10 @@ import Annotation, {
 import { FieldLayerActionMenu } from "../components/ActionMenu";
 import { AnnotationProps, TranslucentBox } from "./Annotation";
 import {
-  AccessibleForm,
   TOOL,
   Annotation as AnnotationType,
+  useSelector,
+  useDispatch,
 } from "./StoreProvider";
 import { Rnd } from "react-rnd";
 
@@ -84,14 +85,16 @@ export const fieldLayerHandlers = (
 // by *exactly* two pixels, it doesn't look right.
 const MYSTERIOUS_RND_OFFSET = 2;
 
-export const FieldLayerTools = (
-  props: AnnotationProps,
-  ref: React.MutableRefObject<HTMLDivElement | null> | undefined,
-  state: AccessibleForm,
-  dispatch: Dispatch
-) => {
-  const { tool, selectedAnnotations } = state;
-  const { id, type, ...cssProps } = props;
+export const FieldLayerAnnotation: React.FC<{
+  annotationProps: AnnotationProps;
+  annotationRef: React.MutableRefObject<HTMLDivElement | null> | undefined;
+}> = ({ annotationProps, annotationRef }) => {
+  const [tool, selectedAnnotations] = useSelector((state) => [
+    state.tool,
+    state.selectedAnnotations,
+  ]);
+  const dispatch = useDispatch();
+  const { id, type, ...cssProps } = annotationProps;
   const css = {
     ...cssProps,
     position: "absolute" as const,
@@ -100,29 +103,35 @@ export const FieldLayerTools = (
   switch (tool) {
     case "CREATE": {
       return (
-        <TranslucentBox nodeRef={ref} css={{ cursor: "inherit", ...css }}>
+        <TranslucentBox
+          nodeRef={annotationRef}
+          css={{ cursor: "inherit", ...css }}>
           {typeLabel}
         </TranslucentBox>
       );
     }
     case "SELECT": {
-      const isSelected = Boolean(selectedAnnotations[props.id]);
+      const isSelected = Boolean(selectedAnnotations[annotationProps.id]);
       // When multiple selections are made, we want to show action menu on
       // the annotation which was selected first from the set.
-      const isFirstSelection = Object.keys(selectedAnnotations)[0] === props.id;
+      const isFirstSelection =
+        Object.keys(selectedAnnotations)[0] === annotationProps.id;
       return (
         <Rnd
           allowAnyClick
           style={{
             position: "absolute",
-            border: isSelected ? "3px solid black" : props.border,
-            backgroundColor: props.backgroundColor,
+            border: isSelected ? "3px solid black" : annotationProps.border,
+            backgroundColor: annotationProps.backgroundColor,
           }}
           position={{
-            x: props.left + MYSTERIOUS_RND_OFFSET,
-            y: props.top + MYSTERIOUS_RND_OFFSET,
+            x: annotationProps.left + MYSTERIOUS_RND_OFFSET,
+            y: annotationProps.top + MYSTERIOUS_RND_OFFSET,
           }}
-          size={{ height: props.height, width: props.width }}
+          size={{
+            height: annotationProps.height,
+            width: annotationProps.width,
+          }}
           onClick={(e: React.MouseEvent<HTMLElement>) => {
             e.stopPropagation();
             const shiftNotPressed = !e.shiftKey;
@@ -130,9 +139,15 @@ export const FieldLayerTools = (
               dispatch({ type: "DESELECT_ALL_ANNOTATION" });
             }
             if (isSelected) {
-              dispatch({ type: "DESELECT_ANNOTATION", payload: props.id });
+              dispatch({
+                type: "DESELECT_ANNOTATION",
+                payload: annotationProps.id,
+              });
             } else {
-              dispatch({ type: "SELECT_ANNOTATION", payload: props.id });
+              dispatch({
+                type: "SELECT_ANNOTATION",
+                payload: annotationProps.id,
+              });
             }
           }}
           css={{
@@ -143,7 +158,7 @@ export const FieldLayerTools = (
             dispatch({
               type: "MOVE_ANNOTATION",
               payload: {
-                id: props.id,
+                id: annotationProps.id,
                 x: delta.x - MYSTERIOUS_RND_OFFSET,
                 y: delta.y - MYSTERIOUS_RND_OFFSET,
               },
@@ -153,7 +168,7 @@ export const FieldLayerTools = (
             dispatch({
               type: "RESIZE_ANNOTATION",
               payload: {
-                id: props.id,
+                id: annotationProps.id,
                 width: ref.offsetWidth,
                 height: ref.offsetHeight,
                 x: el.x - MYSTERIOUS_RND_OFFSET,
