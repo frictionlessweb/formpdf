@@ -90,7 +90,6 @@ export const FieldLayerTools = (
   state: AccessibleForm,
   dispatch: Dispatch
 ) => {
-  console.log(props);
   const { tool, selectedAnnotations } = state;
   const { id, type, ...cssProps } = props;
   const css = {

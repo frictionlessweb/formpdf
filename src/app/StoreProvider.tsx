@@ -367,7 +367,6 @@ export const reduceAccessibleForm = (
         //
         // TODO: If there is away to avoid this clever trick, please let us know!
         const scale = window.innerWidth < 1800 ? 2 : 1;
-        console.log(scale);
         const annotationIds = Object.keys(draft.annotations);
         for (const annotationId of annotationIds) {
           const annotation = draft.annotations[annotationId];

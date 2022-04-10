@@ -122,15 +122,16 @@ describe("Our form reducer", () => {
       left: 5,
       border: "pink",
     } as const;
+    const length = Object.keys(init.annotations).length;
     const created = reduce(init, {
       type: "CREATE_ANNOTATION",
       payload,
     });
-    expect(Object.keys(created.annotations)).toHaveLength(1);
+    expect(Object.keys(created.annotations)).toHaveLength(length + 1);
     const undo = reduce(created, { type: "UNDO" });
-    expect(Object.keys(undo.annotations)).toHaveLength(0);
+    expect(Object.keys(undo.annotations)).toHaveLength(length);
     const redo = reduce(undo, { type: "REDO" });
-    expect(Object.keys(redo.annotations)).toHaveLength(1);
+    expect(Object.keys(redo.annotations)).toHaveLength(length + 1);
   });
   test("canUndo and canRedo work properly", () => {
     const payload = {
