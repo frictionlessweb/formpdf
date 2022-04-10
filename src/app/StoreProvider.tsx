@@ -400,6 +400,9 @@ export const reduceAccessibleForm = (
       // users don't accidently undo or redo steps out of their view.
       return produce(previous, (draft) => {
         draft.step = action.payload;
+        // When user moves to a new page we want "SELECT" tool to be selected as
+        // it is the default tool which is present on all pages.
+        draft.tool = "SELECT";
       });
     }
     case "UNDO": {

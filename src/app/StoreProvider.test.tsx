@@ -361,11 +361,17 @@ describe("Our form reducer", () => {
     });
     expect(changed.annotations["1"].type).toBe("CHECKBOX");
   });
-  test("We can set step of the process", () => {
-    const changedStep = reduce(init, {
+  test("We can set step of the process and when we do it tool automatically gets changed to select", () => {
+    const changedTool = reduce(init, {
+      type: "CHANGE_TOOL",
+      payload: "CREATE",
+    });
+    const changedStep = reduce(changedTool, {
       type: "SET_STEP",
       payload: 3,
     });
+
     expect(changedStep.step).toBe(3);
+    expect(changedStep.tool).toBe("SELECT");
   });
 });
