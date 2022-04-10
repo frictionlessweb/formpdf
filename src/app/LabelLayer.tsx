@@ -9,9 +9,19 @@
 
 import { Dispatch } from "redux";
 import { LabelLayerActionMenu } from "../components/ActionMenu";
-import { AnnotationProps, TranslucentBox } from "./Annotation";
-import { CreateAnnotationAttr, NO_OP } from "./PDF";
-import { AccessibleForm, TOOL } from "./StoreProvider";
+import Annotation, {
+  AnnotationBeingCreated,
+  AnnotationProps,
+  CreationState,
+  TranslucentBox,
+} from "./Annotation";
+import { CreateAnnotationAttr, NO_OP, RenderAnnotationsHandler } from "./PDF";
+import {
+  AccessibleForm,
+  TOOL,
+  Annotation as AnnotationType,
+  Bounds,
+} from "./StoreProvider";
 
 export const labelLayerHandlers = (
   tool: TOOL,
@@ -142,4 +152,46 @@ export const LabelLayerTools = (
     default:
       return null;
   }
+};
+
+export const renderLabelLayerAnnotations = (
+  step: number,
+  tool: TOOL,
+  creationState: CreationState | null,
+  handlers: RenderAnnotationsHandler,
+  annotations: Array<AnnotationType>,
+  allTokens: Array<Bounds[]>
+) => {
+  // FIXME: Make tokens work for multiple pages. Here we are just taking
+  // tokens for the first page.
+  const tokens = allTokens[0];
+
+  return (
+    <>
+      <AnnotationBeingCreated
+        creationState={creationState}
+        showTokens={true}
+        {...handlers}
+      />
+      {tool === "SELECT" &&
+        annotations.map((annotation) => {
+          return <Annotation key={annotation.id} {...annotation} />;
+        })}
+      {tool === "CREATE" &&
+        tokens.map((token) => (
+          <TranslucentBox
+            key={token.top * token.left}
+            css={{
+              position: "absolute",
+              backgroundColor: "rgb(144, 238, 144, 0.3)",
+              border: "1px solid blue",
+              top: token.top,
+              left: token.left,
+              width: token.width,
+              height: token.height,
+            }}
+          />
+        ))}
+    </>
+  );
 };

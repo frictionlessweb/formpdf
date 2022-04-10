@@ -19,21 +19,10 @@ import {
   RenderingCancelledException,
 } from "pdfjs-dist";
 import Loading from "@mui/material/CircularProgress";
-import {
-  useSelector,
-  useDispatch,
-  Annotation as AnnotationType,
-  TOOL,
-  Bounds,
-} from "./StoreProvider";
-import Annotation, {
-  useCreateAnnotation,
-  CreationState,
-  AnnotationBeingCreated,
-  TranslucentBox,
-} from "./Annotation";
-import { fieldLayerHandlers } from "./FieldLayer";
-import { labelLayerHandlers } from "./LabelLayer";
+import { useSelector, useDispatch } from "./StoreProvider";
+import { useCreateAnnotation, CreationState } from "./Annotation";
+import { fieldLayerHandlers, renderFieldLayerAnnotations } from "./FieldLayer";
+import { labelLayerHandlers, renderLabelLayerAnnotations } from "./LabelLayer";
 
 //  _____    _       _     ____     _  __
 // |  ___|__| |_ ___| |__ |  _ \ __| |/ _|
@@ -235,72 +224,13 @@ interface PDFUIProps {
   children?: React.ReactNode;
 }
 
-interface RenderAnnotationsHandler {
+export interface RenderAnnotationsHandler {
   onMouseUp: React.MouseEventHandler;
   // What should we do when we click down on the Canvas?
   onMouseDown: React.MouseEventHandler;
   // What should we do when our mouse moves on the canvas?
   onMouseMove: React.MouseEventHandler;
 }
-
-const renderAnnotations = (
-  step: number,
-  tool: TOOL,
-  creationState: CreationState | null,
-  handlers: RenderAnnotationsHandler,
-  annotations: Array<AnnotationType>,
-  allTokens: Array<Bounds[]>
-) => {
-  // FIXME: Make tokens work for multiple pages. Here we are just taking
-  // tokens for the first page.
-  const tokens = allTokens[0];
-  switch (step) {
-    case 0: {
-      return (
-        <>
-          <AnnotationBeingCreated
-            creationState={creationState}
-            showTokens={false}
-            {...handlers}
-          />
-          {annotations.map((annotation) => {
-            return <Annotation key={annotation.id} {...annotation} />;
-          })}
-        </>
-      );
-    }
-    case 1: {
-      return (
-        <>
-          <AnnotationBeingCreated
-            creationState={creationState}
-            showTokens={true}
-            {...handlers}
-          />
-          {tool === "SELECT" &&
-            annotations.map((annotation) => {
-              return <Annotation key={annotation.id} {...annotation} />;
-            })}
-          {tool === "CREATE" &&
-            tokens.map((token) => (
-              <TranslucentBox
-                key={token.top * token.left}
-                css={{
-                  position: "absolute",
-                  backgroundColor: "rgb(144, 238, 144, 0.3)",
-                  border: "1px solid blue",
-                  top: token.top,
-                  left: token.left,
-                  width: token.width,
-                  height: token.height,
-                }}
-              />
-            ))}
-        </>
-      );
-    }
-  }
-};
 
 // Actually render the PDFUI onto the screen. Ideally, the code in this component
 // should be extremely simple; most of the complicated functionality gets pushed
@@ -324,14 +254,30 @@ const PDFUI: React.FC<PDFUIProps> = (props) => {
     ...handlers
   } = useHandlers();
 
-  const allAnnotations = renderAnnotations(
-    step,
-    tool,
-    creationState,
-    handlers,
-    annotations,
-    tokens
-  );
+  let annotationsAndTokens = <></>;
+
+  switch (step) {
+    case 0: {
+      annotationsAndTokens = renderFieldLayerAnnotations(
+        step,
+        tool,
+        creationState,
+        handlers,
+        annotations
+      );
+      break;
+    }
+    case 1: {
+      annotationsAndTokens = renderLabelLayerAnnotations(
+        step,
+        tool,
+        creationState,
+        handlers,
+        annotations,
+        tokens
+      );
+    }
+  }
 
   return (
     <div
@@ -358,7 +304,7 @@ const PDFUI: React.FC<PDFUIProps> = (props) => {
           }}
         />
       ) : (
-        allAnnotations
+        annotationsAndTokens
       )}
     </div>
   );

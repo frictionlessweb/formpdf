@@ -8,11 +8,19 @@
 // refactor and fix it.
 
 import { Dispatch } from "redux";
-import { CreateAnnotationAttr, NO_OP } from "./PDF";
-import { mapCreationBoundsToFinalBounds } from "./Annotation";
+import { CreateAnnotationAttr, NO_OP, RenderAnnotationsHandler } from "./PDF";
+import Annotation, {
+  AnnotationBeingCreated,
+  CreationState,
+  mapCreationBoundsToFinalBounds,
+} from "./Annotation";
 import { FieldLayerActionMenu } from "../components/ActionMenu";
 import { AnnotationProps, TranslucentBox } from "./Annotation";
-import { AccessibleForm, TOOL } from "./StoreProvider";
+import {
+  AccessibleForm,
+  TOOL,
+  Annotation as AnnotationType,
+} from "./StoreProvider";
 import { Rnd } from "react-rnd";
 
 export const fieldLayerHandlers = (
@@ -178,4 +186,25 @@ export const FieldLayerTools = (
       );
     }
   }
+};
+
+export const renderFieldLayerAnnotations = (
+  step: number,
+  tool: TOOL,
+  creationState: CreationState | null,
+  handlers: RenderAnnotationsHandler,
+  annotations: Array<AnnotationType>
+) => {
+  return (
+    <>
+      <AnnotationBeingCreated
+        creationState={creationState}
+        showTokens={false}
+        {...handlers}
+      />
+      {annotations.map((annotation) => {
+        return <Annotation key={annotation.id} {...annotation} />;
+      })}
+    </>
+  );
 };
