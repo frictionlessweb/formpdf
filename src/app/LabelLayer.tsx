@@ -51,6 +51,11 @@ export const labelLayerHandlers = (
             },
           });
           resetCreationState();
+          // As soon as a label is created, we switch user to the select tool.
+          dispatch({
+            type: "CHANGE_TOOL",
+            payload: "SELECT",
+          });
         },
       };
     }

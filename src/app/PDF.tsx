@@ -23,11 +23,14 @@ import {
   useSelector,
   useDispatch,
   Annotation as AnnotationType,
+  TOOL,
+  Bounds,
 } from "./StoreProvider";
 import Annotation, {
   useCreateAnnotation,
   CreationState,
   AnnotationBeingCreated,
+  TranslucentBox,
 } from "./Annotation";
 import { fieldLayerHandlers } from "./FieldLayer";
 import { labelLayerHandlers } from "./LabelLayer";
@@ -242,10 +245,15 @@ interface RenderAnnotationsHandler {
 
 const renderAnnotations = (
   step: number,
+  tool: TOOL,
   creationState: CreationState | null,
   handlers: RenderAnnotationsHandler,
-  annotations: Array<AnnotationType>
+  annotations: Array<AnnotationType>,
+  allTokens: Array<Bounds[]>
 ) => {
+  // FIXME: Make tokens work for multiple pages. Here we are just taking
+  // tokens for the first page.
+  const tokens = allTokens[0];
   switch (step) {
     case 0: {
       return (
@@ -269,9 +277,25 @@ const renderAnnotations = (
             showTokens={true}
             {...handlers}
           />
-          {annotations.map((annotation) => {
-            return <Annotation key={annotation.id} {...annotation} />;
-          })}
+          {tool === "SELECT" &&
+            annotations.map((annotation) => {
+              return <Annotation key={annotation.id} {...annotation} />;
+            })}
+          {tool === "CREATE" &&
+            tokens.map((token) => (
+              <TranslucentBox
+                key={token.top * token.left}
+                css={{
+                  position: "absolute",
+                  backgroundColor: "rgb(144, 238, 144, 0.3)",
+                  border: "1px solid blue",
+                  top: token.top,
+                  left: token.left,
+                  width: token.width,
+                  height: token.height,
+                }}
+              />
+            ))}
         </>
       );
     }
@@ -284,9 +308,11 @@ const renderAnnotations = (
 const PDFUI: React.FC<PDFUIProps> = (props) => {
   const { url, width, height } = props;
   const { canvas, loading } = useFetchPDFUI(url);
-  const [annotations, step] = useSelector((state) => [
+  const [annotations, step, tool, tokens] = useSelector((state) => [
     Object.values(state.annotations),
     state.step,
+    state.tool,
+    state.tokens,
   ]);
 
   const {
@@ -300,9 +326,11 @@ const PDFUI: React.FC<PDFUIProps> = (props) => {
 
   const allAnnotations = renderAnnotations(
     step,
+    tool,
     creationState,
     handlers,
-    annotations
+    annotations,
+    tokens
   );
 
   return (

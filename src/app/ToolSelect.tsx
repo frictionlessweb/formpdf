@@ -85,12 +85,6 @@ const ToolSelect: React.FC<BoxProps> = (props) => {
             src="./cursorIcon.svg"
             alt="cursor icon"
           />
-          <ToolButton
-            activeTool={activeTool}
-            toolName="CREATE"
-            src="./fieldIcon.svg"
-            alt="field icon"
-          />
           <ResetButton />
         </>
       );

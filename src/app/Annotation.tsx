@@ -246,7 +246,7 @@ export const AnnotationBeingCreated: React.FC<AnnotationBeingCreatedProps> = (
               css={{
                 position: "absolute",
                 backgroundColor: "rgb(144, 238, 144, 0.3)",
-                border: "1px solid blue",
+                border: "2px solid blue",
                 top: token.top,
                 left: token.left,
                 width: token.width,

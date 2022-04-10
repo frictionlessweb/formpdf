@@ -20,6 +20,11 @@ const Heading: React.FC<BoxProps> = (props) => {
             type: "SET_STEP",
             payload: step,
           });
+          // We also need to set the tool to the default tool for the new step
+          dispatch({
+            type: "CHANGE_TOOL",
+            payload: "SELECT",
+          });
         }}
         activeStep={activeStep}
       />
