@@ -15,6 +15,7 @@ import {
 import { devToolsEnhancer } from "@redux-devtools/extension";
 import TOKENS from "./tokens.json";
 import PREDICTIONS from "./predictions.json";
+import { boxContaining } from "./utils";
 
 // This is required to enable immer patches.
 enablePatches();
@@ -228,29 +229,6 @@ const produceWithUndo = (previous: AccessibleForm, producer: Producer) => {
     delete draft.versions[draft.currentVersion + 1];
     delete draft.versions[draft.currentVersion - MAX_VERSION];
   });
-};
-
-// See https://github.com/allenai/pawls/blob/3cc57533248e7ca787b71cafcca5fb66e96b2166/ui/src/context/PDFStore.ts#L31
-// FIXME: This logic should be moved out of store file.
-const boxContaining = (tokens: Bounds[], padding: number): Bounds => {
-  let left = Number.MAX_VALUE;
-  let top = Number.MAX_VALUE;
-  let right = 0;
-  let bottom = 0;
-  for (const token of tokens) {
-    top = Math.min(token.top, top);
-    left = Math.min(token.left, left);
-    right = Math.max(token.left + token.width, right);
-    bottom = Math.max(token.top + token.height, bottom);
-  }
-  const width = right - left;
-  const height = bottom - top;
-  return {
-    top: top - padding,
-    left: left - padding,
-    width: width + padding,
-    height: height + padding,
-  };
 };
 
 export const reduceAccessibleForm = (
