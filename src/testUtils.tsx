@@ -1,6 +1,6 @@
 import React from "react";
 import { render } from "@testing-library/react";
-import { reduceAccessibleForm } from "./app/AccessibleForm";
+import { reduceAccessibleForm } from "./app/StoreProvider";
 import { createStore } from "redux";
 import { Provider } from "react-redux";
 

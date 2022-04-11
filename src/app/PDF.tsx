@@ -16,16 +16,16 @@ import {
   PDFDocumentProxy,
   PDFPageProxy,
   RenderTask,
+  RenderingCancelledException,
 } from "pdfjs-dist";
 import Loading from "@mui/material/CircularProgress";
-import { useSelector, useDispatch } from "./AccessibleForm";
-import Annotation, {
-  TranslucentBox,
-  mapCreationBoundsToCss,
-  mapCreationBoundsToFinalBounds,
-  useCreationBounds,
-  CreationBounds,
-} from "./Annotation";
+import { useSelector, useDispatch } from "./StoreProvider";
+import { useCreateAnnotation, CreationState } from "./Annotation";
+import { fieldLayerHandlers, FieldLayerAllAnnotations } from "./FieldLayer";
+import {
+  labelLayerHandlers,
+  LabelLayerAllAnnotationsAndTokens,
+} from "./LabelLayer";
 
 //  _____    _       _     ____     _  __
 // |  ___|__| |_ ___| |__ |  _ \ __| |/ _|
@@ -102,34 +102,41 @@ const useFetchPDFUI = (url: string): FetchingPdf => {
   const renderingRef = React.useRef<RenderTask | null>(null);
   React.useEffect(() => {
     const displayPdf = async () => {
-      // If the PDFUI or the DOM isn't ready yet, just return and try again later.
-      if (!pageProxy) return;
-      const canvas = canvasRef?.current;
-      if (!canvas) return;
-      const canvasContext = canvas.getContext("2d");
-      if (!canvasContext) return;
+      try {
+        // If the PDFUI or the DOM isn't ready yet, just return and try again later.
+        if (!pageProxy) return;
+        const canvas = canvasRef?.current;
+        if (!canvas) return;
+        const canvasContext = canvas.getContext("2d");
+        if (!canvasContext) return;
 
-      if (renderingRef.current) {
-        // If we're trying to render something else, wait for it to finish, and
-        // then continue. This is especially nice during development, since it
-        // means that we can edit the external state of this component without
-        // triggering an error.
-        await renderingRef.current?.promise;
+        if (renderingRef.current) {
+          // If we're trying to render something else, prevent it from finishing,
+          // then continue. This will throw an exception we deliberately choose
+          // to ignore below.
+          renderingRef.current?.cancel();
+        }
+
+        // By default, PDFUIJS will render an extremely blurry PDFUI, so we need to set
+        // the viewport correctly in order to avoid an unpleasant user experience.
+        const scale = window.devicePixelRatio || 1;
+        const viewport = pageProxy.getViewport({ scale: zoom * scale });
+        canvas.width = viewport.width;
+        canvas.height = viewport.height;
+        renderingRef.current = pageProxy.render({ viewport, canvasContext });
+        await renderingRef.current.promise;
+      } catch (err) {
+        if (!(err instanceof RenderingCancelledException)) {
+          // An error that we didn't expect happened; throw it.
+          throw err;
+        }
+      } finally {
+        // Now that we've triggered a render, we've fetched everything we've needed
+        // to from the network, so we can set loading to false again. Other PDFUI
+        // operations are generally fast enough that we don't need to display a
+        // spinner.
+        setLoading(false);
       }
-
-      // By default, PDFUIJS will render an extremely blurry PDFUI, so we need to set
-      // the viewport correctly in order to avoid an unpleasant user experience.
-      const scale = window.devicePixelRatio || 1;
-      const viewport = pageProxy.getViewport({ scale: zoom * scale });
-      canvas.width = viewport.width;
-      canvas.height = viewport.height;
-      renderingRef.current = pageProxy.render({ viewport, canvasContext });
-
-      // Now that we've triggered a render, we've fetched everything we've needed
-      // to from the network, so we can set loading to false again. Other PDFUI
-      // operations are generally fast enough that we don't need to display a
-      // spinner.
-      setLoading(false);
     };
     displayPdf();
   }, [pageProxy, canvasRef, renderingRef, zoom]);
@@ -156,7 +163,7 @@ interface Handlers {
   // What shape should the cursor be?
   cursor: string;
   // Are we in the middle of highlighting something? If so, what is it?
-  creationBounds: null | CreationBounds;
+  creationState: null | CreationState;
   // What should we do when our mouse is clicked over a region in the container div?
   onClick: React.MouseEventHandler;
   // What should we do when our mouse moves over a region of the Canvas?
@@ -169,64 +176,30 @@ interface Handlers {
   onMouseLeave: React.MouseEventHandler;
 }
 
-const NO_OP: React.MouseEventHandler = () => {};
+export const NO_OP: React.MouseEventHandler = () => {};
+
+export interface CreateAnnotationAttr {
+  div: React.MutableRefObject<HTMLDivElement | null>;
+  creationState: null | CreationState;
+  newCreationBounds: React.MouseEventHandler;
+  resetCreationState: () => void;
+  updateCreationState: React.MouseEventHandler;
+}
 
 const useHandlers = (): Handlers => {
-  const tool = useSelector((state) => state.tool);
+  const [step, tool] = useSelector((state) => [state.step, state.tool]);
   const dispatch = useDispatch();
-  const {
-    div: container,
-    bounds: creationBounds,
-    createBounds,
-    resetBounds,
-    updateBounds,
-  } = useCreationBounds();
-  switch (tool) {
-    case "CREATE": {
-      return {
-        cursor: "crosshair",
-        creationBounds,
-        container,
-        onClick: NO_OP,
-        onMouseDown: createBounds,
-        onMouseMove: updateBounds,
-        onMouseLeave: resetBounds,
-        onMouseUp: (_) => {
-          if (!creationBounds) return;
-          dispatch({
-            type: "CREATE_ANNOTATION",
-            payload: {
-              id: window.crypto.randomUUID(),
-              backgroundColor: "rgb(255, 182, 193, 0.3)",
-              border: "3px solid red",
-              type: "TEXTBOX",
-              ...mapCreationBoundsToFinalBounds(creationBounds),
-            },
-          });
-          resetBounds();
-        },
-      };
-    }
-    case "SELECT": {
-      return {
-        cursor: "auto",
-        creationBounds: null,
-        container,
-        onMouseMove: NO_OP,
-        onMouseUp: NO_OP,
-        onMouseDown: NO_OP,
-        onMouseLeave: NO_OP,
-        onClick: () => {
-          if (tool === "SELECT") {
-            dispatch({ type: "DESELECT_ALL_ANNOTATION" });
-          }
-        },
-      };
-    }
+  const createAnnotationAttr = useCreateAnnotation();
+  const { creationState, div: container } = createAnnotationAttr;
+  switch (step) {
+    case 0:
+      return fieldLayerHandlers(tool, dispatch, createAnnotationAttr);
+    case 1:
+      return labelLayerHandlers(tool, dispatch, createAnnotationAttr);
     default:
       return {
         cursor: "auto",
-        creationBounds: null,
+        creationState,
         container,
         onClick: NO_OP,
         onMouseMove: NO_OP,
@@ -254,17 +227,26 @@ interface PDFUIProps {
   children?: React.ReactNode;
 }
 
+export interface RenderAnnotationsHandler {
+  onMouseUp: React.MouseEventHandler;
+  // What should we do when we click down on the Canvas?
+  onMouseDown: React.MouseEventHandler;
+  // What should we do when our mouse moves on the canvas?
+  onMouseMove: React.MouseEventHandler;
+}
+
 // Actually render the PDFUI onto the screen. Ideally, the code in this component
 // should be extremely simple; most of the complicated functionality gets pushed
 // to hooks in other places.
 const PDFUI: React.FC<PDFUIProps> = (props) => {
-  const { url, width, height, children } = props;
+  const { url, width, height } = props;
   const { canvas, loading } = useFetchPDFUI(url);
+  const step = useSelector((state) => state.step);
 
   const {
     cursor,
     container,
-    creationBounds,
+    creationState,
     onMouseLeave,
     onClick,
     ...handlers
@@ -296,36 +278,42 @@ const PDFUI: React.FC<PDFUIProps> = (props) => {
         />
       ) : (
         <>
-          {creationBounds ? (
-            // FIXME: TEXTBOX will not be default. We will use the last created field type as current value.
-            <TranslucentBox
-              type="TEXTBOX"
-              css={{
-                position: "absolute",
-                backgroundColor: "rgb(144, 238, 144, 0.3)",
-                border: "3px solid green",
-                ...mapCreationBoundsToCss(creationBounds),
-              }}
-              {...handlers}
-            />
-          ) : null}
-          {children}
+          {props.children}
+          {renderAnnotation(step, creationState, handlers)}
         </>
       )}
     </div>
   );
 };
 
+const renderAnnotation = (
+  step: number,
+  creationState: CreationState | null,
+  handlers: RenderAnnotationsHandler
+) => {
+  switch (step) {
+    case 0: {
+      return (
+        <FieldLayerAllAnnotations
+          creationState={creationState}
+          handlers={handlers}
+        />
+      );
+    }
+    case 1: {
+      return (
+        <LabelLayerAllAnnotationsAndTokens
+          creationState={creationState}
+          handlers={handlers}
+        />
+      );
+    }
+  }
+};
+
 const PDF: React.FC<PDFUIProps> = (props) => {
   const { url, width, height } = props;
-  const annotations = useSelector((state) => Object.values(state.annotations));
-  return (
-    <PDFUI url={url} width={width} height={height}>
-      {annotations.map((annotation) => {
-        return <Annotation key={annotation.id} {...annotation} />;
-      })}
-    </PDFUI>
-  );
+  return <PDFUI url={url} width={width} height={height} />;
 };
 
 export default PDF;

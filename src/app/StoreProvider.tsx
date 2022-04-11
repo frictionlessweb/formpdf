@@ -13,8 +13,11 @@ import {
   TypedUseSelectorHook,
 } from "react-redux";
 import { devToolsEnhancer } from "@redux-devtools/extension";
+import TOKENS from "./tokens.json";
+import PREDICTIONS from "./predictions.json";
+import { boxContaining } from "./utils";
 
-// This is required to enable immer patches
+// This is required to enable immer patches.
 enablePatches();
 
 //     _                      _        _   _
@@ -39,10 +42,10 @@ export interface Bounds {
   height: number;
 }
 
-// What are the different types of annotation fields
-export type FIELD_TYPE = "TEXTBOX" | "RADIOBOX" | "CHECKBOX";
+// What are the different types of annotation fields?
+export type ANNOTATION_TYPE = "TEXTBOX" | "RADIOBOX" | "CHECKBOX" | "LABEL";
 
-export type Annotation = Bounds & {
+export type AnnotationUIState = {
   // What is the ID of the annotation -- how do we uniquely identify it?
   id: AnnotationId;
   // What is the color of the annotation?
@@ -50,8 +53,10 @@ export type Annotation = Bounds & {
   // What is the border of the annotation?
   border: string;
   // What is the the type of the annotation?
-  type: FIELD_TYPE;
+  type: ANNOTATION_TYPE;
 };
+
+export type Annotation = Bounds & AnnotationUIState;
 
 //     _                         _ _     _      _____
 //    / \   ___ ___ ___  ___ ___(_) |__ | | ___|  ___|__  _ __ _ __ ___
@@ -96,19 +101,45 @@ export interface AccessibleForm {
   canUndo: boolean;
   // Can redo be performed.
   canRedo: boolean;
+  // What are the tokens associated with the document?
+  tokens: Array<Bounds[]>;
 }
+
+// FIXME: Here we need to implement page logic.
+// This function grabs the prediction from prediction.json, creates
+// annotation out of them and its output is used to populate annotations
+// in DEFAULT_ACCESSIBLE_FORM.
+const getPredictedAnnotations = () => {
+  const predictedAnnotations: Record<AnnotationId, Annotation> = {};
+  PREDICTIONS.forEach((prediction) => {
+    const { top, left, width, height } = prediction;
+    const id: AnnotationId = window.crypto.randomUUID();
+    predictedAnnotations[id] = {
+      id,
+      backgroundColor: "rgb(255, 182, 193, 0.3)",
+      border: "3px solid red",
+      type: "TEXTBOX",
+      top,
+      left,
+      width,
+      height,
+    };
+  });
+  return predictedAnnotations;
+};
 
 export const DEFAULT_ACCESSIBLE_FORM: AccessibleForm = {
   step: 0,
   tool: "CREATE",
   zoom: 1,
   page: 1,
-  annotations: {},
+  annotations: getPredictedAnnotations(),
   selectedAnnotations: {},
   canRedo: false,
   canUndo: false,
   currentVersion: -1,
   versions: {},
+  tokens: TOKENS,
 };
 
 // AccessibleFormAction describes every important possible action that a user
@@ -119,6 +150,10 @@ type AccessibleFormAction =
   | { type: "CHANGE_PAGE"; payload: number }
   | { type: "CHANGE_TOOL"; payload: TOOL }
   | { type: "CREATE_ANNOTATION"; payload: Annotation }
+  | {
+      type: "CREATE_ANNOTATION_FROM_TOKENS";
+      payload: { ui: AnnotationUIState; tokens: Bounds[] };
+    }
   | { type: "DELETE_ANNOTATION"; payload: Array<AnnotationId> }
   | {
       type: "MOVE_ANNOTATION";
@@ -151,7 +186,11 @@ type AccessibleFormAction =
     }
   | {
       type: "SET_ANNOTATION_TYPE";
-      payload: { ids: Array<AnnotationId>; type: FIELD_TYPE };
+      payload: { ids: Array<AnnotationId>; type: ANNOTATION_TYPE };
+    }
+  | {
+      type: "SET_STEP";
+      payload: number;
     }
   | {
       type: "UNDO";
@@ -211,10 +250,18 @@ export const reduceAccessibleForm = (
         const scale = action.payload / previousZoom;
         for (const annotationId of annotationIds) {
           const annotation = draft.annotations[annotationId];
-          annotation.left = scale * annotation.left;
-          annotation.top = scale * annotation.top;
-          annotation.height = scale * annotation.height;
-          annotation.width = scale * annotation.width;
+          annotation.left *= scale;
+          annotation.top *= scale;
+          annotation.height *= scale;
+          annotation.width *= scale;
+        }
+        for (const pageTokens of draft.tokens) {
+          for (const token of pageTokens) {
+            token.left *= scale;
+            token.top *= scale;
+            token.height *= scale;
+            token.width *= scale;
+          }
         }
         return;
       });
@@ -235,6 +282,14 @@ export const reduceAccessibleForm = (
       return produceWithUndo(previous, (draft) => {
         draft.annotations[action.payload.id] = action.payload;
         return;
+      });
+    }
+    case "CREATE_ANNOTATION_FROM_TOKENS": {
+      return produce(previous, (draft) => {
+        draft.annotations[action.payload.ui.id] = {
+          ...action.payload.ui,
+          ...boxContaining(action.payload.tokens, 3),
+        };
       });
     }
     case "MOVE_ANNOTATION": {
@@ -282,7 +337,32 @@ export const reduceAccessibleForm = (
       });
     }
     case "HYDRATE_STORE": {
-      return action.payload;
+      return produce(action.payload, (draft) => {
+        // NOTE: Depending on the size of the screen, our token data can be off by a factor of
+        // two. To handle the problem at runtime since we're testing remotely and we don't know
+        // the user's screen size, we multiply by 2 when the screen is sufficiently small so that
+        // we don't have the problem.
+        //
+        // TODO: If there is away to avoid this clever trick, please let us know!
+        const scale = window.innerWidth < 1800 ? 2 : 1;
+        const annotationIds = Object.keys(draft.annotations);
+        for (const annotationId of annotationIds) {
+          const annotation = draft.annotations[annotationId];
+          annotation.left *= scale;
+          annotation.top *= scale;
+          annotation.height *= scale;
+          annotation.width *= scale;
+        }
+        for (const pageTokens of draft.tokens) {
+          for (const token of pageTokens) {
+            token.left *= scale;
+            token.top *= scale;
+            token.height *= scale;
+            token.width *= scale;
+          }
+        }
+        return;
+      });
     }
     case "SET_ANNOTATION_TYPE": {
       return produceWithUndo(previous, (draft) => {
@@ -291,6 +371,16 @@ export const reduceAccessibleForm = (
           annotation.type = action.payload.type;
         });
         return;
+      });
+    }
+    case "SET_STEP": {
+      // TODO: When step changes we might want to clean undo and redo. So, that
+      // users don't accidently undo or redo steps out of their view.
+      return produce(previous, (draft) => {
+        draft.step = action.payload;
+        // When user moves to a new page we want "SELECT" tool to be selected as
+        // it is the default tool which is present on all pages.
+        draft.tool = "SELECT";
       });
     }
     case "UNDO": {
@@ -328,9 +418,7 @@ export const reduceAccessibleForm = (
 
 const store = createStore(reduceAccessibleForm, devToolsEnhancer());
 
-const AccessibleFormProvider: React.FC<{ children: React.ReactNode }> = (
-  props
-) => {
+const StoreProvider: React.FC<{ children: React.ReactNode }> = (props) => {
   const { children } = props;
   return <Provider store={store}>{children}</Provider>;
 };
@@ -341,4 +429,4 @@ export const useSelector: TypedUseSelectorHook<AccessibleForm> =
 
 export const useDispatch = () => useDispatchRedux<typeof store.dispatch>();
 
-export default AccessibleFormProvider;
+export default StoreProvider;

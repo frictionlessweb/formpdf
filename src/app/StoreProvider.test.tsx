@@ -1,7 +1,9 @@
 import {
   reduceAccessibleForm as reduce,
   DEFAULT_ACCESSIBLE_FORM as init,
-} from "./AccessibleForm";
+  Bounds,
+  ANNOTATION_TYPE,
+} from "./StoreProvider";
 
 describe("Our form reducer", () => {
   test("Returns the default initial state if it didn't previously exist", () => {
@@ -37,6 +39,14 @@ describe("Our form reducer", () => {
     expect(withAnnotation.annotations["1"].top).toEqual(10);
     expect(withAnnotation.annotations["1"].left).toEqual(10);
   });
+  test("Zoom changes the token sizes appropriately", () => {
+    const res = reduce(init, { type: "CHANGE_ZOOM", payload: 2 });
+    expect(res.zoom).toEqual(2);
+    expect(res.tokens[0][0].height).toBe(init.tokens[0][0].height * 2);
+    expect(res.tokens[0][0].width).toBe(init.tokens[0][0].width * 2);
+    expect(res.tokens[0][0].top).toBe(init.tokens[0][0].top * 2);
+    expect(res.tokens[0][0].left).toBe(init.tokens[0][0].left * 2);
+  });
   test("We can change the active tool", () => {
     const res = reduce(init, { type: "CHANGE_TOOL", payload: "SELECT" });
     expect(res.tool).toEqual("SELECT");
@@ -61,6 +71,25 @@ describe("Our form reducer", () => {
       payload,
     });
     expect(res.annotations["1"]).toEqual(payload);
+  });
+  test("We can create an annotation from a token", () => {
+    const payload = {
+      tokens: [{ height: 10, width: 10, top: 3, left: 3 }],
+      ui: {
+        type: "TEXTBOX" as ANNOTATION_TYPE,
+        id: "1",
+        backgroundColor: "red",
+        border: "2px solid blue",
+      },
+    };
+    const res = reduce(init, {
+      type: "CREATE_ANNOTATION_FROM_TOKENS",
+      payload,
+    });
+    expect(res.annotations["1"].height).toBe(13);
+    expect(res.annotations["1"].width).toBe(13);
+    expect(res.annotations["1"].top).toBe(0);
+    expect(res.annotations["1"].left).toBe(0);
   });
   test("Adding an annotation does the right thing with undo/redo", () => {
     const payload = {
@@ -93,15 +122,16 @@ describe("Our form reducer", () => {
       left: 5,
       border: "pink",
     } as const;
+    const length = Object.keys(init.annotations).length;
     const created = reduce(init, {
       type: "CREATE_ANNOTATION",
       payload,
     });
-    expect(Object.keys(created.annotations)).toHaveLength(1);
+    expect(Object.keys(created.annotations)).toHaveLength(length + 1);
     const undo = reduce(created, { type: "UNDO" });
-    expect(Object.keys(undo.annotations)).toHaveLength(0);
+    expect(Object.keys(undo.annotations)).toHaveLength(length);
     const redo = reduce(undo, { type: "REDO" });
-    expect(Object.keys(redo.annotations)).toHaveLength(1);
+    expect(Object.keys(redo.annotations)).toHaveLength(length + 1);
   });
   test("canUndo and canRedo work properly", () => {
     const payload = {
@@ -302,6 +332,7 @@ describe("Our form reducer", () => {
       canUndo: false,
       versions: {},
       currentVersion: -1,
+      tokens: [] as Bounds[][],
     } as const;
     const res = reduce(init, { type: "HYDRATE_STORE", payload });
     expect(res).toEqual(payload);
@@ -329,5 +360,18 @@ describe("Our form reducer", () => {
       },
     });
     expect(changed.annotations["1"].type).toBe("CHECKBOX");
+  });
+  test("We can set step of the process and when we do it tool automatically gets changed to select", () => {
+    const changedTool = reduce(init, {
+      type: "CHANGE_TOOL",
+      payload: "CREATE",
+    });
+    const changedStep = reduce(changedTool, {
+      type: "SET_STEP",
+      payload: 3,
+    });
+
+    expect(changedStep.step).toBe(3);
+    expect(changedStep.tool).toBe("SELECT");
   });
 });

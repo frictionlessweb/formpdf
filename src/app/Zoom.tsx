@@ -2,7 +2,7 @@
 import React from "react";
 import Box from "@mui/material/Box";
 import Slider from "@mui/material/Slider";
-import { useSelector, useDispatch } from "./AccessibleForm";
+import { useSelector, useDispatch } from "./StoreProvider";
 import ZoomOutIcon from "@mui/icons-material/ZoomOut";
 import ZoomInIcon from "@mui/icons-material/ZoomIn";
 

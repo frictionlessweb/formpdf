@@ -12,26 +12,31 @@ import { StepIconProps } from "@mui/material/StepIcon";
 
 const STEPS = [
   {
+    id: 0,
     title: "Section",
     description:
       "Mark the area you want to fix first. We will go through the form in small chunks. Ensure that fields or groups (radioboxes) are completely included and not cut off in half .",
   },
   {
+    id: 1,
     title: "Fields",
     description:
       "Ensure all form fields have a box and a field type present on them. If not, draw a box using the mouse and assign the field type.",
   },
   {
+    id: 2,
     title: "Labels",
     description:
       "Ensure all form fields have a label associated to them. If not, select the field and use update label from the popup.",
   },
   {
+    id: 3,
     title: "Groups",
     description:
       "Ensure the checkbox and radiobox are grouped properly and have group names. If not, you can select multiple boxes by dragging or Shift+Click and use popup menu to group fields. ",
   },
   {
+    id: 4,
     title: "Tooltips",
     description:
       "Ensure these field descriptions (tooltips) are sufficient. If needed, add more information about the field using the edit button.",
@@ -100,8 +105,10 @@ function StepIcon(props: StepIconProps) {
   );
 }
 
-const Steps: React.FC<BoxProps & { activeStep: number }> = (props) => {
-  const { activeStep, ...boxProps } = props;
+const Steps: React.FC<
+  BoxProps & { activeStep: number; onStepChange: (step: number) => void }
+> = (props) => {
+  const { activeStep, onStepChange, ...boxProps } = props;
   //BUG: is not boxProps inline style ?
   return (
     <Box
@@ -117,11 +124,22 @@ const Steps: React.FC<BoxProps & { activeStep: number }> = (props) => {
         connector={<Connector />}>
         {STEPS.map((step) => (
           <Step key={step.title}>
-            <StepLabel StepIconComponent={StepIcon}>{step.title}</StepLabel>
+            <StepLabel StepIconComponent={StepIcon}>
+              <span
+                css={{
+                  cursor: "pointer",
+                  "&:hover": {
+                    fontWeight: "bold",
+                  },
+                }}
+                onClick={() => onStepChange(step.id)}>
+                {step.title}
+              </span>
+            </StepLabel>
           </Step>
         ))}
       </Stepper>
-      <div css={{ marginTop: "20px", fontWeight: "bold" }}>
+      <div css={{ marginTop: "20px", fontWeight: "bold", textAlign: "center" }}>
         {STEPS[activeStep].description}
       </div>
     </Box>

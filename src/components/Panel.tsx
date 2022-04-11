@@ -1,7 +1,7 @@
 import React from "react";
 import Box, { BoxProps } from "@mui/material/Box";
 import { Button, ButtonGroup } from "@mui/material";
-import { useDispatch, useSelector } from "../app/AccessibleForm";
+import { useDispatch, useSelector } from "../app/StoreProvider";
 
 const Panel: React.FC<BoxProps> = (props) => {
   const { ...boxProps } = props;

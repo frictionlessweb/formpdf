@@ -1,7 +1,13 @@
 import React from "react";
-import { useSelector, useDispatch, TOOL } from "./AccessibleForm";
+import {
+  useSelector,
+  useDispatch,
+  TOOL,
+  DEFAULT_ACCESSIBLE_FORM,
+} from "./StoreProvider";
 import Box, { BoxProps } from "@mui/material/Box";
 import Button from "@mui/material/Button";
+import RestartAlt from "@mui/icons-material/RestartAlt";
 
 interface ToolButtonProps {
   toolName: TOOL;
@@ -9,6 +15,8 @@ interface ToolButtonProps {
   src: string;
   alt: string;
 }
+
+// ADD HERE: Switch statement for each step
 
 const ToolButton: React.FC<ToolButtonProps> = (props) => {
   const { toolName, activeTool, src, alt } = props;
@@ -23,22 +31,69 @@ const ToolButton: React.FC<ToolButtonProps> = (props) => {
   );
 };
 
+/** TODO: Once we stabalize the data model, getting rid of this button
+ * probably makes sense. Until then, we'll include it to help unblock
+ * people who want to try the app and get stuck
+ */
+
+const ResetButton = () => {
+  const dispatch = useDispatch();
+  return (
+    <Button
+      variant="contained"
+      onClick={() =>
+        dispatch({ type: "HYDRATE_STORE", payload: DEFAULT_ACCESSIBLE_FORM })
+      }>
+      <RestartAlt />
+    </Button>
+  );
+};
+
 const ToolSelect: React.FC<BoxProps> = (props) => {
-  const activeTool = useSelector((state) => state.tool);
+  const [activeTool, activeStep] = useSelector((state) => [
+    state.tool,
+    state.step,
+  ]);
+  let tools = <></>;
+  switch (activeStep) {
+    case 0: {
+      tools = (
+        <>
+          <ToolButton
+            activeTool={activeTool}
+            toolName="SELECT"
+            src="./cursorIcon.svg"
+            alt="cursor icon"
+          />
+          <ToolButton
+            activeTool={activeTool}
+            toolName="CREATE"
+            src="./fieldIcon.svg"
+            alt="field icon"
+          />
+          <ResetButton />
+        </>
+      );
+      break;
+    }
+    case 1: {
+      tools = (
+        <>
+          <ToolButton
+            activeTool={activeTool}
+            toolName="SELECT"
+            src="./cursorIcon.svg"
+            alt="cursor icon"
+          />
+          <ResetButton />
+        </>
+      );
+      break;
+    }
+  }
   return (
     <Box display="flex" flexDirection="column" alignItems="center" {...props}>
-      <ToolButton
-        activeTool={activeTool}
-        toolName="SELECT"
-        src="./cursorIcon.svg"
-        alt="cursor icon"
-      />
-      <ToolButton
-        activeTool={activeTool}
-        toolName="CREATE"
-        src="./fieldIcon.svg"
-        alt="field icon"
-      />
+      {tools}
     </Box>
   );
 };
