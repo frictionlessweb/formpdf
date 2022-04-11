@@ -16,13 +16,7 @@ import Annotation, {
   TranslucentBox,
 } from "./Annotation";
 import { CreateAnnotationAttr, NO_OP, RenderAnnotationsHandler } from "./PDF";
-import {
-  TOOL,
-  Annotation as AnnotationType,
-  Bounds,
-  useSelector,
-  useDispatch,
-} from "./StoreProvider";
+import { TOOL, useSelector, useDispatch } from "./StoreProvider";
 
 export const labelLayerHandlers = (
   tool: TOOL,
@@ -164,14 +158,15 @@ export const LabelLayerAnnotation: React.FC<{
   }
 };
 
-export const renderLabelLayerAnnotations = (
-  step: number,
-  tool: TOOL,
-  creationState: CreationState | null,
-  handlers: RenderAnnotationsHandler,
-  annotations: Array<AnnotationType>,
-  allTokens: Array<Bounds[]>
-) => {
+export const LabelLayerAllAnnotationsAndTokens: React.FC<{
+  creationState: CreationState | null;
+  handlers: RenderAnnotationsHandler;
+}> = ({ creationState, handlers }) => {
+  const [annotations, tool, allTokens] = useSelector((state) => [
+    Object.values(state.annotations),
+    state.tool,
+    state.tokens,
+  ]);
   // FIXME: Make tokens work for multiple pages. Here we are just taking
   // tokens for the first page.
   const tokens = allTokens[0];

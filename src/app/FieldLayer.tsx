@@ -16,12 +16,7 @@ import Annotation, {
 } from "./Annotation";
 import { FieldLayerActionMenu } from "../components/ActionMenu";
 import { AnnotationProps, TranslucentBox } from "./Annotation";
-import {
-  TOOL,
-  Annotation as AnnotationType,
-  useSelector,
-  useDispatch,
-} from "./StoreProvider";
+import { TOOL, useSelector, useDispatch } from "./StoreProvider";
 import { Rnd } from "react-rnd";
 
 export const fieldLayerHandlers = (
@@ -58,6 +53,7 @@ export const fieldLayerHandlers = (
               ...mapCreationBoundsToFinalBounds(creationState.bounds),
             },
           });
+          // FIXME: Can we move this logic from here into the reducer, creating another action if necessary?
           resetCreationState();
         },
       };
@@ -202,13 +198,13 @@ export const FieldLayerAnnotation: React.FC<{
   }
 };
 
-export const renderFieldLayerAnnotations = (
-  step: number,
-  tool: TOOL,
-  creationState: CreationState | null,
-  handlers: RenderAnnotationsHandler,
-  annotations: Array<AnnotationType>
-) => {
+export const FieldLayerAllAnnotations: React.FC<{
+  creationState: CreationState | null;
+  handlers: RenderAnnotationsHandler;
+}> = ({ creationState, handlers }) => {
+  const [annotations] = useSelector((state) => [
+    Object.values(state.annotations),
+  ]);
   return (
     <>
       <AnnotationBeingCreated

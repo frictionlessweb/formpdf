@@ -21,8 +21,11 @@ import {
 import Loading from "@mui/material/CircularProgress";
 import { useSelector, useDispatch } from "./StoreProvider";
 import { useCreateAnnotation, CreationState } from "./Annotation";
-import { fieldLayerHandlers, renderFieldLayerAnnotations } from "./FieldLayer";
-import { labelLayerHandlers, renderLabelLayerAnnotations } from "./LabelLayer";
+import { fieldLayerHandlers, FieldLayerAllAnnotations } from "./FieldLayer";
+import {
+  labelLayerHandlers,
+  LabelLayerAllAnnotationsAndTokens,
+} from "./LabelLayer";
 
 //  _____    _       _     ____     _  __
 // |  ___|__| |_ ___| |__ |  _ \ __| |/ _|
@@ -238,12 +241,7 @@ export interface RenderAnnotationsHandler {
 const PDFUI: React.FC<PDFUIProps> = (props) => {
   const { url, width, height } = props;
   const { canvas, loading } = useFetchPDFUI(url);
-  const [annotations, step, tool, tokens] = useSelector((state) => [
-    Object.values(state.annotations),
-    state.step,
-    state.tool,
-    state.tokens,
-  ]);
+  const step = useSelector((state) => state.step);
 
   const {
     cursor,
@@ -253,31 +251,6 @@ const PDFUI: React.FC<PDFUIProps> = (props) => {
     onClick,
     ...handlers
   } = useHandlers();
-
-  let annotationsAndTokens = <></>;
-
-  switch (step) {
-    case 0: {
-      annotationsAndTokens = renderFieldLayerAnnotations(
-        step,
-        tool,
-        creationState,
-        handlers,
-        annotations
-      );
-      break;
-    }
-    case 1: {
-      annotationsAndTokens = renderLabelLayerAnnotations(
-        step,
-        tool,
-        creationState,
-        handlers,
-        annotations,
-        tokens
-      );
-    }
-  }
 
   return (
     <div
@@ -304,10 +277,43 @@ const PDFUI: React.FC<PDFUIProps> = (props) => {
           }}
         />
       ) : (
-        annotationsAndTokens
+        <>
+          {props.children}
+          {renderAnnotation(step, creationState, handlers)}
+        </>
       )}
     </div>
   );
 };
 
-export default PDFUI;
+const renderAnnotation = (
+  step: number,
+  creationState: CreationState | null,
+  handlers: RenderAnnotationsHandler
+) => {
+  switch (step) {
+    case 0: {
+      return (
+        <FieldLayerAllAnnotations
+          creationState={creationState}
+          handlers={handlers}
+        />
+      );
+    }
+    case 1: {
+      return (
+        <LabelLayerAllAnnotationsAndTokens
+          creationState={creationState}
+          handlers={handlers}
+        />
+      );
+    }
+  }
+};
+
+const PDF: React.FC<PDFUIProps> = (props) => {
+  const { url, width, height } = props;
+  return <PDFUI url={url} width={width} height={height} />;
+};
+
+export default PDF;
