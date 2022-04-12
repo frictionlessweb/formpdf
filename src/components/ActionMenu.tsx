@@ -76,6 +76,7 @@ export const FieldLayerActionMenu: React.FC<FieldLayerActionMenuProps> = ({
 };
 
 interface LabelLayerActionMenuProps {
+  totalSelections: number;
   onUpdateLabel: () => void;
   onDelete: () => void;
 }
@@ -83,22 +84,28 @@ interface LabelLayerActionMenuProps {
 export const LabelLayerActionMenu: React.FC<LabelLayerActionMenuProps> = ({
   onDelete,
   onUpdateLabel,
+  totalSelections,
 }) => {
   return (
     <Container>
-      <ActionMenuItem
-        // We have to prevent the default behaviour for
-        // the pdf canvas here, in order to be able to capture
-        // the click event.
-        onClick={(e) => {
-          onUpdateLabel();
-          e.stopPropagation();
-        }}
-        onMouseDown={(e) => {
-          e.stopPropagation();
-        }}>
-        Update Label
-      </ActionMenuItem>
+      {
+        // Update label operation can be performed only when one annotation is selected.
+        totalSelections === 1 && (
+          <ActionMenuItem
+            // We have to prevent the default behaviour for
+            // the pdf canvas here, in order to be able to capture
+            // the click event.
+            onClick={(e) => {
+              onUpdateLabel();
+              e.stopPropagation();
+            }}
+            onMouseDown={(e) => {
+              e.stopPropagation();
+            }}>
+            Update Label
+          </ActionMenuItem>
+        )
+      }
       <ActionMenuItem
         // We have to prevent the default behaviour for
         // the pdf canvas here, in order to be able to capture

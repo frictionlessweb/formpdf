@@ -187,15 +187,15 @@ export interface CreateAnnotationAttr {
 }
 
 const useHandlers = (): Handlers => {
-  const [step, tool] = useSelector((state) => [state.step, state.tool]);
+  const [step, state] = useSelector((state) => [state.step, state]);
   const dispatch = useDispatch();
   const createAnnotationAttr = useCreateAnnotation();
   const { creationState, div: container } = createAnnotationAttr;
   switch (step) {
     case 0:
-      return fieldLayerHandlers(tool, dispatch, createAnnotationAttr);
+      return fieldLayerHandlers(state, dispatch, createAnnotationAttr);
     case 1:
-      return labelLayerHandlers(tool, dispatch, createAnnotationAttr);
+      return labelLayerHandlers(state, dispatch, createAnnotationAttr);
     default:
       return {
         cursor: "auto",

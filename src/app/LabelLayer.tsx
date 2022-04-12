@@ -16,10 +16,10 @@ import Annotation, {
   TranslucentBox,
 } from "./Annotation";
 import { CreateAnnotationAttr, NO_OP, RenderAnnotationsHandler } from "./PDF";
-import { TOOL, useSelector, useDispatch } from "./StoreProvider";
+import { useSelector, useDispatch, AccessibleForm } from "./StoreProvider";
 
 export const labelLayerHandlers = (
-  tool: TOOL,
+  state: AccessibleForm,
   dispatch: Dispatch,
   createAnnotationAttr: CreateAnnotationAttr
 ) => {
@@ -30,6 +30,7 @@ export const labelLayerHandlers = (
     resetCreationState,
     updateCreationState,
   } = createAnnotationAttr;
+  const { tool, selectedAnnotations } = state;
 
   switch (tool) {
     case "CREATE": {
@@ -43,17 +44,22 @@ export const labelLayerHandlers = (
         onMouseLeave: resetCreationState,
         onMouseUp: () => {
           if (!creationState) return;
+          const id = window.crypto.randomUUID();
           dispatch({
             type: "CREATE_ANNOTATION_FROM_TOKENS",
             payload: {
               ui: {
-                id: window.crypto.randomUUID(),
+                id,
                 backgroundColor: "rgb(36, 148, 178, 0.4)",
                 border: "3px solid rgb(36, 148, 178)",
                 type: "LABEL",
               },
               tokens: creationState.tokens,
             },
+          });
+          dispatch({
+            type: "CREATE_RELATION",
+            payload: { from: Object.keys(selectedAnnotations)[0], to: id },
           });
           resetCreationState();
           // As soon as a label is created, we switch user to the select tool.
@@ -136,6 +142,7 @@ export const LabelLayerAnnotation: React.FC<{
           }}>
           {isFirstSelection && (
             <LabelLayerActionMenu
+              totalSelections={Object.keys(selectedAnnotations).length}
               onDelete={() => {
                 dispatch({
                   type: "DELETE_ANNOTATION",

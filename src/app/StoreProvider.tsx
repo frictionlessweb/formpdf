@@ -103,6 +103,8 @@ export interface AccessibleForm {
   canRedo: boolean;
   // What are the tokens associated with the document?
   tokens: Array<Bounds[]>;
+  // How are annotations related to each other? Ex: field and label, groups.
+  relations: Record<AnnotationId, AnnotationId | Array<AnnotationId>>;
 }
 
 // FIXME: Here we need to implement page logic.
@@ -140,6 +142,7 @@ export const DEFAULT_ACCESSIBLE_FORM: AccessibleForm = {
   currentVersion: -1,
   versions: {},
   tokens: TOKENS,
+  relations: {},
 };
 
 // AccessibleFormAction describes every important possible action that a user
@@ -191,6 +194,15 @@ type AccessibleFormAction =
   | {
       type: "SET_STEP";
       payload: number;
+    }
+  | {
+      type: "CREATE_RELATION";
+      payload: {
+        // FIXME: from and to represent directional relationships. Should
+        // it be this way ?
+        from: AnnotationId;
+        to: AnnotationId | Array<AnnotationId>;
+      };
     }
   | {
       type: "UNDO";
@@ -381,6 +393,12 @@ export const reduceAccessibleForm = (
         // When user moves to a new page we want "SELECT" tool to be selected as
         // it is the default tool which is present on all pages.
         draft.tool = "SELECT";
+      });
+    }
+    case "CREATE_RELATION": {
+      return produceWithUndo(previous, (draft) => {
+        draft.relations[action.payload.from] = action.payload.to;
+        return;
       });
     }
     case "UNDO": {

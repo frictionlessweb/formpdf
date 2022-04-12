@@ -16,11 +16,11 @@ import Annotation, {
 } from "./Annotation";
 import { FieldLayerActionMenu } from "../components/ActionMenu";
 import { AnnotationProps, TranslucentBox } from "./Annotation";
-import { TOOL, useSelector, useDispatch } from "./StoreProvider";
+import { useSelector, useDispatch, AccessibleForm } from "./StoreProvider";
 import { Rnd } from "react-rnd";
 
 export const fieldLayerHandlers = (
-  tool: TOOL,
+  state: AccessibleForm,
   dispatch: Dispatch,
   createAnnotationAttr: CreateAnnotationAttr
 ) => {
@@ -31,6 +31,8 @@ export const fieldLayerHandlers = (
     resetCreationState,
     updateCreationState,
   } = createAnnotationAttr;
+  const { tool } = state;
+
   switch (tool) {
     case "CREATE": {
       return {
