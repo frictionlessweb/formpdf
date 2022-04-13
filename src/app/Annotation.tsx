@@ -13,15 +13,17 @@ export type TranslucentBoxProps = React.DetailedHTMLProps<
   React.HTMLAttributes<HTMLDivElement>,
   HTMLDivElement
 > & {
+  id: string;
   css: CSSObject;
   nodeRef?: React.MutableRefObject<HTMLDivElement | null>;
   children?: React.ReactNode;
 };
 
 export const TranslucentBox: React.FC<TranslucentBoxProps> = (props) => {
-  const { css, nodeRef, children, ...divProps } = props;
+  const { id, css, nodeRef, children, ...divProps } = props;
   return (
     <div
+      id={id}
       ref={nodeRef}
       {...divProps}
       css={{
@@ -194,38 +196,12 @@ export const AnnotationBeingCreated: React.FC<AnnotationBeingCreatedProps> = (
   const { creationState, showTokens, ...handlers } = props;
 
   if (!creationState) return null;
-  // If the tokens are wrong, then none of the logic for snap-to-token will
-  // work, which can make debugging rather confusing. To check if the bounding
-  // boxes look correct, comment out the line above and uncomment the code
-  // below:
-  //
-  // const tokens = useSelector((state) => state.tokens[0]);
-  // if (!creationState) {
-  //   return (
-  //     <>
-  //       {tokens.map((token) => (
-  //         <TranslucentBox
-  //           key={token.top * token.left}
-  //           css={{
-  //             position: "absolute",
-  //             backgroundColor: "rgb(144, 238, 144, 0.3)",
-  //             border: "1px solid blue",
-  //             top: token.top,
-  //             left: token.left,
-  //             width: token.width,
-  //             height: token.height,
-  //           }}
-  //           {...handlers}
-  //         />
-  //       ))}
-  //     </>
-  //   );
-  // }
   const { bounds: creationBounds, tokens: displayTokens } = creationState;
   return (
     // FIXME: TEXTBOX will not be default. We will use the last created field type as current value.
     <>
       <TranslucentBox
+        id="annotation-being-created"
         css={{
           position: "absolute",
           backgroundColor: "rgb(144, 238, 144, 0.3)",
@@ -240,6 +216,7 @@ export const AnnotationBeingCreated: React.FC<AnnotationBeingCreatedProps> = (
           // position: absolute confuses the math we've done.
           return (
             <TranslucentBox
+              id={`tokens-from-annotation-being-created-${token.top}-${token.left}`}
               key={token.top * token.left}
               css={{
                 position: "absolute",

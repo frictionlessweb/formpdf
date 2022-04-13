@@ -29,7 +29,7 @@ enablePatches();
 // An annotation represents a highlighted rectangle that we display on top
 // of a PDF file.
 
-type AnnotationId = string;
+export type AnnotationId = string;
 
 export interface Bounds {
   // How far from the top of the canvas should this annotation be?

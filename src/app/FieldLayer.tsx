@@ -102,6 +102,7 @@ export const FieldLayerAnnotation: React.FC<{
     case "CREATE": {
       return (
         <TranslucentBox
+          id={id}
           nodeRef={annotationRef}
           css={{ cursor: "inherit", ...css }}>
           {typeLabel}

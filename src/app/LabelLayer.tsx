@@ -17,6 +17,7 @@ import Annotation, {
 } from "./Annotation";
 import { CreateAnnotationAttr, NO_OP, RenderAnnotationsHandler } from "./PDF";
 import { useSelector, useDispatch, AccessibleForm } from "./StoreProvider";
+import Xarrow from "react-xarrows";
 
 export const labelLayerHandlers = (
   state: AccessibleForm,
@@ -107,6 +108,7 @@ export const LabelLayerAnnotation: React.FC<{
     case "CREATE": {
       return (
         <TranslucentBox
+          id={id}
           nodeRef={annotationRef}
           css={{ cursor: "inherit", ...css }}></TranslucentBox>
       );
@@ -117,6 +119,7 @@ export const LabelLayerAnnotation: React.FC<{
         Object.keys(selectedAnnotations)[0] === annotationProps.id;
       return (
         <TranslucentBox
+          id={id}
           css={{
             cursor: "pointer",
             ...css,
@@ -169,10 +172,11 @@ export const LabelLayerAllAnnotationsAndTokens: React.FC<{
   creationState: CreationState | null;
   handlers: RenderAnnotationsHandler;
 }> = ({ creationState, handlers }) => {
-  const [annotations, tool, allTokens] = useSelector((state) => [
+  const [annotations, tool, allTokens, relations] = useSelector((state) => [
     Object.values(state.annotations),
     state.tool,
     state.tokens,
+    state.relations,
   ]);
   // FIXME: Make tokens work for multiple pages. Here we are just taking
   // tokens for the first page.
@@ -187,11 +191,30 @@ export const LabelLayerAllAnnotationsAndTokens: React.FC<{
       />
       {tool === "SELECT" &&
         annotations.map((annotation) => {
-          return <Annotation key={annotation.id} {...annotation} />;
+          const hasRelation = Boolean(relations[annotation.id]);
+          return (
+            <>
+              <Annotation key={annotation.id} {...annotation} />
+              {hasRelation && (
+                <Xarrow
+                  start={annotation.id}
+                  end={String(relations[annotation.id])}
+                  showTail={true}
+                  startAnchor="middle"
+                  headSize={2}
+                  tailSize={2}
+                  headShape="circle"
+                  tailShape="circle"
+                  path="straight"
+                />
+              )}
+            </>
+          );
         })}
       {tool === "CREATE" &&
         tokens.map((token) => (
           <TranslucentBox
+            id={`token-${token.top}-${token.left}`}
             key={token.top * token.left}
             css={{
               position: "absolute",
