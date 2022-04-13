@@ -16,9 +16,15 @@ import Annotation, {
   TranslucentBox,
 } from "./Annotation";
 import { CreateAnnotationAttr, NO_OP, RenderAnnotationsHandler } from "./PDF";
-import { useSelector, useDispatch, AccessibleForm } from "./StoreProvider";
+import {
+  useSelector,
+  useDispatch,
+  AccessibleForm,
+  Bounds,
+} from "./StoreProvider";
 import Xarrow from "react-xarrows";
 import React from "react";
+import { Token } from "typescript";
 
 export const labelLayerHandlers = (
   state: AccessibleForm,
@@ -73,6 +79,11 @@ export const labelLayerHandlers = (
             type: "CHANGE_TOOL",
             payload: "SELECT",
           });
+          // After label is created we no longer want annotation to be selected.
+          // FIXME: Ask Josh, are actions dispatched in the same order ? Because if we currently
+          // selected annotation gets deselected before then we would not be able to
+          // create relation.
+          dispatch({ type: "DESELECT_ALL_ANNOTATION" });
         },
       };
     }
@@ -186,52 +197,70 @@ export const LabelLayerAllAnnotationsAndTokens: React.FC<{
   // FIXME: Make tokens work for multiple pages. Here we are just taking
   // tokens for the first page.
   const tokens = allTokens[0];
+  switch (tool) {
+    case "CREATE": {
+      return (
+        <>
+          <AnnotationBeingCreated
+            creationState={creationState}
+            showTokens={true}
+            {...handlers}
+          />
+          <AllTokens tokens={tokens} />
+        </>
+      );
+    }
+    case "SELECT": {
+      return (
+        <>
+          {annotations.map((annotation) => {
+            const hasRelation = Boolean(relations[annotation.id]);
+            return (
+              <React.Fragment key={annotation.id}>
+                <Annotation {...annotation} />
+                {hasRelation && (
+                  <Xarrow
+                    start={String(relations[annotation.id])}
+                    end={annotation.id}
+                    endAnchor="middle"
+                    headSize={2}
+                    headShape="circle"
+                    // This curveness 0.01 is used to make the arrow look straight.
+                    // we could have used path="straight" property but it gives the
+                    // following error - Error: <path> attribute d: Expected number...
+                    curveness={0.01}
+                  />
+                )}
+              </React.Fragment>
+            );
+          })}
+        </>
+      );
+    }
+  }
+};
 
+// While annotationBeingCreated creation state changes, which causes LabelLayerAllAnnotationsAndTokens's to rerender.
+// Thus rerendering all tokens on the page even though they remain unchanged. React.Memo is used to avoid this re-rendering.
+// The rendering was causing performance issues.
+const AllTokens: React.FC<{ tokens: Bounds[] }> = React.memo((props) => {
   return (
     <>
-      <AnnotationBeingCreated
-        creationState={creationState}
-        showTokens={true}
-        {...handlers}
-      />
-      {tool === "SELECT" &&
-        annotations.map((annotation) => {
-          const hasRelation = Boolean(relations[annotation.id]);
-          return (
-            <React.Fragment key={annotation.id}>
-              <Annotation {...annotation} />
-              {hasRelation && (
-                <Xarrow
-                  start={annotation.id}
-                  end={String(relations[annotation.id])}
-                  showTail={true}
-                  startAnchor="middle"
-                  headSize={2}
-                  tailSize={2}
-                  headShape="circle"
-                  tailShape="circle"
-                  path="straight"
-                />
-              )}
-            </React.Fragment>
-          );
-        })}
-      {tool === "CREATE" &&
-        tokens.map((token) => (
-          <TranslucentBox
-            id={`token-${token.top}-${token.left}`}
-            key={token.top * token.left}
-            css={{
-              position: "absolute",
-              backgroundColor: "rgb(144, 238, 144, 0.3)",
-              border: "1px solid blue",
-              top: token.top,
-              left: token.left,
-              width: token.width,
-              height: token.height,
-            }}
-          />
-        ))}
+      {props.tokens.map((token) => (
+        <TranslucentBox
+          id={`token-${token.top}-${token.left}`}
+          key={token.top * token.left}
+          css={{
+            position: "absolute",
+            backgroundColor: "rgb(144, 238, 144, 0.3)",
+            border: "1px solid blue",
+            top: token.top,
+            left: token.left,
+            width: token.width,
+            height: token.height,
+          }}
+        />
+      ))}
     </>
   );
-};
+});
