@@ -18,6 +18,7 @@ import Annotation, {
 import { CreateAnnotationAttr, NO_OP, RenderAnnotationsHandler } from "./PDF";
 import { useSelector, useDispatch, AccessibleForm } from "./StoreProvider";
 import Xarrow from "react-xarrows";
+import React from "react";
 
 export const labelLayerHandlers = (
   state: AccessibleForm,
@@ -45,6 +46,10 @@ export const labelLayerHandlers = (
         onMouseLeave: resetCreationState,
         onMouseUp: () => {
           if (!creationState) return;
+          // The following line stops dispatch of CREATE_ANNOTATION_FROM_TOKENS if no token is selected.
+          // It fixes the bug where, an action is dispatched without tokens, empty token created a new
+          // annotation whose dimeasions are defined by boxContaning function(as Math.MAX) in utils.
+          if (creationState.tokens.length === 0) return;
           const id = window.crypto.randomUUID();
           dispatch({
             type: "CREATE_ANNOTATION_FROM_TOKENS",
@@ -193,8 +198,8 @@ export const LabelLayerAllAnnotationsAndTokens: React.FC<{
         annotations.map((annotation) => {
           const hasRelation = Boolean(relations[annotation.id]);
           return (
-            <>
-              <Annotation key={annotation.id} {...annotation} />
+            <React.Fragment key={annotation.id}>
+              <Annotation {...annotation} />
               {hasRelation && (
                 <Xarrow
                   start={annotation.id}
@@ -208,7 +213,7 @@ export const LabelLayerAllAnnotationsAndTokens: React.FC<{
                   path="straight"
                 />
               )}
-            </>
+            </React.Fragment>
           );
         })}
       {tool === "CREATE" &&
