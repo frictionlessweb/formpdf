@@ -26,6 +26,7 @@ import {
   labelLayerHandlers,
   LabelLayerAllAnnotationsAndTokens,
 } from "./LabelLayer";
+import { groupLayerHandlers, GroupLayerAllAnnotations } from "./GroupLayer";
 
 //  _____    _       _     ____     _  __
 // |  ___|__| |_ ___| |__ |  _ \ __| |/ _|
@@ -196,6 +197,8 @@ const useHandlers = (): Handlers => {
       return fieldLayerHandlers(state, dispatch, createAnnotationAttr);
     case 1:
       return labelLayerHandlers(state, dispatch, createAnnotationAttr);
+    case 2:
+      return groupLayerHandlers(state, dispatch, createAnnotationAttr);
     default:
       return {
         cursor: "auto",
@@ -303,6 +306,14 @@ const renderAnnotation = (
     case 1: {
       return (
         <LabelLayerAllAnnotationsAndTokens
+          creationState={creationState}
+          handlers={handlers}
+        />
+      );
+    }
+    case 2: {
+      return (
+        <GroupLayerAllAnnotations
           creationState={creationState}
           handlers={handlers}
         />

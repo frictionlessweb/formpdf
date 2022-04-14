@@ -123,6 +123,54 @@ export const LabelLayerActionMenu: React.FC<LabelLayerActionMenuProps> = ({
   );
 };
 
+interface GroupLayerActionMenuProps {
+  onDelete: () => void;
+  onCreateNewGroup: () => void;
+  onAddToGroup: (value: ANNOTATION_TYPE) => void;
+}
+
+export const GroupLayerActionMenu: React.FC<GroupLayerActionMenuProps> = ({
+  onDelete,
+  onCreateNewGroup,
+  onAddToGroup,
+}) => {
+  return (
+    <Container>
+      <ActionMenuItem
+        onClick={(e) => {
+          onCreateNewGroup();
+          e.stopPropagation();
+        }}
+        onMouseDown={(e) => {
+          e.stopPropagation();
+        }}>
+        Create New Group
+      </ActionMenuItem>
+      <Select
+        defaultValue={"TEXTBOX"}
+        onChange={(e) => onAddToGroup(e.target.value as ANNOTATION_TYPE)}
+        css={{ height: "40px" }}>
+        <MenuItem value={"TEXTBOX" as ANNOTATION_TYPE}>
+          Add list of groups here...
+        </MenuItem>
+      </Select>
+      <ActionMenuItem
+        // We have to prevent the default behaviour for
+        // the pdf canvas here, in order to be able to capture
+        // the click event.
+        onClick={(e) => {
+          onDelete();
+          e.stopPropagation();
+        }}
+        onMouseDown={(e) => {
+          e.stopPropagation();
+        }}>
+        Delete
+      </ActionMenuItem>
+    </Container>
+  );
+};
+
 interface ActionMenuItemProps {
   children?: React.ReactNode;
   onClick?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;

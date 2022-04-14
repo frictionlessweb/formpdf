@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 
-// This file contains code related to the label step. Earlier, we had
+// This file contains code related to the group step. Earlier, we had
 // code related to each step spread across multiple files, the reason
 // was that we architected the intial technical spike around tools.
 // Now, we have a single file for each step. Eventhough we have a lot
@@ -8,7 +8,7 @@
 // refactor and fix it.
 
 import { Dispatch } from "redux";
-import { LabelLayerActionMenu } from "../components/ActionMenu";
+import { GroupLayerActionMenu } from "../components/ActionMenu";
 import Annotation, {
   AnnotationBeingCreated,
   AnnotationProps,
@@ -20,12 +20,13 @@ import {
   useSelector,
   useDispatch,
   AccessibleForm,
-  Bounds,
+  AnnotationId,
 } from "./StoreProvider";
-import Xarrow from "react-xarrows";
 import React from "react";
+import Xarrow from "react-xarrows";
+import { AllTokens } from "./LabelLayer";
 
-export const labelLayerHandlers = (
+export const groupLayerHandlers = (
   state: AccessibleForm,
   dispatch: Dispatch,
   createAnnotationAttr: CreateAnnotationAttr
@@ -63,7 +64,7 @@ export const labelLayerHandlers = (
                 id,
                 backgroundColor: "rgb(36, 148, 178, 0.4)",
                 border: "3px solid rgb(36, 148, 178)",
-                type: "LABEL",
+                type: "GROUP_LABEL",
               },
               tokens: creationState.tokens,
             },
@@ -105,13 +106,14 @@ export const labelLayerHandlers = (
   }
 };
 
-export const LabelLayerAnnotation: React.FC<{
+export const GroupLayerAnnotation: React.FC<{
   annotationProps: AnnotationProps;
   annotationRef: React.MutableRefObject<HTMLDivElement | null> | undefined;
 }> = ({ annotationProps, annotationRef }) => {
-  const [tool, selectedAnnotations] = useSelector((state) => [
+  const [tool, selectedAnnotations, annotations] = useSelector((state) => [
     state.tool,
     state.selectedAnnotations,
+    state.annotations,
   ]);
   const dispatch = useDispatch();
   const { id, type, ...cssProps } = annotationProps;
@@ -159,19 +161,37 @@ export const LabelLayerAnnotation: React.FC<{
             }
           }}>
           {isFirstSelection && (
-            <LabelLayerActionMenu
-              totalSelections={Object.keys(selectedAnnotations).length}
-              onDelete={() => {
+            <GroupLayerActionMenu
+              onDelete={() => {}}
+              onAddToGroup={() => {}}
+              onCreateNewGroup={() => {
+                const uuid = window.crypto.randomUUID();
                 dispatch({
-                  type: "DELETE_ANNOTATION",
-                  payload: Object.keys(selectedAnnotations),
+                  type: "CREATE_ANNOTATION_FROM_TOKENS",
+                  payload: {
+                    ui: {
+                      id: uuid,
+                      backgroundColor: "rgb(36, 148, 178, 0.4)",
+                      border: "3px solid rgb(36, 148, 178)",
+                      type: "GROUP",
+                    },
+                    tokens: Object.keys(selectedAnnotations).map(
+                      (annotationId) => {
+                        return {
+                          left: annotations[annotationId].left,
+                          top: annotations[annotationId].top,
+                          width: annotations[annotationId].width,
+                          height: annotations[annotationId].height,
+                        };
+                      }
+                    ),
+                  },
                 });
-              }}
-              onUpdateLabel={() => {
                 dispatch({
-                  type: "CHANGE_TOOL",
-                  payload: "CREATE",
+                  type: "CREATE_GROUP_RELATION",
+                  payload: { from: uuid, to: Object.keys(selectedAnnotations) },
                 });
+                dispatch({ type: "CHANGE_TOOL", payload: "CREATE" });
               }}
             />
           )}
@@ -183,21 +203,29 @@ export const LabelLayerAnnotation: React.FC<{
   }
 };
 
-export const LabelLayerAllAnnotationsAndTokens: React.FC<{
+export const GroupLayerAllAnnotations: React.FC<{
   creationState: CreationState | null;
   handlers: RenderAnnotationsHandler;
 }> = ({ creationState, handlers }) => {
   const [annotations, tool, allTokens, labelRelations] = useSelector(
     (state) => [
-      Object.values(state.annotations),
+      state.annotations,
       state.tool,
       state.tokens,
       state.labelRelations,
     ]
   );
+  const choiceGroupAnnotations = Object.values(annotations).filter(
+    (annotation) =>
+      annotation.type === "CHECKBOX" ||
+      annotation.type === "RADIOBOX" ||
+      annotation.type === "GROUP" ||
+      annotation.type === "GROUP_LABEL"
+  );
   // FIXME: Make tokens work for multiple pages. Here we are just taking
   // tokens for the first page.
   const tokens = allTokens[0];
+
   switch (tool) {
     case "CREATE": {
       return (
@@ -214,12 +242,14 @@ export const LabelLayerAllAnnotationsAndTokens: React.FC<{
     case "SELECT": {
       return (
         <>
-          {annotations.map((annotation) => {
-            const hasRelation = Boolean(labelRelations[annotation.id]);
+          {choiceGroupAnnotations.map((annotation) => {
+            const labelId = labelRelations[annotation.id];
+            const isGroupLabel =
+              labelId && annotations[labelId].type === "GROUP_LABEL";
             return (
               <React.Fragment key={annotation.id}>
                 <Annotation {...annotation} />
-                {hasRelation && (
+                {isGroupLabel && (
                   <Xarrow
                     start={String(labelRelations[annotation.id])}
                     end={annotation.id}
@@ -240,28 +270,3 @@ export const LabelLayerAllAnnotationsAndTokens: React.FC<{
     }
   }
 };
-
-// While annotationBeingCreated creation state changes, which causes LabelLayerAllAnnotationsAndTokens's to rerender.
-// Thus rerendering all tokens on the page even though they remain unchanged. React.Memo is used to avoid this re-rendering.
-// The rendering was causing performance issues.
-export const AllTokens: React.FC<{ tokens: Bounds[] }> = React.memo((props) => {
-  return (
-    <>
-      {props.tokens.map((token) => (
-        <TranslucentBox
-          id={`token-${token.top}-${token.left}`}
-          key={token.top * token.left}
-          css={{
-            position: "absolute",
-            backgroundColor: "rgb(144, 238, 144, 0.3)",
-            border: "1px solid blue",
-            top: token.top,
-            left: token.left,
-            width: token.width,
-            height: token.height,
-          }}
-        />
-      ))}
-    </>
-  );
-});

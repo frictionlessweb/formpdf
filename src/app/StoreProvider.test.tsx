@@ -333,7 +333,8 @@ describe("Our form reducer", () => {
       versions: {},
       currentVersion: -1,
       tokens: [] as Bounds[][],
-      relations: {},
+      labelRelations: {},
+      groupRelations: {},
     } as const;
     const res = reduce(init, { type: "HYDRATE_STORE", payload });
     expect(res).toEqual(payload);
@@ -375,22 +376,24 @@ describe("Our form reducer", () => {
     expect(changedStep.step).toBe(3);
     expect(changedStep.tool).toBe("SELECT");
   });
-  test("We can add an relation", () => {
+  test("We can create label relation", () => {
     const relationCreated = reduce(init, {
-      type: "CREATE_RELATION",
+      type: "CREATE_LABEL_RELATION",
       payload: {
         from: "1",
         to: "2",
       },
     });
-    const relationWithArrayCreated = reduce(relationCreated, {
-      type: "CREATE_RELATION",
+    expect(relationCreated.labelRelations["1"]).toEqual("2");
+  });
+  test("We can create group relation", () => {
+    const relationWithArrayCreated = reduce(init, {
+      type: "CREATE_GROUP_RELATION",
       payload: {
         from: "3",
         to: ["2", "1"],
       },
     });
-    expect(relationCreated.relations["1"]).toEqual("2");
-    expect(relationWithArrayCreated.relations["3"]).toEqual(["2", "1"]);
+    expect(relationWithArrayCreated.groupRelations["3"]).toEqual(["2", "1"]);
   });
 });

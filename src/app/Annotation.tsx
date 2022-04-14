@@ -8,6 +8,7 @@ import {
 } from "./StoreProvider";
 import { LabelLayerAnnotation } from "./LabelLayer";
 import { FieldLayerAnnotation } from "./FieldLayer";
+import { GroupLayerAnnotation } from "./GroupLayer";
 
 export type TranslucentBoxProps = React.DetailedHTMLProps<
   React.HTMLAttributes<HTMLDivElement>,
@@ -256,6 +257,10 @@ const Annotation: React.FC<AnnotationProps> = (props) => {
     case 1:
       return (
         <LabelLayerAnnotation annotationProps={props} annotationRef={ref} />
+      );
+    case 2:
+      return (
+        <GroupLayerAnnotation annotationProps={props} annotationRef={ref} />
       );
     default:
       return null;

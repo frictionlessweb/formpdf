@@ -76,7 +76,7 @@ const ToolSelect: React.FC<BoxProps> = (props) => {
       );
       break;
     }
-    case 1: {
+    default: {
       tools = (
         <>
           <ToolButton
