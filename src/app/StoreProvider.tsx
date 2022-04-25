@@ -64,21 +64,6 @@ export type AnnotationUIState = {
 
 export type Annotation = Bounds & AnnotationUIState;
 
-//  _
-// | |    __ _ _   _  ___ _ __ ___
-// | |   / _` | | | |/ _ \ '__/ __|
-// | |__| (_| | |_| |  __/ |  \__ \
-// |_____\__,_|\__, |\___|_|  |___/
-//             |___/
-// ----------------------------------------------------------------------
-// A layer in our application configures how the objects on front of the
-// canvas onto which we display the PDF operate.
-
-export interface LayerProps {
-  // A reference to the canvas into which we will display the PDF.
-  canvas: React.MutableRefObject<HTMLCanvasElement | null>;
-}
-
 export type Step =
   | "SECTION_LAYER"
   | "FIELD_LAYER"

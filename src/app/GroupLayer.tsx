@@ -14,15 +14,10 @@ import Annotation, {
   AnnotationProps,
   CreationState,
   TranslucentBox,
+  HandlerLayer,
 } from "./Annotation";
 import { CreateAnnotationAttr, NO_OP, RenderAnnotationsHandler } from "./PDF";
-import {
-  useSelector,
-  useDispatch,
-  AccessibleForm,
-  AnnotationId,
-  LayerProps,
-} from "./StoreProvider";
+import { useSelector, useDispatch, AccessibleForm } from "./StoreProvider";
 import React from "react";
 import Xarrow from "react-xarrows";
 import { AllTokens } from "./LabelLayer";
@@ -272,12 +267,9 @@ export const GroupLayerAllAnnotations: React.FC<{
   }
 };
 
-const GroupLayer: React.FC<LayerProps> = (props) => {
-  const { canvas } = props;
+const GroupLayer: React.FC = () => {
   return (
-    <div>
-      <canvas id="pdf" ref={canvas} />
-    </div>
+    <HandlerLayer onClick={() => console.log("group layer")}></HandlerLayer>
   );
 };
 

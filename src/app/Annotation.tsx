@@ -20,6 +20,33 @@ export type TranslucentBoxProps = React.DetailedHTMLProps<
   children?: React.ReactNode;
 };
 
+type HandlerLayerProps = React.DetailedHTMLProps<
+  React.HTMLAttributes<HTMLDivElement>,
+  HTMLDivElement
+> & { rootCss?: CSSObject };
+
+// An invisible box that we put *on top* of the PDF that we show to the user.
+// Adding this layer of indirection allows each step of our application to
+// configure the handlers it needs as necessary.
+export const HandlerLayer: React.FC<HandlerLayerProps> = (props) => {
+  const pdf = document.getElementById("pdf")!;
+  return (
+    <div
+      {...props}
+      css={{
+        top: 0,
+        left: 0,
+        position: "absolute",
+        width: pdf.clientWidth,
+        height: pdf.clientHeight,
+        ...props.rootCss,
+      }}>
+      {props.children}
+    </div>
+  );
+};
+
+// The basis of all other annotations: A simple box that we sculpt in a number of different ways.
 export const TranslucentBox: React.FC<TranslucentBoxProps> = (props) => {
   const { id, css, nodeRef, children, ...divProps } = props;
   return (

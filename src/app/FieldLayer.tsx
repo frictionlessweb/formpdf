@@ -1,12 +1,13 @@
 /** @jsxImportSource @emotion/react */
+import React from "react";
 import { Dispatch } from "redux";
 import { CreateAnnotationAttr, NO_OP, RenderAnnotationsHandler } from "./PDF";
-import { LayerProps } from "./StoreProvider";
 import Annotation, {
   AnnotationBeingCreated,
   CreationState,
   mapCreationBoundsToFinalBounds,
   useCreateAnnotation,
+  HandlerLayer,
 } from "./Annotation";
 import { FieldLayerActionMenu } from "../components/ActionMenu";
 import { AnnotationProps, TranslucentBox } from "./Annotation";
@@ -273,12 +274,9 @@ export const FieldLayerAllAnnotations: React.FC<{
   );
 };
 
-const FieldLayer: React.FC<LayerProps> = (props) => {
-  const { canvas } = props;
+const FieldLayer: React.FC = () => {
   return (
-    <>
-      <canvas id="pdf" ref={canvas} />
-    </>
+    <HandlerLayer onClick={() => console.log("field layer")}></HandlerLayer>
   );
 };
 

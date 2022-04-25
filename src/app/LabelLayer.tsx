@@ -6,7 +6,6 @@
 // Now, we have a single file for each step. Eventhough we have a lot
 // of repetitive code because of this change, eventually, we will
 // refactor and fix it.
-
 import { Dispatch } from "redux";
 import { LabelLayerActionMenu } from "../components/ActionMenu";
 import Annotation, {
@@ -14,6 +13,7 @@ import Annotation, {
   AnnotationProps,
   CreationState,
   TranslucentBox,
+  HandlerLayer,
 } from "./Annotation";
 import { CreateAnnotationAttr, NO_OP, RenderAnnotationsHandler } from "./PDF";
 import {
@@ -21,7 +21,6 @@ import {
   useDispatch,
   AccessibleForm,
   Bounds,
-  LayerProps,
 } from "./StoreProvider";
 import Xarrow from "react-xarrows";
 import React from "react";
@@ -267,13 +266,8 @@ export const AllTokens: React.FC<{ tokens: Bounds[] }> = React.memo((props) => {
   );
 });
 
-export const LabelLayer: React.FC<LayerProps> = (props) => {
-  const { canvas } = props;
-  return (
-    <div>
-      <canvas id="pdf" ref={canvas} />
-    </div>
-  );
+export const LabelLayer: React.FC = () => {
+  return <HandlerLayer onClick={() => console.log("label layer")} />;
 };
 
 export default LabelLayer;

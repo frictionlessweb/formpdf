@@ -19,7 +19,7 @@ import {
   RenderingCancelledException,
 } from "pdfjs-dist";
 import Loading from "@mui/material/CircularProgress";
-import { useSelector, LayerProps } from "./StoreProvider";
+import { useSelector } from "./StoreProvider";
 import { CreationState } from "./Annotation";
 import FieldLayer from "./FieldLayer";
 import LabelLayer from "./LabelLayer";
@@ -185,26 +185,20 @@ export interface RenderAnnotationsHandler {
   onMouseMove: React.MouseEventHandler;
 }
 
-interface PDFProps {
+interface PDFUIProps {
   // Where is the PDFUI located?
   url: string;
   // How wide is the PDFUI?
   width: number;
   // How tall is the PDFUI?
   height: number;
+  // What are the children of this PDF?
+  children?: React.ReactNode;
 }
-
-type PDFUIProps = PDFProps & {
-  // Other components to render inside the PDFUI div.
-  children: (
-    canvas: React.MutableRefObject<HTMLCanvasElement | null>
-  ) => React.ReactElement;
-};
 
 const PDFUI: React.FC<PDFUIProps> = (props) => {
   const { url, width, height } = props;
   const { canvas, loading } = useFetchPDFUI(url);
-
   return (
     <div
       css={{
@@ -225,24 +219,26 @@ const PDFUI: React.FC<PDFUIProps> = (props) => {
           }}
         />
       ) : (
-        props.children(canvas)
+        <>
+          <canvas id="pdf" ref={canvas} />
+          {props.children}
+        </>
       )}
     </div>
   );
 };
 
-const LayerController: React.FC<LayerProps> = (props) => {
-  const { canvas } = props;
+const LayerController: React.FC = () => {
   const step = useSelector((state) => state.step);
   switch (step) {
     case "FIELD_LAYER": {
-      return <FieldLayer canvas={canvas} />;
+      return <FieldLayer />;
     }
     case "LABEL_LAYER": {
-      return <LabelLayer canvas={canvas} />;
+      return <LabelLayer />;
     }
     case "GROUP_LAYER": {
-      return <GroupLayer canvas={canvas} />;
+      return <GroupLayer />;
     }
     default: {
       return null;
@@ -250,13 +246,11 @@ const LayerController: React.FC<LayerProps> = (props) => {
   }
 };
 
-const PDF: React.FC<PDFProps> = (props) => {
+const PDF: React.FC<PDFUIProps> = (props) => {
   const { url, width, height } = props;
   return (
     <PDFUI url={url} width={width} height={height}>
-      {(canvas) => {
-        return <LayerController canvas={canvas} />;
-      }}
+      <LayerController />
     </PDFUI>
   );
 };
