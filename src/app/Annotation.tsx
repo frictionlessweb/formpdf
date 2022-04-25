@@ -250,20 +250,20 @@ const Annotation: React.FC<AnnotationProps> = (props) => {
   const step = useSelector((state) => state.step);
   const ref = React.useRef<HTMLDivElement | null>(null);
   switch (step) {
-    case 0:
+    case "FIELD_LAYER":
       return (
         <FieldLayerAnnotation annotationProps={props} annotationRef={ref} />
       );
-    case 1:
+    case "LABEL_LAYER":
       return (
         <LabelLayerAnnotation annotationProps={props} annotationRef={ref} />
       );
-    case 2:
+    case "GROUP_LAYER":
       return (
         <GroupLayerAnnotation annotationProps={props} annotationRef={ref} />
       );
     default:
-      return null;
+      throw new Error("UNEXPECTED LAYER");
   }
 };
 

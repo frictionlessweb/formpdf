@@ -56,7 +56,7 @@ const ToolSelect: React.FC<BoxProps> = (props) => {
   ]);
   let tools = <></>;
   switch (activeStep) {
-    case 0: {
+    case "FIELD_LAYER": {
       tools = (
         <>
           <ToolButton

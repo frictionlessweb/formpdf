@@ -19,7 +19,7 @@ import {
   RenderingCancelledException,
 } from "pdfjs-dist";
 import Loading from "@mui/material/CircularProgress";
-import { useSelector, useDispatch } from "./StoreProvider";
+import { useSelector, useDispatch, Step } from "./StoreProvider";
 import { useCreateAnnotation, CreationState } from "./Annotation";
 import { fieldLayerHandlers, FieldLayerAllAnnotations } from "./FieldLayer";
 import {
@@ -193,11 +193,11 @@ const useHandlers = (): Handlers => {
   const createAnnotationAttr = useCreateAnnotation();
   const { creationState, div: container } = createAnnotationAttr;
   switch (step) {
-    case 0:
+    case "FIELD_LAYER":
       return fieldLayerHandlers(state, dispatch, createAnnotationAttr);
-    case 1:
+    case "LABEL_LAYER":
       return labelLayerHandlers(state, dispatch, createAnnotationAttr);
-    case 2:
+    case "SECTION_LAYER":
       return groupLayerHandlers(state, dispatch, createAnnotationAttr);
     default:
       return {
@@ -290,12 +290,12 @@ const PDFUI: React.FC<PDFUIProps> = (props) => {
 };
 
 const renderAnnotation = (
-  step: number,
+  step: Step,
   creationState: CreationState | null,
   handlers: RenderAnnotationsHandler
 ) => {
   switch (step) {
-    case 0: {
+    case "FIELD_LAYER": {
       return (
         <FieldLayerAllAnnotations
           creationState={creationState}
@@ -303,7 +303,7 @@ const renderAnnotation = (
         />
       );
     }
-    case 1: {
+    case "LABEL_LAYER": {
       return (
         <LabelLayerAllAnnotationsAndTokens
           creationState={creationState}
@@ -311,13 +311,16 @@ const renderAnnotation = (
         />
       );
     }
-    case 2: {
+    case "GROUP_LAYER": {
       return (
         <GroupLayerAllAnnotations
           creationState={creationState}
           handlers={handlers}
         />
       );
+    }
+    default: {
+      return null;
     }
   }
 };

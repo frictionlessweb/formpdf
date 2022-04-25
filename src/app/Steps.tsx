@@ -9,34 +9,41 @@ import StepConnector, {
   stepConnectorClasses,
 } from "@mui/material/StepConnector";
 import { StepIconProps } from "@mui/material/StepIcon";
+import { Step as StepType } from "./StoreProvider";
 
-const STEPS = [
+interface StepDescription {
+  id: StepType;
+  title: string;
+  description: string;
+}
+
+const STEPS: Array<StepDescription> = [
   {
-    id: 0,
+    id: "SECTION_LAYER",
     title: "Section",
     description:
       "Mark the area you want to fix first. We will go through the form in small chunks. Ensure that fields or groups (radioboxes) are completely included and not cut off in half .",
   },
   {
-    id: 1,
+    id: "FIELD_LAYER",
     title: "Fields",
     description:
       "Ensure all form fields have a box and a field type present on them. If not, draw a box using the mouse and assign the field type.",
   },
   {
-    id: 2,
+    id: "LABEL_LAYER",
     title: "Labels",
     description:
       "Ensure all form fields have a label associated to them. If not, select the field and use update label from the popup.",
   },
   {
-    id: 3,
+    id: "GROUP_LAYER",
     title: "Groups",
     description:
       "Ensure the checkbox and radiobox are grouped properly and have group names. If not, you can select multiple boxes by dragging or Shift+Click and use popup menu to group fields. ",
   },
   {
-    id: 4,
+    id: "TOOLTIP_LAYER",
     title: "Tooltips",
     description:
       "Ensure these field descriptions (tooltips) are sufficient. If needed, add more information about the field using the edit button.",
@@ -105,10 +112,13 @@ function StepIcon(props: StepIconProps) {
   );
 }
 
+// FIXME: Why is `onStepChange` a prop? I think we can just dispatch in the render
+// method.
 const Steps: React.FC<
-  BoxProps & { activeStep: number; onStepChange: (step: number) => void }
+  BoxProps & { activeStep: StepType; onStepChange: (step: StepType) => void }
 > = (props) => {
   const { activeStep, onStepChange, ...boxProps } = props;
+  const stepIndex = STEPS.findIndex((step) => step.id === activeStep);
   //BUG: is not boxProps inline style ?
   return (
     <Box
@@ -120,7 +130,7 @@ const Steps: React.FC<
       <Stepper
         css={{ width: "600px" }}
         alternativeLabel
-        activeStep={activeStep}
+        activeStep={stepIndex}
         connector={<Connector />}>
         {STEPS.map((step) => (
           <Step key={step.title}>
@@ -140,7 +150,7 @@ const Steps: React.FC<
         ))}
       </Stepper>
       <div css={{ marginTop: "20px", fontWeight: "bold", textAlign: "center" }}>
-        {STEPS[activeStep].description}
+        {STEPS[stepIndex].description}
       </div>
     </Box>
   );

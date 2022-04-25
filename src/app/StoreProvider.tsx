@@ -85,9 +85,16 @@ interface Changes {
 
 type VersionId = number;
 
+export type Step =
+  | "SECTION_LAYER"
+  | "FIELD_LAYER"
+  | "LABEL_LAYER"
+  | "GROUP_LAYER"
+  | "TOOLTIP_LAYER";
+
 export interface AccessibleForm {
   // What step is the user on of their editing process?
-  step: number;
+  step: Step;
   // How far has the user Zoomed in or out of the PDF?
   zoom: number;
   // Which page of the PDF are we on? WARNING: This is indexed from *1*, not
@@ -139,7 +146,7 @@ const getPredictedAnnotations = () => {
 };
 
 export const DEFAULT_ACCESSIBLE_FORM: AccessibleForm = {
-  step: 0,
+  step: "FIELD_LAYER",
   tool: "CREATE",
   zoom: 1,
   page: 1,
@@ -156,8 +163,8 @@ export const DEFAULT_ACCESSIBLE_FORM: AccessibleForm = {
 
 // AccessibleFormAction describes every important possible action that a user
 // could take while editing the PDF UI.
-type AccessibleFormAction =
-  | { type: "CHANGE_CURRENT_STEP"; payload: number }
+export type AccessibleFormAction =
+  | { type: "CHANGE_CURRENT_STEP"; payload: Step }
   | { type: "CHANGE_ZOOM"; payload: number }
   | { type: "CHANGE_PAGE"; payload: number }
   | { type: "CHANGE_TOOL"; payload: TOOL }
@@ -202,7 +209,7 @@ type AccessibleFormAction =
     }
   | {
       type: "SET_STEP";
-      payload: number;
+      payload: Step;
     }
   | {
       type: "CREATE_LABEL_RELATION";

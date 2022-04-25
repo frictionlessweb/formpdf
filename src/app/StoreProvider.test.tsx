@@ -7,12 +7,18 @@ import {
 
 describe("Our form reducer", () => {
   test("Returns the default initial state if it didn't previously exist", () => {
-    const res = reduce(undefined, { type: "CHANGE_CURRENT_STEP", payload: 2 });
+    const res = reduce(undefined, {
+      type: "CHANGE_CURRENT_STEP",
+      payload: "SECTION_LAYER",
+    });
     expect(res).toEqual(init);
   });
   test("Works with changing the current step", () => {
-    const res = reduce(init, { type: "CHANGE_CURRENT_STEP", payload: 2 });
-    expect(res.step).toEqual(2);
+    const res = reduce(init, {
+      type: "CHANGE_CURRENT_STEP",
+      payload: "SECTION_LAYER",
+    });
+    expect(res.step).toEqual("SECTION_LAYER");
   });
   test("Works with changing the zoom level", () => {
     const res = reduce(init, { type: "CHANGE_ZOOM", payload: 0.2 });
@@ -326,7 +332,7 @@ describe("Our form reducer", () => {
       selectedAnnotations: {},
       page: 2,
       tool: "CREATE",
-      step: 1,
+      step: "FIELD_LAYER",
       zoom: 3,
       canRedo: false,
       canUndo: false,
@@ -370,10 +376,10 @@ describe("Our form reducer", () => {
     });
     const changedStep = reduce(changedTool, {
       type: "SET_STEP",
-      payload: 3,
+      payload: "SECTION_LAYER",
     });
 
-    expect(changedStep.step).toBe(3);
+    expect(changedStep.step).toBe("SECTION_LAYER");
     expect(changedStep.tool).toBe("SELECT");
   });
   test("We can create label relation", () => {
