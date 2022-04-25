@@ -21,6 +21,7 @@ import {
   useDispatch,
   AccessibleForm,
   Bounds,
+  LayerProps,
 } from "./StoreProvider";
 import Xarrow from "react-xarrows";
 import React from "react";
@@ -265,3 +266,14 @@ export const AllTokens: React.FC<{ tokens: Bounds[] }> = React.memo((props) => {
     </>
   );
 });
+
+export const LabelLayer: React.FC<LayerProps> = (props) => {
+  const { canvas } = props;
+  return (
+    <div>
+      <canvas id="pdf" ref={canvas} />
+    </div>
+  );
+};
+
+export default LabelLayer;

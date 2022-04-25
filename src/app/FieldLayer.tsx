@@ -1,23 +1,74 @@
 /** @jsxImportSource @emotion/react */
-
-// This file contains code related to the field step. Earlier, we had
-// code related to each step spread across multiple files, the reason
-// was that we architected the intial technical spike around tools.
-// Now, we have a single file for each step. Eventhough we have a lot
-// of repetitive code because of this change, eventually, we will
-// refactor and fix it.
-
 import { Dispatch } from "redux";
 import { CreateAnnotationAttr, NO_OP, RenderAnnotationsHandler } from "./PDF";
+import { LayerProps } from "./StoreProvider";
 import Annotation, {
   AnnotationBeingCreated,
   CreationState,
   mapCreationBoundsToFinalBounds,
+  useCreateAnnotation,
 } from "./Annotation";
 import { FieldLayerActionMenu } from "../components/ActionMenu";
 import { AnnotationProps, TranslucentBox } from "./Annotation";
 import { useSelector, useDispatch, AccessibleForm } from "./StoreProvider";
 import { Rnd } from "react-rnd";
+
+export const useFieldLayer = () => {
+  const attr = useCreateAnnotation();
+  const dispatch = useDispatch();
+  const tool = useSelector((state) => state.tool);
+  const {
+    div: container,
+    creationState,
+    newCreationBounds,
+    resetCreationState,
+    updateCreationState,
+  } = attr;
+  switch (tool) {
+    case "CREATE": {
+      return {
+        cursor: "crosshair",
+        creationState,
+        container,
+        onClick: NO_OP,
+        onMouseDown: newCreationBounds,
+        onMouseMove: updateCreationState,
+        onMouseLeave: resetCreationState,
+        onMouseUp: () => {
+          if (!creationState) return;
+          dispatch({
+            type: "CREATE_ANNOTATION",
+            payload: {
+              id: window.crypto.randomUUID(),
+              backgroundColor: "rgb(255, 182, 193, 0.3)",
+              border: "3px solid red",
+              type: "TEXTBOX",
+              ...mapCreationBoundsToFinalBounds(creationState.bounds),
+            },
+          });
+          // FIXME: Can we move this logic from here into the reducer, creating another action if necessary?
+          resetCreationState();
+        },
+      };
+    }
+    case "SELECT": {
+      return {
+        cursor: "auto",
+        creationState,
+        container,
+        onMouseMove: NO_OP,
+        onMouseUp: NO_OP,
+        onMouseDown: NO_OP,
+        onMouseLeave: NO_OP,
+        onClick: () => {
+          if (tool === "SELECT") {
+            dispatch({ type: "DESELECT_ALL_ANNOTATION" });
+          }
+        },
+      };
+    }
+  }
+};
 
 export const fieldLayerHandlers = (
   state: AccessibleForm,
@@ -221,3 +272,14 @@ export const FieldLayerAllAnnotations: React.FC<{
     </>
   );
 };
+
+const FieldLayer: React.FC<LayerProps> = (props) => {
+  const { canvas } = props;
+  return (
+    <>
+      <canvas id="pdf" ref={canvas} />
+    </>
+  );
+};
+
+export default FieldLayer;

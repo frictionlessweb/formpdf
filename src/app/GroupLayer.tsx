@@ -21,6 +21,7 @@ import {
   useDispatch,
   AccessibleForm,
   AnnotationId,
+  LayerProps,
 } from "./StoreProvider";
 import React from "react";
 import Xarrow from "react-xarrows";
@@ -270,3 +271,14 @@ export const GroupLayerAllAnnotations: React.FC<{
     }
   }
 };
+
+const GroupLayer: React.FC<LayerProps> = (props) => {
+  const { canvas } = props;
+  return (
+    <div>
+      <canvas id="pdf" ref={canvas} />
+    </div>
+  );
+};
+
+export default GroupLayer;
