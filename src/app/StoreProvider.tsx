@@ -336,6 +336,7 @@ export const reduceAccessibleForm = (
       });
     }
     case "CREATE_ANNOTATION_FROM_TOKENS": {
+      if (action.payload.tokens.length === 0) return previous;
       return produce(previous, (draft) => {
         draft.annotations[action.payload.ui.id] = {
           ...action.payload.ui,
@@ -390,6 +391,9 @@ export const reduceAccessibleForm = (
     case "HYDRATE_STORE": {
       if (action.payload.haveScaled) return action.payload;
       return produce(action.payload, (draft) => {
+        // One might think that we can just take the tokens and put them into the store
+        // without doing anything, but in practice, the OCR data won't match different
+        // screens with different ratios. Accordingly, we have to scale the data here.
         const scale = window.devicePixelRatio;
         const annotationIds = Object.keys(draft.annotations);
         for (const annotationId of annotationIds) {

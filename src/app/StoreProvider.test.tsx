@@ -97,6 +97,22 @@ describe("Our form reducer", () => {
     expect(res.annotations["1"].top).toBe(0);
     expect(res.annotations["1"].left).toBe(0);
   });
+  test("Creating annotations from 0 tokens does nothing", () => {
+    const payload = {
+      tokens: [],
+      ui: {
+        type: "TEXTBOX" as ANNOTATION_TYPE,
+        id: "1",
+        backgroundColor: "red",
+        border: "2px solid blue",
+      },
+    };
+    const res = reduce(init, {
+      type: "CREATE_ANNOTATION_FROM_TOKENS",
+      payload,
+    });
+    expect(res).toEqual(init);
+  });
   test("Adding an annotation does the right thing with undo/redo", () => {
     const payload = {
       id: "1",

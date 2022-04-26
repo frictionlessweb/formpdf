@@ -208,14 +208,11 @@ export const GroupLayerAllAnnotations: React.FC<{
   creationState: CreationState | null;
   handlers: RenderAnnotationsHandler;
 }> = ({ creationState, handlers }) => {
-  const [annotations, tool, allTokens, labelRelations] = useSelector(
-    (state) => [
-      state.annotations,
-      state.tool,
-      state.tokens,
-      state.labelRelations,
-    ]
-  );
+  const [annotations, tool, labelRelations] = useSelector((state) => [
+    state.annotations,
+    state.tool,
+    state.labelRelations,
+  ]);
   const choiceGroupAnnotations = Object.values(annotations).filter(
     (annotation) =>
       annotation.type === "CHECKBOX" ||
@@ -225,7 +222,7 @@ export const GroupLayerAllAnnotations: React.FC<{
   );
   // FIXME: Make tokens work for multiple pages. Here we are just taking
   // tokens for the first page.
-  const tokens = allTokens[0];
+  // const tokens = allTokens[0];
 
   switch (tool) {
     case "CREATE": {
@@ -236,7 +233,7 @@ export const GroupLayerAllAnnotations: React.FC<{
             showTokens={true}
             {...handlers}
           />
-          <AllTokens tokens={tokens} />
+          <AllTokens />
         </>
       );
     }
