@@ -31,7 +31,8 @@ const ToolButton: React.FC<ToolButtonProps> = (props) => {
   );
 };
 
-/** TODO: Once we stabalize the data model, getting rid of this button
+/**
+ * TODO: Once we stabalize the data model, getting rid of this button
  * probably makes sense. Until then, we'll include it to help unblock
  * people who want to try the app and get stuck
  */

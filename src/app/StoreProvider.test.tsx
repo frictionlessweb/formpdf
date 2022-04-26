@@ -341,9 +341,79 @@ describe("Our form reducer", () => {
       tokens: [] as Bounds[][],
       labelRelations: {},
       groupRelations: {},
+      haveScaled: true,
     } as const;
     const res = reduce(init, { type: "HYDRATE_STORE", payload });
     expect(res).toEqual(payload);
+  });
+  test("When the device pixel ratio changes, the tokens scale", () => {
+    const payload = {
+      annotations: {},
+      selectedAnnotations: {},
+      page: 2,
+      tool: "CREATE",
+      step: "FIELD_LAYER",
+      zoom: 3,
+      canRedo: false,
+      canUndo: false,
+      versions: {},
+      currentVersion: -1,
+      tokens: [[{ top: 0, left: 0, height: 25, width: 25 }]] as Bounds[][],
+      labelRelations: {},
+      groupRelations: {},
+      haveScaled: false,
+    } as const;
+    window.devicePixelRatio = 2;
+    const res = reduce(init, { type: "HYDRATE_STORE", payload });
+    expect(res.tokens[0][0].height).toEqual(50);
+    expect(res.tokens[0][0].width).toEqual(50);
+    window.devicePixelRatio = 1;
+  });
+  test("Scaling the pixel ratio sets haveScaled to true", () => {
+    const payload = {
+      annotations: {},
+      selectedAnnotations: {},
+      page: 2,
+      tool: "CREATE",
+      step: "FIELD_LAYER",
+      zoom: 3,
+      canRedo: false,
+      canUndo: false,
+      versions: {},
+      currentVersion: -1,
+      tokens: [[{ top: 0, left: 0, height: 25, width: 25 }]] as Bounds[][],
+      labelRelations: {},
+      groupRelations: {},
+      haveScaled: false,
+    } as const;
+    window.devicePixelRatio = 2;
+    const res = reduce(init, { type: "HYDRATE_STORE", payload });
+    expect(res.haveScaled).toBe(true);
+    window.devicePixelRatio = 1;
+  });
+
+  test("If we have already scaled, we don't scale again", () => {
+    const payload = {
+      annotations: {},
+      selectedAnnotations: {},
+      page: 2,
+      tool: "CREATE",
+      step: "FIELD_LAYER",
+      zoom: 3,
+      canRedo: false,
+      canUndo: false,
+      versions: {},
+      currentVersion: -1,
+      tokens: [[{ top: 0, left: 0, height: 25, width: 25 }]] as Bounds[][],
+      labelRelations: {},
+      groupRelations: {},
+      haveScaled: true,
+    } as const;
+    window.devicePixelRatio = 2;
+    const res = reduce(init, { type: "HYDRATE_STORE", payload });
+    expect(res.tokens[0][0].height).toEqual(25);
+    expect(res.tokens[0][0].width).toEqual(25);
+    window.devicePixelRatio = 1;
   });
   test("We set annotation type", () => {
     const payload = {

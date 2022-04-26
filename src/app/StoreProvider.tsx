@@ -5,7 +5,7 @@ import produce, {
   produceWithPatches,
   Patch,
 } from "immer";
-import { createStore, applyMiddleware, compose } from "redux";
+import { createStore, applyMiddleware } from "redux";
 import {
   Provider,
   useSelector as useSelectorRedux,
@@ -121,6 +121,9 @@ export interface AccessibleForm {
   labelRelations: Record<AnnotationId, AnnotationId>;
   // Which set of fields form a group together
   groupRelations: Record<AnnotationId, Array<AnnotationId>>;
+  // Different screens can render tokens differently, so we need to account for
+  // that and remember when we have/have not scaled them.
+  haveScaled: boolean;
 }
 
 // FIXME: Here we need to implement page logic.
@@ -160,6 +163,7 @@ export const DEFAULT_ACCESSIBLE_FORM: AccessibleForm = {
   tokens: TOKENS,
   labelRelations: {},
   groupRelations: {},
+  haveScaled: false,
 };
 
 // AccessibleFormAction describes every important possible action that a user
@@ -375,7 +379,27 @@ export const reduceAccessibleForm = (
       });
     }
     case "HYDRATE_STORE": {
-      return action.payload;
+      if (action.payload.haveScaled) return action.payload;
+      return produce(action.payload, (draft) => {
+        const scale = window.devicePixelRatio;
+        const annotationIds = Object.keys(draft.annotations);
+        for (const annotationId of annotationIds) {
+          const annotation = draft.annotations[annotationId];
+          annotation.left *= scale;
+          annotation.top *= scale;
+          annotation.height *= scale;
+          annotation.width *= scale;
+        }
+        for (const pageTokens of draft.tokens) {
+          for (const token of pageTokens) {
+            token.left *= scale;
+            token.top *= scale;
+            token.height *= scale;
+            token.width *= scale;
+          }
+        }
+        draft.haveScaled = true;
+      });
     }
     case "SET_ANNOTATION_TYPE": {
       return produceWithUndo(previous, (draft) => {
