@@ -101,12 +101,12 @@ export const FieldLayerAnnotation: React.FC<AnnotationProps> = (props) => {
         Object.keys(selectedAnnotations)[0] === annotationProps.id;
       return (
         <Rnd
-          allowAnyClick
-          style={{
+          css={{
+            ...css,
             position: "absolute",
-            border: isSelected ? "3px solid black" : annotationProps.border,
-            backgroundColor: annotationProps.backgroundColor,
+            border: isSelected ? "3px solid black" : "3px solid red",
           }}
+          allowAnyClick
           position={{
             x: annotationProps.left,
             y: annotationProps.top,
@@ -132,10 +132,6 @@ export const FieldLayerAnnotation: React.FC<AnnotationProps> = (props) => {
                 payload: annotationProps.id,
               });
             }
-          }}
-          css={{
-            ...css,
-            border: isSelected ? "2px solid black" : css.border,
           }}
           onDragStop={(_, delta) => {
             dispatch({
