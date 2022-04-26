@@ -39,18 +39,19 @@ export const Container: React.FC<ContainerProps> = ({ children }) => {
 };
 
 interface FieldLayerActionMenuProps {
+  value: ANNOTATION_TYPE;
   onDelete: () => void;
   onFieldTypeChange: (value: ANNOTATION_TYPE) => void;
 }
 
-export const FieldLayerActionMenu: React.FC<FieldLayerActionMenuProps> = ({
-  onDelete,
-  onFieldTypeChange,
-}) => {
+export const FieldLayerActionMenu: React.FC<FieldLayerActionMenuProps> = (
+  props
+) => {
+  const { value, onDelete, onFieldTypeChange } = props;
   return (
     <Container>
       <Select
-        defaultValue={"TEXTBOX"}
+        value={value}
         onChange={(e) => onFieldTypeChange(e.target.value as ANNOTATION_TYPE)}
         css={{ height: "40px" }}>
         <MenuItem value={"TEXTBOX" as ANNOTATION_TYPE}>Textbox</MenuItem>

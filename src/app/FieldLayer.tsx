@@ -161,6 +161,7 @@ export const FieldLayerAnnotation: React.FC<AnnotationProps> = (props) => {
           }}>
           {isFirstSelection && (
             <FieldLayerActionMenu
+              value={annotationProps.type}
               onDelete={() => {
                 dispatch({
                   type: "DELETE_ANNOTATION",
