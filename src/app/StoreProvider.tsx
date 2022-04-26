@@ -12,7 +12,7 @@ import {
   useDispatch as useDispatchRedux,
   TypedUseSelectorHook,
 } from "react-redux";
-import { logger } from "redux-logger";
+import { createLogger } from "redux-logger";
 import TOKENS from "./tokens.json";
 import PREDICTIONS from "./predictions.json";
 import { boxContaining } from "./utils";
@@ -464,6 +464,8 @@ export const reduceAccessibleForm = (
 // | |_) / _ \/ _` |/ __| __| |_) / _ \/ _` | | | \ \/ /
 // |  _ <  __/ (_| | (__| |_|  _ <  __/ (_| | |_| |>  <
 // |_| \_\___|\__,_|\___|\__|_| \_\___|\__,_|\__,_/_/\_\
+
+const logger = createLogger({ collapsed: true });
 
 const store =
   process.env.NODE_ENV === "production"

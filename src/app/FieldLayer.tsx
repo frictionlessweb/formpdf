@@ -1,17 +1,15 @@
 /** @jsxImportSource @emotion/react */
 import React from "react";
-import { Dispatch } from "redux";
-import { CreateAnnotationAttr, NO_OP, RenderAnnotationsHandler } from "./PDF";
-import Annotation, {
+import { NO_OP } from "./PDF";
+import {
   AnnotationBeingCreated,
-  CreationState,
   mapCreationBoundsToFinalBounds,
   useCreateAnnotation,
   HandlerLayer,
 } from "./Annotation";
 import { FieldLayerActionMenu } from "../components/ActionMenu";
 import { AnnotationProps, TranslucentBox } from "./Annotation";
-import { useSelector, useDispatch, AccessibleForm } from "./StoreProvider";
+import { useSelector, useDispatch } from "./StoreProvider";
 import { Rnd } from "react-rnd";
 
 export const useFieldLayer = () => {
@@ -47,7 +45,6 @@ export const useFieldLayer = () => {
               ...mapCreationBoundsToFinalBounds(creationState.bounds),
             },
           });
-          // FIXME: Can we move this logic from here into the reducer, creating another action if necessary?
           resetCreationState();
         },
       };
@@ -70,70 +67,6 @@ export const useFieldLayer = () => {
     }
   }
 };
-
-export const fieldLayerHandlers = (
-  state: AccessibleForm,
-  dispatch: Dispatch,
-  createAnnotationAttr: CreateAnnotationAttr
-) => {
-  const {
-    div: container,
-    creationState,
-    newCreationBounds,
-    resetCreationState,
-    updateCreationState,
-  } = createAnnotationAttr;
-  const { tool } = state;
-
-  switch (tool) {
-    case "CREATE": {
-      return {
-        cursor: "crosshair",
-        creationState,
-        container,
-        onClick: NO_OP,
-        onMouseDown: newCreationBounds,
-        onMouseMove: updateCreationState,
-        onMouseLeave: resetCreationState,
-        onMouseUp: () => {
-          if (!creationState) return;
-          dispatch({
-            type: "CREATE_ANNOTATION",
-            payload: {
-              id: window.crypto.randomUUID(),
-              backgroundColor: "rgb(255, 182, 193, 0.3)",
-              border: "3px solid red",
-              type: "TEXTBOX",
-              ...mapCreationBoundsToFinalBounds(creationState.bounds),
-            },
-          });
-          // FIXME: Can we move this logic from here into the reducer, creating another action if necessary?
-          resetCreationState();
-        },
-      };
-    }
-    case "SELECT": {
-      return {
-        cursor: "auto",
-        creationState,
-        container,
-        onMouseMove: NO_OP,
-        onMouseUp: NO_OP,
-        onMouseDown: NO_OP,
-        onMouseLeave: NO_OP,
-        onClick: () => {
-          if (tool === "SELECT") {
-            dispatch({ type: "DESELECT_ALL_ANNOTATION" });
-          }
-        },
-      };
-    }
-  }
-};
-
-// For some reason, with React RND, if you don't offset the top and the left
-// by *exactly* two pixels, it doesn't look right.
-const MYSTERIOUS_RND_OFFSET = 2;
 
 export const FieldLayerAnnotation: React.FC<AnnotationProps> = (props) => {
   const [tool, selectedAnnotations] = useSelector((state) => [
@@ -175,8 +108,8 @@ export const FieldLayerAnnotation: React.FC<AnnotationProps> = (props) => {
             backgroundColor: annotationProps.backgroundColor,
           }}
           position={{
-            x: annotationProps.left + MYSTERIOUS_RND_OFFSET,
-            y: annotationProps.top + MYSTERIOUS_RND_OFFSET,
+            x: annotationProps.left,
+            y: annotationProps.top,
           }}
           size={{
             height: annotationProps.height,
@@ -209,8 +142,8 @@ export const FieldLayerAnnotation: React.FC<AnnotationProps> = (props) => {
               type: "MOVE_ANNOTATION",
               payload: {
                 id: annotationProps.id,
-                x: delta.x - MYSTERIOUS_RND_OFFSET,
-                y: delta.y - MYSTERIOUS_RND_OFFSET,
+                x: delta.x,
+                y: delta.y,
               },
             });
           }}
@@ -221,8 +154,8 @@ export const FieldLayerAnnotation: React.FC<AnnotationProps> = (props) => {
                 id: annotationProps.id,
                 width: ref.offsetWidth,
                 height: ref.offsetHeight,
-                x: el.x - MYSTERIOUS_RND_OFFSET,
-                y: el.y - MYSTERIOUS_RND_OFFSET,
+                x: el.x,
+                y: el.y,
               },
             });
           }}>
@@ -252,27 +185,6 @@ export const FieldLayerAnnotation: React.FC<AnnotationProps> = (props) => {
   }
 };
 
-export const FieldLayerAllAnnotations: React.FC<{
-  creationState: CreationState | null;
-  handlers: RenderAnnotationsHandler;
-}> = ({ creationState, handlers }) => {
-  const [annotations] = useSelector((state) => [
-    Object.values(state.annotations),
-  ]);
-  return (
-    <>
-      <AnnotationBeingCreated
-        creationState={creationState}
-        showTokens={false}
-        {...handlers}
-      />
-      {annotations.map((annotation) => {
-        return <Annotation key={annotation.id} {...annotation} />;
-      })}
-    </>
-  );
-};
-
 const FieldLayer: React.FC = () => {
   const annotations = useSelector((state) => state.annotations);
   const layer = useFieldLayer();
@@ -285,9 +197,9 @@ const FieldLayer: React.FC = () => {
       <AnnotationBeingCreated
         creationState={layer.creationState}
         showTokens={false}
-        onMouseDown={layer.onMouseDown}
-        onMouseMove={layer.onMouseMove}
-        onMouseUp={layer.onMouseUp}
+        onMouseUp={NO_OP}
+        onMouseDown={NO_OP}
+        onMouseMove={NO_OP}
       />
       {Object.values(annotations).map((annotation) => {
         return <FieldLayerAnnotation key={annotation.id} {...annotation} />;

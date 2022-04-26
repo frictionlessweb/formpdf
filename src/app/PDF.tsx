@@ -199,6 +199,7 @@ const PDFUI: React.FC<PDFUIProps> = (props) => {
   const { canvas, loading } = useFetchPDFUI(url);
   return (
     <div
+      id="pdf-container"
       css={{
         border: "2px solid black",
         width: "auto",

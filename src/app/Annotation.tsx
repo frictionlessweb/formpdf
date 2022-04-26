@@ -23,14 +23,17 @@ export type TranslucentBoxProps = React.DetailedHTMLProps<
 type HandlerLayerProps = React.DetailedHTMLProps<
   React.HTMLAttributes<HTMLDivElement>,
   HTMLDivElement
-> & { rootCss?: CSSObject };
+> & {
+  rootCss?: CSSObject;
+  containerRef?: React.MutableRefObject<HTMLDivElement | null>;
+};
 
 // An invisible box that we put *on top* of the PDF that we show to the user.
 // Adding this layer of indirection allows each step of our application to
 // configure the handlers it needs as necessary.
 export const HandlerLayer: React.FC<HandlerLayerProps> = (props) => {
   const pdf = document.getElementById("pdf")!;
-  const { rootCss, children, ...rest } = props;
+  const { rootCss, containerRef, children, ...rest } = props;
   return (
     <div
       {...rest}
@@ -151,7 +154,7 @@ export const mapCreationBoundsToFinalBounds = (
 export const useCreateAnnotation = () => {
   // We need to know the container so that we can figure out where relative
   // in the page we should position the bounds.
-  const div = React.useRef<HTMLDivElement | null>(null);
+  const div = document.getElementById("pdf-container");
   const allTokens = useSelector(
     (state) => state.tokens && state.tokens[state.page - 1]
   );
@@ -162,9 +165,9 @@ export const useCreateAnnotation = () => {
   };
 
   const getMovedPositions = (e: React.MouseEvent<Element, MouseEvent>) => {
-    if (!div.current) return { movedTop: 0, movedLeft: 0 };
-    const movedTop = e.pageY - div.current.offsetTop + div.current.scrollTop;
-    const movedLeft = e.pageX - div.current.offsetLeft + div.current.scrollLeft;
+    if (!div) return { movedTop: 0, movedLeft: 0 };
+    const movedTop = e.pageY - div.offsetTop + div.scrollTop;
+    const movedLeft = e.pageX - div.offsetLeft + div.scrollLeft;
     return { movedTop, movedLeft } as const;
   };
 
