@@ -48,7 +48,10 @@ class ErrorBoundaryBase extends React.Component<
         errorsCaught: prev.errorsCaught + 1,
       }));
     } else {
-      throw error;
+      this.setState((prev: ErrorState) => ({
+        ...prev,
+        hasError: true,
+      }));
     }
   }
 

@@ -30,18 +30,19 @@ type HandlerLayerProps = React.DetailedHTMLProps<
 // configure the handlers it needs as necessary.
 export const HandlerLayer: React.FC<HandlerLayerProps> = (props) => {
   const pdf = document.getElementById("pdf")!;
+  const { rootCss, children, ...rest } = props;
   return (
     <div
-      {...props}
+      {...rest}
       css={{
         top: 0,
         left: 0,
         position: "absolute",
         width: pdf.clientWidth,
         height: pdf.clientHeight,
-        ...props.rootCss,
+        ...rootCss,
       }}>
-      {props.children}
+      {children}
     </div>
   );
 };
@@ -278,9 +279,7 @@ const Annotation: React.FC<AnnotationProps> = (props) => {
   const ref = React.useRef<HTMLDivElement | null>(null);
   switch (step) {
     case "FIELD_LAYER":
-      return (
-        <FieldLayerAnnotation annotationProps={props} annotationRef={ref} />
-      );
+      return <FieldLayerAnnotation {...props} />;
     case "LABEL_LAYER":
       return (
         <LabelLayerAnnotation annotationProps={props} annotationRef={ref} />

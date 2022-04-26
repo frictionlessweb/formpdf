@@ -171,12 +171,10 @@ export interface CreateAnnotationAttr {
 // |  __/| |_| |  _|  | |_| || |
 // |_|   |____/|_|     \___/|___|
 //
+// Render the Canvas onto the screen.
+
 // Since different steps in the application want to handle interactions with
 // the PDF differently, we need to give them control over the PDF canvas.
-// Accordingly, [render props](https://reactjs.org/docs/render-props.html) let
-// us decouple the business logic around fetching/rendering different pages from
-// those interactions.
-
 export interface RenderAnnotationsHandler {
   onMouseUp: React.MouseEventHandler;
   // What should we do when we click down on the Canvas?
@@ -219,9 +217,14 @@ const PDFUI: React.FC<PDFUIProps> = (props) => {
           }}
         />
       ) : (
+        /**
+         * Beware: Tricky edge case! Since the rest of our code supposes we've
+         * got a proper reference to the PDF by the time we get here, we can't
+         * render any children until canvas.current isn't null.
+         */
         <>
           <canvas id="pdf" ref={canvas} />
-          {props.children}
+          {canvas.current !== null ? props.children : null}
         </>
       )}
     </div>

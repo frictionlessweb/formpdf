@@ -135,16 +135,15 @@ export const fieldLayerHandlers = (
 // by *exactly* two pixels, it doesn't look right.
 const MYSTERIOUS_RND_OFFSET = 2;
 
-export const FieldLayerAnnotation: React.FC<{
-  annotationProps: AnnotationProps;
-  annotationRef: React.MutableRefObject<HTMLDivElement | null> | undefined;
-}> = ({ annotationProps, annotationRef }) => {
+export const FieldLayerAnnotation: React.FC<AnnotationProps> = (props) => {
   const [tool, selectedAnnotations] = useSelector((state) => [
     state.tool,
     state.selectedAnnotations,
   ]);
+  const annotationRef = React.useRef<HTMLDivElement | null>(null);
   const dispatch = useDispatch();
-  const { id, type, ...cssProps } = annotationProps;
+  const { id, type, children, ...cssProps } = props;
+  const annotationProps = props;
   const css = {
     ...cssProps,
     position: "absolute" as const,
@@ -275,8 +274,25 @@ export const FieldLayerAllAnnotations: React.FC<{
 };
 
 const FieldLayer: React.FC = () => {
+  const annotations = useSelector((state) => state.annotations);
+  const layer = useFieldLayer();
   return (
-    <HandlerLayer onClick={() => console.log("field layer")}></HandlerLayer>
+    <HandlerLayer
+      rootCss={{ cursor: layer.cursor }}
+      onMouseMove={layer.onMouseMove}
+      onMouseDown={layer.onMouseDown}
+      onMouseUp={layer.onMouseUp}>
+      <AnnotationBeingCreated
+        creationState={layer.creationState}
+        showTokens={false}
+        onMouseDown={layer.onMouseDown}
+        onMouseMove={layer.onMouseMove}
+        onMouseUp={layer.onMouseUp}
+      />
+      {Object.values(annotations).map((annotation) => {
+        return <FieldLayerAnnotation key={annotation.id} {...annotation} />;
+      })}
+    </HandlerLayer>
   );
 };
 

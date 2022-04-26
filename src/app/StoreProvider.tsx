@@ -5,17 +5,18 @@ import produce, {
   produceWithPatches,
   Patch,
 } from "immer";
-import { createStore } from "redux";
+import { createStore, applyMiddleware, compose } from "redux";
 import {
   Provider,
   useSelector as useSelectorRedux,
   useDispatch as useDispatchRedux,
   TypedUseSelectorHook,
 } from "react-redux";
-import { devToolsEnhancer } from "@redux-devtools/extension";
+import { logger } from "redux-logger";
 import TOKENS from "./tokens.json";
 import PREDICTIONS from "./predictions.json";
 import { boxContaining } from "./utils";
+import { composeWithDevTools } from "@redux-devtools/extension";
 
 // This is required to enable immer patches.
 enablePatches();
@@ -374,32 +375,7 @@ export const reduceAccessibleForm = (
       });
     }
     case "HYDRATE_STORE": {
-      return produce(action.payload, (draft) => {
-        // NOTE: Depending on the size of the screen, our token data can be off by a factor of
-        // two. To handle the problem at runtime since we're testing remotely and we don't know
-        // the user's screen size, we multiply by 2 when the screen is sufficiently small so that
-        // we don't have the problem.
-        //
-        // TODO: If there is away to avoid this clever trick, please let us know!
-        const scale = window.innerWidth < 1800 ? 2 : 1;
-        const annotationIds = Object.keys(draft.annotations);
-        for (const annotationId of annotationIds) {
-          const annotation = draft.annotations[annotationId];
-          annotation.left *= scale;
-          annotation.top *= scale;
-          annotation.height *= scale;
-          annotation.width *= scale;
-        }
-        for (const pageTokens of draft.tokens) {
-          for (const token of pageTokens) {
-            token.left *= scale;
-            token.top *= scale;
-            token.height *= scale;
-            token.width *= scale;
-          }
-        }
-        return;
-      });
+      return action.payload;
     }
     case "SET_ANNOTATION_TYPE": {
       return produceWithUndo(previous, (draft) => {
@@ -465,7 +441,13 @@ export const reduceAccessibleForm = (
 // |  _ <  __/ (_| | (__| |_|  _ <  __/ (_| | |_| |>  <
 // |_| \_\___|\__,_|\___|\__|_| \_\___|\__,_|\__,_/_/\_\
 
-const store = createStore(reduceAccessibleForm, devToolsEnhancer());
+const store =
+  process.env.NODE_ENV === "production"
+    ? createStore(reduceAccessibleForm)
+    : createStore(
+        reduceAccessibleForm,
+        composeWithDevTools(applyMiddleware(logger))
+      );
 
 const StoreProvider: React.FC<{ children: React.ReactNode }> = (props) => {
   const { children } = props;
