@@ -469,14 +469,53 @@ describe("Our form reducer", () => {
     expect(changedStep.tool).toBe("SELECT");
   });
   test("We can create label relation", () => {
+    const to = {
+      ui: {
+        id: "1",
+        backgroundColor: "lightpink",
+        type: "TEXTBOX" as ANNOTATION_TYPE,
+        border: "3px solid grey",
+      },
+      tokens: [
+        {
+          height: 10,
+          width: 10,
+          top: 5,
+          left: 5,
+          border: "pink",
+        },
+      ],
+    };
     const relationCreated = reduce(init, {
       type: "CREATE_LABEL_RELATION",
       payload: {
-        from: "1",
-        to: "2",
+        to,
+        from: "2",
       },
     });
+    expect(relationCreated.annotations["1"].id).toEqual("1");
     expect(relationCreated.labelRelations["1"]).toEqual("2");
+    expect(relationCreated.tool).toEqual("SELECT");
+    expect(relationCreated.selectedAnnotations).toEqual({});
+  });
+  test("If we try to create a label relation with no tokens, nothing happens", () => {
+    const to = {
+      ui: {
+        id: "1",
+        backgroundColor: "lightpink",
+        type: "TEXTBOX" as ANNOTATION_TYPE,
+        border: "3px solid grey",
+      },
+      tokens: [],
+    };
+    const relationCreated = reduce(init, {
+      type: "CREATE_LABEL_RELATION",
+      payload: {
+        to,
+        from: "2",
+      },
+    });
+    expect(relationCreated).toEqual(init);
   });
   test("We can create group relation", () => {
     const relationWithArrayCreated = reduce(init, {

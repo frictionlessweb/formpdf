@@ -228,17 +228,16 @@ export type AccessibleFormAction =
   | {
       type: "CREATE_LABEL_RELATION";
       payload: {
-        // FIXME: from and to represent directional relationships. Should
-        // it be this way ?
+        to: {
+          ui: AnnotationUIState;
+          tokens: Bounds[];
+        };
         from: AnnotationId;
-        to: AnnotationId;
       };
     }
   | {
       type: "CREATE_GROUP_RELATION";
       payload: {
-        // FIXME: from and to represent directional relationships. Should
-        // it be this way ?
         from: AnnotationId;
         to: Array<AnnotationId>;
       };
@@ -391,9 +390,8 @@ export const reduceAccessibleForm = (
     case "HYDRATE_STORE": {
       if (action.payload.haveScaled) return action.payload;
       return produce(action.payload, (draft) => {
-        // One might think that we can just take the tokens and put them into the store
-        // without doing anything, but in practice, the OCR data won't match different
-        // screens with different ratios. Accordingly, we have to scale the data here.
+        // Different devicePixelRatio values will change the display; as such,
+        // we need to scale the tokens accordingly.
         const scale = window.devicePixelRatio;
         const annotationIds = Object.keys(draft.annotations);
         for (const annotationId of annotationIds) {
@@ -434,8 +432,15 @@ export const reduceAccessibleForm = (
       });
     }
     case "CREATE_LABEL_RELATION": {
+      if (action.payload.to.tokens.length === 0) return previous;
       return produceWithUndo(previous, (draft) => {
-        draft.labelRelations[action.payload.from] = action.payload.to;
+        draft.annotations[action.payload.to.ui.id] = {
+          ...action.payload.to.ui,
+          ...boxContaining(action.payload.to.tokens, 3),
+        };
+        draft.labelRelations[action.payload.to.ui.id] = action.payload.from;
+        draft.tool = "SELECT";
+        draft.selectedAnnotations = {};
         return;
       });
     }

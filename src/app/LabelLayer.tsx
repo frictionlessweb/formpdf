@@ -1,12 +1,5 @@
 /** @jsxImportSource @emotion/react */
 
-// This file contains code related to the label step. Earlier, we had
-// code related to each step spread across multiple files, the reason
-// was that we architected the intial technical spike around tools.
-// Now, we have a single file for each step. Eventhough we have a lot
-// of repetitive code because of this change, eventually, we will
-// refactor and fix it.
-import { Dispatch } from "redux";
 import { LabelLayerActionMenu } from "../components/ActionMenu";
 import Annotation, {
   AnnotationBeingCreated,
@@ -16,13 +9,13 @@ import Annotation, {
   HandlerLayer,
   useCreateAnnotation,
 } from "./Annotation";
-import { CreateAnnotationAttr, NO_OP, RenderAnnotationsHandler } from "./PDF";
+import { NO_OP, RenderAnnotationsHandler } from "./PDF";
 import {
   useSelector,
   useDispatch,
-  AccessibleForm,
   LayerControllerProps,
   Annotation as AnnotationStatic,
+  ANNOTATION_TYPE,
 } from "./StoreProvider";
 import Xarrow from "react-xarrows";
 import React from "react";
@@ -51,82 +44,6 @@ export const AllTokens: React.FC = React.memo(() => {
     </>
   );
 });
-
-export const labelLayerHandlers = (
-  state: AccessibleForm,
-  dispatch: Dispatch,
-  createAnnotationAttr: CreateAnnotationAttr
-) => {
-  const {
-    div: container,
-    creationState,
-    newCreationBounds,
-    resetCreationState,
-    updateCreationState,
-  } = createAnnotationAttr;
-  const { tool, selectedAnnotations } = state;
-
-  switch (tool) {
-    case "CREATE": {
-      return {
-        cursor: "crosshair",
-        creationState,
-        container,
-        onClick: NO_OP,
-        onMouseDown: newCreationBounds,
-        onMouseMove: updateCreationState,
-        onMouseLeave: resetCreationState,
-        onMouseUp: () => {
-          if (!creationState) return;
-          const id = window.crypto.randomUUID();
-          dispatch({
-            type: "CREATE_ANNOTATION_FROM_TOKENS",
-            payload: {
-              ui: {
-                id,
-                backgroundColor: "rgb(36, 148, 178, 0.4)",
-                border: "3px solid rgb(36, 148, 178)",
-                type: "LABEL",
-              },
-              tokens: creationState.tokens,
-            },
-          });
-          dispatch({
-            type: "CREATE_LABEL_RELATION",
-            payload: { from: Object.keys(selectedAnnotations)[0], to: id },
-          });
-          resetCreationState();
-          // As soon as a label is created, we switch user to the select tool.
-          dispatch({
-            type: "CHANGE_TOOL",
-            payload: "SELECT",
-          });
-          // After label is created we no longer want annotation to be selected.
-          // FIXME: Ask Josh, are actions dispatched in the same order ? Because if we currently
-          // selected annotation gets deselected before then we would not be able to
-          // create relation.
-          dispatch({ type: "DESELECT_ALL_ANNOTATION" });
-        },
-      };
-    }
-    case "SELECT": {
-      return {
-        cursor: "auto",
-        creationState,
-        container,
-        onMouseMove: NO_OP,
-        onMouseUp: NO_OP,
-        onMouseDown: NO_OP,
-        onMouseLeave: NO_OP,
-        onClick: () => {
-          if (tool === "SELECT") {
-            dispatch({ type: "DESELECT_ALL_ANNOTATION" });
-          }
-        },
-      };
-    }
-  }
-};
 
 export const useFieldLayer = (
   div: React.MutableRefObject<HTMLDivElement | null>
@@ -160,32 +77,21 @@ export const useFieldLayer = (
           if (!creationState) return;
           const id = window.crypto.randomUUID();
           dispatch({
-            type: "CREATE_ANNOTATION_FROM_TOKENS",
+            type: "CREATE_LABEL_RELATION",
             payload: {
-              ui: {
-                id,
-                backgroundColor: "rgb(36, 148, 178, 0.4)",
-                border: "3px solid rgb(36, 148, 178)",
-                type: "LABEL",
+              to: {
+                ui: {
+                  id,
+                  backgroundColor: "rgb(36, 148, 178, 0.4)",
+                  border: "3px solid rgb(36, 148, 178)",
+                  type: "LABEL" as ANNOTATION_TYPE,
+                },
+                tokens: creationState.tokens,
               },
-              tokens: creationState.tokens,
+              from: Object.keys(selectedAnnotations)[0],
             },
           });
-          dispatch({
-            type: "CREATE_LABEL_RELATION",
-            payload: { from: Object.keys(selectedAnnotations)[0], to: id },
-          });
           resetCreationState();
-          // As soon as a label is created, we switch user to the select tool.
-          dispatch({
-            type: "CHANGE_TOOL",
-            payload: "SELECT",
-          });
-          // After label is created we no longer want annotation to be selected.
-          // FIXME: Ask Josh, are actions dispatched in the same order ? Because if we currently
-          // selected annotation gets deselected before then we would not be able to
-          // create relation.
-          dispatch({ type: "DESELECT_ALL_ANNOTATION" });
         },
       };
     }
