@@ -17,7 +17,12 @@ import Annotation, {
   HandlerLayer,
 } from "./Annotation";
 import { CreateAnnotationAttr, NO_OP, RenderAnnotationsHandler } from "./PDF";
-import { useSelector, useDispatch, AccessibleForm } from "./StoreProvider";
+import {
+  useSelector,
+  useDispatch,
+  AccessibleForm,
+  LayerControllerProps,
+} from "./StoreProvider";
 import React from "react";
 import Xarrow from "react-xarrows";
 import { AllTokens } from "./LabelLayer";
@@ -267,9 +272,12 @@ export const GroupLayerAllAnnotations: React.FC<{
   }
 };
 
-const GroupLayer: React.FC = () => {
+const GroupLayer: React.FC<LayerControllerProps> = (props) => {
+  const { pdf } = props;
   return (
-    <HandlerLayer onClick={() => console.log("group layer")}></HandlerLayer>
+    <HandlerLayer
+      pdf={pdf}
+      onClick={() => console.log("group layer")}></HandlerLayer>
   );
 };
 

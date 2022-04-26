@@ -25,15 +25,14 @@ type HandlerLayerProps = React.DetailedHTMLProps<
   HTMLDivElement
 > & {
   rootCss?: CSSObject;
-  containerRef?: React.MutableRefObject<HTMLDivElement | null>;
+  pdf: React.MutableRefObject<HTMLCanvasElement | null>;
 };
 
 // An invisible box that we put *on top* of the PDF that we show to the user.
 // Adding this layer of indirection allows each step of our application to
 // configure the handlers it needs as necessary.
 export const HandlerLayer: React.FC<HandlerLayerProps> = (props) => {
-  const pdf = document.getElementById("pdf")!;
-  const { rootCss, containerRef, children, ...rest } = props;
+  const { rootCss, pdf, children, ...rest } = props;
   return (
     <div
       {...rest}
@@ -41,8 +40,8 @@ export const HandlerLayer: React.FC<HandlerLayerProps> = (props) => {
         top: 0,
         left: 0,
         position: "absolute",
-        width: pdf.clientWidth,
-        height: pdf.clientHeight,
+        width: pdf.current?.clientWidth,
+        height: pdf.current?.clientHeight,
         ...rootCss,
       }}>
       {children}
@@ -151,10 +150,11 @@ export const mapCreationBoundsToFinalBounds = (
   };
 };
 
-export const useCreateAnnotation = () => {
+export const useCreateAnnotation = (
+  div: React.MutableRefObject<HTMLDivElement | null>
+) => {
   // We need to know the container so that we can figure out where relative
   // in the page we should position the bounds.
-  const div = document.getElementById("pdf-container");
   const allTokens = useSelector(
     (state) => state.tokens && state.tokens[state.page - 1]
   );
@@ -165,9 +165,9 @@ export const useCreateAnnotation = () => {
   };
 
   const getMovedPositions = (e: React.MouseEvent<Element, MouseEvent>) => {
-    if (!div) return { movedTop: 0, movedLeft: 0 };
-    const movedTop = e.pageY - div.offsetTop + div.scrollTop;
-    const movedLeft = e.pageX - div.offsetLeft + div.scrollLeft;
+    if (!div.current) return { movedTop: 0, movedLeft: 0 };
+    const movedTop = e.pageY - div.current.offsetTop + div.current.scrollTop;
+    const movedLeft = e.pageX - div.current.offsetLeft + div.current.scrollLeft;
     return { movedTop, movedLeft } as const;
   };
 

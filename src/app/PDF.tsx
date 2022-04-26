@@ -19,7 +19,7 @@ import {
   RenderingCancelledException,
 } from "pdfjs-dist";
 import Loading from "@mui/material/CircularProgress";
-import { useSelector } from "./StoreProvider";
+import { useSelector, LayerControllerProps } from "./StoreProvider";
 import { CreationState } from "./Annotation";
 import FieldLayer from "./FieldLayer";
 import LabelLayer from "./LabelLayer";
@@ -183,23 +183,28 @@ export interface RenderAnnotationsHandler {
   onMouseMove: React.MouseEventHandler;
 }
 
-interface PDFUIProps {
+interface PDFProps {
   // Where is the PDFUI located?
   url: string;
   // How wide is the PDFUI?
   width: number;
   // How tall is the PDFUI?
   height: number;
-  // What are the children of this PDF?
-  children?: React.ReactNode;
 }
+
+type PDFUIProps = PDFProps & {
+  // What are the children of this PDF?
+  children: (props: LayerControllerProps) => React.ReactNode;
+};
 
 const PDFUI: React.FC<PDFUIProps> = (props) => {
   const { url, width, height } = props;
   const { canvas, loading } = useFetchPDFUI(url);
+  const container = React.useRef<HTMLDivElement | null>(null);
   return (
     <div
       id="pdf-container"
+      ref={container}
       css={{
         border: "2px solid black",
         width: "auto",
@@ -218,31 +223,33 @@ const PDFUI: React.FC<PDFUIProps> = (props) => {
           }}
         />
       ) : (
-        /**
-         * Beware: Tricky edge case! Since the rest of our code supposes we've
-         * got a proper reference to the PDF by the time we get here, we can't
-         * render any children until canvas.current isn't null.
-         */
         <>
           <canvas id="pdf" ref={canvas} />
-          {canvas.current !== null ? props.children : null}
+          {props.children({ pdf: canvas, container })}
         </>
       )}
     </div>
   );
 };
 
-const LayerController: React.FC = () => {
+const LayerController: React.FC<LayerControllerProps> = (props) => {
   const step = useSelector((state) => state.step);
+  const { container, pdf } = props;
+  /**
+   * Beware: Tricky edge case! Since the rest of our code supposes we've
+   * got a proper reference to the PDF by the time we get here, we can't
+   * render any children until canvas.current isn't null.
+   */
+  if (pdf.current === null) return null;
   switch (step) {
     case "FIELD_LAYER": {
-      return <FieldLayer />;
+      return <FieldLayer container={container} pdf={pdf} />;
     }
     case "LABEL_LAYER": {
-      return <LabelLayer />;
+      return <LabelLayer container={container} pdf={pdf} />;
     }
     case "GROUP_LAYER": {
-      return <GroupLayer />;
+      return <GroupLayer container={container} pdf={pdf} />;
     }
     default: {
       return null;
@@ -250,11 +257,11 @@ const LayerController: React.FC = () => {
   }
 };
 
-const PDF: React.FC<PDFUIProps> = (props) => {
+const PDF: React.FC<PDFProps> = (props) => {
   const { url, width, height } = props;
   return (
     <PDFUI url={url} width={width} height={height}>
-      <LayerController />
+      {(props) => <LayerController {...props} />}
     </PDFUI>
   );
 };

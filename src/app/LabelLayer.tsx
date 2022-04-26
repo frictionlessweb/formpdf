@@ -21,9 +21,17 @@ import {
   useDispatch,
   AccessibleForm,
   Bounds,
+  LayerControllerProps,
 } from "./StoreProvider";
 import Xarrow from "react-xarrows";
 import React from "react";
+
+const useLabelHandlers = () => {
+  const { tool, selectedAnnotations } = useSelector((state) => ({
+    tool: state.tool,
+    selectedAnnotations: state.selectedAnnotations,
+  }));
+};
 
 export const labelLayerHandlers = (
   state: AccessibleForm,
@@ -266,8 +274,9 @@ export const AllTokens: React.FC<{ tokens: Bounds[] }> = React.memo((props) => {
   );
 });
 
-export const LabelLayer: React.FC = () => {
-  return <HandlerLayer onClick={() => console.log("label layer")} />;
+export const LabelLayer: React.FC<LayerControllerProps> = (props) => {
+  const { pdf } = props;
+  return <HandlerLayer pdf={pdf} onClick={() => console.log("label layer")} />;
 };
 
 export default LabelLayer;

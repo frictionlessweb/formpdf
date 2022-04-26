@@ -72,6 +72,15 @@ export type Step =
   | "GROUP_LAYER"
   | "TOOLTIP_LAYER";
 
+// Children of the PDF need to know where it is in the DOM, so we pass these
+// references down to make sure they can perform the appropriate calculations.
+export interface LayerControllerProps {
+  // Where is the current PDF in the DOM?
+  pdf: React.MutableRefObject<HTMLCanvasElement | null>;
+  // Where is the container of the PDF in the DOM?
+  container: React.MutableRefObject<HTMLDivElement | null>;
+}
+
 //     _                         _ _     _      _____
 //    / \   ___ ___ ___  ___ ___(_) |__ | | ___|  ___|__  _ __ _ __ ___
 //   / _ \ / __/ __/ _ \/ __/ __| | '_ \| |/ _ \ |_ / _ \| '__| '_ ` _ \

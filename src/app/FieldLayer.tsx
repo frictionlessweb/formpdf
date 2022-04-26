@@ -9,11 +9,17 @@ import {
 } from "./Annotation";
 import { FieldLayerActionMenu } from "../components/ActionMenu";
 import { AnnotationProps, TranslucentBox } from "./Annotation";
-import { useSelector, useDispatch } from "./StoreProvider";
+import {
+  useSelector,
+  useDispatch,
+  LayerControllerProps,
+} from "./StoreProvider";
 import { Rnd } from "react-rnd";
 
-export const useFieldLayer = () => {
-  const attr = useCreateAnnotation();
+export const useFieldLayer = (
+  div: React.MutableRefObject<HTMLDivElement | null>
+) => {
+  const attr = useCreateAnnotation(div);
   const dispatch = useDispatch();
   const tool = useSelector((state) => state.tool);
   const {
@@ -182,11 +188,13 @@ export const FieldLayerAnnotation: React.FC<AnnotationProps> = (props) => {
   }
 };
 
-const FieldLayer: React.FC = () => {
+const FieldLayer: React.FC<LayerControllerProps> = (props) => {
+  const { pdf, container } = props;
   const annotations = useSelector((state) => state.annotations);
-  const layer = useFieldLayer();
+  const layer = useFieldLayer(container);
   return (
     <HandlerLayer
+      pdf={pdf}
       rootCss={{ cursor: layer.cursor }}
       onMouseMove={layer.onMouseMove}
       onMouseDown={layer.onMouseDown}
