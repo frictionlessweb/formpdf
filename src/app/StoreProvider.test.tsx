@@ -560,6 +560,5 @@ describe("Our form reducer", () => {
     expect(res.annotations[groupLabelId]).toBeUndefined();
     expect(res.annotations[groupId]).toBeUndefined();
     expect(res.selectedAnnotations).toEqual({});
-    throw new Error("UNIMPLEMENTED");
   });
 });
