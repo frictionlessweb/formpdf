@@ -1,15 +1,14 @@
 /** @jsxImportSource @emotion/react */
 
 import { LabelLayerActionMenu } from "../components/ActionMenu";
-import Annotation, {
+import {
   AnnotationBeingCreated,
-  AnnotationProps,
   CreationState,
   TranslucentBox,
   HandlerLayer,
   useCreateAnnotation,
 } from "./Annotation";
-import { NO_OP, RenderAnnotationsHandler } from "./PDF";
+import { NO_OP } from "./PDF";
 import {
   useSelector,
   useDispatch,
@@ -110,137 +109,6 @@ export const useFieldLayer = (
           }
         },
       };
-    }
-  }
-};
-
-export const LabelLayerAnnotation: React.FC<{
-  annotationProps: AnnotationProps;
-  annotationRef: React.MutableRefObject<HTMLDivElement | null> | undefined;
-}> = ({ annotationProps, annotationRef }) => {
-  const [tool, selectedAnnotations] = useSelector((state) => [
-    state.tool,
-    state.selectedAnnotations,
-  ]);
-  const dispatch = useDispatch();
-  const { id, type, ...cssProps } = annotationProps;
-  const css = {
-    ...cssProps,
-    position: "absolute" as const,
-  };
-  switch (tool) {
-    case "CREATE": {
-      return (
-        <TranslucentBox
-          id={id}
-          nodeRef={annotationRef}
-          css={{ cursor: "inherit", ...css }}
-        />
-      );
-    }
-    case "SELECT": {
-      const isSelected = Boolean(selectedAnnotations[annotationProps.id]);
-      const isFirstSelection =
-        Object.keys(selectedAnnotations)[0] === annotationProps.id;
-      return (
-        <TranslucentBox
-          id={id}
-          css={{
-            cursor: "pointer",
-            ...css,
-            border: isSelected ? "2px solid black" : css.border,
-          }}
-          onClick={(e: React.MouseEvent<HTMLElement>) => {
-            e.stopPropagation();
-            const shiftNotPressed = !e.shiftKey;
-            if (shiftNotPressed) {
-              dispatch({ type: "DESELECT_ALL_ANNOTATION" });
-            }
-            if (isSelected) {
-              dispatch({
-                type: "DESELECT_ANNOTATION",
-                payload: annotationProps.id,
-              });
-            } else {
-              dispatch({
-                type: "SELECT_ANNOTATION",
-                payload: annotationProps.id,
-              });
-            }
-          }}>
-          {isFirstSelection && (
-            <LabelLayerActionMenu
-              totalSelections={Object.keys(selectedAnnotations).length}
-              onDelete={() => {
-                dispatch({
-                  type: "DELETE_ANNOTATION",
-                  payload: Object.keys(selectedAnnotations),
-                });
-              }}
-              onUpdateLabel={() => {
-                dispatch({
-                  type: "CHANGE_TOOL",
-                  payload: "CREATE",
-                });
-              }}
-            />
-          )}
-        </TranslucentBox>
-      );
-    }
-    default:
-      return null;
-  }
-};
-
-export const LabelLayerAllAnnotationsAndTokens: React.FC<{
-  creationState: CreationState | null;
-  handlers: RenderAnnotationsHandler;
-}> = ({ creationState, handlers }) => {
-  const [annotations, tool, labelRelations] = useSelector((state) => [
-    Object.values(state.annotations),
-    state.tool,
-    state.labelRelations,
-  ]);
-  switch (tool) {
-    case "CREATE": {
-      return (
-        <>
-          <AnnotationBeingCreated
-            creationState={creationState}
-            showTokens={true}
-            {...handlers}
-          />
-          <AllTokens />
-        </>
-      );
-    }
-    case "SELECT": {
-      return (
-        <>
-          {annotations.map((annotation) => {
-            const hasRelation = Boolean(labelRelations[annotation.id]);
-            return (
-              <React.Fragment key={annotation.id}>
-                <Annotation {...annotation} />
-                {hasRelation && (
-                  <Xarrow
-                    start={String(labelRelations[annotation.id])}
-                    end={annotation.id}
-                    endAnchor="middle"
-                    headSize={2}
-                    headShape="circle"
-                    // This curveness 0.01 is used to make the arrow look straight.
-                    // we could have used path="straight" property but it gives the
-                    // following error - Error: <path> attribute d: Expected number...
-                    curveness={0.01}
-                  />
-                )}
-              </React.Fragment>
-            );
-          })}
-        </>
-      );
     }
   }
 };

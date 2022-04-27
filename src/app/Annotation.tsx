@@ -6,9 +6,6 @@ import {
   Annotation as AnnotationStatic,
   useSelector,
 } from "./StoreProvider";
-import { LabelLayerAnnotation } from "./LabelLayer";
-import { FieldLayerAnnotation } from "./FieldLayer";
-import { GroupLayerAnnotation } from "./GroupLayer";
 
 export type TranslucentBoxProps = React.DetailedHTMLProps<
   React.HTMLAttributes<HTMLDivElement>,
@@ -267,33 +264,6 @@ export const AnnotationBeingCreated: React.FC<AnnotationBeingCreatedProps> = (
   );
 };
 
-//     _                      _        _   _
-//    / \   _ __  _ __   ___ | |_ __ _| |_(_) ___  _ __
-//   / _ \ | '_ \| '_ \ / _ \| __/ _` | __| |/ _ \| '_ \
-//  / ___ \| | | | | | | (_) | || (_| | |_| | (_) | | | |
-// /_/   \_\_| |_|_| |_|\___/ \__\__,_|\__|_|\___/|_| |_|
-
 export type AnnotationProps = AnnotationStatic & {
   css?: CSSObject;
 };
-
-const Annotation: React.FC<AnnotationProps> = (props) => {
-  const step = useSelector((state) => state.step);
-  const ref = React.useRef<HTMLDivElement | null>(null);
-  switch (step) {
-    case "FIELD_LAYER":
-      return <FieldLayerAnnotation {...props} />;
-    case "LABEL_LAYER":
-      return (
-        <LabelLayerAnnotation annotationProps={props} annotationRef={ref} />
-      );
-    case "GROUP_LAYER":
-      return (
-        <GroupLayerAnnotation annotationProps={props} annotationRef={ref} />
-      );
-    default:
-      throw new Error("UNEXPECTED LAYER");
-  }
-};
-
-export default Annotation;
