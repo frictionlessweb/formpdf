@@ -518,13 +518,32 @@ describe("Our form reducer", () => {
     expect(relationCreated).toEqual(init);
   });
   test("We can create group relation", () => {
+    const from = {
+      ui: {
+        id: "3",
+        backgroundColor: "lightpink",
+        type: "TEXTBOX" as ANNOTATION_TYPE,
+        border: "3px solid grey",
+      },
+      tokens: [
+        {
+          height: 10,
+          width: 10,
+          top: 5,
+          left: 5,
+          border: "pink",
+        },
+      ],
+    };
     const relationWithArrayCreated = reduce(init, {
       type: "CREATE_GROUP_RELATION",
       payload: {
-        from: "3",
+        from: from,
         to: ["2", "1"],
       },
     });
+    expect(relationWithArrayCreated.annotations["3"]).toBeDefined();
     expect(relationWithArrayCreated.groupRelations["3"]).toEqual(["2", "1"]);
+    expect(relationWithArrayCreated.tool).toEqual("CREATE");
   });
 });

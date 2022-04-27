@@ -238,7 +238,15 @@ export type AccessibleFormAction =
   | {
       type: "CREATE_GROUP_RELATION";
       payload: {
-        from: AnnotationId;
+        from: {
+          ui: {
+            id: string;
+            backgroundColor: string;
+            border: string;
+            type: ANNOTATION_TYPE;
+          };
+          tokens: Bounds[];
+        };
         to: Array<AnnotationId>;
       };
     }
@@ -445,8 +453,14 @@ export const reduceAccessibleForm = (
       });
     }
     case "CREATE_GROUP_RELATION": {
+      if (action.payload.from.tokens.length === 0) return previous;
       return produceWithUndo(previous, (draft) => {
-        draft.groupRelations[action.payload.from] = action.payload.to;
+        draft.annotations[action.payload.from.ui.id] = {
+          ...action.payload.from.ui,
+          ...boxContaining(action.payload.from.tokens, 3),
+        };
+        draft.groupRelations[action.payload.from.ui.id] = action.payload.to;
+        draft.tool = "CREATE";
         return;
       });
     }
