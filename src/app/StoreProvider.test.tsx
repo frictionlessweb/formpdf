@@ -3,7 +3,9 @@ import {
   DEFAULT_ACCESSIBLE_FORM as init,
   Bounds,
   ANNOTATION_TYPE,
+  AccessibleForm,
 } from "./StoreProvider";
+import exampleState from "./exampleState.json";
 
 describe("Our form reducer", () => {
   test("Returns the default initial state if it didn't previously exist", () => {
@@ -522,7 +524,7 @@ describe("Our form reducer", () => {
       ui: {
         id: "3",
         backgroundColor: "lightpink",
-        type: "TEXTBOX" as ANNOTATION_TYPE,
+        type: "GROUP" as const,
         border: "3px solid grey",
       },
       tokens: [
@@ -545,5 +547,19 @@ describe("Our form reducer", () => {
     expect(relationWithArrayCreated.annotations["3"]).toBeDefined();
     expect(relationWithArrayCreated.groupRelations["3"]).toEqual(["2", "1"]);
     expect(relationWithArrayCreated.tool).toEqual("CREATE");
+  });
+  test("We can delete a group relation", () => {
+    const groupLabelId = "98d3098e-10db-4fe8-bba7-2d04b07e20aa";
+    const groupId = exampleState.labelRelations[groupLabelId];
+    const res = reduce(exampleState as AccessibleForm, {
+      type: "DELETE_GROUP",
+      payload: "98d3098e-10db-4fe8-bba7-2d04b07e20aa",
+    });
+    expect(res.labelRelations).toEqual({});
+    expect(res.groupRelations).toEqual({});
+    expect(res.annotations[groupLabelId]).toBeUndefined();
+    expect(res.annotations[groupId]).toBeUndefined();
+    expect(res.selectedAnnotations).toEqual({});
+    throw new Error("UNIMPLEMENTED");
   });
 });

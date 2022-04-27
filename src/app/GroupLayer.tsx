@@ -1,12 +1,5 @@
 /** @jsxImportSource @emotion/react */
 
-// This file contains code related to the group step. Earlier, we had
-// code related to each step spread across multiple files, the reason
-// was that we architected the intial technical spike around tools.
-// Now, we have a single file for each step. Eventhough we have a lot
-// of repetitive code because of this change, eventually, we will
-// refactor and fix it.
-
 import { GroupLayerActionMenu } from "../components/ActionMenu";
 import {
   AnnotationBeingCreated,
@@ -87,9 +80,7 @@ const useGroupLayer = (div: React.MutableRefObject<HTMLDivElement | null>) => {
         onMouseDown: NO_OP,
         onMouseLeave: NO_OP,
         onClick: () => {
-          if (tool === "SELECT") {
-            dispatch({ type: "DESELECT_ALL_ANNOTATION" });
-          }
+          dispatch({ type: "DESELECT_ALL_ANNOTATION" });
         },
       };
     }
@@ -166,8 +157,14 @@ const GroupLayerSelectAnnotation: React.FC<AnnotationStatic> = (
       }}>
       {isFirstSelection && (
         <GroupLayerActionMenu
-          onDelete={() => {}}
-          onAddToGroup={() => {}}
+          onDelete={() => {
+            if (type === "GROUP_LABEL") {
+              dispatch({
+                type: "DELETE_GROUP",
+                payload: id,
+              });
+            }
+          }}
           onCreateNewGroup={() => {
             const uuid = window.crypto.randomUUID();
             dispatch({
@@ -258,11 +255,13 @@ const GroupLayer: React.FC<LayerControllerProps> = (props) => {
     onMouseMove,
     onMouseUp,
     cursor,
+    onClick,
   } = useGroupLayer(container);
   return (
     <HandlerLayer
       rootCss={{ cursor }}
       pdf={pdf}
+      onClick={onClick}
       onMouseDown={onMouseDown}
       onMouseLeave={onMouseLeave}
       onMouseMove={onMouseMove}

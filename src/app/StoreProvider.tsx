@@ -243,12 +243,16 @@ export type AccessibleFormAction =
             id: string;
             backgroundColor: string;
             border: string;
-            type: ANNOTATION_TYPE;
+            type: "GROUP";
           };
           tokens: Bounds[];
         };
         to: Array<AnnotationId>;
       };
+    }
+  | {
+      type: "DELETE_GROUP";
+      payload: AnnotationId;
     }
   | {
       type: "UNDO";
@@ -340,6 +344,16 @@ export const reduceAccessibleForm = (
       return produceWithUndo(previous, (draft) => {
         draft.annotations[action.payload.id] = action.payload;
         return;
+      });
+    }
+    case "DELETE_GROUP": {
+      return produceWithUndo(previous, (draft) => {
+        const theGroupId = draft.labelRelations[action.payload];
+        delete draft.labelRelations[action.payload];
+        delete draft.groupRelations[theGroupId];
+        delete draft.annotations[action.payload];
+        delete draft.annotations[theGroupId];
+        draft.selectedAnnotations = {};
       });
     }
     case "CREATE_ANNOTATION_FROM_TOKENS": {
@@ -460,6 +474,7 @@ export const reduceAccessibleForm = (
           ...boxContaining(action.payload.from.tokens, 3),
         };
         draft.groupRelations[action.payload.from.ui.id] = action.payload.to;
+        draft.selectedAnnotations = { [action.payload.from.ui.id]: true };
         draft.tool = "CREATE";
         return;
       });

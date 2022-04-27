@@ -5,6 +5,7 @@ import color from "./color";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import { ANNOTATION_TYPE } from "../app/StoreProvider";
+import { CSSObject } from "@emotion/react";
 
 interface ContainerProps {
   // Other components to render inside the Container div.
@@ -127,17 +128,16 @@ export const LabelLayerActionMenu: React.FC<LabelLayerActionMenuProps> = ({
 interface GroupLayerActionMenuProps {
   onDelete: () => void;
   onCreateNewGroup: () => void;
-  onAddToGroup: (value: ANNOTATION_TYPE) => void;
 }
 
 export const GroupLayerActionMenu: React.FC<GroupLayerActionMenuProps> = ({
   onDelete,
   onCreateNewGroup,
-  onAddToGroup,
 }) => {
   return (
     <Container>
       <ActionMenuItem
+        moreCss={{ width: "200px" }}
         onClick={(e) => {
           onCreateNewGroup();
           e.stopPropagation();
@@ -147,14 +147,6 @@ export const GroupLayerActionMenu: React.FC<GroupLayerActionMenuProps> = ({
         }}>
         Create New Group
       </ActionMenuItem>
-      <Select
-        defaultValue={"TEXTBOX"}
-        onChange={(e) => onAddToGroup(e.target.value as ANNOTATION_TYPE)}
-        css={{ height: "40px" }}>
-        <MenuItem value={"TEXTBOX" as ANNOTATION_TYPE}>
-          Add list of groups here...
-        </MenuItem>
-      </Select>
       <ActionMenuItem
         // We have to prevent the default behaviour for
         // the pdf canvas here, in order to be able to capture
@@ -176,10 +168,11 @@ interface ActionMenuItemProps {
   children?: React.ReactNode;
   onClick?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
   onMouseDown?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+  moreCss?: CSSObject;
 }
 
 const ActionMenuItem: React.FC<ActionMenuItemProps> = (props) => {
-  const { children, ...rest } = props;
+  const { children, moreCss, ...rest } = props;
   return (
     <span
       {...rest}
@@ -216,6 +209,7 @@ const ActionMenuItem: React.FC<ActionMenuItemProps> = (props) => {
           borderTopRightRadius: "0.5rem",
           borderBottomRightRadius: "0.5rem",
         },
+        ...moreCss,
       }}>
       {children}
     </span>
