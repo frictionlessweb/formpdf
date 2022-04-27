@@ -20,7 +20,6 @@ import {
 } from "pdfjs-dist";
 import Loading from "@mui/material/CircularProgress";
 import { useSelector, LayerControllerProps } from "./StoreProvider";
-import { CreationState } from "./Annotation";
 import FieldLayer from "./FieldLayer";
 import LabelLayer from "./LabelLayer";
 import GroupLayer from "./GroupLayer";
@@ -156,14 +155,6 @@ const useFetchPDFUI = (url: string): FetchingPdf => {
 // Annotation component and the handlers that we've placed there.
 
 export const NO_OP: React.MouseEventHandler = () => {};
-
-export interface CreateAnnotationAttr {
-  div: React.MutableRefObject<HTMLDivElement | null>;
-  creationState: null | CreationState;
-  newCreationBounds: React.MouseEventHandler;
-  resetCreationState: () => void;
-  updateCreationState: React.MouseEventHandler;
-}
 
 //  ____  ____  _____  _   _ ___
 // |  _ \|  _ \|  ___ | | | |_ _|
