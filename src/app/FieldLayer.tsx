@@ -1,36 +1,34 @@
 /** @jsxImportSource @emotion/react */
-
-// This file contains code related to the field step. Earlier, we had
-// code related to each step spread across multiple files, the reason
-// was that we architected the intial technical spike around tools.
-// Now, we have a single file for each step. Eventhough we have a lot
-// of repetitive code because of this change, eventually, we will
-// refactor and fix it.
-
-import { Dispatch } from "redux";
-import { CreateAnnotationAttr, NO_OP, RenderAnnotationsHandler } from "./PDF";
-import Annotation, {
+import React from "react";
+import { NO_OP } from "./PDF";
+import {
   AnnotationBeingCreated,
-  CreationState,
   mapCreationBoundsToFinalBounds,
+  useCreateAnnotation,
+  HandlerLayer,
 } from "./Annotation";
 import { FieldLayerActionMenu } from "../components/ActionMenu";
 import { AnnotationProps, TranslucentBox } from "./Annotation";
-import { TOOL, useSelector, useDispatch } from "./StoreProvider";
+import {
+  useSelector,
+  useDispatch,
+  LayerControllerProps,
+} from "./StoreProvider";
 import { Rnd } from "react-rnd";
 
-export const fieldLayerHandlers = (
-  tool: TOOL,
-  dispatch: Dispatch,
-  createAnnotationAttr: CreateAnnotationAttr
+export const useFieldLayer = (
+  div: React.MutableRefObject<HTMLDivElement | null>
 ) => {
+  const attr = useCreateAnnotation(div);
+  const dispatch = useDispatch();
+  const tool = useSelector((state) => state.tool);
   const {
     div: container,
     creationState,
     newCreationBounds,
     resetCreationState,
     updateCreationState,
-  } = createAnnotationAttr;
+  } = attr;
   switch (tool) {
     case "CREATE": {
       return {
@@ -53,7 +51,6 @@ export const fieldLayerHandlers = (
               ...mapCreationBoundsToFinalBounds(creationState.bounds),
             },
           });
-          // FIXME: Can we move this logic from here into the reducer, creating another action if necessary?
           resetCreationState();
         },
       };
@@ -77,20 +74,15 @@ export const fieldLayerHandlers = (
   }
 };
 
-// For some reason, with React RND, if you don't offset the top and the left
-// by *exactly* two pixels, it doesn't look right.
-const MYSTERIOUS_RND_OFFSET = 2;
-
-export const FieldLayerAnnotation: React.FC<{
-  annotationProps: AnnotationProps;
-  annotationRef: React.MutableRefObject<HTMLDivElement | null> | undefined;
-}> = ({ annotationProps, annotationRef }) => {
+export const FieldLayerAnnotation: React.FC<AnnotationProps> = (props) => {
   const [tool, selectedAnnotations] = useSelector((state) => [
     state.tool,
     state.selectedAnnotations,
   ]);
+  const annotationRef = React.useRef<HTMLDivElement | null>(null);
   const dispatch = useDispatch();
-  const { id, type, ...cssProps } = annotationProps;
+  const { id, type, children, ...cssProps } = props;
+  const annotationProps = props;
   const css = {
     ...cssProps,
     position: "absolute" as const,
@@ -100,6 +92,7 @@ export const FieldLayerAnnotation: React.FC<{
     case "CREATE": {
       return (
         <TranslucentBox
+          id={id}
           nodeRef={annotationRef}
           css={{ cursor: "inherit", ...css }}>
           {typeLabel}
@@ -114,15 +107,15 @@ export const FieldLayerAnnotation: React.FC<{
         Object.keys(selectedAnnotations)[0] === annotationProps.id;
       return (
         <Rnd
-          allowAnyClick
-          style={{
+          css={{
+            ...css,
             position: "absolute",
-            border: isSelected ? "3px solid black" : annotationProps.border,
-            backgroundColor: annotationProps.backgroundColor,
+            border: isSelected ? "3px solid black" : "3px solid red",
           }}
+          allowAnyClick
           position={{
-            x: annotationProps.left + MYSTERIOUS_RND_OFFSET,
-            y: annotationProps.top + MYSTERIOUS_RND_OFFSET,
+            x: annotationProps.left,
+            y: annotationProps.top,
           }}
           size={{
             height: annotationProps.height,
@@ -146,17 +139,13 @@ export const FieldLayerAnnotation: React.FC<{
               });
             }
           }}
-          css={{
-            ...css,
-            border: isSelected ? "2px solid black" : css.border,
-          }}
           onDragStop={(_, delta) => {
             dispatch({
               type: "MOVE_ANNOTATION",
               payload: {
                 id: annotationProps.id,
-                x: delta.x - MYSTERIOUS_RND_OFFSET,
-                y: delta.y - MYSTERIOUS_RND_OFFSET,
+                x: delta.x,
+                y: delta.y,
               },
             });
           }}
@@ -167,13 +156,14 @@ export const FieldLayerAnnotation: React.FC<{
                 id: annotationProps.id,
                 width: ref.offsetWidth,
                 height: ref.offsetHeight,
-                x: el.x - MYSTERIOUS_RND_OFFSET,
-                y: el.y - MYSTERIOUS_RND_OFFSET,
+                x: el.x,
+                y: el.y,
               },
             });
           }}>
           {isFirstSelection && (
             <FieldLayerActionMenu
+              value={annotationProps.type}
               onDelete={() => {
                 dispatch({
                   type: "DELETE_ANNOTATION",
@@ -198,23 +188,29 @@ export const FieldLayerAnnotation: React.FC<{
   }
 };
 
-export const FieldLayerAllAnnotations: React.FC<{
-  creationState: CreationState | null;
-  handlers: RenderAnnotationsHandler;
-}> = ({ creationState, handlers }) => {
-  const [annotations] = useSelector((state) => [
-    Object.values(state.annotations),
-  ]);
+const FieldLayer: React.FC<LayerControllerProps> = (props) => {
+  const { pdf, container } = props;
+  const annotations = useSelector((state) => state.annotations);
+  const layer = useFieldLayer(container);
   return (
-    <>
+    <HandlerLayer
+      pdf={pdf}
+      rootCss={{ cursor: layer.cursor }}
+      onMouseMove={layer.onMouseMove}
+      onMouseDown={layer.onMouseDown}
+      onMouseUp={layer.onMouseUp}>
       <AnnotationBeingCreated
-        creationState={creationState}
+        creationState={layer.creationState}
         showTokens={false}
-        {...handlers}
+        onMouseUp={NO_OP}
+        onMouseDown={NO_OP}
+        onMouseMove={NO_OP}
       />
-      {annotations.map((annotation) => {
-        return <Annotation key={annotation.id} {...annotation} />;
+      {Object.values(annotations).map((annotation) => {
+        return <FieldLayerAnnotation key={annotation.id} {...annotation} />;
       })}
-    </>
+    </HandlerLayer>
   );
 };
+
+export default FieldLayer;

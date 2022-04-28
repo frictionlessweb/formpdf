@@ -1,26 +1,8 @@
-import Annotation, {
+import {
   mapCreationBoundsToCss,
   mapCreationBoundsToFinalBounds,
   doOverlap,
 } from "./Annotation";
-import { render } from "../testUtils";
-
-describe("Our Annotation component", () => {
-  test("Does not crash on rendering", () => {
-    render(
-      <Annotation
-        type="TEXTBOX"
-        left={0}
-        top={0}
-        width={10}
-        height={10}
-        backgroundColor="hotpink"
-        border="3px solid pink"
-        id="234"
-      />
-    );
-  });
-});
 
 describe("doOverlap", () => {
   test("Is true when they do overlap", () => {

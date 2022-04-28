@@ -5,17 +5,18 @@ import produce, {
   produceWithPatches,
   Patch,
 } from "immer";
-import { createStore } from "redux";
+import { createStore, applyMiddleware } from "redux";
 import {
   Provider,
   useSelector as useSelectorRedux,
   useDispatch as useDispatchRedux,
   TypedUseSelectorHook,
 } from "react-redux";
-import { devToolsEnhancer } from "@redux-devtools/extension";
+import { createLogger } from "redux-logger";
 import TOKENS from "./tokens.json";
 import PREDICTIONS from "./predictions.json";
 import { boxContaining } from "./utils";
+import { composeWithDevTools } from "@redux-devtools/extension";
 
 // This is required to enable immer patches.
 enablePatches();
@@ -29,7 +30,7 @@ enablePatches();
 // An annotation represents a highlighted rectangle that we display on top
 // of a PDF file.
 
-type AnnotationId = string;
+export type AnnotationId = string;
 
 export interface Bounds {
   // How far from the top of the canvas should this annotation be?
@@ -43,7 +44,13 @@ export interface Bounds {
 }
 
 // What are the different types of annotation fields?
-export type ANNOTATION_TYPE = "TEXTBOX" | "RADIOBOX" | "CHECKBOX" | "LABEL";
+export type ANNOTATION_TYPE =
+  | "TEXTBOX"
+  | "RADIOBOX"
+  | "CHECKBOX"
+  | "LABEL"
+  | "GROUP"
+  | "GROUP_LABEL";
 
 export type AnnotationUIState = {
   // What is the ID of the annotation -- how do we uniquely identify it?
@@ -57,6 +64,22 @@ export type AnnotationUIState = {
 };
 
 export type Annotation = Bounds & AnnotationUIState;
+
+export type Step =
+  | "SECTION_LAYER"
+  | "FIELD_LAYER"
+  | "LABEL_LAYER"
+  | "GROUP_LAYER"
+  | "TOOLTIP_LAYER";
+
+// Children of the PDF need to know where it is in the DOM, so we pass these
+// references down to make sure they can perform the appropriate calculations.
+export interface LayerControllerProps {
+  // Where is the current PDF in the DOM?
+  pdf: React.MutableRefObject<HTMLCanvasElement | null>;
+  // Where is the container of the PDF in the DOM?
+  container: React.MutableRefObject<HTMLDivElement | null>;
+}
 
 //     _                         _ _     _      _____
 //    / \   ___ ___ ___  ___ ___(_) |__ | | ___|  ___|__  _ __ _ __ ___
@@ -81,7 +104,7 @@ type VersionId = number;
 
 export interface AccessibleForm {
   // What step is the user on of their editing process?
-  step: number;
+  step: Step;
   // How far has the user Zoomed in or out of the PDF?
   zoom: number;
   // Which page of the PDF are we on? WARNING: This is indexed from *1*, not
@@ -103,6 +126,13 @@ export interface AccessibleForm {
   canRedo: boolean;
   // What are the tokens associated with the document?
   tokens: Array<Bounds[]>;
+  // How are field and labels related to each other?
+  labelRelations: Record<AnnotationId, AnnotationId>;
+  // Which set of fields form a group together
+  groupRelations: Record<AnnotationId, Array<AnnotationId>>;
+  // Different screens can render tokens differently, so we need to account for
+  // that and remember when we have/have not scaled them.
+  haveScaled: boolean;
 }
 
 // FIXME: Here we need to implement page logic.
@@ -129,7 +159,7 @@ const getPredictedAnnotations = () => {
 };
 
 export const DEFAULT_ACCESSIBLE_FORM: AccessibleForm = {
-  step: 0,
+  step: "FIELD_LAYER",
   tool: "CREATE",
   zoom: 1,
   page: 1,
@@ -140,12 +170,15 @@ export const DEFAULT_ACCESSIBLE_FORM: AccessibleForm = {
   currentVersion: -1,
   versions: {},
   tokens: TOKENS,
+  labelRelations: {},
+  groupRelations: {},
+  haveScaled: false,
 };
 
 // AccessibleFormAction describes every important possible action that a user
 // could take while editing the PDF UI.
-type AccessibleFormAction =
-  | { type: "CHANGE_CURRENT_STEP"; payload: number }
+export type AccessibleFormAction =
+  | { type: "CHANGE_CURRENT_STEP"; payload: Step }
   | { type: "CHANGE_ZOOM"; payload: number }
   | { type: "CHANGE_PAGE"; payload: number }
   | { type: "CHANGE_TOOL"; payload: TOOL }
@@ -190,7 +223,36 @@ type AccessibleFormAction =
     }
   | {
       type: "SET_STEP";
-      payload: number;
+      payload: Step;
+    }
+  | {
+      type: "CREATE_LABEL_RELATION";
+      payload: {
+        to: {
+          ui: AnnotationUIState;
+          tokens: Bounds[];
+        };
+        from: AnnotationId;
+      };
+    }
+  | {
+      type: "CREATE_GROUP_RELATION";
+      payload: {
+        from: {
+          ui: {
+            id: string;
+            backgroundColor: string;
+            border: string;
+            type: "GROUP";
+          };
+          tokens: Bounds[];
+        };
+        to: Array<AnnotationId>;
+      };
+    }
+  | {
+      type: "DELETE_GROUP";
+      payload: AnnotationId;
     }
   | {
       type: "UNDO";
@@ -284,7 +346,18 @@ export const reduceAccessibleForm = (
         return;
       });
     }
+    case "DELETE_GROUP": {
+      return produceWithUndo(previous, (draft) => {
+        const theGroupId = draft.labelRelations[action.payload];
+        delete draft.labelRelations[action.payload];
+        delete draft.groupRelations[theGroupId];
+        delete draft.annotations[action.payload];
+        delete draft.annotations[theGroupId];
+        draft.selectedAnnotations = {};
+      });
+    }
     case "CREATE_ANNOTATION_FROM_TOKENS": {
+      if (action.payload.tokens.length === 0) return previous;
       return produce(previous, (draft) => {
         draft.annotations[action.payload.ui.id] = {
           ...action.payload.ui,
@@ -337,14 +410,11 @@ export const reduceAccessibleForm = (
       });
     }
     case "HYDRATE_STORE": {
+      if (action.payload.haveScaled) return action.payload;
       return produce(action.payload, (draft) => {
-        // NOTE: Depending on the size of the screen, our token data can be off by a factor of
-        // two. To handle the problem at runtime since we're testing remotely and we don't know
-        // the user's screen size, we multiply by 2 when the screen is sufficiently small so that
-        // we don't have the problem.
-        //
-        // TODO: If there is away to avoid this clever trick, please let us know!
-        const scale = window.innerWidth < 1800 ? 2 : 1;
+        // Different devicePixelRatio values will change the display; as such,
+        // we need to scale the tokens accordingly.
+        const scale = window.devicePixelRatio;
         const annotationIds = Object.keys(draft.annotations);
         for (const annotationId of annotationIds) {
           const annotation = draft.annotations[annotationId];
@@ -361,7 +431,7 @@ export const reduceAccessibleForm = (
             token.width *= scale;
           }
         }
-        return;
+        draft.haveScaled = true;
       });
     }
     case "SET_ANNOTATION_TYPE": {
@@ -381,6 +451,32 @@ export const reduceAccessibleForm = (
         // When user moves to a new page we want "SELECT" tool to be selected as
         // it is the default tool which is present on all pages.
         draft.tool = "SELECT";
+      });
+    }
+    case "CREATE_LABEL_RELATION": {
+      if (action.payload.to.tokens.length === 0) return previous;
+      return produceWithUndo(previous, (draft) => {
+        draft.annotations[action.payload.to.ui.id] = {
+          ...action.payload.to.ui,
+          ...boxContaining(action.payload.to.tokens, 3),
+        };
+        draft.labelRelations[action.payload.to.ui.id] = action.payload.from;
+        draft.tool = "SELECT";
+        draft.selectedAnnotations = {};
+        return;
+      });
+    }
+    case "CREATE_GROUP_RELATION": {
+      if (action.payload.from.tokens.length === 0) return previous;
+      return produceWithUndo(previous, (draft) => {
+        draft.annotations[action.payload.from.ui.id] = {
+          ...action.payload.from.ui,
+          ...boxContaining(action.payload.from.tokens, 3),
+        };
+        draft.groupRelations[action.payload.from.ui.id] = action.payload.to;
+        draft.selectedAnnotations = { [action.payload.from.ui.id]: true };
+        draft.tool = "CREATE";
+        return;
       });
     }
     case "UNDO": {
@@ -416,7 +512,15 @@ export const reduceAccessibleForm = (
 // |  _ <  __/ (_| | (__| |_|  _ <  __/ (_| | |_| |>  <
 // |_| \_\___|\__,_|\___|\__|_| \_\___|\__,_|\__,_/_/\_\
 
-const store = createStore(reduceAccessibleForm, devToolsEnhancer());
+const logger = createLogger({ collapsed: true });
+
+const store =
+  process.env.NODE_ENV === "production"
+    ? createStore(reduceAccessibleForm)
+    : createStore(
+        reduceAccessibleForm,
+        composeWithDevTools(applyMiddleware(logger))
+      );
 
 const StoreProvider: React.FC<{ children: React.ReactNode }> = (props) => {
   const { children } = props;

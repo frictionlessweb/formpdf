@@ -5,6 +5,7 @@ import color from "./color";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import { ANNOTATION_TYPE } from "../app/StoreProvider";
+import { CSSObject } from "@emotion/react";
 
 interface ContainerProps {
   // Other components to render inside the Container div.
@@ -39,18 +40,19 @@ export const Container: React.FC<ContainerProps> = ({ children }) => {
 };
 
 interface FieldLayerActionMenuProps {
+  value: ANNOTATION_TYPE;
   onDelete: () => void;
   onFieldTypeChange: (value: ANNOTATION_TYPE) => void;
 }
 
-export const FieldLayerActionMenu: React.FC<FieldLayerActionMenuProps> = ({
-  onDelete,
-  onFieldTypeChange,
-}) => {
+export const FieldLayerActionMenu: React.FC<FieldLayerActionMenuProps> = (
+  props
+) => {
+  const { value, onDelete, onFieldTypeChange } = props;
   return (
     <Container>
       <Select
-        defaultValue={"TEXTBOX"}
+        value={value}
         onChange={(e) => onFieldTypeChange(e.target.value as ANNOTATION_TYPE)}
         css={{ height: "40px" }}>
         <MenuItem value={"TEXTBOX" as ANNOTATION_TYPE}>Textbox</MenuItem>
@@ -76,6 +78,7 @@ export const FieldLayerActionMenu: React.FC<FieldLayerActionMenuProps> = ({
 };
 
 interface LabelLayerActionMenuProps {
+  totalSelections: number;
   onUpdateLabel: () => void;
   onDelete: () => void;
 }
@@ -83,21 +86,66 @@ interface LabelLayerActionMenuProps {
 export const LabelLayerActionMenu: React.FC<LabelLayerActionMenuProps> = ({
   onDelete,
   onUpdateLabel,
+  totalSelections,
 }) => {
   return (
     <Container>
+      {
+        // Update label operation can be performed only when one annotation is selected.
+        totalSelections === 1 && (
+          <ActionMenuItem
+            // We have to prevent the default behaviour for
+            // the pdf canvas here, in order to be able to capture
+            // the click event.
+            onClick={(e) => {
+              onUpdateLabel();
+              e.stopPropagation();
+            }}
+            onMouseDown={(e) => {
+              e.stopPropagation();
+            }}>
+            Update Label
+          </ActionMenuItem>
+        )
+      }
       <ActionMenuItem
         // We have to prevent the default behaviour for
         // the pdf canvas here, in order to be able to capture
         // the click event.
         onClick={(e) => {
-          onUpdateLabel();
+          onDelete();
           e.stopPropagation();
         }}
         onMouseDown={(e) => {
           e.stopPropagation();
         }}>
-        Update Label
+        Delete
+      </ActionMenuItem>
+    </Container>
+  );
+};
+
+interface GroupLayerActionMenuProps {
+  onDelete: () => void;
+  onCreateNewGroup: () => void;
+}
+
+export const GroupLayerActionMenu: React.FC<GroupLayerActionMenuProps> = ({
+  onDelete,
+  onCreateNewGroup,
+}) => {
+  return (
+    <Container>
+      <ActionMenuItem
+        moreCss={{ width: "200px" }}
+        onClick={(e) => {
+          onCreateNewGroup();
+          e.stopPropagation();
+        }}
+        onMouseDown={(e) => {
+          e.stopPropagation();
+        }}>
+        Create New Group
       </ActionMenuItem>
       <ActionMenuItem
         // We have to prevent the default behaviour for
@@ -120,10 +168,11 @@ interface ActionMenuItemProps {
   children?: React.ReactNode;
   onClick?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
   onMouseDown?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+  moreCss?: CSSObject;
 }
 
 const ActionMenuItem: React.FC<ActionMenuItemProps> = (props) => {
-  const { children, ...rest } = props;
+  const { children, moreCss, ...rest } = props;
   return (
     <span
       {...rest}
@@ -160,6 +209,7 @@ const ActionMenuItem: React.FC<ActionMenuItemProps> = (props) => {
           borderTopRightRadius: "0.5rem",
           borderBottomRightRadius: "0.5rem",
         },
+        ...moreCss,
       }}>
       {children}
     </span>

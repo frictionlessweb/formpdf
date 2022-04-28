@@ -1,36 +1,67 @@
 /** @jsxImportSource @emotion/react */
 
-// This file contains code related to the label step. Earlier, we had
-// code related to each step spread across multiple files, the reason
-// was that we architected the intial technical spike around tools.
-// Now, we have a single file for each step. Eventhough we have a lot
-// of repetitive code because of this change, eventually, we will
-// refactor and fix it.
-
-import { Dispatch } from "redux";
 import { LabelLayerActionMenu } from "../components/ActionMenu";
-import Annotation, {
+import {
   AnnotationBeingCreated,
-  AnnotationProps,
   CreationState,
   TranslucentBox,
+  HandlerLayer,
+  useCreateAnnotation,
 } from "./Annotation";
-import { CreateAnnotationAttr, NO_OP, RenderAnnotationsHandler } from "./PDF";
-import { TOOL, useSelector, useDispatch } from "./StoreProvider";
+import { NO_OP } from "./PDF";
+import {
+  useSelector,
+  useDispatch,
+  LayerControllerProps,
+  Annotation as AnnotationStatic,
+  ANNOTATION_TYPE,
+} from "./StoreProvider";
+import Xarrow from "react-xarrows";
+import React from "react";
 
-export const labelLayerHandlers = (
-  tool: TOOL,
-  dispatch: Dispatch,
-  createAnnotationAttr: CreateAnnotationAttr
+// Render all of the tokens on the current page. We wrap this in React.memo for a
+// substantial performance boost.
+export const AllTokens: React.FC = React.memo(() => {
+  const tokens = useSelector((state) => state.tokens[state.page - 1]);
+  return (
+    <>
+      {tokens.map((token) => (
+        <TranslucentBox
+          id={`token-${token.top}-${token.left}`}
+          key={token.top * token.left}
+          css={{
+            position: "absolute",
+            backgroundColor: "rgb(144, 238, 144, 0.3)",
+            border: "1px solid blue",
+            top: token.top,
+            left: token.left,
+            width: token.width,
+            height: token.height,
+          }}
+        />
+      ))}
+    </>
+  );
+});
+
+export const useFieldLayer = (
+  div: React.MutableRefObject<HTMLDivElement | null>
 ) => {
+  const attr = useCreateAnnotation(div);
   const {
     div: container,
     creationState,
     newCreationBounds,
     resetCreationState,
     updateCreationState,
-  } = createAnnotationAttr;
-
+  } = attr;
+  const { tool, selectedAnnotations } = useSelector((state) => {
+    return {
+      tool: state.tool,
+      selectedAnnotations: state.selectedAnnotations,
+    };
+  });
+  const dispatch = useDispatch();
   switch (tool) {
     case "CREATE": {
       return {
@@ -43,24 +74,23 @@ export const labelLayerHandlers = (
         onMouseLeave: resetCreationState,
         onMouseUp: () => {
           if (!creationState) return;
+          const id = window.crypto.randomUUID();
           dispatch({
-            type: "CREATE_ANNOTATION_FROM_TOKENS",
+            type: "CREATE_LABEL_RELATION",
             payload: {
-              ui: {
-                id: window.crypto.randomUUID(),
-                backgroundColor: "rgb(36, 148, 178, 0.4)",
-                border: "3px solid rgb(36, 148, 178)",
-                type: "LABEL",
+              to: {
+                ui: {
+                  id,
+                  backgroundColor: "rgb(36, 148, 178, 0.4)",
+                  border: "3px solid rgb(36, 148, 178)",
+                  type: "LABEL" as ANNOTATION_TYPE,
+                },
+                tokens: creationState.tokens,
               },
-              tokens: creationState.tokens,
+              from: Object.keys(selectedAnnotations)[0],
             },
           });
           resetCreationState();
-          // As soon as a label is created, we switch user to the select tool.
-          dispatch({
-            type: "CHANGE_TOOL",
-            payload: "SELECT",
-          });
         },
       };
     }
@@ -83,120 +113,165 @@ export const labelLayerHandlers = (
   }
 };
 
-export const LabelLayerAnnotation: React.FC<{
-  annotationProps: AnnotationProps;
-  annotationRef: React.MutableRefObject<HTMLDivElement | null> | undefined;
-}> = ({ annotationProps, annotationRef }) => {
-  const [tool, selectedAnnotations] = useSelector((state) => [
-    state.tool,
-    state.selectedAnnotations,
-  ]);
-  const dispatch = useDispatch();
-  const { id, type, ...cssProps } = annotationProps;
-  const css = {
-    ...cssProps,
-    position: "absolute" as const,
-  };
-  switch (tool) {
-    case "CREATE": {
-      return (
-        <TranslucentBox
-          nodeRef={annotationRef}
-          css={{ cursor: "inherit", ...css }}></TranslucentBox>
-      );
-    }
-    case "SELECT": {
-      const isSelected = Boolean(selectedAnnotations[annotationProps.id]);
-      const isFirstSelection =
-        Object.keys(selectedAnnotations)[0] === annotationProps.id;
-      return (
-        <TranslucentBox
-          css={{
-            cursor: "pointer",
-            ...css,
-            border: isSelected ? "2px solid black" : css.border,
-          }}
-          onClick={(e: React.MouseEvent<HTMLElement>) => {
-            e.stopPropagation();
-            const shiftNotPressed = !e.shiftKey;
-            if (shiftNotPressed) {
-              dispatch({ type: "DESELECT_ALL_ANNOTATION" });
-            }
-            if (isSelected) {
-              dispatch({
-                type: "DESELECT_ANNOTATION",
-                payload: annotationProps.id,
-              });
-            } else {
-              dispatch({
-                type: "SELECT_ANNOTATION",
-                payload: annotationProps.id,
-              });
-            }
-          }}>
-          {isFirstSelection && (
-            <LabelLayerActionMenu
-              onDelete={() => {
-                dispatch({
-                  type: "DELETE_ANNOTATION",
-                  payload: Object.keys(selectedAnnotations),
-                });
-              }}
-              onUpdateLabel={() => {
-                dispatch({
-                  type: "CHANGE_TOOL",
-                  payload: "CREATE",
-                });
-              }}
-            />
-          )}
-        </TranslucentBox>
-      );
-    }
-    default:
-      return null;
-  }
-};
-
-export const LabelLayerAllAnnotationsAndTokens: React.FC<{
+interface CreationProps {
   creationState: CreationState | null;
-  handlers: RenderAnnotationsHandler;
-}> = ({ creationState, handlers }) => {
-  const [annotations, tool, allTokens] = useSelector((state) => [
-    Object.values(state.annotations),
-    state.tool,
-    state.tokens,
-  ]);
-  // FIXME: Make tokens work for multiple pages. Here we are just taking
-  // tokens for the first page.
-  const tokens = allTokens[0];
+}
 
+const CreateLink: React.FC<CreationProps> = (props) => {
+  const { creationState } = props;
   return (
     <>
       <AnnotationBeingCreated
         creationState={creationState}
-        showTokens={true}
-        {...handlers}
+        showTokens
+        onMouseDown={NO_OP}
+        onMouseMove={NO_OP}
+        onMouseUp={NO_OP}
       />
-      {tool === "SELECT" &&
-        annotations.map((annotation) => {
-          return <Annotation key={annotation.id} {...annotation} />;
-        })}
-      {tool === "CREATE" &&
-        tokens.map((token) => (
-          <TranslucentBox
-            key={token.top * token.left}
-            css={{
-              position: "absolute",
-              backgroundColor: "rgb(144, 238, 144, 0.3)",
-              border: "1px solid blue",
-              top: token.top,
-              left: token.left,
-              width: token.width,
-              height: token.height,
-            }}
-          />
-        ))}
+      <AllTokens />
     </>
   );
 };
+
+export const LabelLayerSelectAnnotation: React.FC<AnnotationStatic> = (
+  props
+) => {
+  const { selectedAnnotations } = useSelector((state) => {
+    const selectedAnnotations = state.selectedAnnotations;
+    return { selectedAnnotations };
+  });
+  const dispatch = useDispatch();
+  const { id, type, children, ...cssProps } = props;
+  const css = {
+    ...cssProps,
+    position: "absolute" as const,
+  };
+  const isSelected = Boolean(selectedAnnotations[id]);
+  const isFirstSelection = Object.keys(selectedAnnotations)[0] === id;
+  return (
+    <TranslucentBox
+      id={id}
+      css={{
+        cursor: "pointer",
+        ...css,
+        border: isSelected ? "2px solid black" : css.border,
+      }}
+      onClick={(e: React.MouseEvent<HTMLElement>) => {
+        e.stopPropagation();
+        const shiftNotPressed = !e.shiftKey;
+        if (shiftNotPressed) {
+          dispatch({ type: "DESELECT_ALL_ANNOTATION" });
+        }
+        if (isSelected) {
+          dispatch({
+            type: "DESELECT_ANNOTATION",
+            payload: id,
+          });
+        } else {
+          dispatch({
+            type: "SELECT_ANNOTATION",
+            payload: id,
+          });
+        }
+      }}>
+      {isFirstSelection && (
+        <LabelLayerActionMenu
+          totalSelections={Object.keys(selectedAnnotations).length}
+          onDelete={() => {
+            dispatch({
+              type: "DELETE_ANNOTATION",
+              payload: Object.keys(selectedAnnotations),
+            });
+          }}
+          onUpdateLabel={() => {
+            dispatch({
+              type: "CHANGE_TOOL",
+              payload: "CREATE",
+            });
+          }}
+        />
+      )}
+    </TranslucentBox>
+  );
+};
+
+interface RelationshipLinkProps {
+  id: string;
+}
+
+const RelationshipLink: React.FC<RelationshipLinkProps> = (props) => {
+  const { id } = props;
+  const relationship = useSelector((state) => {
+    return state.labelRelations[id];
+  });
+  if (!relationship) return null;
+  return (
+    <Xarrow
+      start={String(relationship)}
+      end={id}
+      endAnchor="middle"
+      headSize={2}
+      headShape="circle"
+      // This curveness 0.01 is used to make the arrow look straight.
+      // we could have used path="straight" property but it gives the
+      // following error - Error: <path> attribute d: Expected number...
+      curveness={0.01}
+    />
+  );
+};
+
+const SelectAnnotation: React.FC = () => {
+  const annotations = useSelector((state) => Object.values(state.annotations));
+  return (
+    <>
+      {annotations.map((annotation) => {
+        return (
+          <React.Fragment key={annotation.id}>
+            <LabelLayerSelectAnnotation {...annotation} />
+            <RelationshipLink id={annotation.id} />
+          </React.Fragment>
+        );
+      })}
+    </>
+  );
+};
+
+const CreateLabelFlow: React.FC<CreationProps> = (props) => {
+  const { creationState } = props;
+  const tool = useSelector((state) => state.tool);
+  switch (tool) {
+    case "CREATE": {
+      return <CreateLink creationState={creationState} />;
+    }
+    case "SELECT": {
+      return <SelectAnnotation />;
+    }
+  }
+};
+
+const LabelLayer: React.FC<LayerControllerProps> = (props) => {
+  const { pdf, container } = props;
+  const {
+    creationState,
+    cursor,
+    onClick,
+    onMouseDown,
+    onMouseLeave,
+    onMouseMove,
+    onMouseUp,
+  } = useFieldLayer(container);
+  return (
+    <HandlerLayer
+      rootCss={{ cursor }}
+      pdf={pdf}
+      onClick={onClick}
+      onMouseDown={onMouseDown}
+      onMouseLeave={onMouseLeave}
+      onMouseMove={onMouseMove}
+      onMouseUp={onMouseUp}>
+      <CreateLabelFlow creationState={creationState} />
+    </HandlerLayer>
+  );
+};
+
+export default LabelLayer;

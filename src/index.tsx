@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import reportWebVitals from "./reportWebVitals";
 import App from "./App";
 import StoreProvider from "./app/StoreProvider";
+import ErrorBoundary from "./app/ErrorBoundary";
 
 // Font imports: When we compile the project, React will copy the right files
 // out of node_modules and generate an HTML file that links to the fonts.
@@ -23,7 +24,9 @@ ReactDOM.render(
   <React.StrictMode>
     <CssBaseline />
     <StoreProvider>
-      <App />
+      <ErrorBoundary>
+        <App />
+      </ErrorBoundary>
     </StoreProvider>
   </React.StrictMode>,
   document.getElementById("root")

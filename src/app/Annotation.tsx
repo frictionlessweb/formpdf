@@ -6,22 +6,52 @@ import {
   Annotation as AnnotationStatic,
   useSelector,
 } from "./StoreProvider";
-import { LabelLayerAnnotation } from "./LabelLayer";
-import { FieldLayerAnnotation } from "./FieldLayer";
 
 export type TranslucentBoxProps = React.DetailedHTMLProps<
   React.HTMLAttributes<HTMLDivElement>,
   HTMLDivElement
 > & {
+  id: string;
   css: CSSObject;
   nodeRef?: React.MutableRefObject<HTMLDivElement | null>;
   children?: React.ReactNode;
 };
 
-export const TranslucentBox: React.FC<TranslucentBoxProps> = (props) => {
-  const { css, nodeRef, children, ...divProps } = props;
+type HandlerLayerProps = React.DetailedHTMLProps<
+  React.HTMLAttributes<HTMLDivElement>,
+  HTMLDivElement
+> & {
+  rootCss?: CSSObject;
+  pdf: React.MutableRefObject<HTMLCanvasElement | null>;
+};
+
+// An invisible box that we put *on top* of the PDF that we show to the user.
+// Adding this layer of indirection allows each step of our application to
+// configure the handlers it needs as necessary.
+export const HandlerLayer: React.FC<HandlerLayerProps> = (props) => {
+  const { rootCss, pdf, children, ...rest } = props;
   return (
     <div
+      {...rest}
+      css={{
+        top: 0,
+        left: 0,
+        position: "absolute",
+        width: pdf.current?.clientWidth,
+        height: pdf.current?.clientHeight,
+        ...rootCss,
+      }}>
+      {children}
+    </div>
+  );
+};
+
+// The basis of all other annotations: A simple box that we sculpt in a number of different ways.
+export const TranslucentBox: React.FC<TranslucentBoxProps> = (props) => {
+  const { id, css, nodeRef, children, ...divProps } = props;
+  return (
+    <div
+      id={id}
       ref={nodeRef}
       {...divProps}
       css={{
@@ -117,10 +147,11 @@ export const mapCreationBoundsToFinalBounds = (
   };
 };
 
-export const useCreateAnnotation = () => {
+export const useCreateAnnotation = (
+  div: React.MutableRefObject<HTMLDivElement | null>
+) => {
   // We need to know the container so that we can figure out where relative
   // in the page we should position the bounds.
-  const div = React.useRef<HTMLDivElement | null>(null);
   const allTokens = useSelector(
     (state) => state.tokens && state.tokens[state.page - 1]
   );
@@ -194,38 +225,12 @@ export const AnnotationBeingCreated: React.FC<AnnotationBeingCreatedProps> = (
   const { creationState, showTokens, ...handlers } = props;
 
   if (!creationState) return null;
-  // If the tokens are wrong, then none of the logic for snap-to-token will
-  // work, which can make debugging rather confusing. To check if the bounding
-  // boxes look correct, comment out the line above and uncomment the code
-  // below:
-  //
-  // const tokens = useSelector((state) => state.tokens[0]);
-  // if (!creationState) {
-  //   return (
-  //     <>
-  //       {tokens.map((token) => (
-  //         <TranslucentBox
-  //           key={token.top * token.left}
-  //           css={{
-  //             position: "absolute",
-  //             backgroundColor: "rgb(144, 238, 144, 0.3)",
-  //             border: "1px solid blue",
-  //             top: token.top,
-  //             left: token.left,
-  //             width: token.width,
-  //             height: token.height,
-  //           }}
-  //           {...handlers}
-  //         />
-  //       ))}
-  //     </>
-  //   );
-  // }
   const { bounds: creationBounds, tokens: displayTokens } = creationState;
   return (
     // FIXME: TEXTBOX will not be default. We will use the last created field type as current value.
     <>
       <TranslucentBox
+        id="annotation-being-created"
         css={{
           position: "absolute",
           backgroundColor: "rgb(144, 238, 144, 0.3)",
@@ -240,6 +245,7 @@ export const AnnotationBeingCreated: React.FC<AnnotationBeingCreatedProps> = (
           // position: absolute confuses the math we've done.
           return (
             <TranslucentBox
+              id={`tokens-from-annotation-being-created-${token.top}-${token.left}`}
               key={token.top * token.left}
               css={{
                 position: "absolute",
@@ -258,31 +264,6 @@ export const AnnotationBeingCreated: React.FC<AnnotationBeingCreatedProps> = (
   );
 };
 
-//     _                      _        _   _
-//    / \   _ __  _ __   ___ | |_ __ _| |_(_) ___  _ __
-//   / _ \ | '_ \| '_ \ / _ \| __/ _` | __| |/ _ \| '_ \
-//  / ___ \| | | | | | | (_) | || (_| | |_| | (_) | | | |
-// /_/   \_\_| |_|_| |_|\___/ \__\__,_|\__|_|\___/|_| |_|
-
 export type AnnotationProps = AnnotationStatic & {
   css?: CSSObject;
 };
-
-const Annotation: React.FC<AnnotationProps> = (props) => {
-  const step = useSelector((state) => state.step);
-  const ref = React.useRef<HTMLDivElement | null>(null);
-  switch (step) {
-    case 0:
-      return (
-        <FieldLayerAnnotation annotationProps={props} annotationRef={ref} />
-      );
-    case 1:
-      return (
-        <LabelLayerAnnotation annotationProps={props} annotationRef={ref} />
-      );
-    default:
-      return null;
-  }
-};
-
-export default Annotation;

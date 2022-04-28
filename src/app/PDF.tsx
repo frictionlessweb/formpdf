@@ -19,13 +19,10 @@ import {
   RenderingCancelledException,
 } from "pdfjs-dist";
 import Loading from "@mui/material/CircularProgress";
-import { useSelector, useDispatch } from "./StoreProvider";
-import { useCreateAnnotation, CreationState } from "./Annotation";
-import { fieldLayerHandlers, FieldLayerAllAnnotations } from "./FieldLayer";
-import {
-  labelLayerHandlers,
-  LabelLayerAllAnnotationsAndTokens,
-} from "./LabelLayer";
+import { useSelector, LayerControllerProps } from "./StoreProvider";
+import FieldLayer from "./FieldLayer";
+import LabelLayer from "./LabelLayer";
+import GroupLayer from "./GroupLayer";
 
 //  _____    _       _     ____     _  __
 // |  ___|__| |_ ___| |__ |  _ \ __| |/ _|
@@ -157,76 +154,18 @@ const useFetchPDFUI = (url: string): FetchingPdf => {
 // *not* the right place to put that logic. Instead, take a look at the
 // Annotation component and the handlers that we've placed there.
 
-interface Handlers {
-  // What is the containing div?
-  container: React.MutableRefObject<HTMLDivElement | null>;
-  // What shape should the cursor be?
-  cursor: string;
-  // Are we in the middle of highlighting something? If so, what is it?
-  creationState: null | CreationState;
-  // What should we do when our mouse is clicked over a region in the container div?
-  onClick: React.MouseEventHandler;
-  // What should we do when our mouse moves over a region of the Canvas?
-  onMouseUp: React.MouseEventHandler;
-  // What should we do when we click down on the Canvas?
-  onMouseDown: React.MouseEventHandler;
-  // What should we do when our mouse moves on the canvas?
-  onMouseMove: React.MouseEventHandler;
-  // What should we do when our mouse leaves the canvas?
-  onMouseLeave: React.MouseEventHandler;
-}
-
 export const NO_OP: React.MouseEventHandler = () => {};
-
-export interface CreateAnnotationAttr {
-  div: React.MutableRefObject<HTMLDivElement | null>;
-  creationState: null | CreationState;
-  newCreationBounds: React.MouseEventHandler;
-  resetCreationState: () => void;
-  updateCreationState: React.MouseEventHandler;
-}
-
-const useHandlers = (): Handlers => {
-  const [step, tool] = useSelector((state) => [state.step, state.tool]);
-  const dispatch = useDispatch();
-  const createAnnotationAttr = useCreateAnnotation();
-  const { creationState, div: container } = createAnnotationAttr;
-  switch (step) {
-    case 0:
-      return fieldLayerHandlers(tool, dispatch, createAnnotationAttr);
-    case 1:
-      return labelLayerHandlers(tool, dispatch, createAnnotationAttr);
-    default:
-      return {
-        cursor: "auto",
-        creationState,
-        container,
-        onClick: NO_OP,
-        onMouseMove: NO_OP,
-        onMouseUp: NO_OP,
-        onMouseDown: NO_OP,
-        onMouseLeave: NO_OP,
-      };
-  }
-};
 
 //  ____  ____  _____  _   _ ___
 // |  _ \|  _ \|  ___ | | | |_ _|
 // | |_) | | | | |_   | | | || |
 // |  __/| |_| |  _|  | |_| || |
 // |_|   |____/|_|     \___/|___|
+//
+// Render the Canvas onto the screen.
 
-interface PDFUIProps {
-  // Where is the PDFUI located?
-  url: string;
-  // How wide is the PDFUI?
-  width: number;
-  // How tall is the PDFUI?
-  height: number;
-  // Other components to render inside the PDFUI div.
-  children?: React.ReactNode;
-}
-
+// Since different steps in the application want to handle interactions with
+// the PDF differently, we need to give them control over the PDF canvas.
 export interface RenderAnnotationsHandler {
   onMouseUp: React.MouseEventHandler;
   // What should we do when we click down on the Canvas?
@@ -235,27 +174,27 @@ export interface RenderAnnotationsHandler {
   onMouseMove: React.MouseEventHandler;
 }
 
-// Actually render the PDFUI onto the screen. Ideally, the code in this component
-// should be extremely simple; most of the complicated functionality gets pushed
-// to hooks in other places.
+interface PDFProps {
+  // Where is the PDFUI located?
+  url: string;
+  // How wide is the PDFUI?
+  width: number;
+  // How tall is the PDFUI?
+  height: number;
+}
+
+type PDFUIProps = PDFProps & {
+  // What are the children of this PDF?
+  children: (props: LayerControllerProps) => React.ReactNode;
+};
+
 const PDFUI: React.FC<PDFUIProps> = (props) => {
   const { url, width, height } = props;
   const { canvas, loading } = useFetchPDFUI(url);
-  const step = useSelector((state) => state.step);
-
-  const {
-    cursor,
-    container,
-    creationState,
-    onMouseLeave,
-    onClick,
-    ...handlers
-  } = useHandlers();
-
+  const container = React.useRef<HTMLDivElement | null>(null);
   return (
     <div
-      onClick={onClick}
-      onMouseLeave={onMouseLeave}
+      id="pdf-container"
       ref={container}
       css={{
         border: "2px solid black",
@@ -265,9 +204,7 @@ const PDFUI: React.FC<PDFUIProps> = (props) => {
         overflowY: "scroll",
         overflowX: "scroll",
         position: "relative",
-        cursor,
       }}>
-      <canvas id="pdf" ref={canvas} {...handlers} />
       {loading ? (
         <Loading
           sx={{
@@ -278,42 +215,46 @@ const PDFUI: React.FC<PDFUIProps> = (props) => {
         />
       ) : (
         <>
-          {props.children}
-          {renderAnnotation(step, creationState, handlers)}
+          <canvas id="pdf" ref={canvas} />
+          {props.children({ pdf: canvas, container })}
         </>
       )}
     </div>
   );
 };
 
-const renderAnnotation = (
-  step: number,
-  creationState: CreationState | null,
-  handlers: RenderAnnotationsHandler
-) => {
+const LayerController: React.FC<LayerControllerProps> = (props) => {
+  const step = useSelector((state) => state.step);
+  const { container, pdf } = props;
+  /**
+   * Beware: Tricky edge case! Since the rest of our code supposes we've
+   * got a proper reference to the PDF by the time we get here, we can't
+   * render any children until canvas.current isn't null.
+   */
+  if (pdf.current === null) return null;
   switch (step) {
-    case 0: {
-      return (
-        <FieldLayerAllAnnotations
-          creationState={creationState}
-          handlers={handlers}
-        />
-      );
+    case "FIELD_LAYER": {
+      return <FieldLayer container={container} pdf={pdf} />;
     }
-    case 1: {
-      return (
-        <LabelLayerAllAnnotationsAndTokens
-          creationState={creationState}
-          handlers={handlers}
-        />
-      );
+    case "LABEL_LAYER": {
+      return <LabelLayer container={container} pdf={pdf} />;
+    }
+    case "GROUP_LAYER": {
+      return <GroupLayer container={container} pdf={pdf} />;
+    }
+    default: {
+      return null;
     }
   }
 };
 
-const PDF: React.FC<PDFUIProps> = (props) => {
+const PDF: React.FC<PDFProps> = (props) => {
   const { url, width, height } = props;
-  return <PDFUI url={url} width={width} height={height} />;
+  return (
+    <PDFUI url={url} width={width} height={height}>
+      {(props) => <LayerController {...props} />}
+    </PDFUI>
+  );
 };
 
 export default PDF;

@@ -3,16 +3,24 @@ import {
   DEFAULT_ACCESSIBLE_FORM as init,
   Bounds,
   ANNOTATION_TYPE,
+  AccessibleForm,
 } from "./StoreProvider";
+import exampleState from "./exampleState.json";
 
 describe("Our form reducer", () => {
   test("Returns the default initial state if it didn't previously exist", () => {
-    const res = reduce(undefined, { type: "CHANGE_CURRENT_STEP", payload: 2 });
+    const res = reduce(undefined, {
+      type: "CHANGE_CURRENT_STEP",
+      payload: "SECTION_LAYER",
+    });
     expect(res).toEqual(init);
   });
   test("Works with changing the current step", () => {
-    const res = reduce(init, { type: "CHANGE_CURRENT_STEP", payload: 2 });
-    expect(res.step).toEqual(2);
+    const res = reduce(init, {
+      type: "CHANGE_CURRENT_STEP",
+      payload: "SECTION_LAYER",
+    });
+    expect(res.step).toEqual("SECTION_LAYER");
   });
   test("Works with changing the zoom level", () => {
     const res = reduce(init, { type: "CHANGE_ZOOM", payload: 0.2 });
@@ -90,6 +98,22 @@ describe("Our form reducer", () => {
     expect(res.annotations["1"].width).toBe(13);
     expect(res.annotations["1"].top).toBe(0);
     expect(res.annotations["1"].left).toBe(0);
+  });
+  test("Creating annotations from 0 tokens does nothing", () => {
+    const payload = {
+      tokens: [],
+      ui: {
+        type: "TEXTBOX" as ANNOTATION_TYPE,
+        id: "1",
+        backgroundColor: "red",
+        border: "2px solid blue",
+      },
+    };
+    const res = reduce(init, {
+      type: "CREATE_ANNOTATION_FROM_TOKENS",
+      payload,
+    });
+    expect(res).toEqual(init);
   });
   test("Adding an annotation does the right thing with undo/redo", () => {
     const payload = {
@@ -326,16 +350,88 @@ describe("Our form reducer", () => {
       selectedAnnotations: {},
       page: 2,
       tool: "CREATE",
-      step: 1,
+      step: "FIELD_LAYER",
       zoom: 3,
       canRedo: false,
       canUndo: false,
       versions: {},
       currentVersion: -1,
       tokens: [] as Bounds[][],
+      labelRelations: {},
+      groupRelations: {},
+      haveScaled: true,
     } as const;
     const res = reduce(init, { type: "HYDRATE_STORE", payload });
     expect(res).toEqual(payload);
+  });
+  test("When the device pixel ratio changes, the tokens scale", () => {
+    const payload = {
+      annotations: {},
+      selectedAnnotations: {},
+      page: 2,
+      tool: "CREATE",
+      step: "FIELD_LAYER",
+      zoom: 3,
+      canRedo: false,
+      canUndo: false,
+      versions: {},
+      currentVersion: -1,
+      tokens: [[{ top: 0, left: 0, height: 25, width: 25 }]] as Bounds[][],
+      labelRelations: {},
+      groupRelations: {},
+      haveScaled: false,
+    } as const;
+    window.devicePixelRatio = 2;
+    const res = reduce(init, { type: "HYDRATE_STORE", payload });
+    expect(res.tokens[0][0].height).toEqual(50);
+    expect(res.tokens[0][0].width).toEqual(50);
+    window.devicePixelRatio = 1;
+  });
+  test("Scaling the pixel ratio sets haveScaled to true", () => {
+    const payload = {
+      annotations: {},
+      selectedAnnotations: {},
+      page: 2,
+      tool: "CREATE",
+      step: "FIELD_LAYER",
+      zoom: 3,
+      canRedo: false,
+      canUndo: false,
+      versions: {},
+      currentVersion: -1,
+      tokens: [[{ top: 0, left: 0, height: 25, width: 25 }]] as Bounds[][],
+      labelRelations: {},
+      groupRelations: {},
+      haveScaled: false,
+    } as const;
+    window.devicePixelRatio = 2;
+    const res = reduce(init, { type: "HYDRATE_STORE", payload });
+    expect(res.haveScaled).toBe(true);
+    window.devicePixelRatio = 1;
+  });
+
+  test("If we have already scaled, we don't scale again", () => {
+    const payload = {
+      annotations: {},
+      selectedAnnotations: {},
+      page: 2,
+      tool: "CREATE",
+      step: "FIELD_LAYER",
+      zoom: 3,
+      canRedo: false,
+      canUndo: false,
+      versions: {},
+      currentVersion: -1,
+      tokens: [[{ top: 0, left: 0, height: 25, width: 25 }]] as Bounds[][],
+      labelRelations: {},
+      groupRelations: {},
+      haveScaled: true,
+    } as const;
+    window.devicePixelRatio = 2;
+    const res = reduce(init, { type: "HYDRATE_STORE", payload });
+    expect(res.tokens[0][0].height).toEqual(25);
+    expect(res.tokens[0][0].width).toEqual(25);
+    window.devicePixelRatio = 1;
   });
   test("We set annotation type", () => {
     const payload = {
@@ -368,10 +464,101 @@ describe("Our form reducer", () => {
     });
     const changedStep = reduce(changedTool, {
       type: "SET_STEP",
-      payload: 3,
+      payload: "SECTION_LAYER",
     });
 
-    expect(changedStep.step).toBe(3);
+    expect(changedStep.step).toBe("SECTION_LAYER");
     expect(changedStep.tool).toBe("SELECT");
+  });
+  test("We can create label relation", () => {
+    const to = {
+      ui: {
+        id: "1",
+        backgroundColor: "lightpink",
+        type: "TEXTBOX" as ANNOTATION_TYPE,
+        border: "3px solid grey",
+      },
+      tokens: [
+        {
+          height: 10,
+          width: 10,
+          top: 5,
+          left: 5,
+          border: "pink",
+        },
+      ],
+    };
+    const relationCreated = reduce(init, {
+      type: "CREATE_LABEL_RELATION",
+      payload: {
+        to,
+        from: "2",
+      },
+    });
+    expect(relationCreated.annotations["1"].id).toEqual("1");
+    expect(relationCreated.labelRelations["1"]).toEqual("2");
+    expect(relationCreated.tool).toEqual("SELECT");
+    expect(relationCreated.selectedAnnotations).toEqual({});
+  });
+  test("If we try to create a label relation with no tokens, nothing happens", () => {
+    const to = {
+      ui: {
+        id: "1",
+        backgroundColor: "lightpink",
+        type: "TEXTBOX" as ANNOTATION_TYPE,
+        border: "3px solid grey",
+      },
+      tokens: [],
+    };
+    const relationCreated = reduce(init, {
+      type: "CREATE_LABEL_RELATION",
+      payload: {
+        to,
+        from: "2",
+      },
+    });
+    expect(relationCreated).toEqual(init);
+  });
+  test("We can create group relation", () => {
+    const from = {
+      ui: {
+        id: "3",
+        backgroundColor: "lightpink",
+        type: "GROUP" as const,
+        border: "3px solid grey",
+      },
+      tokens: [
+        {
+          height: 10,
+          width: 10,
+          top: 5,
+          left: 5,
+          border: "pink",
+        },
+      ],
+    };
+    const relationWithArrayCreated = reduce(init, {
+      type: "CREATE_GROUP_RELATION",
+      payload: {
+        from: from,
+        to: ["2", "1"],
+      },
+    });
+    expect(relationWithArrayCreated.annotations["3"]).toBeDefined();
+    expect(relationWithArrayCreated.groupRelations["3"]).toEqual(["2", "1"]);
+    expect(relationWithArrayCreated.tool).toEqual("CREATE");
+  });
+  test("We can delete a group relation", () => {
+    const groupLabelId = "98d3098e-10db-4fe8-bba7-2d04b07e20aa";
+    const groupId = exampleState.labelRelations[groupLabelId];
+    const res = reduce(exampleState as AccessibleForm, {
+      type: "DELETE_GROUP",
+      payload: "98d3098e-10db-4fe8-bba7-2d04b07e20aa",
+    });
+    expect(res.labelRelations).toEqual({});
+    expect(res.groupRelations).toEqual({});
+    expect(res.annotations[groupLabelId]).toBeUndefined();
+    expect(res.annotations[groupId]).toBeUndefined();
+    expect(res.selectedAnnotations).toEqual({});
   });
 });
