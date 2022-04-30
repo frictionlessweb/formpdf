@@ -159,7 +159,7 @@ const getPredictedAnnotations = () => {
 };
 
 export const DEFAULT_ACCESSIBLE_FORM: AccessibleForm = {
-  step: "FIELD_LAYER",
+  step: "SECTION_LAYER",
   tool: "CREATE",
   zoom: 1,
   page: 1,

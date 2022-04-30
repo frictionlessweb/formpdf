@@ -23,6 +23,7 @@ import { useSelector, LayerControllerProps } from "./StoreProvider";
 import FieldLayer from "./FieldLayer";
 import LabelLayer from "./LabelLayer";
 import GroupLayer from "./GroupLayer";
+import SectionLayer from "./SectionLayer";
 
 //  _____    _       _     ____     _  __
 // |  ___|__| |_ ___| |__ |  _ \ __| |/ _|
@@ -243,7 +244,7 @@ const LayerController: React.FC<LayerControllerProps> = (props) => {
       return <GroupLayer container={container} pdf={pdf} />;
     }
     default: {
-      return null;
+      return <SectionLayer container={container} pdf={pdf} />;
     }
   }
 };

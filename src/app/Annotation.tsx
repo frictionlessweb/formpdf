@@ -6,6 +6,7 @@ import {
   Annotation as AnnotationStatic,
   useSelector,
 } from "./StoreProvider";
+import { Rnd } from "react-rnd";
 
 export type TranslucentBoxProps = React.DetailedHTMLProps<
   React.HTMLAttributes<HTMLDivElement>,
@@ -17,10 +18,12 @@ export type TranslucentBoxProps = React.DetailedHTMLProps<
   children?: React.ReactNode;
 };
 
-type HandlerLayerProps = React.DetailedHTMLProps<
+type DivProps = React.DetailedHTMLProps<
   React.HTMLAttributes<HTMLDivElement>,
   HTMLDivElement
-> & {
+>;
+
+type HandlerLayerProps = DivProps & {
   rootCss?: CSSObject;
   pdf: React.MutableRefObject<HTMLCanvasElement | null>;
 };
@@ -43,6 +46,47 @@ export const HandlerLayer: React.FC<HandlerLayerProps> = (props) => {
       }}>
       {children}
     </div>
+  );
+};
+
+type ResizeHandleProps = DivProps & {
+  container: React.MutableRefObject<HTMLDivElement | null>;
+  pdf: React.MutableRefObject<HTMLCanvasElement | null>;
+  height: number;
+  rootCss?: CSSObject;
+};
+
+// An draggable box that we put *on top* of the PDF that we show to the user.
+// This box lets us configure which sections of the provided document are and
+// are not relevant.
+export const ResizeHandle: React.FC<ResizeHandleProps> = (props) => {
+  const { rootCss, container, pdf, children, height, ...rest } = props;
+  return (
+    <>
+      <div
+        {...rest}
+        css={{
+          top: 0,
+          left: 0,
+          position: "absolute",
+          width: pdf.current!.clientWidth,
+          height,
+          ...rootCss,
+        }}></div>
+      <Rnd
+        css={{
+          backgroundColor: "rgb(0, 0, 0, 0.3)",
+          borderTop: "3px solid orange",
+          position: "absolute",
+        }}
+        disableDragging
+        size={{
+          height: pdf.current!.clientHeight - height,
+          width: pdf.current!.clientWidth,
+        }}
+        position={{ x: 0, y: height }}
+      />
+    </>
   );
 };
 
