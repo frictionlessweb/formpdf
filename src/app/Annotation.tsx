@@ -1,5 +1,4 @@
-/** @jsxImportSource @emotion/react */
-import React from "react";
+/** @jsxImportSource @emotion/react */ import React from "react";
 import { CSSObject } from "@emotion/react";
 import {
   Bounds,
@@ -87,13 +86,14 @@ export const ResizeHandle: React.FC<ResizeHandleProps> = (props) => {
           backgroundColor: "rgb(0, 0, 0, 0.3)",
           borderTop: "3px solid orange",
           position: "absolute",
+          zIndex: 2,
         }}
         disableDragging
         size={{
           height: height,
           width: width,
         }}
-        onResize={(_, __, ref, ___, el) => {
+        onResizeStop={(_, __, ref, ___, el) => {
           dispatch({
             type: "MOVE_SECTION_SLIDER",
             payload: {
@@ -101,16 +101,6 @@ export const ResizeHandle: React.FC<ResizeHandleProps> = (props) => {
               height: ref.offsetHeight,
             },
           });
-          // dispatch({
-          //   type: "RESIZE_ANNOTATION",
-          //   payload: {
-          //     id: annotationProps.id,
-          //     width: ref.offsetWidth,
-          //     height: ref.offsetHeight,
-          //     x: el.x,
-          //     y: el.y,
-          //   },
-          // });
         }}
         position={{ x: 0, y }}
       />

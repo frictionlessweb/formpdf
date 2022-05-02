@@ -362,7 +362,7 @@ export const reduceAccessibleForm = (
       });
     }
     case "MOVE_SECTION_SLIDER": {
-      return produce(previous, (draft) => {
+      return produceWithUndo(previous, (draft) => {
         draft.sliderPosition.y = action.payload.y;
         draft.sliderPosition.height = action.payload.height;
       });
