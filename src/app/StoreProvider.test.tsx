@@ -362,6 +362,7 @@ describe("Our form reducer", () => {
       haveScaled: true,
       width: 1000,
       height: 550,
+      showResizeModal: false,
       sliderPosition: {
         y: 1000,
         height: 320,
@@ -388,6 +389,7 @@ describe("Our form reducer", () => {
       haveScaled: false,
       width: 1000,
       height: 550,
+      showResizeModal: false,
       sliderPosition: {
         y: 1000,
         height: 320,
@@ -417,6 +419,7 @@ describe("Our form reducer", () => {
       haveScaled: false,
       width: 1000,
       height: 550,
+      showResizeModal: false,
       sliderPosition: {
         y: 1000,
         height: 320,
@@ -446,6 +449,7 @@ describe("Our form reducer", () => {
       haveScaled: true,
       width: 1000,
       height: 550,
+      showResizeModal: false,
       sliderPosition: {
         y: 1000,
         height: 320,
@@ -585,12 +589,35 @@ describe("Our form reducer", () => {
     expect(res.annotations[groupId]).toBeUndefined();
     expect(res.selectedAnnotations).toEqual({});
   });
-  test("We can move the section slider around", () => {
+  test("We can move the section slider around on the first step", () => {
     const res = reduce(init, {
       type: "MOVE_SECTION_SLIDER",
       payload: { y: 32, height: 64 },
     });
     expect(res.sliderPosition.y).toEqual(32);
     expect(res.sliderPosition.height).toEqual(64);
+    expect(res.showResizeModal).toEqual(false);
+  });
+  test("Moving the slider in later stages brings up the modal", () => {
+    const res = reduce(
+      { ...init, step: "LABEL_LAYER" },
+      {
+        type: "MOVE_SECTION_SLIDER",
+        payload: { y: 32, height: 64 },
+      }
+    );
+    expect(res.sliderPosition.y).toEqual(32);
+    expect(res.sliderPosition.height).toEqual(64);
+    expect(res.showResizeModal).toBe(true);
+  });
+  test("We can jump back to the section layer", () => {
+    const res = reduce(
+      { ...init, showResizeModal: true, step: "LABEL_LAYER" },
+      {
+        type: "JUMP_BACK_TO_SECTION_LAYER",
+      }
+    );
+    expect(res.step).toEqual("SECTION_LAYER");
+    expect(res.showResizeModal).toBe(false);
   });
 });

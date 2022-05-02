@@ -5,6 +5,7 @@
   "page": 1,
   "width": 1000,
   "height": 550,
+  "showResizeModal": false,
   "sliderPosition": {
     "height": 320,
     "y": 550

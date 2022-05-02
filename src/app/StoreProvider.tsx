@@ -147,6 +147,9 @@ export interface AccessibleForm {
   // Different screens can render tokens differently, so we need to account for
   // that and remember when we have/have not scaled them.
   haveScaled: boolean;
+  // Should we be displaying the modal that asks the user whether they want to
+  // go back to resizing the form?
+  showResizeModal: boolean;
 }
 
 // FIXME: Here we need to implement page logic.
@@ -179,6 +182,7 @@ export const DEFAULT_ACCESSIBLE_FORM: AccessibleForm = {
   page: 1,
   width: 1000,
   height: 550,
+  showResizeModal: false,
   sliderPosition: {
     height: 1400,
     y: 300,
@@ -228,6 +232,9 @@ export type AccessibleFormAction =
         y: number;
         height: number;
       };
+    }
+  | {
+      type: "JUMP_BACK_TO_SECTION_LAYER";
     }
   | {
       type: "SELECT_ANNOTATION";
@@ -331,6 +338,12 @@ export const reduceAccessibleForm = (
         draft.step = action.payload;
       });
     }
+    case "JUMP_BACK_TO_SECTION_LAYER": {
+      return produce(previous, (draft) => {
+        draft.step = "SECTION_LAYER";
+        draft.showResizeModal = false;
+      });
+    }
     case "CHANGE_ZOOM": {
       return produce(previous, (draft) => {
         const previousZoom = draft.zoom;
@@ -365,6 +378,9 @@ export const reduceAccessibleForm = (
       return produceWithUndo(previous, (draft) => {
         draft.sliderPosition.y = action.payload.y;
         draft.sliderPosition.height = action.payload.height;
+        if (draft.step !== "SECTION_LAYER") {
+          draft.showResizeModal = true;
+        }
       });
     }
     case "CHANGE_PAGE": {
