@@ -5,6 +5,7 @@ import {
   Bounds,
   Annotation as AnnotationStatic,
   useSelector,
+  useDispatch,
 } from "./StoreProvider";
 import { Rnd } from "react-rnd";
 
@@ -50,9 +51,11 @@ export const HandlerLayer: React.FC<HandlerLayerProps> = (props) => {
 };
 
 type ResizeHandleProps = DivProps & {
+  // Where is the container of the canvas with the PDF?
   container: React.MutableRefObject<HTMLDivElement | null>;
+  // What is the actual PDF in the DOM?
   pdf: React.MutableRefObject<HTMLCanvasElement | null>;
-  height: number;
+  // What styling should we apply?
   rootCss?: CSSObject;
 };
 
@@ -60,7 +63,13 @@ type ResizeHandleProps = DivProps & {
 // This box lets us configure which sections of the provided document are and
 // are not relevant.
 export const ResizeHandle: React.FC<ResizeHandleProps> = (props) => {
-  const { rootCss, container, pdf, children, height, ...rest } = props;
+  const { rootCss, container, pdf, children, ...rest } = props;
+  const { width, y, height } = useSelector((state) => ({
+    width: state.width,
+    height: state.sliderPosition.height,
+    y: state.sliderPosition.y,
+  }));
+  const dispatch = useDispatch();
   return (
     <>
       <div
@@ -81,10 +90,29 @@ export const ResizeHandle: React.FC<ResizeHandleProps> = (props) => {
         }}
         disableDragging
         size={{
-          height: pdf.current!.clientHeight - height,
-          width: pdf.current!.clientWidth,
+          height: height,
+          width: width,
         }}
-        position={{ x: 0, y: height }}
+        onResize={(_, __, ref, ___, el) => {
+          dispatch({
+            type: "MOVE_SECTION_SLIDER",
+            payload: {
+              y: el.y,
+              height: ref.offsetHeight,
+            },
+          });
+          // dispatch({
+          //   type: "RESIZE_ANNOTATION",
+          //   payload: {
+          //     id: annotationProps.id,
+          //     width: ref.offsetWidth,
+          //     height: ref.offsetHeight,
+          //     x: el.x,
+          //     y: el.y,
+          //   },
+          // });
+        }}
+        position={{ x: 0, y }}
       />
     </>
   );

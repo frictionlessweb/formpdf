@@ -3,6 +3,12 @@
   "tool": "SELECT",
   "zoom": 1,
   "page": 1,
+  "width": 1000,
+  "height": 550,
+  "sliderPosition": {
+    "height": 320,
+    "y": 550
+  },
   "annotations": {
     "48b51c3f-49bd-4c9b-ae77-3b86e06c2f33": {
       "id": "48b51c3f-49bd-4c9b-ae77-3b86e06c2f33",

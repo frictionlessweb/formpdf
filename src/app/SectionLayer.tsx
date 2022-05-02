@@ -1,18 +1,13 @@
 /** @jsxImportSource @emotion/react */
 import React from "react";
-import { useCreateAnnotation, HandlerLayer, ResizeHandle } from "./Annotation";
-import { NO_OP } from "./PDF";
-import {
-  useSelector,
-  useDispatch,
-  LayerControllerProps,
-} from "./StoreProvider";
+import { HandlerLayer, ResizeHandle } from "./Annotation";
+import { LayerControllerProps } from "./StoreProvider";
 
 const SectionLayer: React.FC<LayerControllerProps> = (props) => {
   const { pdf, container } = props;
   return (
     <HandlerLayer pdf={pdf}>
-      <ResizeHandle pdf={pdf} height={300} container={container} />
+      <ResizeHandle pdf={pdf} container={container} />
     </HandlerLayer>
   );
 };

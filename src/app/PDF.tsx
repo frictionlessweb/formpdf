@@ -178,10 +178,6 @@ export interface RenderAnnotationsHandler {
 interface PDFProps {
   // Where is the PDFUI located?
   url: string;
-  // How wide is the PDFUI?
-  width: number;
-  // How tall is the PDFUI?
-  height: number;
 }
 
 type PDFUIProps = PDFProps & {
@@ -190,8 +186,12 @@ type PDFUIProps = PDFProps & {
 };
 
 const PDFUI: React.FC<PDFUIProps> = (props) => {
-  const { url, width, height } = props;
+  const { url } = props;
   const { canvas, loading } = useFetchPDFUI(url);
+  const { width, height } = useSelector((state) => ({
+    width: state.width,
+    height: state.height,
+  }));
   const container = React.useRef<HTMLDivElement | null>(null);
   return (
     <div
@@ -250,12 +250,8 @@ const LayerController: React.FC<LayerControllerProps> = (props) => {
 };
 
 const PDF: React.FC<PDFProps> = (props) => {
-  const { url, width, height } = props;
-  return (
-    <PDFUI url={url} width={width} height={height}>
-      {(props) => <LayerController {...props} />}
-    </PDFUI>
-  );
+  const { url } = props;
+  return <PDFUI url={url}>{(props) => <LayerController {...props} />}</PDFUI>;
 };
 
 export default PDF;

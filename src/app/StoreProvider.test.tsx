@@ -360,6 +360,12 @@ describe("Our form reducer", () => {
       labelRelations: {},
       groupRelations: {},
       haveScaled: true,
+      width: 1000,
+      height: 550,
+      sliderPosition: {
+        y: 1000,
+        height: 320,
+      },
     } as const;
     const res = reduce(init, { type: "HYDRATE_STORE", payload });
     expect(res).toEqual(payload);
@@ -380,6 +386,12 @@ describe("Our form reducer", () => {
       labelRelations: {},
       groupRelations: {},
       haveScaled: false,
+      width: 1000,
+      height: 550,
+      sliderPosition: {
+        y: 1000,
+        height: 320,
+      },
     } as const;
     window.devicePixelRatio = 2;
     const res = reduce(init, { type: "HYDRATE_STORE", payload });
@@ -403,6 +415,12 @@ describe("Our form reducer", () => {
       labelRelations: {},
       groupRelations: {},
       haveScaled: false,
+      width: 1000,
+      height: 550,
+      sliderPosition: {
+        y: 1000,
+        height: 320,
+      },
     } as const;
     window.devicePixelRatio = 2;
     const res = reduce(init, { type: "HYDRATE_STORE", payload });
@@ -426,6 +444,12 @@ describe("Our form reducer", () => {
       labelRelations: {},
       groupRelations: {},
       haveScaled: true,
+      width: 1000,
+      height: 550,
+      sliderPosition: {
+        y: 1000,
+        height: 320,
+      },
     } as const;
     window.devicePixelRatio = 2;
     const res = reduce(init, { type: "HYDRATE_STORE", payload });
@@ -560,5 +584,13 @@ describe("Our form reducer", () => {
     expect(res.annotations[groupLabelId]).toBeUndefined();
     expect(res.annotations[groupId]).toBeUndefined();
     expect(res.selectedAnnotations).toEqual({});
+  });
+  test("We can move the section slider around", () => {
+    const res = reduce(init, {
+      type: "MOVE_SECTION_SLIDER",
+      payload: { y: 32, height: 64 },
+    });
+    expect(res.sliderPosition.y).toEqual(32);
+    expect(res.sliderPosition.height).toEqual(64);
   });
 });

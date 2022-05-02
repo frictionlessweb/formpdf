@@ -100,6 +100,14 @@ interface Changes {
   undo: Array<Patch>;
 }
 
+// Keeping track of the slider we store throughout multiple screens.
+interface SliderPosition {
+  // What is the current height of the slider?
+  height: number;
+  // What is the current Y position of the slider?
+  y: number;
+}
+
 type VersionId = number;
 
 export interface AccessibleForm {
@@ -110,6 +118,12 @@ export interface AccessibleForm {
   // Which page of the PDF are we on? WARNING: This is indexed from *1*, not
   // from zero!
   page: number;
+  // What do we want the height of the PDF document to be?
+  height: number;
+  // What do we want the width of the PDF document to be?
+  width: number;
+  // Where is the slider currently?
+  sliderPosition: SliderPosition;
   // What are all of the annotations we've kept track of so far?
   annotations: Record<AnnotationId, Annotation>;
   // Which tool is active right now?
@@ -163,6 +177,12 @@ export const DEFAULT_ACCESSIBLE_FORM: AccessibleForm = {
   tool: "CREATE",
   zoom: 1,
   page: 1,
+  width: 1000,
+  height: 550,
+  sliderPosition: {
+    height: 1400,
+    y: 300,
+  },
   annotations: getPredictedAnnotations(),
   selectedAnnotations: {},
   canRedo: false,
@@ -199,6 +219,13 @@ export type AccessibleFormAction =
         x: number;
         y: number;
         width: number;
+        height: number;
+      };
+    }
+  | {
+      type: "MOVE_SECTION_SLIDER";
+      payload: {
+        y: number;
         height: number;
       };
     }
@@ -332,6 +359,12 @@ export const reduceAccessibleForm = (
       return produce(previous, (draft) => {
         draft.tool = action.payload;
         return;
+      });
+    }
+    case "MOVE_SECTION_SLIDER": {
+      return produce(previous, (draft) => {
+        draft.sliderPosition.y = action.payload.y;
+        draft.sliderPosition.height = action.payload.height;
       });
     }
     case "CHANGE_PAGE": {
