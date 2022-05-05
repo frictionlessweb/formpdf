@@ -93,7 +93,6 @@ export const ResizeHandle: React.FC<ResizeHandleProps> = (props) => {
         disableDragging
         onMouseUp={stopTopClicks}
         onMouseDown={stopTopClicks}
-        onMouseMove={stopTopClicks}
         size={{
           height: height,
           width: width,
