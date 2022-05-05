@@ -6,6 +6,7 @@ import {
   mapCreationBoundsToFinalBounds,
   useCreateAnnotation,
   HandlerLayer,
+  ResizeHandle,
 } from "./Annotation";
 import { FieldLayerActionMenu } from "../components/ActionMenu";
 import { AnnotationProps, TranslucentBox } from "./Annotation";
@@ -199,6 +200,7 @@ const FieldLayer: React.FC<LayerControllerProps> = (props) => {
       onMouseMove={layer.onMouseMove}
       onMouseDown={layer.onMouseDown}
       onMouseUp={layer.onMouseUp}>
+      <ResizeHandle pdf={pdf} container={container} />
       <AnnotationBeingCreated
         creationState={layer.creationState}
         showTokens={false}

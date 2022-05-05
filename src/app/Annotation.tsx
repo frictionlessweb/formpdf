@@ -5,7 +5,9 @@ import {
   Bounds,
   Annotation as AnnotationStatic,
   useSelector,
+  useDispatch,
 } from "./StoreProvider";
+import { Rnd } from "react-rnd";
 
 export type TranslucentBoxProps = React.DetailedHTMLProps<
   React.HTMLAttributes<HTMLDivElement>,
@@ -17,10 +19,12 @@ export type TranslucentBoxProps = React.DetailedHTMLProps<
   children?: React.ReactNode;
 };
 
-type HandlerLayerProps = React.DetailedHTMLProps<
+type DivProps = React.DetailedHTMLProps<
   React.HTMLAttributes<HTMLDivElement>,
   HTMLDivElement
-> & {
+>;
+
+type HandlerLayerProps = DivProps & {
   rootCss?: CSSObject;
   pdf: React.MutableRefObject<HTMLCanvasElement | null>;
 };
@@ -43,6 +47,68 @@ export const HandlerLayer: React.FC<HandlerLayerProps> = (props) => {
       }}>
       {children}
     </div>
+  );
+};
+
+type ResizeHandleProps = DivProps & {
+  // Where is the container of the canvas with the PDF?
+  container: React.MutableRefObject<HTMLDivElement | null>;
+  // What is the actual PDF in the DOM?
+  pdf: React.MutableRefObject<HTMLCanvasElement | null>;
+  // What styling should we apply?
+  rootCss?: CSSObject;
+};
+
+// An draggable box that we put *on top* of the PDF that we show to the user.
+// This box lets us configure which sections of the provided document are and
+// are not relevant.
+export const ResizeHandle: React.FC<ResizeHandleProps> = (props) => {
+  const { rootCss, container, pdf, children, ...rest } = props;
+  const { width, y, height } = useSelector((state) => ({
+    width: state.width,
+    height: state.sliderPosition.height,
+    y: state.sliderPosition.y,
+  }));
+  const dispatch = useDispatch();
+  const stopTopClicks = (e: MouseEvent) => e.stopPropagation();
+  return (
+    <>
+      <div
+        {...rest}
+        css={{
+          top: 0,
+          left: 0,
+          position: "absolute",
+          width: pdf.current!.clientWidth,
+          height,
+          ...rootCss,
+        }}></div>
+      <Rnd
+        css={{
+          backgroundColor: "rgb(0, 0, 0, 0.3)",
+          borderTop: "3px solid orange",
+          position: "absolute",
+          zIndex: 2,
+        }}
+        disableDragging
+        onMouseUp={stopTopClicks}
+        onMouseDown={stopTopClicks}
+        size={{
+          height: height,
+          width: width,
+        }}
+        onResizeStop={(_, __, ref, ___, el) => {
+          dispatch({
+            type: "MOVE_SECTION_SLIDER",
+            payload: {
+              y: el.y,
+              height: ref.offsetHeight,
+            },
+          });
+        }}
+        position={{ x: 0, y }}
+      />
+    </>
   );
 };
 
@@ -223,7 +289,6 @@ export const AnnotationBeingCreated: React.FC<AnnotationBeingCreatedProps> = (
   props
 ) => {
   const { creationState, showTokens, ...handlers } = props;
-
   if (!creationState) return null;
   const { bounds: creationBounds, tokens: displayTokens } = creationState;
   return (

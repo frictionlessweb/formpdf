@@ -7,6 +7,7 @@ import {
   TranslucentBox,
   HandlerLayer,
   useCreateAnnotation,
+  ResizeHandle,
 } from "./Annotation";
 import { NO_OP } from "./PDF";
 import {
@@ -259,13 +260,14 @@ const GroupLayer: React.FC<LayerControllerProps> = (props) => {
   } = useGroupLayer(container);
   return (
     <HandlerLayer
-      rootCss={{ cursor }}
       pdf={pdf}
+      rootCss={{ cursor }}
       onClick={onClick}
       onMouseDown={onMouseDown}
       onMouseLeave={onMouseLeave}
       onMouseMove={onMouseMove}
       onMouseUp={onMouseUp}>
+      <ResizeHandle container={container} pdf={pdf} />
       <GroupLayerGateway creationState={creationState} />
     </HandlerLayer>
   );

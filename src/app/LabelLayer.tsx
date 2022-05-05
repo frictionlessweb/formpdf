@@ -7,6 +7,7 @@ import {
   TranslucentBox,
   HandlerLayer,
   useCreateAnnotation,
+  ResizeHandle,
 } from "./Annotation";
 import { NO_OP } from "./PDF";
 import {
@@ -262,13 +263,13 @@ const LabelLayer: React.FC<LayerControllerProps> = (props) => {
   } = useFieldLayer(container);
   return (
     <HandlerLayer
-      rootCss={{ cursor }}
       pdf={pdf}
       onClick={onClick}
       onMouseDown={onMouseDown}
       onMouseLeave={onMouseLeave}
       onMouseMove={onMouseMove}
       onMouseUp={onMouseUp}>
+      <ResizeHandle pdf={pdf} container={container} rootCss={{ cursor }} />
       <CreateLabelFlow creationState={creationState} />
     </HandlerLayer>
   );

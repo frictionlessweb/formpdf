@@ -4,6 +4,7 @@ import Heading from "./app/Heading";
 import PDF from "./app/PDF";
 import Zoom from "./app/Zoom";
 import ToolSelect from "./app/ToolSelect";
+import ResizeModal from "./app/ResizeModal";
 import { useSaveState } from "./app/utils";
 
 const App = () => {
@@ -19,9 +20,10 @@ const App = () => {
       <Heading paddingBottom="24px" />
       <Box display="flex" width="100%" justifyContent="center" marginTop="40px">
         <ToolSelect width="180px" paddingX="16px" />
-        <PDF width={1000} height={550} url="/sample_form.pdf" />
+        <PDF url="/sample_form.pdf" />
         <div css={{ width: "180px", paddingX: "16px" }} />
       </Box>
+      <ResizeModal />
       <Zoom />
     </Box>
   );
