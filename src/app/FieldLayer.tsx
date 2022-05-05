@@ -194,15 +194,13 @@ const FieldLayer: React.FC<LayerControllerProps> = (props) => {
   const annotations = useSelector((state) => state.annotations);
   const layer = useFieldLayer(container);
   return (
-    <HandlerLayer pdf={pdf}>
-      <ResizeHandle
-        pdf={pdf}
-        container={container}
-        rootCss={{ cursor: layer.cursor }}
-        onMouseMove={layer.onMouseMove}
-        onMouseDown={layer.onMouseDown}
-        onMouseUp={layer.onMouseUp}
-      />
+    <HandlerLayer
+      pdf={pdf}
+      rootCss={{ cursor: layer.cursor }}
+      onMouseMove={layer.onMouseMove}
+      onMouseDown={layer.onMouseDown}
+      onMouseUp={layer.onMouseUp}>
+      <ResizeHandle pdf={pdf} container={container} />
       <AnnotationBeingCreated
         creationState={layer.creationState}
         showTokens={false}
