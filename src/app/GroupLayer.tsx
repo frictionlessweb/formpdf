@@ -259,17 +259,15 @@ const GroupLayer: React.FC<LayerControllerProps> = (props) => {
     onClick,
   } = useGroupLayer(container);
   return (
-    <HandlerLayer pdf={pdf}>
-      <ResizeHandle
-        pdf={pdf}
-        container={container}
-        rootCss={{ cursor }}
-        onClick={onClick}
-        onMouseDown={onMouseDown}
-        onMouseLeave={onMouseLeave}
-        onMouseMove={onMouseMove}
-        onMouseUp={onMouseUp}
-      />
+    <HandlerLayer
+      pdf={pdf}
+      rootCss={{ cursor }}
+      onClick={onClick}
+      onMouseDown={onMouseDown}
+      onMouseLeave={onMouseLeave}
+      onMouseMove={onMouseMove}
+      onMouseUp={onMouseUp}>
+      <ResizeHandle container={container} pdf={pdf} />
       <GroupLayerGateway creationState={creationState} />
     </HandlerLayer>
   );

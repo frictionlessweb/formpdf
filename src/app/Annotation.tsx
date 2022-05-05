@@ -70,6 +70,7 @@ export const ResizeHandle: React.FC<ResizeHandleProps> = (props) => {
     y: state.sliderPosition.y,
   }));
   const dispatch = useDispatch();
+  const stopTopClicks = (e: MouseEvent) => e.stopPropagation();
   return (
     <>
       <div
@@ -90,6 +91,9 @@ export const ResizeHandle: React.FC<ResizeHandleProps> = (props) => {
           zIndex: 2,
         }}
         disableDragging
+        onMouseUp={stopTopClicks}
+        onMouseDown={stopTopClicks}
+        onMouseMove={stopTopClicks}
         size={{
           height: height,
           width: width,
@@ -286,7 +290,6 @@ export const AnnotationBeingCreated: React.FC<AnnotationBeingCreatedProps> = (
   props
 ) => {
   const { creationState, showTokens, ...handlers } = props;
-
   if (!creationState) return null;
   const { bounds: creationBounds, tokens: displayTokens } = creationState;
   return (

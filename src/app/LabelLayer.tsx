@@ -262,17 +262,14 @@ const LabelLayer: React.FC<LayerControllerProps> = (props) => {
     onMouseUp,
   } = useFieldLayer(container);
   return (
-    <HandlerLayer pdf={pdf}>
-      <ResizeHandle
-        pdf={pdf}
-        container={container}
-        rootCss={{ cursor }}
-        onClick={onClick}
-        onMouseDown={onMouseDown}
-        onMouseLeave={onMouseLeave}
-        onMouseMove={onMouseMove}
-        onMouseUp={onMouseUp}
-      />
+    <HandlerLayer
+      pdf={pdf}
+      onClick={onClick}
+      onMouseDown={onMouseDown}
+      onMouseLeave={onMouseLeave}
+      onMouseMove={onMouseMove}
+      onMouseUp={onMouseUp}>
+      <ResizeHandle pdf={pdf} container={container} rootCss={{ cursor }} />
       <CreateLabelFlow creationState={creationState} />
     </HandlerLayer>
   );
