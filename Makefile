@@ -1,7 +1,7 @@
 .PHONY: setup
 setup:
 	@ npm install --prefix ui
-	@ pip install -r api/reuqirements.txt
+	@ pip install -r api/requirements.txt
 
 .PHONY: start
 start:
