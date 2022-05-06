@@ -19,6 +19,7 @@ import {
   RenderingCancelledException,
 } from "pdfjs-dist";
 import Loading from "@mui/material/CircularProgress";
+import Box from "@mui/material/Box";
 import { useSelector, LayerControllerProps } from "./StoreProvider";
 import FieldLayer from "./FieldLayer";
 import LabelLayer from "./LabelLayer";
@@ -249,7 +250,23 @@ const LayerController: React.FC<LayerControllerProps> = (props) => {
   }
 };
 
+const LoadingScreen = () => {
+  return (
+    <Box
+      display="flex"
+      width="80%"
+      justifyContent="center"
+      alignItems="center"
+      height="60%"
+      minHeight="300px">
+      <Loading size={100} />
+    </Box>
+  );
+};
+
 const PDF: React.FC<PDFProps> = (props) => {
+  const loading = useSelector((state) => state.showLoadingScreen);
+  if (loading) return <LoadingScreen />;
   const { url } = props;
   return <PDFUI url={url}>{(props) => <LayerController {...props} />}</PDFUI>;
 };

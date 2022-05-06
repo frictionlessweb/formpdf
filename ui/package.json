@@ -6,9 +6,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "pre-commit": "lint-staged",
-    "prepare": "husky install && cp node_modules/pdfjs-dist/build/pdf.worker.min.js public"
+    "prepare": "cp node_modules/pdfjs-dist/build/pdf.worker.min.js public"
   },
+  "proxy": "http://localhost:8000",
   "dependencies": {
     "@emotion/react": "^11.8.2",
     "@emotion/styled": "^11.8.1",
@@ -25,9 +25,7 @@
     "@types/react-dom": "^17.0.13",
     "@types/react-resizable": "^1.7.4",
     "canvas": "^2.9.1",
-    "husky": "^7.0.4",
     "immer": "^9.0.12",
-    "lint-staged": "^12.3.7",
     "pdfjs-dist": "^2.13.216",
     "prettier": "^2.6.0",
     "react": "^17.0.2",
@@ -41,13 +39,6 @@
     "typescript": "^4.6.2",
     "web-vitals": "^2.1.4",
     "@types/redux-logger": "^3.0.9"
-  },
-  "lint-staged": {
-    "*.{ts,tsx}": [
-      "prettier --write",
-      "eslint --fix"
-    ],
-    "*.{json,md}": "prettier --write"
   },
   "prettier": {
     "bracketSameLine": true

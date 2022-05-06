@@ -1,6 +1,7 @@
 {
   "step": "GROUP_LAYER",
   "tool": "SELECT",
+  "showLoadingScreen": false,
   "zoom": 1,
   "page": 1,
   "width": 1000,

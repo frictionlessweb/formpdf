@@ -65,6 +65,11 @@ export type AnnotationUIState = {
 
 export type Annotation = Bounds & AnnotationUIState;
 
+export type ApiAnnotation = Bounds & {
+  id: AnnotationId;
+  type: ANNOTATION_TYPE;
+};
+
 export type Step =
   | "SECTION_LAYER"
   | "FIELD_LAYER"
@@ -150,7 +155,13 @@ export interface AccessibleForm {
   // Should we be displaying the modal that asks the user whether they want to
   // go back to resizing the form?
   showResizeModal: boolean;
+  // Should we display a generic screen instead of the pdf?
+  showLoadingScreen: boolean;
 }
+
+export const ANNOTATION_COLOR = "rgb(255, 182, 193, 0.3)";
+
+export const ANNOTATION_BORDER = "3px solid red";
 
 // FIXME: Here we need to implement page logic.
 // This function grabs the prediction from prediction.json, creates
@@ -163,8 +174,8 @@ const getPredictedAnnotations = () => {
     const id: AnnotationId = window.crypto.randomUUID();
     predictedAnnotations[id] = {
       id,
-      backgroundColor: "rgb(255, 182, 193, 0.3)",
-      border: "3px solid red",
+      backgroundColor: ANNOTATION_COLOR,
+      border: ANNOTATION_BORDER,
       type: "TEXTBOX",
       top,
       left,
@@ -197,6 +208,7 @@ export const DEFAULT_ACCESSIBLE_FORM: AccessibleForm = {
   labelRelations: {},
   groupRelations: {},
   haveScaled: false,
+  showLoadingScreen: false,
 };
 
 // AccessibleFormAction describes every important possible action that a user
@@ -260,6 +272,13 @@ export type AccessibleFormAction =
       payload: Step;
     }
   | {
+      type: "CHANGE_STEP_AND_ANNOTATIONS";
+      payload: {
+        step: Step;
+        annotations: Array<Array<ApiAnnotation>>;
+      };
+    }
+  | {
       type: "CREATE_LABEL_RELATION";
       payload: {
         to: {
@@ -293,7 +312,8 @@ export type AccessibleFormAction =
     }
   | {
       type: "REDO";
-    };
+    }
+  | { type: "SHOW_LOADING_SCREEN" };
 
 // reduceAccessibleForm determines how to update the state after a UI action
 // takes place. It is *intentionally* very big and relies on pattern matching
@@ -333,6 +353,11 @@ export const reduceAccessibleForm = (
 ): AccessibleForm => {
   if (previous === undefined) return DEFAULT_ACCESSIBLE_FORM;
   switch (action.type) {
+    case "SHOW_LOADING_SCREEN": {
+      return produce(previous, (draft) => {
+        draft.showLoadingScreen = true;
+      });
+    }
     case "CHANGE_CURRENT_STEP": {
       return produce(previous, (draft) => {
         draft.step = action.payload;
@@ -499,6 +524,30 @@ export const reduceAccessibleForm = (
         draft.step = action.payload;
         // When user moves to a new page we want "SELECT" tool to be selected as
         // it is the default tool which is present on all pages.
+        draft.tool = "SELECT";
+      });
+    }
+    case "CHANGE_STEP_AND_ANNOTATIONS": {
+      const scale = window.devicePixelRatio;
+      return produce(previous, (draft) => {
+        const newAnnotations: Record<AnnotationId, Annotation> = {};
+        for (const page of action.payload.annotations) {
+          for (const annotation of page) {
+            newAnnotations[annotation.id as AnnotationId] = {
+              id: annotation.id,
+              type: annotation.type,
+              width: annotation.width * scale,
+              height: annotation.height * scale,
+              top: annotation.top * scale,
+              left: annotation.left * scale,
+              border: ANNOTATION_BORDER,
+              backgroundColor: ANNOTATION_COLOR,
+            };
+          }
+        }
+        draft.showLoadingScreen = false;
+        draft.annotations = newAnnotations;
+        draft.step = action.payload.step;
         draft.tool = "SELECT";
       });
     }

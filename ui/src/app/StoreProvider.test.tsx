@@ -4,6 +4,7 @@ import {
   Bounds,
   ANNOTATION_TYPE,
   AccessibleForm,
+  ANNOTATION_BORDER,
 } from "./StoreProvider";
 import exampleState from "./exampleState.json";
 
@@ -348,6 +349,7 @@ describe("Our form reducer", () => {
     const payload = {
       annotations: {},
       selectedAnnotations: {},
+      showLoadingScreen: false,
       page: 2,
       tool: "CREATE",
       step: "FIELD_LAYER",
@@ -390,6 +392,7 @@ describe("Our form reducer", () => {
       width: 1000,
       height: 550,
       showResizeModal: false,
+      showLoadingScreen: false,
       sliderPosition: {
         y: 1000,
         height: 320,
@@ -420,6 +423,7 @@ describe("Our form reducer", () => {
       width: 1000,
       height: 550,
       showResizeModal: false,
+      showLoadingScreen: false,
       sliderPosition: {
         y: 1000,
         height: 320,
@@ -450,6 +454,7 @@ describe("Our form reducer", () => {
       width: 1000,
       height: 550,
       showResizeModal: false,
+      showLoadingScreen: false,
       sliderPosition: {
         y: 1000,
         height: 320,
@@ -619,5 +624,85 @@ describe("Our form reducer", () => {
     );
     expect(res.step).toEqual("SECTION_LAYER");
     expect(res.showResizeModal).toBe(false);
+  });
+  test("We can set the loading screen to true", () => {
+    const res = reduce(init, { type: "SHOW_LOADING_SCREEN" });
+    expect(res.showLoadingScreen).toBe(true);
+  });
+  test("When we change the step and annotations, we set loading to false", () => {
+    const res = reduce(
+      { ...init, showLoadingScreen: true },
+      {
+        type: "CHANGE_STEP_AND_ANNOTATIONS",
+        payload: {
+          annotations: [],
+          step: "SECTION_LAYER",
+        },
+      }
+    );
+    expect(res.showLoadingScreen).toBe(false);
+  });
+  test("When we change the step and annotations, the step changes as well", () => {
+    const res = reduce(
+      { ...init, showLoadingScreen: true },
+      {
+        type: "CHANGE_STEP_AND_ANNOTATIONS",
+        payload: {
+          annotations: [],
+          step: "GROUP_LAYER",
+        },
+      }
+    );
+    expect(res.step).toBe("GROUP_LAYER");
+  });
+  test("We set the annotations appropriately when we get new ones from the API", () => {
+    const res = reduce(
+      { ...init, showLoadingScreen: true },
+      {
+        type: "CHANGE_STEP_AND_ANNOTATIONS",
+        payload: {
+          annotations: [
+            [
+              {
+                type: "TEXTBOX",
+                height: 200,
+                id: "1234",
+                left: 10,
+                top: 20,
+                width: 234,
+              },
+            ],
+          ],
+          step: "SECTION_LAYER",
+        },
+      }
+    );
+    expect(Object.keys(res.annotations)).toHaveLength(1);
+    expect(res.annotations["1234"].width).toEqual(234);
+    expect(res.annotations["1234"].border).toEqual(ANNOTATION_BORDER);
+  });
+  test("Changing the step and the annotations also changes the tool", () => {
+    const res = reduce(
+      { ...init, tool: "CREATE" },
+      {
+        type: "CHANGE_STEP_AND_ANNOTATIONS",
+        payload: {
+          annotations: [
+            [
+              {
+                type: "TEXTBOX",
+                height: 200,
+                id: "1234",
+                left: 10,
+                top: 20,
+                width: 234,
+              },
+            ],
+          ],
+          step: "SECTION_LAYER",
+        },
+      }
+    );
+    expect(res.tool).toEqual("SELECT");
   });
 });

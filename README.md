@@ -4,13 +4,33 @@ Code for accessible PDF rendering.
 
 ## Getting Started
 
-Clone the repository and run `npm install`.
+To develop the UI, clone the repository, `cd` into the `ui` folder, and run `npm install`.
 
-...that's it. 🥳
+To develop the API, clone the repository, `cd` into the `api` folder, and run `pip install -r requirements.txt`. You may want to set up a virtual environment as well.
+
+To perform both actions on Unix, run:
+
+```sh
+make setup
+```
 
 ## Developing
 
-Run `npm start` to edit your changes live.
+In the UI directory, please run `npm start` to edit your changes live.
+
+In the API directory, you can run `uvicorn api:app --reload` to edit your changes live.
+
+If you want to stream both results from one terminal, you can install the program `concurrently` via:
+
+```sh
+npm install -g concurrently
+```
+
+Then, in the root of the repository, run:
+
+```sh
+make start
+```
 
 ### Adding PDF Files
 
@@ -60,7 +80,15 @@ That will scaffold a new component for you following best practices automaticall
 
 ## Testing
 
-Run `npm test` from the command line.
+In the UI directory, you can run `npm test` from the command line.
+
+In the api directory, you can run `pytest` from the command line.
+
+To run both tests on unix, run:
+
+```sh
+make test
+```
 
 ### Testing PDF Rendering
 
