@@ -23,7 +23,7 @@ client = TestClient(app)
 def test_req():
     pages = 3
     response = client.post(
-        "/api/annotations", json={"pages": pages, "width": 500, "height": 500}
+        "/annotations", json={"pages": pages, "width": 500, "height": 500}
     )
     assert response.status_code == 200
     res = response.json()

@@ -3,7 +3,7 @@ import React from "react";
 import Steps from "./Steps";
 import Box, { BoxProps } from "@mui/material/Box";
 import Panel from "../components/Panel";
-import { useSelector, useDispatch, Step, ApiAnnotation } from "./StoreProvider";
+import { useSelector, useDispatch, Step } from "./StoreProvider";
 
 const useHeading = () => {
   const { activeStep, width, height, pages } = useSelector((state) => {
@@ -17,13 +17,16 @@ const useHeading = () => {
   const dispatch = useDispatch();
   const fetchNewAnnotations = async (step: Step) => {
     dispatch({ type: "SHOW_LOADING_SCREEN" });
-    const res = await window.fetch("/api/annotations", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ pages, width, height }),
-    });
+    const res = await window.fetch(
+      `${process.env.REACT_APP_API_PATH || ""}/annotations`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ pages, width, height }),
+      }
+    );
     const { annotations } = await res.json();
     dispatch({
       type: "CHANGE_STEP_AND_ANNOTATIONS",

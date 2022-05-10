@@ -28,7 +28,7 @@ class AnnotationsRequest(BaseModel):
     height: int
 
 
-@app.post("/api/annotations")
+@app.post("/annotations")
 def send_boxes(req: AnnotationsRequest) -> AnnotationsResponse:
     return AnnotationsResponse(
         annotations=[
