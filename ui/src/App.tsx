@@ -6,6 +6,7 @@ import Zoom from "./app/Zoom";
 import ToolSelect from "./app/ToolSelect";
 import ResizeModal from "./app/ResizeModal";
 import { useSaveState } from "./app/utils";
+import ProceedToNextLayer from "./app/ProceedToNextLayer";
 
 const App = () => {
   useSaveState();
@@ -23,6 +24,7 @@ const App = () => {
         <PDF url="/sample_form.pdf" />
         <div css={{ width: "180px", paddingX: "16px" }} />
       </Box>
+      <ProceedToNextLayer />
       <ResizeModal />
       <Zoom />
     </Box>

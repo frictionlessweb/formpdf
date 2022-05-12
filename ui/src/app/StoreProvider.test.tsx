@@ -705,4 +705,8 @@ describe("Our form reducer", () => {
     );
     expect(res.tool).toEqual("SELECT");
   });
+  test("We can goto the next step", () => {
+    const res = reduce(init, { type: "GOTO_NEXT_STEP" });
+    expect(res.step).toEqual("FIELD_LAYER");
+  });
 });
