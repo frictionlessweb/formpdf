@@ -77,6 +77,48 @@ export type Step =
   | "GROUP_LAYER"
   | "TOOLTIP_LAYER";
 
+interface StepDescription {
+  // Which step are we referring to?
+  id: Step;
+  // What is the title of the current step?
+  title: string;
+  // What is the description of the current step?
+  description: string;
+}
+
+export const STEPS: Array<StepDescription> = [
+  {
+    id: "SECTION_LAYER",
+    title: "Section",
+    description:
+      "Mark the area you want to fix first. We will go through the form in small chunks. Ensure that fields or groups (radioboxes) are completely included and not cut off in half .",
+  },
+  {
+    id: "FIELD_LAYER",
+    title: "Fields",
+    description:
+      "Ensure all form fields have a box and a field type present on them. If not, draw a box using the mouse and assign the field type.",
+  },
+  {
+    id: "LABEL_LAYER",
+    title: "Labels",
+    description:
+      "Ensure all form fields have a label associated to them. If not, select the field and use update label from the popup.",
+  },
+  {
+    id: "GROUP_LAYER",
+    title: "Groups",
+    description:
+      "Ensure the checkbox and radiobox are grouped properly and have group names. If not, you can select multiple boxes by dragging or Shift+Click and use popup menu to group fields. ",
+  },
+  {
+    id: "TOOLTIP_LAYER",
+    title: "Tooltips",
+    description:
+      "Ensure these field descriptions (tooltips) are sufficient. If needed, add more information about the field using the edit button.",
+  },
+];
+
 // Children of the PDF need to know where it is in the DOM, so we pass these
 // references down to make sure they can perform the appropriate calculations.
 export interface LayerControllerProps {
@@ -215,6 +257,7 @@ export const DEFAULT_ACCESSIBLE_FORM: AccessibleForm = {
 // could take while editing the PDF UI.
 export type AccessibleFormAction =
   | { type: "CHANGE_CURRENT_STEP"; payload: Step }
+  | { type: "GOTO_NEXT_STEP" }
   | { type: "CHANGE_ZOOM"; payload: number }
   | { type: "CHANGE_PAGE"; payload: number }
   | { type: "CHANGE_TOOL"; payload: TOOL }
@@ -353,6 +396,15 @@ export const reduceAccessibleForm = (
 ): AccessibleForm => {
   if (previous === undefined) return DEFAULT_ACCESSIBLE_FORM;
   switch (action.type) {
+    case "GOTO_NEXT_STEP": {
+      return produce(previous, (draft) => {
+        const idx = STEPS.findIndex((aStep) => aStep.id === draft.step);
+        if (idx === -1) return;
+        const nextStep = STEPS[idx + 1]?.id;
+        if (nextStep === undefined) return;
+        draft.step = nextStep;
+      });
+    }
     case "SHOW_LOADING_SCREEN": {
       return produce(previous, (draft) => {
         draft.showLoadingScreen = true;

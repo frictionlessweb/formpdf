@@ -9,46 +9,7 @@ import StepConnector, {
   stepConnectorClasses,
 } from "@mui/material/StepConnector";
 import { StepIconProps } from "@mui/material/StepIcon";
-import { Step as StepType } from "./StoreProvider";
-
-interface StepDescription {
-  id: StepType;
-  title: string;
-  description: string;
-}
-
-const STEPS: Array<StepDescription> = [
-  {
-    id: "SECTION_LAYER",
-    title: "Section",
-    description:
-      "Mark the area you want to fix first. We will go through the form in small chunks. Ensure that fields or groups (radioboxes) are completely included and not cut off in half .",
-  },
-  {
-    id: "FIELD_LAYER",
-    title: "Fields",
-    description:
-      "Ensure all form fields have a box and a field type present on them. If not, draw a box using the mouse and assign the field type.",
-  },
-  {
-    id: "LABEL_LAYER",
-    title: "Labels",
-    description:
-      "Ensure all form fields have a label associated to them. If not, select the field and use update label from the popup.",
-  },
-  {
-    id: "GROUP_LAYER",
-    title: "Groups",
-    description:
-      "Ensure the checkbox and radiobox are grouped properly and have group names. If not, you can select multiple boxes by dragging or Shift+Click and use popup menu to group fields. ",
-  },
-  {
-    id: "TOOLTIP_LAYER",
-    title: "Tooltips",
-    description:
-      "Ensure these field descriptions (tooltips) are sufficient. If needed, add more information about the field using the edit button.",
-  },
-];
+import { Step as StepType, STEPS } from "./StoreProvider";
 
 // styled is a part of mui and is a recommendation for reusable style overrides.
 // Ref: https://mui.com/customization/how-to-customize/#2-reusable-style-overrides
