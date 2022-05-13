@@ -74,8 +74,7 @@ export type Step =
   | "SECTION_LAYER"
   | "FIELD_LAYER"
   | "LABEL_LAYER"
-  | "GROUP_LAYER"
-  | "TOOLTIP_LAYER";
+  | "GROUP_LAYER";
 
 interface StepDescription {
   // Which step are we referring to?
@@ -110,12 +109,6 @@ export const STEPS: Array<StepDescription> = [
     title: "Groups",
     description:
       "Ensure the checkbox and radiobox are grouped properly and have group names. If not, you can select multiple boxes by dragging or Shift+Click and use popup menu to group fields. ",
-  },
-  {
-    id: "TOOLTIP_LAYER",
-    title: "Tooltips",
-    description:
-      "Ensure these field descriptions (tooltips) are sufficient. If needed, add more information about the field using the edit button.",
   },
 ];
 
