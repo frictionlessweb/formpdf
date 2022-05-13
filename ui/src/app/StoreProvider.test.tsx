@@ -276,6 +276,7 @@ describe("Our form reducer", () => {
     expect(moved.annotations["1"].height).toBe(40);
     expect(moved.annotations["1"].top).toBe(20);
     expect(moved.annotations["1"].left).toBe(10);
+    expect(moved.annotations["1"].corrected).toBe(true);
   });
   test("We can select an annotation", () => {
     const payload = {
@@ -494,7 +495,7 @@ describe("Our form reducer", () => {
     expect(res.tokens[0][0].width).toEqual(25);
     window.devicePixelRatio = 1;
   });
-  test("We set annotation type", () => {
+  test("We can set the annotation type", () => {
     const payload = {
       id: "1",
       backgroundColor: "lightpink",
@@ -519,6 +520,7 @@ describe("Our form reducer", () => {
       },
     });
     expect(changed.annotations["1"].type).toBe("CHECKBOX");
+    expect(changed.annotations["1"].corrected).toBe(true);
   });
   test("We can set step of the process and when we do it tool automatically gets changed to select", () => {
     const changedTool = reduce(init, {
@@ -561,6 +563,7 @@ describe("Our form reducer", () => {
       },
     });
     expect(relationCreated.annotations["1"].id).toEqual("1");
+    expect(relationCreated.annotations["1"].corrected).toEqual(true);
     expect(relationCreated.labelRelations["1"]).toEqual("2");
     expect(relationCreated.tool).toEqual("SELECT");
     expect(relationCreated.selectedAnnotations).toEqual({});

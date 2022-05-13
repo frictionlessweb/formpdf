@@ -520,6 +520,7 @@ export const reduceAccessibleForm = (
         annotation.height = action.payload.height;
         annotation.top = action.payload.y;
         annotation.left = action.payload.x;
+        annotation.corrected = true;
         return;
       });
     }
@@ -579,6 +580,7 @@ export const reduceAccessibleForm = (
         action.payload.ids.forEach((id) => {
           const annotation = draft.annotations[id];
           annotation.type = action.payload.type;
+          annotation.corrected = true;
         });
         return;
       });
@@ -630,6 +632,7 @@ export const reduceAccessibleForm = (
         draft.annotations[action.payload.to.ui.id] = {
           ...action.payload.to.ui,
           ...boxContaining(action.payload.to.tokens, 3),
+          corrected: true,
         };
         draft.labelRelations[action.payload.to.ui.id] = action.payload.from;
         draft.tool = "SELECT";
