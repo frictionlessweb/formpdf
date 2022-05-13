@@ -37,6 +37,8 @@ describe("Our form reducer", () => {
       top: 5,
       left: 5,
       border: "pink",
+      corrected: false,
+      page: 1,
     } as const;
     const created = reduce(init, {
       type: "CREATE_ANNOTATION",
@@ -74,6 +76,8 @@ describe("Our form reducer", () => {
       top: 5,
       left: 5,
       border: "pink",
+      corrected: false,
+      page: 1,
     } as const;
     const res = reduce(init, {
       type: "CREATE_ANNOTATION",
@@ -89,6 +93,8 @@ describe("Our form reducer", () => {
         id: "1",
         backgroundColor: "red",
         border: "2px solid blue",
+        corrected: false,
+        page: 1,
       },
     };
     const res = reduce(init, {
@@ -108,6 +114,8 @@ describe("Our form reducer", () => {
         id: "1",
         backgroundColor: "red",
         border: "2px solid blue",
+        corrected: false,
+        page: 1,
       },
     };
     const res = reduce(init, {
@@ -126,6 +134,8 @@ describe("Our form reducer", () => {
       top: 5,
       left: 5,
       border: "pink",
+      page: 1,
+      corrected: false,
     } as const;
     const res = reduce(init, {
       type: "CREATE_ANNOTATION",
@@ -146,6 +156,8 @@ describe("Our form reducer", () => {
       top: 5,
       left: 5,
       border: "pink",
+      corrected: false,
+      page: 1,
     } as const;
     const length = Object.keys(init.annotations).length;
     const created = reduce(init, {
@@ -167,6 +179,8 @@ describe("Our form reducer", () => {
       width: 10,
       top: 5,
       left: 5,
+      corrected: false,
+      page: 1,
       border: "pink",
     } as const;
     const created = reduce(init, {
@@ -190,6 +204,8 @@ describe("Our form reducer", () => {
       top: 5,
       left: 5,
       border: "pink",
+      corrected: false,
+      page: 1,
     } as const;
     const created = reduce(init, {
       type: "CREATE_ANNOTATION",
@@ -211,6 +227,8 @@ describe("Our form reducer", () => {
       height: 10,
       width: 10,
       border: "pink",
+      corrected: false,
+      page: 1,
     } as const;
     const created = reduce(init, {
       type: "CREATE_ANNOTATION",
@@ -237,6 +255,8 @@ describe("Our form reducer", () => {
       height: 10,
       width: 10,
       border: "pink",
+      corrected: false,
+      page: 1,
     } as const;
     const created = reduce(init, {
       type: "CREATE_ANNOTATION",
@@ -267,6 +287,8 @@ describe("Our form reducer", () => {
       height: 10,
       width: 10,
       border: "pink",
+      corrected: false,
+      page: 1,
     } as const;
     const created = reduce(init, {
       type: "CREATE_ANNOTATION",
@@ -288,6 +310,8 @@ describe("Our form reducer", () => {
       height: 10,
       width: 10,
       border: "pink",
+      corrected: false,
+      page: 1,
     } as const;
     const created = reduce(init, {
       type: "CREATE_ANNOTATION",
@@ -313,6 +337,8 @@ describe("Our form reducer", () => {
       height: 10,
       width: 10,
       border: "pink",
+      corrected: false,
+      page: 1,
     } as const;
     const payload2 = {
       id: "2",
@@ -323,6 +349,8 @@ describe("Our form reducer", () => {
       height: 5,
       width: 5,
       border: "pink",
+      corrected: false,
+      page: 1,
     } as const;
     const createdFirst = reduce(init, {
       type: "CREATE_ANNOTATION",
@@ -476,6 +504,8 @@ describe("Our form reducer", () => {
       height: 5,
       width: 5,
       border: "pink",
+      corrected: false,
+      page: 1,
     } as const;
     const created = reduce(init, {
       type: "CREATE_ANNOTATION",
@@ -510,6 +540,8 @@ describe("Our form reducer", () => {
         backgroundColor: "lightpink",
         type: "TEXTBOX" as ANNOTATION_TYPE,
         border: "3px solid grey",
+        corrected: false,
+        page: 1,
       },
       tokens: [
         {
@@ -540,6 +572,8 @@ describe("Our form reducer", () => {
         backgroundColor: "lightpink",
         type: "TEXTBOX" as ANNOTATION_TYPE,
         border: "3px solid grey",
+        corrected: false,
+        page: 1,
       },
       tokens: [],
     };

@@ -56,10 +56,11 @@ export const useFieldLayer = (
     resetCreationState,
     updateCreationState,
   } = attr;
-  const { tool, selectedAnnotations } = useSelector((state) => {
+  const { tool, selectedAnnotations, page } = useSelector((state) => {
     return {
       tool: state.tool,
       selectedAnnotations: state.selectedAnnotations,
+      page: state.page,
     };
   });
   const dispatch = useDispatch();
@@ -85,6 +86,8 @@ export const useFieldLayer = (
                   backgroundColor: "rgb(36, 148, 178, 0.4)",
                   border: "3px solid rgb(36, 148, 178)",
                   type: "LABEL" as ANNOTATION_TYPE,
+                  page,
+                  corrected: true,
                 },
                 tokens: creationState.tokens,
               },

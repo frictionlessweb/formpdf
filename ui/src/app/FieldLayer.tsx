@@ -22,7 +22,12 @@ export const useFieldLayer = (
 ) => {
   const attr = useCreateAnnotation(div);
   const dispatch = useDispatch();
-  const tool = useSelector((state) => state.tool);
+  const { tool, page } = useSelector((state) => {
+    return {
+      tool: state.tool,
+      page: state.page,
+    };
+  });
   const {
     div: container,
     creationState,
@@ -46,6 +51,8 @@ export const useFieldLayer = (
             type: "CREATE_ANNOTATION",
             payload: {
               id: window.crypto.randomUUID(),
+              page,
+              corrected: true,
               backgroundColor: "rgb(255, 182, 193, 0.3)",
               border: "3px solid red",
               type: "TEXTBOX",

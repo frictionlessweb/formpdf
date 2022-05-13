@@ -61,12 +61,18 @@ export type AnnotationUIState = {
   border: string;
   // What is the the type of the annotation?
   type: ANNOTATION_TYPE;
+  // On which page should we show this annotation?
+  page: number;
+  // Has the user modified this annotation?
+  corrected: boolean;
 };
 
 export type Annotation = Bounds & AnnotationUIState;
 
 export type ApiAnnotation = Bounds & {
+  // What is the ID of this annotation?
   id: AnnotationId;
+  // What is the type of this annotation?
   type: ANNOTATION_TYPE;
 };
 
@@ -216,6 +222,8 @@ const getPredictedAnnotations = () => {
       left,
       width,
       height,
+      page: 0,
+      corrected: false,
     };
   });
   return predictedAnnotations;
@@ -589,7 +597,8 @@ export const reduceAccessibleForm = (
       const scale = window.devicePixelRatio;
       return produce(previous, (draft) => {
         const newAnnotations: Record<AnnotationId, Annotation> = {};
-        for (const page of action.payload.annotations) {
+        for (let i = 0; i < action.payload.annotations.length; ++i) {
+          const page = action.payload.annotations[i];
           for (const annotation of page) {
             newAnnotations[annotation.id as AnnotationId] = {
               id: annotation.id,
@@ -600,6 +609,8 @@ export const reduceAccessibleForm = (
               left: annotation.left * scale,
               border: ANNOTATION_BORDER,
               backgroundColor: ANNOTATION_COLOR,
+              page: i + 1,
+              corrected: false,
             };
           }
         }
@@ -632,6 +643,8 @@ export const reduceAccessibleForm = (
         draft.annotations[action.payload.from.ui.id] = {
           ...action.payload.from.ui,
           ...boxContaining(action.payload.from.tokens, 3),
+          corrected: true,
+          page: draft.page,
         };
         draft.groupRelations[action.payload.from.ui.id] = action.payload.to;
         draft.selectedAnnotations = { [action.payload.from.ui.id]: true };

@@ -6,7 +6,12 @@ def test_bounds():
     width = 500
     height = 500
     pages = 3
-    res = send_boxes(AnnotationsRequest(width=width, height=height, pages=pages))
+    annotations = {}
+    res = send_boxes(
+        AnnotationsRequest(
+            width=width, height=height, pages=pages, annotations=annotations
+        )
+    )
     assert len(res.annotations) == pages
     for page in res.annotations:
         for token in page:
@@ -23,7 +28,8 @@ client = TestClient(app)
 def test_req():
     pages = 3
     response = client.post(
-        "/annotations", json={"pages": pages, "width": 500, "height": 500}
+        "/annotations",
+        json={"pages": pages, "width": 500, "height": 500, "annotations": {}},
     )
     assert response.status_code == 200
     res = response.json()

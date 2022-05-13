@@ -31,12 +31,13 @@ const useGroupLayer = (div: React.MutableRefObject<HTMLDivElement | null>) => {
     updateCreationState,
   } = attr;
   const dispatch = useDispatch();
-  const { tool, selectedAnnotations } = useSelector((state) => {
+  const { tool, selectedAnnotations, page } = useSelector((state) => {
     const tool = state.tool;
     const selectedAnnotations = state.selectedAnnotations;
     return {
       tool,
       selectedAnnotations,
+      page: state.page,
     };
   });
   switch (tool) {
@@ -61,6 +62,8 @@ const useGroupLayer = (div: React.MutableRefObject<HTMLDivElement | null>) => {
                   backgroundColor: "rgb(36, 148, 178, 0.4)",
                   border: "3px solid rgb(36, 148, 178)",
                   type: "GROUP_LABEL" as ANNOTATION_TYPE,
+                  page,
+                  corrected: true,
                 },
                 tokens: creationState.tokens,
               },
