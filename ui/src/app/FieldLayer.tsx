@@ -191,7 +191,12 @@ export const FieldLayerAnnotation: React.FC<AnnotationProps> = (props) => {
 
 const FieldLayer: React.FC<LayerControllerProps> = (props) => {
   const { pdf, container } = props;
-  const annotations = useSelector((state) => state.annotations);
+  const { annotations, height } = useSelector((state) => {
+    return {
+      annotations: state.annotations,
+      height: state.sliderPosition.y,
+    };
+  });
   const layer = useFieldLayer(container);
   return (
     <HandlerLayer
@@ -208,9 +213,11 @@ const FieldLayer: React.FC<LayerControllerProps> = (props) => {
         onMouseDown={NO_OP}
         onMouseMove={NO_OP}
       />
-      {Object.values(annotations).map((annotation) => {
-        return <FieldLayerAnnotation key={annotation.id} {...annotation} />;
-      })}
+      {Object.values(annotations)
+        .filter((annotation) => annotation.top + annotation.height < height)
+        .map((annotation) => {
+          return <FieldLayerAnnotation key={annotation.id} {...annotation} />;
+        })}
     </HandlerLayer>
   );
 };

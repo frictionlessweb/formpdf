@@ -198,38 +198,43 @@ const GroupLayerSelectAnnotation: React.FC<AnnotationStatic> = (
 };
 
 const GroupLayerSelections = () => {
-  const { annotationsToGroup, labelRelations } = useSelector((state) => {
-    const annotations = state.annotations;
-    const annotationsToGroup = Object.values(state.annotations).filter(
-      shouldBeGrouped
-    );
-    const labelRelations = state.labelRelations;
-    return { annotations, annotationsToGroup, labelRelations };
-  });
+  const { annotationsToGroup, labelRelations, height } = useSelector(
+    (state) => {
+      const annotations = state.annotations;
+      const annotationsToGroup = Object.values(state.annotations).filter(
+        shouldBeGrouped
+      );
+      const labelRelations = state.labelRelations;
+      const height = state.sliderPosition.y;
+      return { annotations, annotationsToGroup, labelRelations, height };
+    }
+  );
   return (
     <>
-      {annotationsToGroup.map((annotation) => {
-        const labelId: string = labelRelations[annotation.id];
-        const isGroupLabel = labelId && annotation.type === "GROUP_LABEL";
-        return (
-          <React.Fragment key={annotation.id}>
-            <GroupLayerSelectAnnotation {...annotation} />
-            {isGroupLabel && (
-              <Xarrow
-                start={annotation.id}
-                end={labelRelations[annotation.id]}
-                endAnchor="middle"
-                headSize={2}
-                headShape="circle"
-                // This curveness 0.01 is used to make the arrow look straight.
-                // we could have used path="straight" property but it gives the
-                // following error - Error: <path> attribute d: Expected number...
-                curveness={0.01}
-              />
-            )}
-          </React.Fragment>
-        );
-      })}
+      {annotationsToGroup
+        .filter((annotation) => annotation.top + annotation.height < height)
+        .map((annotation) => {
+          const labelId: string = labelRelations[annotation.id];
+          const isGroupLabel = labelId && annotation.type === "GROUP_LABEL";
+          return (
+            <React.Fragment key={annotation.id}>
+              <GroupLayerSelectAnnotation {...annotation} />
+              {isGroupLabel && (
+                <Xarrow
+                  start={annotation.id}
+                  end={labelRelations[annotation.id]}
+                  endAnchor="middle"
+                  headSize={2}
+                  headShape="circle"
+                  // This curveness 0.01 is used to make the arrow look straight.
+                  // we could have used path="straight" property but it gives the
+                  // following error - Error: <path> attribute d: Expected number...
+                  curveness={0.01}
+                />
+              )}
+            </React.Fragment>
+          );
+        })}
     </>
   );
 };
