@@ -251,6 +251,7 @@ export const DEFAULT_ACCESSIBLE_FORM: AccessibleForm = {
 export type AccessibleFormAction =
   | { type: "CHANGE_CURRENT_STEP"; payload: Step }
   | { type: "GOTO_NEXT_STEP" }
+  | { type: "GOTO_PREVIOUS_STEP"; payload: Step }
   | { type: "CHANGE_ZOOM"; payload: number }
   | { type: "CHANGE_PAGE"; payload: number }
   | { type: "CHANGE_TOOL"; payload: TOOL }
@@ -308,9 +309,8 @@ export type AccessibleFormAction =
       payload: Step;
     }
   | {
-      type: "CHANGE_STEP_AND_ANNOTATIONS";
+      type: "INCREMENT_STEP_AND_ANNOTATIONS";
       payload: {
-        step: Step;
         annotations: Array<Array<ApiAnnotation>>;
       };
     }
@@ -389,6 +389,19 @@ export const reduceAccessibleForm = (
 ): AccessibleForm => {
   if (previous === undefined) return DEFAULT_ACCESSIBLE_FORM;
   switch (action.type) {
+    case "GOTO_PREVIOUS_STEP": {
+      return produce(previous, (draft) => {
+        const currentStep = STEPS.findIndex((aStep) => aStep.id === draft.step);
+        if (currentStep === -1) return;
+        const previousStep = STEPS.findIndex(
+          (aStep) => aStep.id === action.payload
+        );
+        if (previousStep === -1) return;
+        if (previousStep < currentStep) {
+          draft.step = action.payload;
+        }
+      });
+    }
     case "GOTO_NEXT_STEP": {
       return produce(previous, (draft) => {
         const idx = STEPS.findIndex((aStep) => aStep.id === draft.step);
@@ -572,7 +585,7 @@ export const reduceAccessibleForm = (
         draft.tool = "SELECT";
       });
     }
-    case "CHANGE_STEP_AND_ANNOTATIONS": {
+    case "INCREMENT_STEP_AND_ANNOTATIONS": {
       const scale = window.devicePixelRatio;
       return produce(previous, (draft) => {
         const newAnnotations: Record<AnnotationId, Annotation> = {};
@@ -592,8 +605,12 @@ export const reduceAccessibleForm = (
         }
         draft.showLoadingScreen = false;
         draft.annotations = newAnnotations;
-        draft.step = action.payload.step;
         draft.tool = "SELECT";
+        const idx = STEPS.findIndex((aStep) => aStep.id === draft.step);
+        if (idx === -1) return;
+        const nextStep = STEPS[idx + 1]?.id;
+        if (nextStep === undefined) return;
+        draft.step = nextStep;
       });
     }
     case "CREATE_LABEL_RELATION": {

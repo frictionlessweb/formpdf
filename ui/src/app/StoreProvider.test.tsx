@@ -633,10 +633,9 @@ describe("Our form reducer", () => {
     const res = reduce(
       { ...init, showLoadingScreen: true },
       {
-        type: "CHANGE_STEP_AND_ANNOTATIONS",
+        type: "INCREMENT_STEP_AND_ANNOTATIONS",
         payload: {
           annotations: [],
-          step: "SECTION_LAYER",
         },
       }
     );
@@ -644,12 +643,11 @@ describe("Our form reducer", () => {
   });
   test("When we change the step and annotations, the step changes as well", () => {
     const res = reduce(
-      { ...init, showLoadingScreen: true },
+      { ...init, showLoadingScreen: true, step: "LABEL_LAYER" },
       {
-        type: "CHANGE_STEP_AND_ANNOTATIONS",
+        type: "INCREMENT_STEP_AND_ANNOTATIONS",
         payload: {
           annotations: [],
-          step: "GROUP_LAYER",
         },
       }
     );
@@ -659,7 +657,7 @@ describe("Our form reducer", () => {
     const res = reduce(
       { ...init, showLoadingScreen: true },
       {
-        type: "CHANGE_STEP_AND_ANNOTATIONS",
+        type: "INCREMENT_STEP_AND_ANNOTATIONS",
         payload: {
           annotations: [
             [
@@ -673,7 +671,6 @@ describe("Our form reducer", () => {
               },
             ],
           ],
-          step: "SECTION_LAYER",
         },
       }
     );
@@ -685,7 +682,7 @@ describe("Our form reducer", () => {
     const res = reduce(
       { ...init, tool: "CREATE" },
       {
-        type: "CHANGE_STEP_AND_ANNOTATIONS",
+        type: "INCREMENT_STEP_AND_ANNOTATIONS",
         payload: {
           annotations: [
             [
@@ -699,7 +696,6 @@ describe("Our form reducer", () => {
               },
             ],
           ],
-          step: "SECTION_LAYER",
         },
       }
     );
@@ -708,5 +704,21 @@ describe("Our form reducer", () => {
   test("We can goto the next step", () => {
     const res = reduce(init, { type: "GOTO_NEXT_STEP" });
     expect(res.step).toEqual("FIELD_LAYER");
+  });
+  test("We can goto a previous step", () => {
+    const next = reduce(init, { type: "GOTO_NEXT_STEP" });
+    const prev = reduce(next, {
+      type: "GOTO_PREVIOUS_STEP",
+      payload: "SECTION_LAYER",
+    });
+    expect(prev.step).toEqual("SECTION_LAYER");
+  });
+  test("We can't skip ahead with goto previous step", () => {
+    const next = reduce(init, { type: "GOTO_NEXT_STEP" });
+    const prev = reduce(next, {
+      type: "GOTO_PREVIOUS_STEP",
+      payload: "GROUP_LAYER",
+    });
+    expect(prev.step).toEqual("FIELD_LAYER");
   });
 });
