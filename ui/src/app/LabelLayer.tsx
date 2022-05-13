@@ -140,9 +140,10 @@ const CreateLink: React.FC<CreationProps> = (props) => {
 export const LabelLayerSelectAnnotation: React.FC<AnnotationStatic> = (
   props
 ) => {
-  const { selectedAnnotations } = useSelector((state) => {
+  const { selectedAnnotations, labelRelations } = useSelector((state) => {
     const selectedAnnotations = state.selectedAnnotations;
-    return { selectedAnnotations };
+    const labelRelations = state.labelRelations;
+    return { selectedAnnotations, labelRelations };
   });
   const dispatch = useDispatch();
   const { id, type, children, ...cssProps } = props;
@@ -150,6 +151,7 @@ export const LabelLayerSelectAnnotation: React.FC<AnnotationStatic> = (
     ...cssProps,
     position: "absolute" as const,
   };
+  const hasRelation = Boolean(labelRelations[id]);
   const isSelected = Boolean(selectedAnnotations[id]);
   const isFirstSelection = Object.keys(selectedAnnotations)[0] === id;
   return (
@@ -180,6 +182,7 @@ export const LabelLayerSelectAnnotation: React.FC<AnnotationStatic> = (
       }}>
       {isFirstSelection && (
         <LabelLayerActionMenu
+          showDelete={hasRelation}
           totalSelections={Object.keys(selectedAnnotations).length}
           onDelete={() => {
             dispatch({

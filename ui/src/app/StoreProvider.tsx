@@ -628,7 +628,13 @@ export const reduceAccessibleForm = (
     }
     case "CREATE_LABEL_RELATION": {
       if (action.payload.to.tokens.length === 0) return previous;
-      return produceWithUndo(previous, (draft) => {
+      const res = produceWithUndo(previous, (draft) => {
+        Object.keys(draft.labelRelations).forEach((key) => {
+          if (draft.labelRelations[key] === action.payload.from) {
+            delete draft.annotations[key];
+            delete draft.labelRelations[key];
+          }
+        });
         draft.annotations[action.payload.to.ui.id] = {
           ...action.payload.to.ui,
           ...boxContaining(action.payload.to.tokens, 3),
@@ -639,6 +645,8 @@ export const reduceAccessibleForm = (
         draft.selectedAnnotations = {};
         return;
       });
+      console.log(res.labelRelations);
+      return res;
     }
     case "CREATE_GROUP_RELATION": {
       if (action.payload.from.tokens.length === 0) return previous;

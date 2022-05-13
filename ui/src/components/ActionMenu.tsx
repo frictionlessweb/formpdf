@@ -81,48 +81,54 @@ interface LabelLayerActionMenuProps {
   totalSelections: number;
   onUpdateLabel: () => void;
   onDelete: () => void;
+  showDelete: boolean;
 }
 
 export const LabelLayerActionMenu: React.FC<LabelLayerActionMenuProps> = ({
   onDelete,
   onUpdateLabel,
   totalSelections,
+  showDelete,
 }) => {
-  return (
-    <Container>
-      {
-        // Update label operation can be performed only when one annotation is selected.
-        totalSelections === 1 && (
-          <ActionMenuItem
-            // We have to prevent the default behaviour for
-            // the pdf canvas here, in order to be able to capture
-            // the click event.
-            onClick={(e) => {
-              onUpdateLabel();
-              e.stopPropagation();
-            }}
-            onMouseDown={(e) => {
-              e.stopPropagation();
-            }}>
-            Update Label
-          </ActionMenuItem>
-        )
-      }
-      <ActionMenuItem
-        // We have to prevent the default behaviour for
-        // the pdf canvas here, in order to be able to capture
-        // the click event.
-        onClick={(e) => {
-          onDelete();
-          e.stopPropagation();
-        }}
-        onMouseDown={(e) => {
-          e.stopPropagation();
-        }}>
-        Delete
-      </ActionMenuItem>
-    </Container>
-  );
+  if (showDelete) {
+    return (
+      <Container>
+        <ActionMenuItem
+          // We have to prevent the default behaviour for
+          // the pdf canvas here, in order to be able to capture
+          // the click event.
+          onClick={(e) => {
+            onDelete();
+            e.stopPropagation();
+          }}
+          onMouseDown={(e) => {
+            e.stopPropagation();
+          }}>
+          Delete
+        </ActionMenuItem>
+      </Container>
+    );
+  }
+  if (totalSelections === 1) {
+    return (
+      <Container>
+        <ActionMenuItem
+          // We have to prevent the default behaviour for
+          // the pdf canvas here, in order to be able to capture
+          // the click event.
+          onClick={(e) => {
+            onUpdateLabel();
+            e.stopPropagation();
+          }}
+          onMouseDown={(e) => {
+            e.stopPropagation();
+          }}>
+          Update Label
+        </ActionMenuItem>
+      </Container>
+    );
+  }
+  return null;
 };
 
 interface GroupLayerActionMenuProps {
