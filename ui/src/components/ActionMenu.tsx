@@ -134,12 +134,15 @@ export const LabelLayerActionMenu: React.FC<LabelLayerActionMenuProps> = ({
 interface GroupLayerActionMenuProps {
   onDelete: () => void;
   onCreateNewGroup: () => void;
+  show: boolean;
 }
 
 export const GroupLayerActionMenu: React.FC<GroupLayerActionMenuProps> = ({
   onDelete,
   onCreateNewGroup,
+  show,
 }) => {
+  if (!show) return null;
   return (
     <Container>
       <ActionMenuItem
