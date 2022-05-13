@@ -37,6 +37,8 @@ describe("Our form reducer", () => {
       top: 5,
       left: 5,
       border: "pink",
+      corrected: false,
+      page: 1,
     } as const;
     const created = reduce(init, {
       type: "CREATE_ANNOTATION",
@@ -74,6 +76,8 @@ describe("Our form reducer", () => {
       top: 5,
       left: 5,
       border: "pink",
+      corrected: false,
+      page: 1,
     } as const;
     const res = reduce(init, {
       type: "CREATE_ANNOTATION",
@@ -89,6 +93,8 @@ describe("Our form reducer", () => {
         id: "1",
         backgroundColor: "red",
         border: "2px solid blue",
+        corrected: false,
+        page: 1,
       },
     };
     const res = reduce(init, {
@@ -108,6 +114,8 @@ describe("Our form reducer", () => {
         id: "1",
         backgroundColor: "red",
         border: "2px solid blue",
+        corrected: false,
+        page: 1,
       },
     };
     const res = reduce(init, {
@@ -126,6 +134,8 @@ describe("Our form reducer", () => {
       top: 5,
       left: 5,
       border: "pink",
+      page: 1,
+      corrected: false,
     } as const;
     const res = reduce(init, {
       type: "CREATE_ANNOTATION",
@@ -146,6 +156,8 @@ describe("Our form reducer", () => {
       top: 5,
       left: 5,
       border: "pink",
+      corrected: false,
+      page: 1,
     } as const;
     const length = Object.keys(init.annotations).length;
     const created = reduce(init, {
@@ -167,6 +179,8 @@ describe("Our form reducer", () => {
       width: 10,
       top: 5,
       left: 5,
+      corrected: false,
+      page: 1,
       border: "pink",
     } as const;
     const created = reduce(init, {
@@ -190,6 +204,8 @@ describe("Our form reducer", () => {
       top: 5,
       left: 5,
       border: "pink",
+      corrected: false,
+      page: 1,
     } as const;
     const created = reduce(init, {
       type: "CREATE_ANNOTATION",
@@ -211,6 +227,8 @@ describe("Our form reducer", () => {
       height: 10,
       width: 10,
       border: "pink",
+      corrected: false,
+      page: 1,
     } as const;
     const created = reduce(init, {
       type: "CREATE_ANNOTATION",
@@ -237,6 +255,8 @@ describe("Our form reducer", () => {
       height: 10,
       width: 10,
       border: "pink",
+      corrected: false,
+      page: 1,
     } as const;
     const created = reduce(init, {
       type: "CREATE_ANNOTATION",
@@ -256,6 +276,7 @@ describe("Our form reducer", () => {
     expect(moved.annotations["1"].height).toBe(40);
     expect(moved.annotations["1"].top).toBe(20);
     expect(moved.annotations["1"].left).toBe(10);
+    expect(moved.annotations["1"].corrected).toBe(true);
   });
   test("We can select an annotation", () => {
     const payload = {
@@ -267,6 +288,8 @@ describe("Our form reducer", () => {
       height: 10,
       width: 10,
       border: "pink",
+      corrected: false,
+      page: 1,
     } as const;
     const created = reduce(init, {
       type: "CREATE_ANNOTATION",
@@ -288,6 +311,8 @@ describe("Our form reducer", () => {
       height: 10,
       width: 10,
       border: "pink",
+      corrected: false,
+      page: 1,
     } as const;
     const created = reduce(init, {
       type: "CREATE_ANNOTATION",
@@ -313,6 +338,8 @@ describe("Our form reducer", () => {
       height: 10,
       width: 10,
       border: "pink",
+      corrected: false,
+      page: 1,
     } as const;
     const payload2 = {
       id: "2",
@@ -323,6 +350,8 @@ describe("Our form reducer", () => {
       height: 5,
       width: 5,
       border: "pink",
+      corrected: false,
+      page: 1,
     } as const;
     const createdFirst = reduce(init, {
       type: "CREATE_ANNOTATION",
@@ -466,7 +495,7 @@ describe("Our form reducer", () => {
     expect(res.tokens[0][0].width).toEqual(25);
     window.devicePixelRatio = 1;
   });
-  test("We set annotation type", () => {
+  test("We can set the annotation type", () => {
     const payload = {
       id: "1",
       backgroundColor: "lightpink",
@@ -476,6 +505,8 @@ describe("Our form reducer", () => {
       height: 5,
       width: 5,
       border: "pink",
+      corrected: false,
+      page: 1,
     } as const;
     const created = reduce(init, {
       type: "CREATE_ANNOTATION",
@@ -489,6 +520,7 @@ describe("Our form reducer", () => {
       },
     });
     expect(changed.annotations["1"].type).toBe("CHECKBOX");
+    expect(changed.annotations["1"].corrected).toBe(true);
   });
   test("We can set step of the process and when we do it tool automatically gets changed to select", () => {
     const changedTool = reduce(init, {
@@ -510,6 +542,8 @@ describe("Our form reducer", () => {
         backgroundColor: "lightpink",
         type: "TEXTBOX" as ANNOTATION_TYPE,
         border: "3px solid grey",
+        corrected: false,
+        page: 1,
       },
       tokens: [
         {
@@ -529,6 +563,54 @@ describe("Our form reducer", () => {
       },
     });
     expect(relationCreated.annotations["1"].id).toEqual("1");
+    expect(relationCreated.annotations["1"].corrected).toEqual(true);
+    expect(relationCreated.labelRelations["1"]).toEqual("2");
+    expect(relationCreated.tool).toEqual("SELECT");
+    expect(relationCreated.selectedAnnotations).toEqual({});
+  });
+  test("One label relation replaces another", () => {
+    const to = {
+      ui: {
+        id: "1",
+        backgroundColor: "lightpink",
+        type: "TEXTBOX" as ANNOTATION_TYPE,
+        border: "3px solid grey",
+        corrected: false,
+        page: 1,
+      },
+      tokens: [
+        {
+          height: 10,
+          width: 10,
+          top: 5,
+          left: 5,
+          border: "pink",
+        },
+      ],
+    };
+    const relationCreated = reduce(init, {
+      type: "CREATE_LABEL_RELATION",
+      payload: {
+        to,
+        from: "2",
+      },
+    });
+    const relationCreatedAgain = reduce(relationCreated, {
+      type: "CREATE_LABEL_RELATION",
+      payload: {
+        to: {
+          ...to,
+          ui: {
+            ...to.ui,
+            id: "3",
+          },
+        },
+        from: "2",
+      },
+    });
+    expect(Object.keys(relationCreatedAgain.labelRelations).length).toEqual(1);
+    expect(relationCreated.annotations["1"].id).toEqual("1");
+    expect(relationCreated.annotations["1"].corrected).toEqual(true);
     expect(relationCreated.labelRelations["1"]).toEqual("2");
     expect(relationCreated.tool).toEqual("SELECT");
     expect(relationCreated.selectedAnnotations).toEqual({});
@@ -540,6 +622,8 @@ describe("Our form reducer", () => {
         backgroundColor: "lightpink",
         type: "TEXTBOX" as ANNOTATION_TYPE,
         border: "3px solid grey",
+        corrected: false,
+        page: 1,
       },
       tokens: [],
     };
@@ -633,10 +717,9 @@ describe("Our form reducer", () => {
     const res = reduce(
       { ...init, showLoadingScreen: true },
       {
-        type: "CHANGE_STEP_AND_ANNOTATIONS",
+        type: "INCREMENT_STEP_AND_ANNOTATIONS",
         payload: {
           annotations: [],
-          step: "SECTION_LAYER",
         },
       }
     );
@@ -644,12 +727,11 @@ describe("Our form reducer", () => {
   });
   test("When we change the step and annotations, the step changes as well", () => {
     const res = reduce(
-      { ...init, showLoadingScreen: true },
+      { ...init, showLoadingScreen: true, step: "LABEL_LAYER" },
       {
-        type: "CHANGE_STEP_AND_ANNOTATIONS",
+        type: "INCREMENT_STEP_AND_ANNOTATIONS",
         payload: {
           annotations: [],
-          step: "GROUP_LAYER",
         },
       }
     );
@@ -659,7 +741,7 @@ describe("Our form reducer", () => {
     const res = reduce(
       { ...init, showLoadingScreen: true },
       {
-        type: "CHANGE_STEP_AND_ANNOTATIONS",
+        type: "INCREMENT_STEP_AND_ANNOTATIONS",
         payload: {
           annotations: [
             [
@@ -673,7 +755,6 @@ describe("Our form reducer", () => {
               },
             ],
           ],
-          step: "SECTION_LAYER",
         },
       }
     );
@@ -685,7 +766,7 @@ describe("Our form reducer", () => {
     const res = reduce(
       { ...init, tool: "CREATE" },
       {
-        type: "CHANGE_STEP_AND_ANNOTATIONS",
+        type: "INCREMENT_STEP_AND_ANNOTATIONS",
         payload: {
           annotations: [
             [
@@ -699,7 +780,6 @@ describe("Our form reducer", () => {
               },
             ],
           ],
-          step: "SECTION_LAYER",
         },
       }
     );
@@ -708,5 +788,21 @@ describe("Our form reducer", () => {
   test("We can goto the next step", () => {
     const res = reduce(init, { type: "GOTO_NEXT_STEP" });
     expect(res.step).toEqual("FIELD_LAYER");
+  });
+  test("We can goto a previous step", () => {
+    const next = reduce(init, { type: "GOTO_NEXT_STEP" });
+    const prev = reduce(next, {
+      type: "GOTO_PREVIOUS_STEP",
+      payload: "SECTION_LAYER",
+    });
+    expect(prev.step).toEqual("SECTION_LAYER");
+  });
+  test("We can't skip ahead with goto previous step", () => {
+    const next = reduce(init, { type: "GOTO_NEXT_STEP" });
+    const prev = reduce(next, {
+      type: "GOTO_PREVIOUS_STEP",
+      payload: "GROUP_LAYER",
+    });
+    expect(prev.step).toEqual("FIELD_LAYER");
   });
 });

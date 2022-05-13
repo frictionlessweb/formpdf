@@ -58,3 +58,25 @@ export const boxContaining = (tokens: Bounds[], padding: number): Bounds => {
     height: height + padding,
   };
 };
+
+// const fetchNewAnnotations = async (step: Step) => {
+//     dispatch({ type: "SHOW_LOADING_SCREEN" });
+//     const res = await window.fetch(
+//       `${process.env.REACT_APP_API_PATH || ""}/annotations`,
+//       {
+//         method: "POST",
+//         headers: {
+//           "Content-Type": "application/json",
+//         },
+//         body: JSON.stringify({ pages, width, height }),
+//       }
+//     );
+//     const { annotations } = await res.json();
+//     dispatch({
+//       type: "CHANGE_STEP_AND_ANNOTATIONS",
+//       payload: {
+//         step,
+//         annotations,
+//       },
+//     });
+//   };

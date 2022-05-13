@@ -56,10 +56,11 @@ export const useFieldLayer = (
     resetCreationState,
     updateCreationState,
   } = attr;
-  const { tool, selectedAnnotations } = useSelector((state) => {
+  const { tool, selectedAnnotations, page } = useSelector((state) => {
     return {
       tool: state.tool,
       selectedAnnotations: state.selectedAnnotations,
+      page: state.page,
     };
   });
   const dispatch = useDispatch();
@@ -85,6 +86,8 @@ export const useFieldLayer = (
                   backgroundColor: "rgb(36, 148, 178, 0.4)",
                   border: "3px solid rgb(36, 148, 178)",
                   type: "LABEL" as ANNOTATION_TYPE,
+                  page,
+                  corrected: true,
                 },
                 tokens: creationState.tokens,
               },
@@ -137,9 +140,10 @@ const CreateLink: React.FC<CreationProps> = (props) => {
 export const LabelLayerSelectAnnotation: React.FC<AnnotationStatic> = (
   props
 ) => {
-  const { selectedAnnotations } = useSelector((state) => {
+  const { selectedAnnotations, labelRelations } = useSelector((state) => {
     const selectedAnnotations = state.selectedAnnotations;
-    return { selectedAnnotations };
+    const labelRelations = state.labelRelations;
+    return { selectedAnnotations, labelRelations };
   });
   const dispatch = useDispatch();
   const { id, type, children, ...cssProps } = props;
@@ -147,6 +151,7 @@ export const LabelLayerSelectAnnotation: React.FC<AnnotationStatic> = (
     ...cssProps,
     position: "absolute" as const,
   };
+  const hasRelation = Boolean(labelRelations[id]);
   const isSelected = Boolean(selectedAnnotations[id]);
   const isFirstSelection = Object.keys(selectedAnnotations)[0] === id;
   return (
@@ -177,6 +182,7 @@ export const LabelLayerSelectAnnotation: React.FC<AnnotationStatic> = (
       }}>
       {isFirstSelection && (
         <LabelLayerActionMenu
+          showDelete={hasRelation}
           totalSelections={Object.keys(selectedAnnotations).length}
           onDelete={() => {
             dispatch({
@@ -222,7 +228,12 @@ const RelationshipLink: React.FC<RelationshipLinkProps> = (props) => {
 };
 
 const SelectAnnotation: React.FC = () => {
-  const annotations = useSelector((state) => Object.values(state.annotations));
+  const annotations = useSelector((state) =>
+    Object.values(state.annotations).filter(
+      (annotation) =>
+        annotation.height + annotation.top < state.sliderPosition.y
+    )
+  );
   return (
     <>
       {annotations.map((annotation) => {

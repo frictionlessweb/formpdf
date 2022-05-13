@@ -3,6 +3,7 @@ import fastapi
 from pydantic import BaseModel
 import random
 import uuid
+import sys
 
 app = fastapi.FastAPI()
 
@@ -22,10 +23,23 @@ class AnnotationsResponse(BaseModel):
     annotations: list[list[Bounds]]
 
 
+class Annotation(BaseModel):
+    id: str
+    type: str
+    top: float
+    left: float
+    width: float
+    height: float
+    backgroundColor: str
+    page: int
+    corrected: bool
+
+
 class AnnotationsRequest(BaseModel):
     pages: int
     width: int
     height: int
+    annotations: dict[str, Annotation]
 
 
 @app.post("/annotations")

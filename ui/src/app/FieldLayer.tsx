@@ -22,7 +22,12 @@ export const useFieldLayer = (
 ) => {
   const attr = useCreateAnnotation(div);
   const dispatch = useDispatch();
-  const tool = useSelector((state) => state.tool);
+  const { tool, page } = useSelector((state) => {
+    return {
+      tool: state.tool,
+      page: state.page,
+    };
+  });
   const {
     div: container,
     creationState,
@@ -46,6 +51,8 @@ export const useFieldLayer = (
             type: "CREATE_ANNOTATION",
             payload: {
               id: window.crypto.randomUUID(),
+              page,
+              corrected: true,
               backgroundColor: "rgb(255, 182, 193, 0.3)",
               border: "3px solid red",
               type: "TEXTBOX",
@@ -191,7 +198,12 @@ export const FieldLayerAnnotation: React.FC<AnnotationProps> = (props) => {
 
 const FieldLayer: React.FC<LayerControllerProps> = (props) => {
   const { pdf, container } = props;
-  const annotations = useSelector((state) => state.annotations);
+  const { annotations, height } = useSelector((state) => {
+    return {
+      annotations: state.annotations,
+      height: state.sliderPosition.y,
+    };
+  });
   const layer = useFieldLayer(container);
   return (
     <HandlerLayer
@@ -208,9 +220,11 @@ const FieldLayer: React.FC<LayerControllerProps> = (props) => {
         onMouseDown={NO_OP}
         onMouseMove={NO_OP}
       />
-      {Object.values(annotations).map((annotation) => {
-        return <FieldLayerAnnotation key={annotation.id} {...annotation} />;
-      })}
+      {Object.values(annotations)
+        .filter((annotation) => annotation.top + annotation.height < height)
+        .map((annotation) => {
+          return <FieldLayerAnnotation key={annotation.id} {...annotation} />;
+        })}
     </HandlerLayer>
   );
 };

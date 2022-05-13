@@ -31,12 +31,13 @@ const useGroupLayer = (div: React.MutableRefObject<HTMLDivElement | null>) => {
     updateCreationState,
   } = attr;
   const dispatch = useDispatch();
-  const { tool, selectedAnnotations } = useSelector((state) => {
+  const { tool, selectedAnnotations, page } = useSelector((state) => {
     const tool = state.tool;
     const selectedAnnotations = state.selectedAnnotations;
     return {
       tool,
       selectedAnnotations,
+      page: state.page,
     };
   });
   switch (tool) {
@@ -61,6 +62,8 @@ const useGroupLayer = (div: React.MutableRefObject<HTMLDivElement | null>) => {
                   backgroundColor: "rgb(36, 148, 178, 0.4)",
                   border: "3px solid rgb(36, 148, 178)",
                   type: "GROUP_LABEL" as ANNOTATION_TYPE,
+                  page,
+                  corrected: true,
                 },
                 tokens: creationState.tokens,
               },
@@ -158,6 +161,7 @@ const GroupLayerSelectAnnotation: React.FC<AnnotationStatic> = (
       }}>
       {isFirstSelection && (
         <GroupLayerActionMenu
+          show={type === "GROUP_LABEL"}
           onDelete={() => {
             if (type === "GROUP_LABEL") {
               dispatch({
@@ -198,38 +202,43 @@ const GroupLayerSelectAnnotation: React.FC<AnnotationStatic> = (
 };
 
 const GroupLayerSelections = () => {
-  const { annotationsToGroup, labelRelations } = useSelector((state) => {
-    const annotations = state.annotations;
-    const annotationsToGroup = Object.values(state.annotations).filter(
-      shouldBeGrouped
-    );
-    const labelRelations = state.labelRelations;
-    return { annotations, annotationsToGroup, labelRelations };
-  });
+  const { annotationsToGroup, labelRelations, height } = useSelector(
+    (state) => {
+      const annotations = state.annotations;
+      const annotationsToGroup = Object.values(state.annotations).filter(
+        shouldBeGrouped
+      );
+      const labelRelations = state.labelRelations;
+      const height = state.sliderPosition.y;
+      return { annotations, annotationsToGroup, labelRelations, height };
+    }
+  );
   return (
     <>
-      {annotationsToGroup.map((annotation) => {
-        const labelId: string = labelRelations[annotation.id];
-        const isGroupLabel = labelId && annotation.type === "GROUP_LABEL";
-        return (
-          <React.Fragment key={annotation.id}>
-            <GroupLayerSelectAnnotation {...annotation} />
-            {isGroupLabel && (
-              <Xarrow
-                start={annotation.id}
-                end={labelRelations[annotation.id]}
-                endAnchor="middle"
-                headSize={2}
-                headShape="circle"
-                // This curveness 0.01 is used to make the arrow look straight.
-                // we could have used path="straight" property but it gives the
-                // following error - Error: <path> attribute d: Expected number...
-                curveness={0.01}
-              />
-            )}
-          </React.Fragment>
-        );
-      })}
+      {annotationsToGroup
+        .filter((annotation) => annotation.top + annotation.height < height)
+        .map((annotation) => {
+          const labelId: string = labelRelations[annotation.id];
+          const isGroupLabel = labelId && annotation.type === "GROUP_LABEL";
+          return (
+            <React.Fragment key={annotation.id}>
+              <GroupLayerSelectAnnotation {...annotation} />
+              {isGroupLabel && (
+                <Xarrow
+                  start={annotation.id}
+                  end={labelRelations[annotation.id]}
+                  endAnchor="middle"
+                  headSize={2}
+                  headShape="circle"
+                  // This curveness 0.01 is used to make the arrow look straight.
+                  // we could have used path="straight" property but it gives the
+                  // following error - Error: <path> attribute d: Expected number...
+                  curveness={0.01}
+                />
+              )}
+            </React.Fragment>
+          );
+        })}
     </>
   );
 };

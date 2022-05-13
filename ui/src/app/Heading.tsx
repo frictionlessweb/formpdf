@@ -6,7 +6,7 @@ import Panel from "../components/Panel";
 import { useSelector, useDispatch, Step } from "./StoreProvider";
 
 const useHeading = () => {
-  const { activeStep, width, height, pages } = useSelector((state) => {
+  const { activeStep } = useSelector((state) => {
     return {
       activeStep: state.step,
       width: state.width,
@@ -15,35 +15,14 @@ const useHeading = () => {
     };
   });
   const dispatch = useDispatch();
-  const fetchNewAnnotations = async (step: Step) => {
-    dispatch({ type: "SHOW_LOADING_SCREEN" });
-    const res = await window.fetch(
-      `${process.env.REACT_APP_API_PATH || ""}/annotations`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ pages, width, height }),
-      }
-    );
-    const { annotations } = await res.json();
-    dispatch({
-      type: "CHANGE_STEP_AND_ANNOTATIONS",
-      payload: {
-        step,
-        annotations,
-      },
-    });
+  const gotoPreviousStep = async (step: Step) => {
+    dispatch({ type: "GOTO_PREVIOUS_STEP", payload: step });
   };
-  return {
-    activeStep,
-    fetchNewAnnotations,
-  };
+  return { activeStep, gotoPreviousStep };
 };
 
 const Heading: React.FC<BoxProps> = (props) => {
-  const { activeStep, fetchNewAnnotations } = useHeading();
+  const { activeStep, gotoPreviousStep } = useHeading();
   return (
     <Box display="flex" justifyContent="space-between" width="100%" {...props}>
       <div css={{ width: "10%" }}>
@@ -51,7 +30,7 @@ const Heading: React.FC<BoxProps> = (props) => {
       </div>
       <Steps
         width="80%"
-        onStepChange={fetchNewAnnotations}
+        onStepChange={gotoPreviousStep}
         activeStep={activeStep}
       />
       <Panel width="10%" />

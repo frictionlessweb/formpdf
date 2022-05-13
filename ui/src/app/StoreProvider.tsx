@@ -61,12 +61,18 @@ export type AnnotationUIState = {
   border: string;
   // What is the the type of the annotation?
   type: ANNOTATION_TYPE;
+  // On which page should we show this annotation?
+  page: number;
+  // Has the user modified this annotation?
+  corrected: boolean;
 };
 
 export type Annotation = Bounds & AnnotationUIState;
 
 export type ApiAnnotation = Bounds & {
+  // What is the ID of this annotation?
   id: AnnotationId;
+  // What is the type of this annotation?
   type: ANNOTATION_TYPE;
 };
 
@@ -74,8 +80,7 @@ export type Step =
   | "SECTION_LAYER"
   | "FIELD_LAYER"
   | "LABEL_LAYER"
-  | "GROUP_LAYER"
-  | "TOOLTIP_LAYER";
+  | "GROUP_LAYER";
 
 interface StepDescription {
   // Which step are we referring to?
@@ -110,12 +115,6 @@ export const STEPS: Array<StepDescription> = [
     title: "Groups",
     description:
       "Ensure the checkbox and radiobox are grouped properly and have group names. If not, you can select multiple boxes by dragging or Shift+Click and use popup menu to group fields. ",
-  },
-  {
-    id: "TOOLTIP_LAYER",
-    title: "Tooltips",
-    description:
-      "Ensure these field descriptions (tooltips) are sufficient. If needed, add more information about the field using the edit button.",
   },
 ];
 
@@ -223,6 +222,8 @@ const getPredictedAnnotations = () => {
       left,
       width,
       height,
+      page: 0,
+      corrected: false,
     };
   });
   return predictedAnnotations;
@@ -258,6 +259,7 @@ export const DEFAULT_ACCESSIBLE_FORM: AccessibleForm = {
 export type AccessibleFormAction =
   | { type: "CHANGE_CURRENT_STEP"; payload: Step }
   | { type: "GOTO_NEXT_STEP" }
+  | { type: "GOTO_PREVIOUS_STEP"; payload: Step }
   | { type: "CHANGE_ZOOM"; payload: number }
   | { type: "CHANGE_PAGE"; payload: number }
   | { type: "CHANGE_TOOL"; payload: TOOL }
@@ -315,9 +317,8 @@ export type AccessibleFormAction =
       payload: Step;
     }
   | {
-      type: "CHANGE_STEP_AND_ANNOTATIONS";
+      type: "INCREMENT_STEP_AND_ANNOTATIONS";
       payload: {
-        step: Step;
         annotations: Array<Array<ApiAnnotation>>;
       };
     }
@@ -396,6 +397,19 @@ export const reduceAccessibleForm = (
 ): AccessibleForm => {
   if (previous === undefined) return DEFAULT_ACCESSIBLE_FORM;
   switch (action.type) {
+    case "GOTO_PREVIOUS_STEP": {
+      return produce(previous, (draft) => {
+        const currentStep = STEPS.findIndex((aStep) => aStep.id === draft.step);
+        if (currentStep === -1) return;
+        const previousStep = STEPS.findIndex(
+          (aStep) => aStep.id === action.payload
+        );
+        if (previousStep === -1) return;
+        if (previousStep < currentStep) {
+          draft.step = action.payload;
+        }
+      });
+    }
     case "GOTO_NEXT_STEP": {
       return produce(previous, (draft) => {
         const idx = STEPS.findIndex((aStep) => aStep.id === draft.step);
@@ -506,6 +520,7 @@ export const reduceAccessibleForm = (
         annotation.height = action.payload.height;
         annotation.top = action.payload.y;
         annotation.left = action.payload.x;
+        annotation.corrected = true;
         return;
       });
     }
@@ -565,6 +580,7 @@ export const reduceAccessibleForm = (
         action.payload.ids.forEach((id) => {
           const annotation = draft.annotations[id];
           annotation.type = action.payload.type;
+          annotation.corrected = true;
         });
         return;
       });
@@ -579,11 +595,12 @@ export const reduceAccessibleForm = (
         draft.tool = "SELECT";
       });
     }
-    case "CHANGE_STEP_AND_ANNOTATIONS": {
+    case "INCREMENT_STEP_AND_ANNOTATIONS": {
       const scale = window.devicePixelRatio;
       return produce(previous, (draft) => {
         const newAnnotations: Record<AnnotationId, Annotation> = {};
-        for (const page of action.payload.annotations) {
+        for (let i = 0; i < action.payload.annotations.length; ++i) {
+          const page = action.payload.annotations[i];
           for (const annotation of page) {
             newAnnotations[annotation.id as AnnotationId] = {
               id: annotation.id,
@@ -594,27 +611,42 @@ export const reduceAccessibleForm = (
               left: annotation.left * scale,
               border: ANNOTATION_BORDER,
               backgroundColor: ANNOTATION_COLOR,
+              page: i + 1,
+              corrected: false,
             };
           }
         }
         draft.showLoadingScreen = false;
         draft.annotations = newAnnotations;
-        draft.step = action.payload.step;
         draft.tool = "SELECT";
+        const idx = STEPS.findIndex((aStep) => aStep.id === draft.step);
+        if (idx === -1) return;
+        const nextStep = STEPS[idx + 1]?.id;
+        if (nextStep === undefined) return;
+        draft.step = nextStep;
       });
     }
     case "CREATE_LABEL_RELATION": {
       if (action.payload.to.tokens.length === 0) return previous;
-      return produceWithUndo(previous, (draft) => {
+      const res = produceWithUndo(previous, (draft) => {
+        Object.keys(draft.labelRelations).forEach((key) => {
+          if (draft.labelRelations[key] === action.payload.from) {
+            delete draft.annotations[key];
+            delete draft.labelRelations[key];
+          }
+        });
         draft.annotations[action.payload.to.ui.id] = {
           ...action.payload.to.ui,
           ...boxContaining(action.payload.to.tokens, 3),
+          corrected: true,
         };
         draft.labelRelations[action.payload.to.ui.id] = action.payload.from;
         draft.tool = "SELECT";
         draft.selectedAnnotations = {};
         return;
       });
+      console.log(res.labelRelations);
+      return res;
     }
     case "CREATE_GROUP_RELATION": {
       if (action.payload.from.tokens.length === 0) return previous;
@@ -622,6 +654,8 @@ export const reduceAccessibleForm = (
         draft.annotations[action.payload.from.ui.id] = {
           ...action.payload.from.ui,
           ...boxContaining(action.payload.from.tokens, 3),
+          corrected: true,
+          page: draft.page,
         };
         draft.groupRelations[action.payload.from.ui.id] = action.payload.to;
         draft.selectedAnnotations = { [action.payload.from.ui.id]: true };
