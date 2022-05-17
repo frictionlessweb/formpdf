@@ -49,21 +49,24 @@ for i, image in enumerate(images):
 form_data = json.load(open("form.json"))
 form_scale_factor = 0.36
 
-# FIXME: Here we don't take into account the page number. We need to fix this!
-all_predictions=[]
-for token_class in form_data.keys():
-    for token in form_data[token_class]:
-        if(token["jsonClass"] == "Widget"):
-            all_predictions.append({
+all_predictions = []
+# here we can define which of the token classes we want to include such as TextRun, Widget, ChoiceGroups.
+included_token_classes = ["Widget"]
+for page_data in form_data:
+    mapped_page_data = []
+    for token_class in included_token_classes:
+        for token in page_data[token_class]:
+            mapped_page_data.append({
                 "top": token["y"] * form_scale_factor,
                 "left": token["x"] * form_scale_factor,
                 "width": token["w"] * form_scale_factor,
                 "height": token["h"] * form_scale_factor,
                 "class": token["jsonClass"],
             })
+    all_predictions.append(mapped_page_data)
 
-with open("../src/app/tokens.json", "w", encoding="utf-8") as f:
+with open("../ui/src/app/tokens.json", "w", encoding="utf-8") as f:
     json.dump(all_tokens, f, ensure_ascii=False, indent=4)
-    
-with open("../src/app/predictions.json", "w", encoding="utf-8") as f:
+
+with open("../ui/src/app/predictions.json", "w", encoding="utf-8") as f:
     json.dump(all_predictions, f, ensure_ascii=False, indent=4)
