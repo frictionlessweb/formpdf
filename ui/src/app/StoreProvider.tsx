@@ -256,7 +256,7 @@ export const DEFAULT_ACCESSIBLE_FORM: AccessibleForm = {
   zoom: 1,
   page: 1,
   width: 1000,
-  height: 550,
+  height: 800,
   showResizeModal: false,
   sliderPosition: {
     height: 3000,
