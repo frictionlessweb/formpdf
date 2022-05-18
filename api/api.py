@@ -3,11 +3,12 @@ import fastapi
 from pydantic import BaseModel
 import random
 import uuid
-import sys
 
 app = fastapi.FastAPI()
 
-ANNOTATION_TYPES = ["TEXTBOX", "RADIOBOX", "CHECKBOX", "LABEL", "GROUP", "GROUP_LABEL"]
+ANNOTATION_TYPES = ["TEXTBOX", "RADIOBOX", "CHECKBOX"]
+
+# ["LABEL", "GROUP", "GROUP_LABEL"]
 
 
 class Bounds(BaseModel):
@@ -21,6 +22,8 @@ class Bounds(BaseModel):
 
 class AnnotationsResponse(BaseModel):
     annotations: list[list[Bounds]]
+    labelRelations: dict[str, str]
+    groupRelations: dict[str, list[str]]
 
 
 class Annotation(BaseModel):
@@ -39,24 +42,45 @@ class AnnotationsRequest(BaseModel):
     pages: int
     width: int
     height: int
-    annotations: dict[str, Annotation]
+    annotations: dict[str, Bounds]
+
+
+def random_annotation(page: int, height: int, type=None) -> Bounds:
+    return Bounds(
+        id=str(uuid.uuid4()),
+        top=random.randint(5, 100) + (1 * page * height),
+        left=random.randint(5, 300),
+        width=random.randint(10, 50),
+        height=random.randint(10, 50),
+        type=random.choice(ANNOTATION_TYPES) if not type else type,
+    )
 
 
 @app.post("/annotations")
 def send_boxes(req: AnnotationsRequest) -> AnnotationsResponse:
+    labelRelations: dict[str, str] = {}
+    groupRelations: dict[str, list[str]] = {}
+    raw_annotations = [
+        [random_annotation(page, req.height) for _ in range(10)]
+        for page in range(req.pages)
+    ]
+    annotations = []
+    for page_num, page in enumerate(raw_annotations):
+        new_annotations = []
+
+        for annotation in page:
+            new_annotations.append(annotation)
+
+        for _ in range(3):
+            make_label = random.choice(new_annotations)
+            to = random_annotation(page_num, req.height, "LABEL")
+            new_annotations.append(to)
+            labelRelations[to.id] = make_label.id
+
+        annotations.append(new_annotations)
+
     return AnnotationsResponse(
-        annotations=[
-            [
-                Bounds(
-                    id=str(uuid.uuid4()),
-                    top=random.randint(5, 100),
-                    left=random.randint(5, 300),
-                    width=random.randint(10, 50),
-                    height=random.randint(10, 50),
-                    type=random.choice(ANNOTATION_TYPES),
-                )
-                for _ in range(random.randint(20, 50))
-            ]
-            for _ in range(req.pages)
-        ]
+        annotations=annotations,
+        labelRelations=labelRelations,
+        groupRelations=groupRelations,
     )

@@ -161,7 +161,7 @@ const GroupLayerSelectAnnotation: React.FC<AnnotationStatic> = (
       }}>
       {isFirstSelection && (
         <GroupLayerActionMenu
-          show={type === "GROUP_LABEL"}
+          type={type}
           onDelete={() => {
             if (type === "GROUP_LABEL") {
               dispatch({

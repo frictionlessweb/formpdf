@@ -13,9 +13,9 @@ def test_bounds():
         )
     )
     assert len(res.annotations) == pages
-    for page in res.annotations:
+    for i, page in enumerate(res.annotations):
         for token in page:
-            assert token.top > 0 and token.top < height
+            assert token.top > 0 and token.top < height + (i * 500)
             assert token.left > 0 and token.left < width
             assert token.width < width
             assert token.height < height

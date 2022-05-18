@@ -221,7 +221,11 @@ const FieldLayer: React.FC<LayerControllerProps> = (props) => {
         onMouseMove={NO_OP}
       />
       {Object.values(annotations)
-        .filter((annotation) => annotation.top + annotation.height < height)
+        .filter(
+          (annotation) =>
+            annotation.top + annotation.height < height &&
+            ["CHECKBOX", "TEXTBOX", "RADIOBOX"].includes(annotation.type)
+        )
         .map((annotation) => {
           return <FieldLayerAnnotation key={annotation.id} {...annotation} />;
         })}

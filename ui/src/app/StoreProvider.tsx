@@ -204,27 +204,48 @@ export const ANNOTATION_COLOR = "rgb(255, 182, 193, 0.3)";
 
 export const ANNOTATION_BORDER = "3px solid red";
 
+const Borders: Record<ANNOTATION_TYPE, string> = {
+  TEXTBOX: "3px solid red",
+  CHECKBOX: "3px solid red",
+  RADIOBOX: "3px solid red",
+  LABEL: "3px solid rgb(36, 148, 178, 0.4)",
+  GROUP: "3px solid rgb(36, 148, 178, 0.4)",
+  GROUP_LABEL: "3px solid rgb(36, 148, 178, 0.4)",
+};
+
+const BackgroundColors: Record<ANNOTATION_TYPE, string> = {
+  TEXTBOX: "rgb(255, 182, 193, 0.3)",
+  CHECKBOX: "rgb(255, 182, 193, 0.3)",
+  RADIOBOX: "rgb(255, 182, 193, 0.3)",
+  LABEL: "rgb(36, 148, 178, 0.4)",
+  GROUP: "rgb(36, 148, 178, 0.4)",
+  GROUP_LABEL: "rgb(36, 148, 178, 0.4)",
+};
+
 // FIXME: Here we need to implement page logic.
 // This function grabs the prediction from prediction.json, creates
 // annotation out of them and its output is used to populate annotations
 // in DEFAULT_ACCESSIBLE_FORM.
 const getPredictedAnnotations = () => {
   const predictedAnnotations: Record<AnnotationId, Annotation> = {};
-  PREDICTIONS.forEach((prediction) => {
-    const { top, left, width, height } = prediction;
-    const id: AnnotationId = window.crypto.randomUUID();
-    predictedAnnotations[id] = {
-      id,
-      backgroundColor: ANNOTATION_COLOR,
-      border: ANNOTATION_BORDER,
-      type: "TEXTBOX",
-      top,
-      left,
-      width,
-      height,
-      page: 0,
-      corrected: false,
-    };
+  PREDICTIONS.forEach((page) => {
+    page.forEach((prediction) => {
+      const { top, left, width, height } = prediction;
+      // @ts-ignore
+      const id: AnnotationId = window.crypto.randomUUID();
+      predictedAnnotations[id] = {
+        id,
+        backgroundColor: ANNOTATION_COLOR,
+        border: ANNOTATION_BORDER,
+        type: "TEXTBOX",
+        top,
+        left,
+        width,
+        height,
+        page: 0,
+        corrected: false,
+      };
+    });
   });
   return predictedAnnotations;
 };
@@ -238,7 +259,7 @@ export const DEFAULT_ACCESSIBLE_FORM: AccessibleForm = {
   height: 550,
   showResizeModal: false,
   sliderPosition: {
-    height: 1400,
+    height: 3000,
     y: 300,
   },
   annotations: getPredictedAnnotations(),
@@ -320,6 +341,8 @@ export type AccessibleFormAction =
       type: "INCREMENT_STEP_AND_ANNOTATIONS";
       payload: {
         annotations: Array<Array<ApiAnnotation>>;
+        groupRelations: Record<AnnotationId, AnnotationId[]>;
+        labelRelations: Record<AnnotationId, AnnotationId>;
       };
     }
   | {
@@ -609,8 +632,8 @@ export const reduceAccessibleForm = (
               height: annotation.height * scale,
               top: annotation.top * scale,
               left: annotation.left * scale,
-              border: ANNOTATION_BORDER,
-              backgroundColor: ANNOTATION_COLOR,
+              border: Borders[annotation.type],
+              backgroundColor: BackgroundColors[annotation.type],
               page: i + 1,
               corrected: false,
             };
@@ -624,6 +647,8 @@ export const reduceAccessibleForm = (
         const nextStep = STEPS[idx + 1]?.id;
         if (nextStep === undefined) return;
         draft.step = nextStep;
+        draft.labelRelations = action.payload.labelRelations;
+        draft.groupRelations = action.payload.groupRelations;
       });
     }
     case "CREATE_LABEL_RELATION": {
@@ -645,7 +670,6 @@ export const reduceAccessibleForm = (
         draft.selectedAnnotations = {};
         return;
       });
-      console.log(res.labelRelations);
       return res;
     }
     case "CREATE_GROUP_RELATION": {
