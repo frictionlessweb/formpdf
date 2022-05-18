@@ -8,8 +8,6 @@ app = fastapi.FastAPI()
 
 ANNOTATION_TYPES = ["TEXTBOX", "RADIOBOX", "CHECKBOX"]
 
-# ["LABEL", "GROUP", "GROUP_LABEL"]
-
 
 class Bounds(BaseModel):
     id: str
