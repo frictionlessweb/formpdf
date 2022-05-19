@@ -238,7 +238,8 @@ const SelectAnnotation: React.FC = () => {
   const annotations = useSelector((state) =>
     Object.values(state.annotations).filter(
       (annotation) =>
-        annotation.height + annotation.top < state.sliderPosition.y
+        annotation.height + annotation.top <
+        state.sections[state.currentSection].y
     )
   );
   return (
