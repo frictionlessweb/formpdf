@@ -64,25 +64,35 @@ type ResizeHandleProps = DivProps & {
 // are not relevant.
 export const ResizeHandle: React.FC<ResizeHandleProps> = (props) => {
   const { rootCss, container, pdf, children, ...rest } = props;
-  const { width, y, height } = useSelector((state) => ({
+  const { width, sections, currentSection } = useSelector((state) => ({
     width: state.width,
-    height: state.sliderPosition.height,
-    y: state.sliderPosition.y,
+    sections: state.sections,
+    currentSection: state.currentSection,
   }));
+
+  const disabledDivTopHeight = sections[currentSection - 1].y;
+  const disabledDivBottomY = sections[currentSection].y;
+
   const dispatch = useDispatch();
   const stopTopClicks = (e: MouseEvent) => e.stopPropagation();
+  const stopClicks = (e: React.MouseEvent<HTMLElement>) => e.stopPropagation();
+
   return (
     <>
-      <div
-        {...rest}
-        css={{
-          top: 0,
-          left: 0,
-          position: "absolute",
-          width: pdf.current!.clientWidth,
-          height,
-          ...rootCss,
-        }}></div>
+      {currentSection > 0 && (
+        <div
+          {...rest}
+          css={{
+            top: 0,
+            left: 0,
+            position: "absolute",
+            width: width,
+            height: disabledDivTopHeight,
+            backgroundColor: "rgba(0, 0, 0, 0.3)",
+            ...rootCss,
+          }}
+          onClick={stopClicks}></div>
+      )}
       <Rnd
         css={{
           backgroundColor: "rgb(0, 0, 0, 0.3)",
@@ -93,20 +103,18 @@ export const ResizeHandle: React.FC<ResizeHandleProps> = (props) => {
         disableDragging
         onMouseUp={stopTopClicks}
         onMouseDown={stopTopClicks}
+        // FIXME: Currently, the height is hardcoded here.
         size={{
-          height: height,
+          height: 1400,
           width: width,
         }}
         onResizeStop={(_, __, ref, ___, el) => {
           dispatch({
             type: "MOVE_SECTION_SLIDER",
-            payload: {
-              y: el.y,
-              height: ref.offsetHeight,
-            },
+            payload: el.y,
           });
         }}
-        position={{ x: 0, y }}
+        position={{ x: 0, y: disabledDivBottomY }}
       />
     </>
   );

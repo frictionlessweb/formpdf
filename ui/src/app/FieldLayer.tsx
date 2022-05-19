@@ -201,7 +201,7 @@ const FieldLayer: React.FC<LayerControllerProps> = (props) => {
   const { annotations, height } = useSelector((state) => {
     return {
       annotations: state.annotations,
-      height: state.sliderPosition.y,
+      height: state.sections[state.currentSection].y,
     };
   });
   const layer = useFieldLayer(container);

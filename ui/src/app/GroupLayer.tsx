@@ -209,7 +209,7 @@ const GroupLayerSelections = () => {
         shouldBeGrouped
       );
       const labelRelations = state.labelRelations;
-      const height = state.sliderPosition.y;
+      const height = state.sections[state.currentSection].y;
       return { annotations, annotationsToGroup, labelRelations, height };
     }
   );
