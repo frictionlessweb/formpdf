@@ -34,6 +34,12 @@ type HandlerLayerProps = DivProps & {
 // configure the handlers it needs as necessary.
 export const HandlerLayer: React.FC<HandlerLayerProps> = (props) => {
   const { rootCss, pdf, children, ...rest } = props;
+  const { pdfHeight, numPages } = useSelector((state) => {
+    return {
+      pdfHeight: state.pdfHeight,
+      numPages: state.tokens.length,
+    };
+  });
   return (
     <div
       {...rest}
@@ -42,7 +48,7 @@ export const HandlerLayer: React.FC<HandlerLayerProps> = (props) => {
         left: 0,
         position: "absolute",
         width: pdf.current?.clientWidth,
-        height: pdf.current?.clientHeight,
+        height: pdfHeight * numPages,
         ...rootCss,
       }}>
       {children}
@@ -229,9 +235,13 @@ export const useCreateAnnotation = (
 ) => {
   // We need to know the container so that we can figure out where relative
   // in the page we should position the bounds.
-  const allTokens = useSelector(
-    (state) => state.tokens && state.tokens[state.page - 1]
-  );
+  const allTokens = useSelector((state) => {
+    let finalTokens: Array<Bounds> = [];
+    state.tokens.forEach((list) => {
+      finalTokens = [...finalTokens, ...list];
+    });
+    return finalTokens;
+  });
   const [creationState, setState] = React.useState<CreationState | null>(null);
 
   const resetCreationState = () => {
