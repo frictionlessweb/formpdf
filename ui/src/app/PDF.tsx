@@ -37,34 +37,29 @@ import SectionLayer from "./SectionLayer";
 // is located; the code below takes care of the rest.
 
 interface FetchingPdf {
-  // Are we still getting the PDFUI?
-  loading: boolean;
   // Reference to the Canvas element into which we ultimately display the PDFUI.
   canvas: React.MutableRefObject<HTMLCanvasElement | null>;
 }
 
-const useFetchPDFUI = (url: string): FetchingPdf => {
-  // Three things need to happen for us to display the PDFUI with pdfjs:
-  // 1. We need to download the PDFUI file and get a PDFDocumentProxy object.
-  // 2. We need to extract the current page from the PDFDocumentProxy.
-  // 3. We need to render the current page to a canvas element.
+interface FetchPDFConfig {
+  // Where is the PDF that we want to fetch?
+  pdfDocument: PDFDocumentProxy | null;
+  // Which page of the PDF do we want to fetch?
+  page: number;
+}
 
-  // These three steps need to be split into three different useEffect calls
-  // so that each one only happens when the relevant state actually changes.
-  // One big useEffect where all of the props are in the dependency array would
-  // slow down the app considerably and create an undesireable user experience.
-  // --------------------------------------------------------------------------
+// Three things need to happen for us to display the PDFUI with pdfjs:
+// 1. We need to download the PDFUI file and get a PDFDocumentProxy object.
+// 2. We need to extract the current page from the PDFDocumentProxy.
+// 3. We need to render the current page to a canvas element.
 
-  // Track whether we're about to show a PDFUI; when true, we show a nice spinner,
-  // and when false, we show the desired PDFUI file.
-  const [loading, setLoading] = React.useState<boolean>(true);
+// These three steps need to be split into three different useEffect calls
+// so that each one only happens when the relevant state actually changes.
+// One big useEffect where all of the props are in the dependency array would
+// slow down the app considerably and create an undesireable user experience.
+// --------------------------------------------------------------------------
 
-  // Extract some metadata from the Redux store.
-  const { zoom, page } = useSelector((state) => ({
-    zoom: state.zoom,
-    page: state.page,
-  }));
-
+const usePDFDocumentProxy = (url: string): PDFDocumentProxy | null => {
   // Step 1: Fetch the document.
   const [pdfDocument, setPdfDocument] = React.useState<PDFDocumentProxy | null>(
     null
@@ -85,7 +80,18 @@ const useFetchPDFUI = (url: string): FetchingPdf => {
     fetchDocument();
   }, [url]);
 
-  // Step 2: Set the page.
+  return pdfDocument;
+};
+
+const useFetchPDFUI = (config: FetchPDFConfig): FetchingPdf => {
+  const { pdfDocument, page } = config;
+
+  // Extract some metadata from the Redux store.
+  const { zoom } = useSelector((state) => ({
+    zoom: state.zoom,
+  }));
+
+  // Step 1: Set the page.
   const [pageProxy, setPageProxy] = React.useState<PDFPageProxy | null>(null);
   React.useEffect(() => {
     const fetchPage = async () => {
@@ -96,7 +102,7 @@ const useFetchPDFUI = (url: string): FetchingPdf => {
     fetchPage();
   }, [pdfDocument, page]);
 
-  // Step 3: Render to the canvas.
+  // Step 2: Render to the canvas.
   const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
   const renderingRef = React.useRef<RenderTask | null>(null);
   React.useEffect(() => {
@@ -129,17 +135,11 @@ const useFetchPDFUI = (url: string): FetchingPdf => {
           // An error that we didn't expect happened; throw it.
           throw err;
         }
-      } finally {
-        // Now that we've triggered a render, we've fetched everything we've needed
-        // to from the network, so we can set loading to false again. Other PDFUI
-        // operations are generally fast enough that we don't need to display a
-        // spinner.
-        setLoading(false);
       }
     };
     displayPdf();
   }, [pageProxy, canvasRef, renderingRef, zoom]);
-  return { loading, canvas: canvasRef };
+  return { canvas: canvasRef };
 };
 
 //  ____                          _   _                 _ _
@@ -186,12 +186,42 @@ type PDFUIProps = PDFProps & {
   children: (props: LayerControllerProps) => React.ReactNode;
 };
 
+interface PDFCanvasProps {
+  // What page should this component show?
+  page: number;
+  // Where is the document proxy?
+  documentProxy: PDFDocumentProxy | null;
+  // What are the children of this component?
+  children: (props: LayerControllerProps) => React.ReactNode;
+  // What is the container of the surrounding div?
+  container: React.MutableRefObject<HTMLDivElement | null>;
+}
+
+const PDFCanvas: React.FC<PDFCanvasProps> = (props) => {
+  const { page, documentProxy, children, container } = props;
+  const { canvas } = useFetchPDFUI({
+    pdfDocument: documentProxy,
+    page,
+  });
+  return (
+    <>
+      <canvas
+        id={`pdf-${page}`}
+        style={{ borderBottom: "2px solid grey", borderTop: "2px solid grey" }}
+        ref={canvas}
+      />
+      {children({ pdf: canvas, container })}
+    </>
+  );
+};
+
 const PDFUI: React.FC<PDFUIProps> = (props) => {
-  const { url } = props;
-  const { canvas, loading } = useFetchPDFUI(url);
-  const { width, height } = useSelector((state) => ({
+  const { url, children } = props;
+  const pdfDocument = usePDFDocumentProxy(url);
+  const { width, height, pages } = useSelector((state) => ({
     width: state.width,
     height: state.height,
+    pages: state.tokens.length,
   }));
   const container = React.useRef<HTMLDivElement | null>(null);
   return (
@@ -207,20 +237,19 @@ const PDFUI: React.FC<PDFUIProps> = (props) => {
         overflowX: "scroll",
         position: "relative",
       }}>
-      {loading ? (
-        <Loading
-          sx={{
-            top: 20,
-            left: "48%",
-            position: "absolute",
-          }}
-        />
-      ) : (
-        <>
-          <canvas id="pdf" ref={canvas} />
-          {props.children({ pdf: canvas, container })}
-        </>
-      )}
+      <>
+        {Array.from({ length: pages }).map((_, i) => {
+          return (
+            <PDFCanvas
+              key={`${i + 1}`}
+              documentProxy={pdfDocument}
+              page={i + 1}
+              children={children}
+              container={container}
+            />
+          );
+        })}
+      </>
     </div>
   );
 };

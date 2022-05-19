@@ -6,6 +6,7 @@
   "page": 1,
   "width": 1000,
   "height": 550,
+  "pdfHeight": 1595,
   "showResizeModal": false,
   "sliderPosition": { "height": 320, "y": 550 },
   "annotations": {

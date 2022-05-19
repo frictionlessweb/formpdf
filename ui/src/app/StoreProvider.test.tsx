@@ -394,6 +394,7 @@ describe("Our form reducer", () => {
       width: 1000,
       height: 550,
       showResizeModal: false,
+      pdfHeight: 1595,
       sliderPosition: {
         y: 1000,
         height: 320,
@@ -420,6 +421,7 @@ describe("Our form reducer", () => {
       haveScaled: false,
       width: 1000,
       height: 550,
+      pdfHeight: 1595,
       showResizeModal: false,
       showLoadingScreen: false,
       sliderPosition: {
@@ -451,6 +453,7 @@ describe("Our form reducer", () => {
       haveScaled: false,
       width: 1000,
       height: 550,
+      pdfHeight: 1595,
       showResizeModal: false,
       showLoadingScreen: false,
       sliderPosition: {
@@ -484,6 +487,7 @@ describe("Our form reducer", () => {
       height: 550,
       showResizeModal: false,
       showLoadingScreen: false,
+      pdfHeight: 1595,
       sliderPosition: {
         y: 1000,
         height: 320,
@@ -720,6 +724,8 @@ describe("Our form reducer", () => {
         type: "INCREMENT_STEP_AND_ANNOTATIONS",
         payload: {
           annotations: [],
+          labelRelations: {},
+          groupRelations: {},
         },
       }
     );
@@ -732,6 +738,8 @@ describe("Our form reducer", () => {
         type: "INCREMENT_STEP_AND_ANNOTATIONS",
         payload: {
           annotations: [],
+          labelRelations: {},
+          groupRelations: {},
         },
       }
     );
@@ -755,6 +763,8 @@ describe("Our form reducer", () => {
               },
             ],
           ],
+          labelRelations: {},
+          groupRelations: {},
         },
       }
     );
@@ -780,10 +790,41 @@ describe("Our form reducer", () => {
               },
             ],
           ],
+          labelRelations: {},
+          groupRelations: {},
         },
       }
     );
     expect(res.tool).toEqual("SELECT");
+  });
+  test("Changing the step and annotation also changes the relations", () => {
+    const labelRelations = { a: "b" };
+    const groupRelations = { c: ["d", "e", "f"] };
+    const res = reduce(
+      { ...init, tool: "CREATE" },
+      {
+        type: "INCREMENT_STEP_AND_ANNOTATIONS",
+        payload: {
+          annotations: [
+            [
+              {
+                type: "TEXTBOX",
+                height: 200,
+                id: "1234",
+                left: 10,
+                top: 20,
+                width: 234,
+              },
+            ],
+          ],
+          labelRelations,
+          groupRelations,
+        },
+      }
+    );
+    expect(res.tool).toEqual("SELECT");
+    expect(res.labelRelations).toEqual(labelRelations);
+    expect(res.groupRelations).toEqual(groupRelations);
   });
   test("We can goto the next step", () => {
     const res = reduce(init, { type: "GOTO_NEXT_STEP" });

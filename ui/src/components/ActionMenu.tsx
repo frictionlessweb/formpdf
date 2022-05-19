@@ -134,41 +134,47 @@ export const LabelLayerActionMenu: React.FC<LabelLayerActionMenuProps> = ({
 interface GroupLayerActionMenuProps {
   onDelete: () => void;
   onCreateNewGroup: () => void;
-  show: boolean;
+  type: string;
 }
 
 export const GroupLayerActionMenu: React.FC<GroupLayerActionMenuProps> = ({
   onDelete,
   onCreateNewGroup,
-  show,
+  type,
 }) => {
-  if (!show) return null;
+  if (type !== "CHECKBOX" && type !== "RADIOBOX" && type !== "GROUP_LABEL") {
+    return null;
+  }
   return (
     <Container>
-      <ActionMenuItem
-        moreCss={{ width: "200px" }}
-        onClick={(e) => {
-          onCreateNewGroup();
-          e.stopPropagation();
-        }}
-        onMouseDown={(e) => {
-          e.stopPropagation();
-        }}>
-        Create New Group
-      </ActionMenuItem>
-      <ActionMenuItem
-        // We have to prevent the default behaviour for
-        // the pdf canvas here, in order to be able to capture
-        // the click event.
-        onClick={(e) => {
-          onDelete();
-          e.stopPropagation();
-        }}
-        onMouseDown={(e) => {
-          e.stopPropagation();
-        }}>
-        Delete
-      </ActionMenuItem>
+      {["CHECKBOX", "RADIOBOX"].includes(type) && (
+        <ActionMenuItem
+          moreCss={{ width: "200px" }}
+          onClick={(e) => {
+            onCreateNewGroup();
+            e.stopPropagation();
+          }}
+          onMouseDown={(e) => {
+            e.stopPropagation();
+          }}>
+          Create New Group
+        </ActionMenuItem>
+      )}
+      {["GROUP_LABEL"].includes(type) && (
+        <ActionMenuItem
+          // We have to prevent the default behaviour for
+          // the pdf canvas here, in order to be able to capture
+          // the click event.
+          onClick={(e) => {
+            onDelete();
+            e.stopPropagation();
+          }}
+          onMouseDown={(e) => {
+            e.stopPropagation();
+          }}>
+          Delete
+        </ActionMenuItem>
+      )}
     </Container>
   );
 };

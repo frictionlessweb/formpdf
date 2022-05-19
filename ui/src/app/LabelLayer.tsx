@@ -16,6 +16,7 @@ import {
   LayerControllerProps,
   Annotation as AnnotationStatic,
   ANNOTATION_TYPE,
+  Bounds,
 } from "./StoreProvider";
 import Xarrow from "react-xarrows";
 import React from "react";
@@ -23,7 +24,13 @@ import React from "react";
 // Render all of the tokens on the current page. We wrap this in React.memo for a
 // substantial performance boost.
 export const AllTokens: React.FC = React.memo(() => {
-  const tokens = useSelector((state) => state.tokens[state.page - 1]);
+  const tokens = useSelector((state) => {
+    let finalTokens: Array<Bounds> = [];
+    state.tokens.forEach((list) => {
+      finalTokens = [...finalTokens, ...list];
+    });
+    return finalTokens;
+  });
   return (
     <>
       {tokens.map((token) => (
