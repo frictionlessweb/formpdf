@@ -164,9 +164,11 @@ export interface AccessibleForm {
   // Which page of the PDF are we on? WARNING: This is indexed from *1*, not
   // from zero!
   page: number;
-  // What do we want the height of the PDF document to be?
+  // What is the height of the PDF document?
+  pdfHeight: number;
+  // What do we want the height of the PDF document to be when rendered into the document?
   height: number;
-  // What do we want the width of the PDF document to be?
+  // What do we want the width of the PDF document to be when rendered into the document?
   width: number;
   // Where is the slider currently?
   sliderPosition: SliderPosition;
@@ -255,6 +257,7 @@ export const DEFAULT_ACCESSIBLE_FORM: AccessibleForm = {
   tool: "CREATE",
   zoom: 1,
   page: 1,
+  pdfHeight: 1595,
   width: 1000,
   height: 800,
   showResizeModal: false,
@@ -587,10 +590,12 @@ export const reduceAccessibleForm = (
           annotation.height *= scale;
           annotation.width *= scale;
         }
-        for (const pageTokens of draft.tokens) {
+        for (let i = 0; i < draft.tokens.length; ++i) {
+          const pageTokens = draft.tokens[i];
           for (const token of pageTokens) {
             token.left *= scale;
             token.top *= scale;
+            token.top += i * draft.pdfHeight;
             token.height *= scale;
             token.width *= scale;
           }

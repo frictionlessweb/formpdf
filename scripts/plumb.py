@@ -29,7 +29,6 @@ all_tokens = []
 ocr_scale_factor = 0.16
 
 for i, image in enumerate(images):
-    image
     details = pytesseract.image_to_data(image, output_type="dict")
     num_details = len(details["top"])
     tokens = [
@@ -46,6 +45,9 @@ for i, image in enumerate(images):
     ]
     all_tokens.append(tokens)
 
+with open("../ui/src/app/tokens.json", "w", encoding="utf-8") as f:
+    json.dump(all_tokens, f, ensure_ascii=False, indent=4)
+
 form_data = json.load(open("form.json"))
 form_scale_factor = 0.36
 
@@ -56,17 +58,16 @@ for page_data in form_data:
     mapped_page_data = []
     for token_class in included_token_classes:
         for token in page_data[token_class]:
-            mapped_page_data.append({
-                "top": token["y"] * form_scale_factor,
-                "left": token["x"] * form_scale_factor,
-                "width": token["w"] * form_scale_factor,
-                "height": token["h"] * form_scale_factor,
-                "class": token["jsonClass"],
-            })
+            mapped_page_data.append(
+                {
+                    "top": token["y"] * form_scale_factor,
+                    "left": token["x"] * form_scale_factor,
+                    "width": token["w"] * form_scale_factor,
+                    "height": token["h"] * form_scale_factor,
+                    "class": token["jsonClass"],
+                }
+            )
     all_predictions.append(mapped_page_data)
-
-with open("../ui/src/app/tokens.json", "w", encoding="utf-8") as f:
-    json.dump(all_tokens, f, ensure_ascii=False, indent=4)
 
 with open("../ui/src/app/predictions.json", "w", encoding="utf-8") as f:
     json.dump(all_predictions, f, ensure_ascii=False, indent=4)

@@ -46,7 +46,7 @@ class AnnotationsRequest(BaseModel):
 def random_annotation(page: int, height: int, type=None) -> Bounds:
     return Bounds(
         id=str(uuid.uuid4()),
-        top=random.randint(5, 100) + (1 * page * height),
+        top=random.randint(5, 100) + (page * height),
         left=random.randint(5, 300),
         width=random.randint(10, 50),
         height=random.randint(10, 50),

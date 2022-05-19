@@ -394,6 +394,7 @@ describe("Our form reducer", () => {
       width: 1000,
       height: 550,
       showResizeModal: false,
+      pdfHeight: 1595,
       sliderPosition: {
         y: 1000,
         height: 320,
@@ -420,6 +421,7 @@ describe("Our form reducer", () => {
       haveScaled: false,
       width: 1000,
       height: 550,
+      pdfHeight: 1595,
       showResizeModal: false,
       showLoadingScreen: false,
       sliderPosition: {
@@ -451,6 +453,7 @@ describe("Our form reducer", () => {
       haveScaled: false,
       width: 1000,
       height: 550,
+      pdfHeight: 1595,
       showResizeModal: false,
       showLoadingScreen: false,
       sliderPosition: {
@@ -484,6 +487,7 @@ describe("Our form reducer", () => {
       height: 550,
       showResizeModal: false,
       showLoadingScreen: false,
+      pdfHeight: 1595,
       sliderPosition: {
         y: 1000,
         height: 320,

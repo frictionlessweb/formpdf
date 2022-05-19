@@ -21,12 +21,7 @@ const ProceedToNextLayer: React.FC = () => {
     annotations,
   };
   return (
-    <Box
-      position="absolute"
-      display="flex"
-      flexDirection="column"
-      top={660}
-      zIndex={1000}>
+    <Box display="flex" flexDirection="column" paddingTop="20px">
       <Button
         onClick={async () => {
           if (step !== "SECTION_LAYER") {
