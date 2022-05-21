@@ -4,8 +4,8 @@ import Box from "@mui/material/Box";
 import color from "../components/color";
 import { useSelector, useDispatch } from "./StoreProvider";
 import { IconButton } from "@mui/material";
-import RemoveOutlinedIcon from "@mui/icons-material/RemoveOutlined";
-import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
+import AddIcon from "@mui/icons-material/Add";
+import RemoveIcon from "@mui/icons-material/Remove";
 
 const MIN_ZOOM = 0.5;
 const MAX_ZOOM = 1.5;
@@ -38,7 +38,6 @@ const Zoom: React.FC<ZoomProps> = () => {
         position: "fixed",
         right: 24,
         bottom: 24,
-        width: 160,
         backgroundColor: "white",
         display: "flex",
         justifyContent: "space-between",
@@ -55,12 +54,15 @@ const Zoom: React.FC<ZoomProps> = () => {
             backgroundColor: color.blue.transparent,
             borderRadius: "12px",
           },
+          color: color.black,
         }}
         disabled={zoom <= MIN_ZOOM}
         onClick={onDecrease}>
-        <RemoveOutlinedIcon />
+        <RemoveIcon />
       </IconButton>
-      <span style={{ fontWeight: "bold" }}>{Math.floor(zoom * 100)}%</span>
+      <span style={{ fontWeight: "bold", paddingLeft: 8, paddingRight: 8 }}>
+        {Math.floor(zoom * 100)}%
+      </span>
       <IconButton
         sx={{
           "&:hover": {
@@ -68,10 +70,11 @@ const Zoom: React.FC<ZoomProps> = () => {
             backgroundColor: color.blue.transparent,
             borderRadius: "12px",
           },
+          color: color.black,
         }}
         disabled={zoom >= MAX_ZOOM}
         onClick={onIncrease}>
-        <AddOutlinedIcon />
+        <AddIcon />
       </IconButton>
     </Box>
   );
