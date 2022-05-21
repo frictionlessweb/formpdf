@@ -2,7 +2,6 @@
 import React from "react";
 import Steps from "./Steps";
 import Box, { BoxProps } from "@mui/material/Box";
-import Panel from "../components/Panel";
 import { useSelector, useDispatch, Step } from "./StoreProvider";
 
 const useHeading = () => {
@@ -33,7 +32,6 @@ const Heading: React.FC<BoxProps> = (props) => {
         onStepChange={gotoPreviousStep}
         activeStep={activeStep}
       />
-      <Panel width="10%" />
     </Box>
   );
 };
