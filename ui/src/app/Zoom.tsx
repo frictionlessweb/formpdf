@@ -1,44 +1,70 @@
 /** @jsxImportSource @emotion/react */
 import React from "react";
 import Box from "@mui/material/Box";
-import Slider from "@mui/material/Slider";
+import color from "../components/color";
 import { useSelector, useDispatch } from "./StoreProvider";
-import ZoomOutIcon from "@mui/icons-material/ZoomOut";
-import ZoomInIcon from "@mui/icons-material/ZoomIn";
+import RemoveOutlinedIcon from "@mui/icons-material/RemoveOutlined";
+import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 
 interface ZoomProps {}
 
 const Zoom: React.FC<ZoomProps> = () => {
   const zoom = useSelector((state) => state.zoom);
   const dispatch = useDispatch();
+
+  const onIncrease = () => {
+    const newZoom = zoom + 0.1;
+    dispatch({
+      type: "CHANGE_ZOOM",
+      payload: newZoom,
+    });
+  };
+
+  const onDecrease = () => {
+    const newZoom = zoom - 0.1;
+    dispatch({
+      type: "CHANGE_ZOOM",
+      payload: newZoom,
+    });
+  };
+
   return (
     <Box
       sx={{
+        position: "fixed",
+        right: 24,
+        bottom: 24,
+        width: 160,
+        backgroundColor: "white",
         display: "flex",
+        justifyContent: "space-between",
         alignItems: "center",
         padding: "16px",
-        width: ["20%", "30%"],
+        zIndex: 10,
+        borderRadius: "8px",
+        boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
       }}>
-      <ZoomOutIcon sx={{ marginRight: "1rem" }} />
-      <Slider
-        onChange={(_, value) => {
-          if (Array.isArray(value)) {
-            throw new Error(`Non numeric zoom ${value}`);
-          }
-          dispatch({
-            type: "CHANGE_ZOOM",
-            payload: value / 100,
-          });
+      <RemoveOutlinedIcon
+        sx={{
+          "&:hover": {
+            color: color.blue.medium,
+            backgroundColor: color.blue.transparent,
+            borderRadius: "12px",
+          },
         }}
-        aria-label="Temperature"
-        value={Math.floor(zoom * 100)}
-        valueLabelDisplay="auto"
-        step={10}
-        marks
-        min={50}
-        max={150}
+        onClick={onIncrease}
       />
-      <ZoomInIcon sx={{ marginLeft: "1rem" }} />
+      <span style={{ fontWeight: "bold" }}>{Math.floor(zoom * 100)}%</span>
+      <AddOutlinedIcon
+        sx={{
+          "&:hover": {
+            color: color.blue.medium,
+            backgroundColor: color.blue.transparent,
+            borderRadius: "12px",
+          },
+        }}
+        onClick={onDecrease}
+      />
     </Box>
   );
 };
