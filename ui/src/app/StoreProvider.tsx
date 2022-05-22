@@ -496,7 +496,14 @@ export const reduceAccessibleForm = (
     case "MOVE_SECTION_SLIDER": {
       return produceWithUndo(previous, (draft) => {
         draft.sections[draft.currentSection].y = action.payload;
-        if (draft.step !== "SECTION_LAYER") {
+        if (draft.step === "SECTION_LAYER" || draft.step === "FIELD_LAYER") {
+          // If we're in the section layer or field layer, we don't need to
+          // show the resize modal. Section layer is obvious. Field layer is
+          // where we are directed after users uses resize hande. So it doesn't
+          // make sense to show resize modal asking user to go to field layer,
+          // when they are already on field layer.
+          return;
+        } else {
           draft.showResizeModal = true;
         }
       });
