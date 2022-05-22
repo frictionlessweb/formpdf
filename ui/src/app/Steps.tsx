@@ -98,8 +98,8 @@ const Steps: React.FC<
           <Step key={step.title}>
             <StepLabel
               sx={{
-                "& .MuiStepLabel-label": {
-                  marginTop: 0.3,
+                "& .MuiStepLabel-labelContainer .MuiStepLabel-label": {
+                  marginTop: 0.4,
                 },
               }}
               StepIconComponent={StepIcon}>
@@ -109,7 +109,7 @@ const Steps: React.FC<
                   "&:hover": {
                     fontWeight: "bold",
                   },
-                  fontSize: 14,
+                  fontSize: 12,
                 }}
                 onClick={() => onStepChange(step.id)}>
                 {step.title}
@@ -120,11 +120,12 @@ const Steps: React.FC<
       </Stepper>
       <div
         css={{
-          marginTop: 16,
+          marginTop: 12,
           fontWeight: "bold",
           textAlign: "center",
           fontSize: 14,
           width: "50%",
+          color: color.black,
         }}>
         {STEPS[stepIndex].description}
       </div>

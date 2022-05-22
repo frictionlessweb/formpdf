@@ -38,7 +38,11 @@ const ProceedToNextLayer: React.FC = () => {
           borderRadius: "50px",
           textTransform: "none",
           fontWeight: "800",
+          paddingLeft: "48px",
+          paddingRight: "48px",
           backgroundColor: color.blue.medium,
+          border: "2px solid white",
+          boxShadow: 6,
         }}
         onClick={async () => {
           switch (step) {
