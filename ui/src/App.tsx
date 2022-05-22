@@ -8,6 +8,7 @@ import UndoAndRedo from "./components/UndoAndRedo";
 import ResizeDialog from "./app/ResizeModal";
 import { useSaveState } from "./app/utils";
 import ProceedToNextLayer from "./app/ProceedToNextLayer";
+import color from "./components/color";
 
 const Logo = () => {
   return (
@@ -26,7 +27,8 @@ const App = () => {
       flexDirection="column"
       alignItems="center"
       paddingX="48px"
-      paddingY="24px">
+      paddingY="24px"
+      sx={{ backgroundColor: color.gray.line }}>
       <StepsNav paddingBottom="24px" />
       <ToolSelect />
       <Box display="flex" width="100%" justifyContent="center" marginTop="40px">

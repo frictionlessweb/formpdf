@@ -229,7 +229,6 @@ const PDFUI: React.FC<PDFUIProps> = (props) => {
       id="pdf-container"
       ref={container}
       css={{
-        border: "2px solid #ECECEC",
         width: "auto",
         maxHeight: height,
         maxWidth: width,
