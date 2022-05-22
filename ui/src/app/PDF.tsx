@@ -210,7 +210,8 @@ const PDFCanvas: React.FC<PDFCanvasProps> = (props) => {
         style={{ borderBottom: "2px solid grey", borderTop: "2px solid grey" }}
         ref={canvas}
       />
-      {children({ pdf: canvas, container })}
+      {/* We only want to have one big handler for all of the events; don't render stuff twice. */}
+      {page === 1 ? children({ pdf: canvas, container }) : null}
     </>
   );
 };

@@ -5,6 +5,7 @@ import {
   ANNOTATION_TYPE,
   AccessibleForm,
   ANNOTATION_BORDER,
+  Section,
 } from "./StoreProvider";
 import exampleState from "./exampleState.json";
 
@@ -395,10 +396,8 @@ describe("Our form reducer", () => {
       height: 550,
       showResizeModal: false,
       pdfHeight: 1595,
-      sliderPosition: {
-        y: 1000,
-        height: 320,
-      },
+      currentSection: 0,
+      sections: [{ y: 0 }] as Section[],
     } as const;
     const res = reduce(init, { type: "HYDRATE_STORE", payload });
     expect(res).toEqual(payload);
@@ -424,10 +423,8 @@ describe("Our form reducer", () => {
       pdfHeight: 1595,
       showResizeModal: false,
       showLoadingScreen: false,
-      sliderPosition: {
-        y: 1000,
-        height: 320,
-      },
+      currentSection: 0,
+      sections: [{ y: 0 }] as Section[],
     } as const;
     window.devicePixelRatio = 2;
     const res = reduce(init, { type: "HYDRATE_STORE", payload });
@@ -456,10 +453,8 @@ describe("Our form reducer", () => {
       pdfHeight: 1595,
       showResizeModal: false,
       showLoadingScreen: false,
-      sliderPosition: {
-        y: 1000,
-        height: 320,
-      },
+      currentSection: 0,
+      sections: [{ y: 0 }] as Section[],
     } as const;
     window.devicePixelRatio = 2;
     const res = reduce(init, { type: "HYDRATE_STORE", payload });
@@ -488,10 +483,8 @@ describe("Our form reducer", () => {
       showResizeModal: false,
       showLoadingScreen: false,
       pdfHeight: 1595,
-      sliderPosition: {
-        y: 1000,
-        height: 320,
-      },
+      currentSection: 0,
+      sections: [{ y: 0 }] as Section[],
     } as const;
     window.devicePixelRatio = 2;
     const res = reduce(init, { type: "HYDRATE_STORE", payload });
@@ -685,10 +678,9 @@ describe("Our form reducer", () => {
   test("We can move the section slider around on the first step", () => {
     const res = reduce(init, {
       type: "MOVE_SECTION_SLIDER",
-      payload: { y: 32, height: 64 },
+      payload: 32,
     });
-    expect(res.sliderPosition.y).toEqual(32);
-    expect(res.sliderPosition.height).toEqual(64);
+    expect(res.sections[res.currentSection].y).toEqual(32);
     expect(res.showResizeModal).toEqual(false);
   });
   test("Moving the slider in later stages brings up the modal", () => {
@@ -696,13 +688,20 @@ describe("Our form reducer", () => {
       { ...init, step: "LABEL_LAYER" },
       {
         type: "MOVE_SECTION_SLIDER",
-        payload: { y: 32, height: 64 },
+        payload: 32,
       }
     );
-    expect(res.sliderPosition.y).toEqual(32);
-    expect(res.sliderPosition.height).toEqual(64);
+    expect(res.sections[res.currentSection].y).toEqual(32);
     expect(res.showResizeModal).toBe(true);
   });
+  test("We can create new section", () => {
+    const res = reduce(init, {
+      type: "CREATE_NEW_SECTION",
+    });
+    expect(res.currentSection).toBe(2);
+    expect(res.sections).toEqual([{ y: 10 }, { y: 300 }, { y: 600 }]);
+  });
+  test("We can update existing sections", () => {});
   test("We can jump back to the section layer", () => {
     const res = reduce(
       { ...init, showResizeModal: true, step: "LABEL_LAYER" },
