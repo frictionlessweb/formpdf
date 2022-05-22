@@ -1,6 +1,7 @@
 import React from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
+import color from "../components/color";
 import { useDispatch, useSelector } from "./StoreProvider";
 
 const ProceedToNextLayer: React.FC = () => {
@@ -21,8 +22,20 @@ const ProceedToNextLayer: React.FC = () => {
     annotations,
   };
   return (
-    <Box display="flex" flexDirection="column" paddingTop="20px">
+    <Box
+      position="fixed"
+      bottom="24px"
+      display="flex"
+      zIndex={10}
+      flexDirection="column"
+      paddingTop="20px">
       <Button
+        sx={{
+          borderRadius: "50px",
+          textTransform: "none",
+          fontWeight: "800",
+          backgroundColor: color.blue.medium,
+        }}
         onClick={async () => {
           if (step !== "SECTION_LAYER") {
             dispatch({ type: "GOTO_NEXT_STEP" });

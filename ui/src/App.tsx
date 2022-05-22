@@ -31,7 +31,6 @@ const App = () => {
       <ToolSelect />
       <Box display="flex" width="100%" justifyContent="center" marginTop="40px">
         <PDF url="/sample_form.pdf" />
-        <div css={{ width: "180px", paddingX: "16px" }} />
       </Box>
       <UndoAndRedo />
       <Zoom />
