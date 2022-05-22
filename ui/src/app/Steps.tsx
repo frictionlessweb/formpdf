@@ -95,13 +95,20 @@ const Steps: React.FC<
         connector={<Connector />}>
         {STEPS.map((step) => (
           <Step key={step.title}>
-            <StepLabel StepIconComponent={StepIcon}>
+            <StepLabel
+              sx={{
+                "& .MuiStepLabel-label": {
+                  marginTop: 1,
+                },
+              }}
+              StepIconComponent={StepIcon}>
               <span
                 css={{
                   cursor: "pointer",
                   "&:hover": {
                     fontWeight: "bold",
                   },
+                  fontSize: 14,
                 }}
                 onClick={() => onStepChange(step.id)}>
                 {step.title}
@@ -110,7 +117,14 @@ const Steps: React.FC<
           </Step>
         ))}
       </Stepper>
-      <div css={{ marginTop: "20px", fontWeight: "bold", textAlign: "center" }}>
+      <div
+        css={{
+          marginTop: 20,
+          fontWeight: "bold",
+          textAlign: "center",
+          fontSize: 14,
+          width: "50%",
+        }}>
         {STEPS[stepIndex].description}
       </div>
     </Box>
