@@ -5,53 +5,70 @@ import { useDispatch, useSelector } from "./StoreProvider";
 
 const ProceedToNextLayer: React.FC = () => {
   const dispatch = useDispatch();
+
   const { pages, width, height, annotations, step } = useSelector((state) => {
     return {
+      step: state.step,
       pages: state.tokens.length,
       width: state.width,
       height: state.height,
       annotations: state.annotations,
-      step: state.step,
     };
   });
+
   const sendToApi = {
     pages,
     width,
     height,
     annotations,
   };
+  const isLastStep = step === "GROUP_LAYER";
+
   return (
     <Box display="flex" flexDirection="column" paddingTop="20px">
       <Button
         onClick={async () => {
-          if (step !== "SECTION_LAYER") {
-            dispatch({ type: "GOTO_NEXT_STEP" });
-            return;
-          }
-          dispatch({ type: "SHOW_LOADING_SCREEN" });
-          const res = await window.fetch(
-            `${process.env.REACT_APP_API_PATH || ""}/annotations`,
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify(sendToApi),
+          switch (step) {
+            case "SECTION_LAYER": {
+              dispatch({ type: "SHOW_LOADING_SCREEN" });
+              const res = await window.fetch(
+                `${process.env.REACT_APP_API_PATH || ""}/annotations`,
+                {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify(sendToApi),
+                }
+              );
+              const jsonRes = await res.json();
+              const { annotations, groupRelations, labelRelations } = jsonRes;
+              dispatch({
+                type: "INCREMENT_STEP_AND_ANNOTATIONS",
+                payload: {
+                  annotations,
+                  groupRelations,
+                  labelRelations,
+                },
+              });
+              return;
             }
-          );
-          const jsonRes = await res.json();
-          const { annotations, groupRelations, labelRelations } = jsonRes;
-          dispatch({
-            type: "INCREMENT_STEP_AND_ANNOTATIONS",
-            payload: {
-              annotations,
-              groupRelations,
-              labelRelations,
-            },
-          });
+            // Fallthrough intentionally, equivalent to an or
+            // eslint-disable-next-line
+            case "FIELD_LAYER":
+            case "LABEL_LAYER": {
+              dispatch({ type: "GOTO_NEXT_STEP" });
+              return;
+            }
+            case "GROUP_LAYER": {
+              dispatch({
+                type: "CREATE_NEW_SECTION",
+              });
+            }
+          }
         }}
         variant="contained">
-        Proceed to Next Layer
+        {isLastStep ? "Proceed to Next Section" : "Proceed to Next Layer"}
       </Button>
     </Box>
   );

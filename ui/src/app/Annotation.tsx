@@ -34,6 +34,12 @@ type HandlerLayerProps = DivProps & {
 // configure the handlers it needs as necessary.
 export const HandlerLayer: React.FC<HandlerLayerProps> = (props) => {
   const { rootCss, pdf, children, ...rest } = props;
+  const { pdfHeight, numPages } = useSelector((state) => {
+    return {
+      pdfHeight: state.pdfHeight,
+      numPages: state.tokens.length,
+    };
+  });
   return (
     <div
       {...rest}
@@ -42,7 +48,7 @@ export const HandlerLayer: React.FC<HandlerLayerProps> = (props) => {
         left: 0,
         position: "absolute",
         width: pdf.current?.clientWidth,
-        height: pdf.current?.clientHeight,
+        height: pdfHeight * numPages,
         ...rootCss,
       }}>
       {children}
@@ -64,25 +70,39 @@ type ResizeHandleProps = DivProps & {
 // are not relevant.
 export const ResizeHandle: React.FC<ResizeHandleProps> = (props) => {
   const { rootCss, container, pdf, children, ...rest } = props;
-  const { width, y, height } = useSelector((state) => ({
-    width: state.width,
-    height: state.sliderPosition.height,
-    y: state.sliderPosition.y,
-  }));
+  const { width, sections, currentSection, pdfHeight, numPages } = useSelector(
+    (state) => ({
+      width: state.width,
+      sections: state.sections,
+      currentSection: state.currentSection,
+      pdfHeight: state.pdfHeight,
+      numPages: state.tokens.length,
+    })
+  );
+
+  const disabledDivTopHeight = sections[currentSection - 1].y;
+  const disabledDivBottomY = sections[currentSection].y;
+
   const dispatch = useDispatch();
   const stopTopClicks = (e: MouseEvent) => e.stopPropagation();
+  const stopClicks = (e: React.MouseEvent<HTMLElement>) => e.stopPropagation();
+
   return (
     <>
-      <div
-        {...rest}
-        css={{
-          top: 0,
-          left: 0,
-          position: "absolute",
-          width: pdf.current!.clientWidth,
-          height,
-          ...rootCss,
-        }}></div>
+      {currentSection > 0 && (
+        <div
+          {...rest}
+          css={{
+            top: 0,
+            left: 0,
+            position: "absolute",
+            width: width,
+            height: disabledDivTopHeight,
+            backgroundColor: "rgba(0, 0, 0, 0.3)",
+            ...rootCss,
+          }}
+          onClick={stopClicks}></div>
+      )}
       <Rnd
         css={{
           backgroundColor: "rgb(0, 0, 0, 0.3)",
@@ -94,19 +114,16 @@ export const ResizeHandle: React.FC<ResizeHandleProps> = (props) => {
         onMouseUp={stopTopClicks}
         onMouseDown={stopTopClicks}
         size={{
-          height: height,
+          height: pdfHeight * numPages - disabledDivBottomY,
           width: width,
         }}
         onResizeStop={(_, __, ref, ___, el) => {
           dispatch({
             type: "MOVE_SECTION_SLIDER",
-            payload: {
-              y: el.y,
-              height: ref.offsetHeight,
-            },
+            payload: el.y,
           });
         }}
-        position={{ x: 0, y }}
+        position={{ x: 0, y: disabledDivBottomY }}
       />
     </>
   );
@@ -218,9 +235,13 @@ export const useCreateAnnotation = (
 ) => {
   // We need to know the container so that we can figure out where relative
   // in the page we should position the bounds.
-  const allTokens = useSelector(
-    (state) => state.tokens && state.tokens[state.page - 1]
-  );
+  const allTokens = useSelector((state) => {
+    let finalTokens: Array<Bounds> = [];
+    state.tokens.forEach((list) => {
+      finalTokens = [...finalTokens, ...list];
+    });
+    return finalTokens;
+  });
   const [creationState, setState] = React.useState<CreationState | null>(null);
 
   const resetCreationState = () => {

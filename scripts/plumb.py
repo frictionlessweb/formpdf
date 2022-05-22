@@ -22,6 +22,7 @@ import json
 #
 # That will emit a JSON with the relevant token information which you can
 # copy paste with the relevant UI code.
+# Note: You would also need to copy and paste the pdf in public folder as sample_form.pdf
 
 DPI = 450
 images = convert_from_path("form.pdf", DPI)

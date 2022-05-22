@@ -146,11 +146,9 @@ interface Changes {
   undo: Array<Patch>;
 }
 
-// Keeping track of the slider we store throughout multiple screens.
-interface SliderPosition {
-  // What is the current height of the slider?
-  height: number;
-  // What is the current Y position of the slider?
+// This contains metadata related to each section user has created.
+export interface Section {
+  // What is the Y position of the section?
   y: number;
 }
 
@@ -170,8 +168,10 @@ export interface AccessibleForm {
   height: number;
   // What do we want the width of the PDF document to be when rendered into the document?
   width: number;
-  // Where is the slider currently?
-  sliderPosition: SliderPosition;
+  // What are all different sections that user has created?
+  sections: Array<Section>;
+  // Users can move between sections, this keeps a track on which section they are.
+  currentSection: number;
   // What are all of the annotations we've kept track of so far?
   annotations: Record<AnnotationId, Annotation>;
   // Which tool is active right now?
@@ -261,10 +261,8 @@ export const DEFAULT_ACCESSIBLE_FORM: AccessibleForm = {
   width: 1000,
   height: 800,
   showResizeModal: false,
-  sliderPosition: {
-    height: 3000,
-    y: 300,
-  },
+  currentSection: 1,
+  sections: [{ y: 10 }, { y: 300 }],
   annotations: getPredictedAnnotations(),
   selectedAnnotations: {},
   canRedo: false,
@@ -309,10 +307,7 @@ export type AccessibleFormAction =
     }
   | {
       type: "MOVE_SECTION_SLIDER";
-      payload: {
-        y: number;
-        height: number;
-      };
+      payload: number;
     }
   | {
       type: "JUMP_BACK_TO_SECTION_LAYER";
@@ -376,6 +371,13 @@ export type AccessibleFormAction =
   | {
       type: "DELETE_GROUP";
       payload: AnnotationId;
+    }
+  | {
+      type: "UPDATE_SECTION";
+      payload: Section;
+    }
+  | {
+      type: "CREATE_NEW_SECTION";
     }
   | {
       type: "UNDO";
@@ -493,8 +495,7 @@ export const reduceAccessibleForm = (
     }
     case "MOVE_SECTION_SLIDER": {
       return produceWithUndo(previous, (draft) => {
-        draft.sliderPosition.y = action.payload.y;
-        draft.sliderPosition.height = action.payload.height;
+        draft.sections[draft.currentSection].y = action.payload;
         if (draft.step !== "SECTION_LAYER") {
           draft.showResizeModal = true;
         }
@@ -689,6 +690,25 @@ export const reduceAccessibleForm = (
         draft.groupRelations[action.payload.from.ui.id] = action.payload.to;
         draft.selectedAnnotations = { [action.payload.from.ui.id]: true };
         draft.tool = "CREATE";
+        return;
+      });
+    }
+    case "CREATE_NEW_SECTION": {
+      return produceWithUndo(previous, (draft) => {
+        const currentSection = draft.currentSection;
+        draft.sections.push({
+          y: draft.sections[currentSection].y + 300,
+        });
+        draft.currentSection = currentSection + 1;
+        draft.step = "SECTION_LAYER";
+        return;
+      });
+    }
+    // This is not being used right now.
+    case "UPDATE_SECTION": {
+      return produceWithUndo(previous, (draft) => {
+        const currentSection = draft.currentSection;
+        draft.sections[currentSection] = action.payload;
         return;
       });
     }
