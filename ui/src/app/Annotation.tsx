@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import React from "react";
 import { CSSObject } from "@emotion/react";
+import color from "../components/color";
 import {
   Bounds,
   Annotation as AnnotationStatic,
@@ -98,15 +99,15 @@ export const ResizeHandle: React.FC<ResizeHandleProps> = (props) => {
             position: "absolute",
             width: width,
             height: disabledDivTopHeight,
-            backgroundColor: "rgba(0, 0, 0, 0.3)",
+            backgroundColor: color.gray.lineTransparent,
             ...rootCss,
           }}
           onClick={stopClicks}></div>
       )}
       <Rnd
         css={{
-          backgroundColor: "rgb(0, 0, 0, 0.3)",
-          borderTop: "3px solid orange",
+          backgroundColor: color.gray.lineTransparent,
+          borderTop: `6px solid ${color.yellow}`,
           position: "absolute",
           zIndex: 2,
         }}
@@ -319,8 +320,8 @@ export const AnnotationBeingCreated: React.FC<AnnotationBeingCreatedProps> = (
         id="annotation-being-created"
         css={{
           position: "absolute",
-          backgroundColor: "rgb(144, 238, 144, 0.3)",
-          border: "3px solid green",
+          backgroundColor: color.blue.transparent,
+          border: `3px solid ${color.blue.medium}`,
           ...mapCreationBoundsToCss(creationBounds),
         }}
         {...handlers}
@@ -335,8 +336,8 @@ export const AnnotationBeingCreated: React.FC<AnnotationBeingCreatedProps> = (
               key={token.top * token.left}
               css={{
                 position: "absolute",
-                backgroundColor: "rgb(144, 238, 144, 0.3)",
-                border: "2px solid blue",
+                backgroundColor: color.blue.transparent,
+                border: `3px solid ${color.blue.medium}`,
                 top: token.top,
                 left: token.left,
                 width: token.width,

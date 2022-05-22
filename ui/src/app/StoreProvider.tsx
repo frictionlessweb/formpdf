@@ -310,7 +310,7 @@ export type AccessibleFormAction =
       payload: number;
     }
   | {
-      type: "JUMP_BACK_TO_SECTION_LAYER";
+      type: "JUMP_BACK_TO_FIELD_LAYER";
     }
   | {
       type: "SELECT_ANNOTATION";
@@ -457,9 +457,9 @@ export const reduceAccessibleForm = (
         draft.step = action.payload;
       });
     }
-    case "JUMP_BACK_TO_SECTION_LAYER": {
+    case "JUMP_BACK_TO_FIELD_LAYER": {
       return produce(previous, (draft) => {
-        draft.step = "SECTION_LAYER";
+        draft.step = "FIELD_LAYER";
         draft.showResizeModal = false;
       });
     }

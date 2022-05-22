@@ -120,11 +120,11 @@ const Steps: React.FC<
       </Stepper>
       <div
         css={{
-          marginTop: 12,
+          marginTop: 14,
           fontWeight: "bold",
           textAlign: "center",
           fontSize: 14,
-          width: "50%",
+          width: "80%",
           color: color.black,
         }}>
         {STEPS[stepIndex].description}

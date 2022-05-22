@@ -41,7 +41,7 @@ const ResizeModal: React.FC<ResizeModalProps> = () => {
             justifyContent: "space-evenly",
           }}>
           <Button
-            onClick={() => dispatch({ type: "JUMP_BACK_TO_SECTION_LAYER" })}
+            onClick={() => dispatch({ type: "JUMP_BACK_TO_FIELD_LAYER" })}
             variant="contained">
             Yes
           </Button>
