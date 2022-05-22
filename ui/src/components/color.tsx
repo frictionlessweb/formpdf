@@ -14,6 +14,10 @@ const color = {
     medium: "#747474",
     dark: "#595959",
   },
+  red: {
+    medium: "#D30000",
+    transparent: "rgba(211,0,0,0.2)",
+  },
 };
 
 export default color;

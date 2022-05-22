@@ -26,7 +26,7 @@ const UndoAndRedo: React.FC<BoxProps> = (props) => {
       sx={{
         position: "fixed",
         left: 24,
-        top: "50%",
+        bottom: 24,
         backgroundColor: "white",
         display: "flex",
         flexDirection: "column",

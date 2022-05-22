@@ -28,8 +28,8 @@ const App = () => {
       paddingX="48px"
       paddingY="24px">
       <StepsNav paddingBottom="24px" />
+      <ToolSelect />
       <Box display="flex" width="100%" justifyContent="center" marginTop="40px">
-        <ToolSelect width="180px" paddingX="16px" />
         <PDF url="/sample_form.pdf" />
         <div css={{ width: "180px", paddingX: "16px" }} />
       </Box>
