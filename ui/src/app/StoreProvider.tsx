@@ -17,6 +17,7 @@ import TOKENS from "./tokens.json";
 import PREDICTIONS from "./predictions.json";
 import { boxContaining } from "./utils";
 import { composeWithDevTools } from "@redux-devtools/extension";
+import color from "../components/color";
 
 // This is required to enable immer patches.
 enablePatches();
@@ -202,26 +203,26 @@ export interface AccessibleForm {
   showLoadingScreen: boolean;
 }
 
-export const ANNOTATION_COLOR = "rgb(255, 182, 193, 0.3)";
+export const ANNOTATION_COLOR = color.orange.transparent;
 
-export const ANNOTATION_BORDER = "3px solid red";
+export const ANNOTATION_BORDER = `4px solid ${color.orange.dark}`;
 
 const Borders: Record<ANNOTATION_TYPE, string> = {
-  TEXTBOX: "3px solid red",
-  CHECKBOX: "3px solid red",
-  RADIOBOX: "3px solid red",
-  LABEL: "3px solid rgb(36, 148, 178, 0.4)",
-  GROUP: "3px solid rgb(36, 148, 178, 0.4)",
-  GROUP_LABEL: "3px solid rgb(36, 148, 178, 0.4)",
+  TEXTBOX: `4px solid ${color.orange.dark}`,
+  CHECKBOX: `4px solid ${color.orange.dark}`,
+  RADIOBOX: `4px solid ${color.orange.dark}`,
+  LABEL: `4px solid ${color.teal.medium}`,
+  GROUP: `4px solid ${color.teal.medium}`,
+  GROUP_LABEL: `4px solid ${color.teal.medium}`,
 };
 
 const BackgroundColors: Record<ANNOTATION_TYPE, string> = {
-  TEXTBOX: "rgb(255, 182, 193, 0.3)",
-  CHECKBOX: "rgb(255, 182, 193, 0.3)",
-  RADIOBOX: "rgb(255, 182, 193, 0.3)",
-  LABEL: "rgb(36, 148, 178, 0.4)",
-  GROUP: "rgb(36, 148, 178, 0.4)",
-  GROUP_LABEL: "rgb(36, 148, 178, 0.4)",
+  TEXTBOX: color.orange.transparent,
+  CHECKBOX: color.orange.transparent,
+  RADIOBOX: color.orange.transparent,
+  LABEL: color.teal.transparent,
+  GROUP: color.teal.transparent,
+  GROUP_LABEL: color.teal.transparent,
 };
 
 // FIXME: Here we need to implement page logic.

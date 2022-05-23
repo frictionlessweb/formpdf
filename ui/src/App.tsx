@@ -31,7 +31,7 @@ const App = () => {
       sx={{ backgroundColor: color.gray.line }}>
       <StepsNav paddingBottom="24px" />
       <ToolSelect />
-      <Box display="flex" width="100%" justifyContent="center" marginTop="40px">
+      <Box display="flex" width="100%" justifyContent="center" marginTop="8px">
         <PDF url="/sample_form.pdf" />
       </Box>
       <UndoAndRedo />

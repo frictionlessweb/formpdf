@@ -130,6 +130,7 @@ export const FieldLayerAnnotation: React.FC<AnnotationProps> = (props) => {
           css={{
             ...css,
             position: "absolute",
+            backgroundColor: color.orange.transparent,
             border: isSelected
               ? "3px solid black"
               : `4px solid ${color.orange.dark}`,
