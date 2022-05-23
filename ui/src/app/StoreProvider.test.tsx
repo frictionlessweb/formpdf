@@ -709,7 +709,7 @@ describe("Our form reducer", () => {
         type: "JUMP_BACK_TO_FIELD_LAYER",
       }
     );
-    expect(res.step).toEqual("SECTION_LAYER");
+    expect(res.step).toEqual("FIELD_LAYER");
     expect(res.showResizeModal).toBe(false);
   });
   test("We can set the loading screen to true", () => {
