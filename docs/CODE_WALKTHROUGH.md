@@ -20,12 +20,8 @@ An annotation is a `div` that we render according to some positional information
 {
   // What is the ID of the annotation -- how do we uniquely identify it?
   id: AnnotationId;
-  // What is the color of the annotation?
-  backgroundColor: string;
-  // What is the border of the annotation?
-  border: string;
   // What is the type of the annotation?
-  type: ANNOTATION_TYPE; // One of
+  type: ANNOTATION_TYPE;
   // How far from the top of the canvas should this annotation be?
   top: number;
   // How far from the left of the canvas should this annotation be?
@@ -73,3 +69,7 @@ We have a slider to segment different parts of the form from one another. We imp
 ## State Management
 
 Our application uses Redux to manage the state of the various annotations, labels, and groups discussed above. However, this choice is an implementation detail; one could use these data structures and techniques using any state API, including React context, recoil, or traditional prop drilling.
+
+## API
+
+We have an extremely small python API in the `api` folder that relies on [fastapi](https://fastapi.tiangolo.com). One could potentially incorporate a machine learning into the `/annotations` route by changing what bounding boxes the model returns.
