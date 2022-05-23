@@ -446,6 +446,7 @@ export const reduceAccessibleForm = (
         const nextStep = STEPS[idx + 1]?.id;
         if (nextStep === undefined) return;
         draft.step = nextStep;
+        draft.tool = "SELECT";
       });
     }
     case "SHOW_LOADING_SCREEN": {
@@ -709,6 +710,7 @@ export const reduceAccessibleForm = (
         });
         draft.currentSection = currentSection + 1;
         draft.step = "SECTION_LAYER";
+        draft.tool = "SELECT";
         return;
       });
     }
