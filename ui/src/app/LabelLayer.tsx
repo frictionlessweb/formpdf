@@ -18,6 +18,7 @@ import {
   ANNOTATION_TYPE,
   Bounds,
 } from "./StoreProvider";
+import color from "../components/color";
 import Xarrow from "react-xarrows";
 import React from "react";
 
@@ -39,8 +40,8 @@ export const AllTokens: React.FC = React.memo(() => {
           key={token.top * token.left}
           css={{
             position: "absolute",
-            backgroundColor: "rgb(144, 238, 144, 0.3)",
-            border: "1px solid blue",
+            backgroundColor: color.blue.transparent,
+            border: `1px solid ${color.blue.medium}`,
             top: token.top,
             left: token.left,
             width: token.width,
@@ -90,8 +91,9 @@ export const useFieldLayer = (
               to: {
                 ui: {
                   id,
-                  backgroundColor: "rgb(36, 148, 178, 0.4)",
-                  border: "3px solid rgb(36, 148, 178)",
+                  backgroundColor: color.teal.transparent,
+                  border: `4px solid ${color.teal.medium}`,
+                  borderRadius: 50,
                   type: "LABEL" as ANNOTATION_TYPE,
                   page,
                   corrected: true,

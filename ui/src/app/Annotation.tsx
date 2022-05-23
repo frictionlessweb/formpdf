@@ -144,6 +144,7 @@ export const TranslucentBox: React.FC<TranslucentBoxProps> = (props) => {
         // using opacity on this components makes its children transparent, thus it is
         // recommeded to use rgba(0,0,0,0.3) for the background color.
         backgroundColor: props?.css?.backgroundColor,
+        borderRadius: props?.css?.borderRadius,
       }}>
       {children}
     </div>

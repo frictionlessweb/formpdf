@@ -5,6 +5,10 @@ const color = {
     dark: "#042B3E",
     transparent: "rgba(20,115,230,0.2)",
   },
+  teal: {
+    medium: "#2494B2",
+    transparent: "rgba(132,195,225,0.25)",
+  },
   orange: {
     medium: "#F87A1B",
     dark: "#DF451E",

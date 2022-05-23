@@ -130,7 +130,9 @@ export const FieldLayerAnnotation: React.FC<AnnotationProps> = (props) => {
           css={{
             ...css,
             position: "absolute",
-            border: isSelected ? "3px solid black" : "3px solid red",
+            border: isSelected
+              ? "3px solid black"
+              : `4px solid ${color.orange.dark}`,
           }}
           allowAnyClick
           position={{
@@ -201,7 +203,15 @@ export const FieldLayerAnnotation: React.FC<AnnotationProps> = (props) => {
               }}
             />
           )}
-          {typeLabel}
+          <span
+            style={{
+              color: color.black,
+              fontWeight: "bold",
+              fontFamily: "Times New Roman",
+              paddingLeft: "4px",
+            }}>
+            {typeLabel}
+          </span>
         </Rnd>
       );
     }
