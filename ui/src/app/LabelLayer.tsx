@@ -223,8 +223,8 @@ const RelationshipLink: React.FC<RelationshipLinkProps> = (props) => {
   if (!relationship) return null;
   return (
     <Xarrow
-      start={String(relationship)}
-      end={id}
+      end={String(relationship)}
+      start={id}
       endAnchor="middle"
       headSize={2}
       headShape="circle"

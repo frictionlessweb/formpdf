@@ -97,25 +97,25 @@ export const STEPS: Array<StepDescription> = [
     id: "SECTION_LAYER",
     title: "Section",
     description:
-      "Mark the area you want to fix first. We will go through the form in small chunks. Ensure that fields or groups (radioboxes) are completely included and not cut off in half .",
+      "Choose size of the section using the Handle. Ensure that fields or groups are not cut off in half .",
   },
   {
     id: "FIELD_LAYER",
     title: "Fields",
     description:
-      "Ensure all form fields have a box and a field type present on them. If not, draw a box using the mouse and assign the field type.",
+      "Ensure form fields are marked by a box and have a field type. If not, use Create Tool.",
   },
   {
     id: "LABEL_LAYER",
     title: "Labels",
     description:
-      "Ensure all form fields have a label associated to them. If not, select the field and use update label from the popup.",
+      "Ensure form fields have label. If not, select the field and Update Label.",
   },
   {
     id: "GROUP_LAYER",
     title: "Groups",
     description:
-      "Ensure the checkbox and radiobox are grouped properly and have group names. If not, you can select multiple boxes by dragging or Shift+Click and use popup menu to group fields. ",
+      "Ensure the checkbox and radiobox are grouped properly and have labels. If not, select boxes and Create New Group. ",
   },
 ];
 
