@@ -1,45 +1,35 @@
-/** @jsxImportSource @emotion/react */
 import React from "react";
-import Box from "@mui/material/Box";
+import Box, { BoxProps } from "@mui/material/Box";
+import UndoIcon from "@mui/icons-material/Undo";
+import RedoIcon from "@mui/icons-material/Redo";
 import color from "../components/color";
-import { useSelector, useDispatch } from "./StoreProvider";
 import { IconButton } from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
-import RemoveIcon from "@mui/icons-material/Remove";
+import { useDispatch, useSelector } from "../app/StoreProvider";
 
-const MIN_ZOOM = 0.5;
-const MAX_ZOOM = 1.5;
-
-interface ZoomProps {}
-
-const Zoom: React.FC<ZoomProps> = () => {
-  const zoom = useSelector((state) => state.zoom);
+const UndoAndRedo: React.FC<BoxProps> = (props) => {
   const dispatch = useDispatch();
+  const [canRedo, canUndo] = useSelector((state) => [
+    state.canRedo,
+    state.canUndo,
+  ]);
 
-  const onIncrease = () => {
-    const newZoom = zoom + 0.1;
-    dispatch({
-      type: "CHANGE_ZOOM",
-      payload: newZoom,
-    });
+  const onUndo = () => {
+    dispatch({ type: "UNDO" });
   };
 
-  const onDecrease = () => {
-    const newZoom = zoom - 0.1;
-    dispatch({
-      type: "CHANGE_ZOOM",
-      payload: newZoom,
-    });
+  const onRedo = () => {
+    dispatch({ type: "REDO" });
   };
 
   return (
     <Box
       sx={{
         position: "fixed",
-        right: 24,
+        left: 24,
         bottom: 24,
         backgroundColor: "white",
         display: "flex",
+        flexDirection: "column",
         justifyContent: "space-between",
         alignItems: "center",
         padding: "8px",
@@ -56,13 +46,10 @@ const Zoom: React.FC<ZoomProps> = () => {
           },
           color: color.black,
         }}
-        disabled={zoom <= MIN_ZOOM}
-        onClick={onDecrease}>
-        <RemoveIcon />
+        onClick={onUndo}
+        disabled={!canUndo}>
+        <UndoIcon />
       </IconButton>
-      <span style={{ fontWeight: "bold", paddingLeft: 8, paddingRight: 8 }}>
-        {Math.floor(zoom * 100)}%
-      </span>
       <IconButton
         sx={{
           "&:hover": {
@@ -72,12 +59,12 @@ const Zoom: React.FC<ZoomProps> = () => {
           },
           color: color.black,
         }}
-        disabled={zoom >= MAX_ZOOM}
-        onClick={onIncrease}>
-        <AddIcon />
+        onClick={onRedo}
+        disabled={!canRedo}>
+        <RedoIcon />
       </IconButton>
     </Box>
   );
 };
 
-export default Zoom;
+export default UndoAndRedo;

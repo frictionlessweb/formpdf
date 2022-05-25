@@ -20,6 +20,7 @@ import {
 import React from "react";
 import Xarrow from "react-xarrows";
 import { AllTokens } from "./LabelLayer";
+import color from "../components/color";
 
 const useGroupLayer = (div: React.MutableRefObject<HTMLDivElement | null>) => {
   const attr = useCreateAnnotation(div);
@@ -59,8 +60,9 @@ const useGroupLayer = (div: React.MutableRefObject<HTMLDivElement | null>) => {
               to: {
                 ui: {
                   id,
-                  backgroundColor: "rgb(36, 148, 178, 0.4)",
-                  border: "3px solid rgb(36, 148, 178)",
+                  backgroundColor: color.teal.transparent,
+                  border: `4px solid ${color.teal.medium}`,
+                  borderRadius: 50,
                   type: "GROUP_LABEL" as ANNOTATION_TYPE,
                   page,
                   corrected: true,
@@ -178,8 +180,8 @@ const GroupLayerSelectAnnotation: React.FC<AnnotationStatic> = (
                 from: {
                   ui: {
                     id: uuid,
-                    backgroundColor: "rgb(36, 148, 178, 0.4)",
-                    border: "3px solid rgb(36, 148, 178)",
+                    backgroundColor: "rgba(0,0,0,0)",
+                    border: `4px solid ${color.yellow}`,
                     type: "GROUP",
                   },
                   tokens: Object.keys(selectedAnnotations).map((id) => {

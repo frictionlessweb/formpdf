@@ -1,58 +1,52 @@
 /** @jsxImportSource @emotion/react */
 import React from "react";
 import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import Modal from "@mui/material/Modal";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 import { useSelector, useDispatch } from "./StoreProvider";
+import Slide from "@mui/material/Slide";
+import { TransitionProps } from "@mui/material/transitions";
+
+const Transition = React.forwardRef(function Transition(
+  props: TransitionProps & {
+    children: React.ReactElement<any, any>;
+  },
+  ref: React.Ref<unknown>
+) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 interface ResizeModalProps {}
 
 const ResizeModal: React.FC<ResizeModalProps> = () => {
   const open = useSelector((state) => state.showResizeModal);
   const dispatch = useDispatch();
+
+  // FIXME: This is not a good description for dialog. Update it.
   return (
-    <Modal open={open}>
-      <div
-        css={{
-          display: "flex",
-          flexDirection: "column",
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
-          width: 400,
-          backgroundColor: "white",
-          padding: "16px",
-          boxShadow: "24px solid white",
-        }}>
-        <Typography id="modal-modal-title" variant="h6" component="h2">
-          Resizing Section
-        </Typography>
-        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-          Warning: You have tried to resize the current section. Accepting this
-          action will take you back to the first step of the process. Proceed?
-        </Typography>
-        <div
-          css={{
-            display: "flex",
-            width: "100%",
-            paddingTop: "16px",
-            alignItems: "center",
-            justifyContent: "space-evenly",
-          }}>
-          <Button
-            onClick={() => dispatch({ type: "JUMP_BACK_TO_SECTION_LAYER" })}
-            variant="contained">
-            Yes
-          </Button>
-          <Button
-            onClick={() => dispatch({ type: "UNDO" })}
-            variant="contained">
-            No
-          </Button>
-        </div>
-      </div>
-    </Modal>
+    <Dialog
+      open={open}
+      TransitionComponent={Transition}
+      keepMounted
+      onClose={() => dispatch({ type: "UNDO" })}
+      aria-describedby="alert-dialog-slide-description">
+      <DialogTitle>Resize Section?</DialogTitle>
+      <DialogContent>
+        <DialogContentText id="alert-dialog-slide-description">
+          Resize adds new fields to the section. To review them, you will be
+          taken to the fields step of the process.
+        </DialogContentText>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={() => dispatch({ type: "UNDO" })}>Cancel</Button>
+        <Button onClick={() => dispatch({ type: "JUMP_BACK_TO_FIELD_LAYER" })}>
+          Proceed
+        </Button>
+      </DialogActions>
+    </Dialog>
   );
 };
 

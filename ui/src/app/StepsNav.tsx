@@ -2,10 +2,9 @@
 import React from "react";
 import Steps from "./Steps";
 import Box, { BoxProps } from "@mui/material/Box";
-import Panel from "../components/Panel";
 import { useSelector, useDispatch, Step } from "./StoreProvider";
 
-const useHeading = () => {
+const useStepsNav = () => {
   const { activeStep } = useSelector((state) => {
     return {
       activeStep: state.step,
@@ -21,21 +20,17 @@ const useHeading = () => {
   return { activeStep, gotoPreviousStep };
 };
 
-const Heading: React.FC<BoxProps> = (props) => {
-  const { activeStep, gotoPreviousStep } = useHeading();
+const StepsNav: React.FC<BoxProps> = (props) => {
+  const { activeStep, gotoPreviousStep } = useStepsNav();
   return (
     <Box display="flex" justifyContent="space-between" width="100%" {...props}>
-      <div css={{ width: "10%" }}>
-        <img src="/logo.svg" alt="logo of FormA11y" />
-      </div>
       <Steps
-        width="80%"
+        width="100%"
         onStepChange={gotoPreviousStep}
         activeStep={activeStep}
       />
-      <Panel width="10%" />
     </Box>
   );
 };
 
-export default Heading;
+export default StepsNav;

@@ -5,6 +5,7 @@ import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import Check from "@mui/icons-material/Check";
+import color from "../components/color";
 import StepConnector, {
   stepConnectorClasses,
 } from "@mui/material/StepConnector";
@@ -16,8 +17,8 @@ import { Step as StepType, STEPS } from "./StoreProvider";
 const Connector = styled(StepConnector)(() => ({
   [`&.${stepConnectorClasses.alternativeLabel}`]: {
     top: 10,
-    left: "calc(-50% + 16px)",
-    right: "calc(50% + 16px)",
+    left: "calc(-50% + 10px)",
+    right: "calc(50% + 10px)",
   },
   [`&.${stepConnectorClasses.active}`]: {
     [`& .${stepConnectorClasses.line}`]: {
@@ -30,15 +31,15 @@ const Connector = styled(StepConnector)(() => ({
     },
   },
   [`& .${stepConnectorClasses.line}`]: {
-    borderColor: "#eaeaf0",
-    borderTopWidth: 3,
-    borderRadius: 1,
+    borderColor: color.gray.light,
+    borderTopWidth: 2,
+    borderRadius: 0.5,
   },
 }));
 
 const StepIconRoot = styled("div")<{ ownerState: { active?: boolean } }>(
   ({ theme, ownerState }) => ({
-    color: "#eaeaf0",
+    color: color.gray.light,
     display: "flex",
     height: 22,
     alignItems: "center",
@@ -51,8 +52,8 @@ const StepIconRoot = styled("div")<{ ownerState: { active?: boolean } }>(
       fontSize: 18,
     },
     "& .StepIcon-circle": {
-      width: 8,
-      height: 8,
+      width: 6,
+      height: 6,
       borderRadius: "50%",
       backgroundColor: "currentColor",
     },
@@ -95,13 +96,20 @@ const Steps: React.FC<
         connector={<Connector />}>
         {STEPS.map((step) => (
           <Step key={step.title}>
-            <StepLabel StepIconComponent={StepIcon}>
+            <StepLabel
+              sx={{
+                "& .MuiStepLabel-labelContainer .MuiStepLabel-label": {
+                  marginTop: 0.4,
+                },
+              }}
+              StepIconComponent={StepIcon}>
               <span
                 css={{
                   cursor: "pointer",
                   "&:hover": {
                     fontWeight: "bold",
                   },
+                  fontSize: 12,
                 }}
                 onClick={() => onStepChange(step.id)}>
                 {step.title}
@@ -110,7 +118,15 @@ const Steps: React.FC<
           </Step>
         ))}
       </Stepper>
-      <div css={{ marginTop: "20px", fontWeight: "bold", textAlign: "center" }}>
+      <div
+        css={{
+          marginTop: 14,
+          fontWeight: "bold",
+          textAlign: "center",
+          fontSize: 14,
+          width: "80%",
+          color: color.black,
+        }}>
         {STEPS[stepIndex].description}
       </div>
     </Box>
