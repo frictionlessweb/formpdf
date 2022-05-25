@@ -486,6 +486,9 @@ export const reduceAccessibleForm = (
             token.width *= scale;
           }
         }
+        for (const section of draft.sections) {
+          section.y *= scale;
+        }
         return;
       });
     }
