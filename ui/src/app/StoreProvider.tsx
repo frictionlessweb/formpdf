@@ -165,7 +165,7 @@ export interface AccessibleForm {
   page: number;
   // What is the height of the PDF document?
   pdfHeight: number;
-  // What do we want the height of the PDF document to be when rendered into the document?
+  // What is the height of the div inside which PDF document is rendered?
   height: number;
   // What do we want the width of the PDF document to be when rendered into the document?
   width: number;
@@ -594,7 +594,12 @@ export const reduceAccessibleForm = (
       return produce(action.payload, (draft) => {
         // Different devicePixelRatio values will change the display; as such,
         // we need to scale the tokens accordingly.
+        // We start with scale as devicePixelRatio, and then we use zoom to scale
+        // things up and down.
         const scale = window.devicePixelRatio;
+        // We are dividing the scale here by 2 because our initial pdfHeight was taken
+        // on a retina display, which have pixelRatio of 2.
+        draft.pdfHeight = (draft.pdfHeight / 2) * scale;
         const annotationIds = Object.keys(draft.annotations);
         for (const annotationId of annotationIds) {
           const annotation = draft.annotations[annotationId];
@@ -608,7 +613,7 @@ export const reduceAccessibleForm = (
           for (const token of pageTokens) {
             token.left *= scale;
             token.top *= scale;
-            token.top += i * draft.pdfHeight;
+            token.top += i * (draft.pdfHeight / scale);
             token.height *= scale;
             token.width *= scale;
           }
