@@ -2,25 +2,38 @@ import React from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import color from "../components/color";
-import { useDispatch, useSelector } from "./StoreProvider";
+import { useDispatch, useSelector, Annotation } from "./StoreProvider";
+import allPagesPredictions from "./predictions.json";
+import { Dispatch } from "redux";
+
+const GET_ANNOTATIONS_FROM_SERVER = false;
+
+interface sendToApi {
+  pages: number;
+  annotations: Record<string, Annotation>;
+  width: number;
+  height: number;
+}
 
 const ProceedToNextLayer: React.FC = () => {
   const dispatch = useDispatch();
 
-  const { pages, width, height, annotations, step } = useSelector((state) => {
-    return {
-      step: state.step,
-      pages: state.tokens.length,
-      width: state.width,
-      height: state.height,
-      annotations: state.annotations,
-    };
-  });
+  const { step, pages, width, pdfHeight, annotations } = useSelector(
+    (state) => {
+      return {
+        step: state.step,
+        pages: state.tokens.length,
+        width: state.width,
+        pdfHeight: state.pdfHeight,
+        annotations: state.annotations,
+      };
+    }
+  );
 
   const sendToApi = {
     pages,
     width,
-    height,
+    height: pdfHeight,
     annotations,
   };
   const isLastStep = step === "GROUP_LAYER";
@@ -48,26 +61,11 @@ const ProceedToNextLayer: React.FC = () => {
           switch (step) {
             case "SECTION_LAYER": {
               dispatch({ type: "SHOW_LOADING_SCREEN" });
-              const res = await window.fetch(
-                `${process.env.REACT_APP_API_PATH || ""}/annotations`,
-                {
-                  method: "POST",
-                  headers: {
-                    "Content-Type": "application/json",
-                  },
-                  body: JSON.stringify(sendToApi),
-                }
-              );
-              const jsonRes = await res.json();
-              const { annotations, groupRelations, labelRelations } = jsonRes;
-              dispatch({
-                type: "INCREMENT_STEP_AND_ANNOTATIONS",
-                payload: {
-                  annotations,
-                  groupRelations,
-                  labelRelations,
-                },
-              });
+              if (GET_ANNOTATIONS_FROM_SERVER) {
+                await getAnnotationsFromServer(dispatch, sendToApi);
+              } else {
+                getAnnotationsFromFile(dispatch, pdfHeight);
+              }
               return;
             }
             // Fallthrough intentionally, equivalent to an or
@@ -90,4 +88,55 @@ const ProceedToNextLayer: React.FC = () => {
     </Box>
   );
 };
+
+const getAnnotationsFromServer = async (
+  dispatch: Dispatch,
+  sendToApi: sendToApi
+) => {
+  const res = await window.fetch(
+    `${process.env.REACT_APP_API_PATH || ""}/annotations`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(sendToApi),
+    }
+  );
+  const jsonRes = await res.json();
+  const { annotations, groupRelations, labelRelations } = jsonRes;
+  dispatch({
+    type: "INCREMENT_STEP_AND_ANNOTATIONS",
+    payload: {
+      annotations,
+      groupRelations,
+      labelRelations,
+    },
+  });
+};
+
+const getAnnotationsFromFile = (dispatch: Dispatch, pdfHeight: number) => {
+  const annotations = allPagesPredictions.map((pagePredictions, pageNumber) => {
+    return pagePredictions.map((annotation) => {
+      const { left, width, top, height } = annotation;
+      return {
+        id: window.crypto.randomUUID(),
+        type: "TEXTBOX",
+        left,
+        width,
+        top: top + pdfHeight * pageNumber,
+        height,
+      };
+    });
+  });
+  dispatch({
+    type: "INCREMENT_STEP_AND_ANNOTATIONS",
+    payload: {
+      annotations,
+      groupRelations: {},
+      labelRelations: {},
+    },
+  });
+};
+
 export default ProceedToNextLayer;
