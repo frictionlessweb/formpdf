@@ -56,6 +56,9 @@ def random_annotation(page: int, height: int, type=None) -> Bounds:
 
 @app.post("/annotations")
 def send_boxes(req: AnnotationsRequest) -> AnnotationsResponse:
+    # If you want to insert a model into this code, change the body
+    # of this function to return a JSON with the same structure but
+    # different text!
     labelRelations: dict[str, str] = {}
     groupRelations: dict[str, list[str]] = {}
     raw_annotations = [
