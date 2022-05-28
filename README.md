@@ -2,6 +2,14 @@
 
 Code for accessible PDF rendering.
 
+## Deploying
+
+Authenticate with Pulumi; then, `cd` into the `infra` folder and run:
+
+```sh
+pulumi up
+```
+
 ## Getting Started
 
 To develop the UI, clone the repository, `cd` into the `ui` folder, and run `npm install`.
