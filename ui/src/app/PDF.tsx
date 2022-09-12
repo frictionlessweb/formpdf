@@ -39,6 +39,7 @@ import SectionLayer from "./SectionLayer";
 interface FetchingPdf {
   // Reference to the Canvas element into which we ultimately display the PDFUI.
   canvas: React.MutableRefObject<HTMLCanvasElement | null>;
+  image: React.MutableRefObject<HTMLImageElement | null>;
 }
 
 interface FetchPDFConfig {
@@ -104,6 +105,7 @@ const useFetchPDFUI = (config: FetchPDFConfig): FetchingPdf => {
 
   // Step 2: Render to the canvas.
   const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
+  const imageRef = React.useRef<HTMLImageElement | null>(null);
   const renderingRef = React.useRef<RenderTask | null>(null);
   React.useEffect(() => {
     const displayPdf = async () => {
@@ -114,6 +116,8 @@ const useFetchPDFUI = (config: FetchPDFConfig): FetchingPdf => {
         if (!canvas) return;
         const canvasContext = canvas.getContext("2d");
         if (!canvasContext) return;
+        const image = imageRef?.current;
+        if (!image) return;
 
         if (renderingRef.current) {
           // If we're trying to render something else, prevent it from finishing,
@@ -130,6 +134,9 @@ const useFetchPDFUI = (config: FetchPDFConfig): FetchingPdf => {
         canvas.height = viewport.height;
         renderingRef.current = pageProxy.render({ viewport, canvasContext });
         await renderingRef.current.promise;
+        // pdfjs-dist does not support directly rendering to img, so we render image to canvas &
+        // then pass the DataURL to an img element on canvas.
+        image.src = canvas.toDataURL();
       } catch (err) {
         if (!(err instanceof RenderingCancelledException)) {
           // An error that we didn't expect happened; throw it.
@@ -139,7 +146,7 @@ const useFetchPDFUI = (config: FetchPDFConfig): FetchingPdf => {
     };
     displayPdf();
   }, [pageProxy, canvasRef, renderingRef, zoom]);
-  return { canvas: canvasRef };
+  return { canvas: canvasRef, image: imageRef };
 };
 
 //  ____                          _   _                 _ _
@@ -199,15 +206,23 @@ interface PDFCanvasProps {
 
 const PDFCanvas: React.FC<PDFCanvasProps> = (props) => {
   const { page, documentProxy, children, container } = props;
-  const { canvas } = useFetchPDFUI({
+  const { canvas, image } = useFetchPDFUI({
     pdfDocument: documentProxy,
     page,
   });
+
   return (
     <>
-      <canvas
-        id={`pdf-${page}`}
+      <img
         style={{ borderBottom: "2px solid grey", borderTop: "2px solid grey" }}
+        id={`pdf-img-${page}`}
+        ref={image}
+        alt={`page ${page} of the pdf`}
+      />
+      {/* Canvas is hidden and is used only for rendering & generating dataURL for img above */}
+      <canvas
+        style={{ display: "none" }}
+        id={`pdf-canvas-${page}`}
         ref={canvas}
       />
       {/* We only want to have one big handler for all of the events; don't render stuff twice. */}
