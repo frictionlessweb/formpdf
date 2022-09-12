@@ -10,6 +10,7 @@ import {
 } from "./Annotation";
 import { FieldLayerActionMenu } from "../components/ActionMenu";
 import { AnnotationProps, TranslucentBox } from "./Annotation";
+import color from "../components/color";
 import {
   useSelector,
   useDispatch,
@@ -53,8 +54,8 @@ export const useFieldLayer = (
               id: window.crypto.randomUUID(),
               page,
               corrected: true,
-              backgroundColor: "rgb(255, 182, 193, 0.3)",
-              border: "3px solid red",
+              backgroundColor: color.orange.transparent,
+              border: `4px solid ${color.orange.dark}`,
               type: "TEXTBOX",
               ...mapCreationBoundsToFinalBounds(creationState.bounds),
             },
@@ -102,8 +103,19 @@ export const FieldLayerAnnotation: React.FC<AnnotationProps> = (props) => {
         <TranslucentBox
           id={id}
           nodeRef={annotationRef}
-          css={{ cursor: "inherit", ...css }}>
-          {typeLabel}
+          css={{
+            cursor: "inherit",
+            ...css,
+          }}>
+          <span
+            style={{
+              color: color.black,
+              fontWeight: "bold",
+              fontFamily: "Times New Roman",
+              paddingLeft: "4px",
+            }}>
+            {typeLabel}
+          </span>
         </TranslucentBox>
       );
     }
@@ -118,7 +130,10 @@ export const FieldLayerAnnotation: React.FC<AnnotationProps> = (props) => {
           css={{
             ...css,
             position: "absolute",
-            border: isSelected ? "3px solid black" : "3px solid red",
+            backgroundColor: color.orange.transparent,
+            border: isSelected
+              ? "3px solid black"
+              : `4px solid ${color.orange.dark}`,
           }}
           allowAnyClick
           position={{
@@ -189,7 +204,15 @@ export const FieldLayerAnnotation: React.FC<AnnotationProps> = (props) => {
               }}
             />
           )}
-          {typeLabel}
+          <span
+            style={{
+              color: color.black,
+              fontWeight: "bold",
+              fontFamily: "Times New Roman",
+              paddingLeft: "4px",
+            }}>
+            {typeLabel}
+          </span>
         </Rnd>
       );
     }

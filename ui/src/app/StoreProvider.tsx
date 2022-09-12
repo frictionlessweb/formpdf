@@ -17,6 +17,7 @@ import TOKENS from "./tokens.json";
 import PREDICTIONS from "./predictions.json";
 import { boxContaining } from "./utils";
 import { composeWithDevTools } from "@redux-devtools/extension";
+import color from "../components/color";
 
 // This is required to enable immer patches.
 enablePatches();
@@ -96,25 +97,25 @@ export const STEPS: Array<StepDescription> = [
     id: "SECTION_LAYER",
     title: "Section",
     description:
-      "Mark the area you want to fix first. We will go through the form in small chunks. Ensure that fields or groups (radioboxes) are completely included and not cut off in half .",
+      "Choose size of the section using the Handle. Ensure that fields or groups are not cut off in half .",
   },
   {
     id: "FIELD_LAYER",
     title: "Fields",
     description:
-      "Ensure all form fields have a box and a field type present on them. If not, draw a box using the mouse and assign the field type.",
+      "Ensure form fields are marked by a box and have a field type. If not, use Create Tool.",
   },
   {
     id: "LABEL_LAYER",
     title: "Labels",
     description:
-      "Ensure all form fields have a label associated to them. If not, select the field and use update label from the popup.",
+      "Ensure form fields have label. If not, select the field and Update Label.",
   },
   {
     id: "GROUP_LAYER",
     title: "Groups",
     description:
-      "Ensure the checkbox and radiobox are grouped properly and have group names. If not, you can select multiple boxes by dragging or Shift+Click and use popup menu to group fields. ",
+      "Ensure the checkbox and radiobox are grouped properly and have labels. If not, select boxes and Create New Group. ",
   },
 ];
 
@@ -164,7 +165,7 @@ export interface AccessibleForm {
   page: number;
   // What is the height of the PDF document?
   pdfHeight: number;
-  // What do we want the height of the PDF document to be when rendered into the document?
+  // What is the height of the div inside which PDF document is rendered?
   height: number;
   // What do we want the width of the PDF document to be when rendered into the document?
   width: number;
@@ -202,26 +203,26 @@ export interface AccessibleForm {
   showLoadingScreen: boolean;
 }
 
-export const ANNOTATION_COLOR = "rgb(255, 182, 193, 0.3)";
+export const ANNOTATION_COLOR = color.orange.transparent;
 
-export const ANNOTATION_BORDER = "3px solid red";
+export const ANNOTATION_BORDER = `4px solid ${color.orange.dark}`;
 
 const Borders: Record<ANNOTATION_TYPE, string> = {
-  TEXTBOX: "3px solid red",
-  CHECKBOX: "3px solid red",
-  RADIOBOX: "3px solid red",
-  LABEL: "3px solid rgb(36, 148, 178, 0.4)",
-  GROUP: "3px solid rgb(36, 148, 178, 0.4)",
-  GROUP_LABEL: "3px solid rgb(36, 148, 178, 0.4)",
+  TEXTBOX: `4px solid ${color.orange.dark}`,
+  CHECKBOX: `4px solid ${color.orange.dark}`,
+  RADIOBOX: `4px solid ${color.orange.dark}`,
+  LABEL: `4px solid ${color.teal.medium}`,
+  GROUP: `4px solid ${color.teal.medium}`,
+  GROUP_LABEL: `4px solid ${color.teal.medium}`,
 };
 
 const BackgroundColors: Record<ANNOTATION_TYPE, string> = {
-  TEXTBOX: "rgb(255, 182, 193, 0.3)",
-  CHECKBOX: "rgb(255, 182, 193, 0.3)",
-  RADIOBOX: "rgb(255, 182, 193, 0.3)",
-  LABEL: "rgb(36, 148, 178, 0.4)",
-  GROUP: "rgb(36, 148, 178, 0.4)",
-  GROUP_LABEL: "rgb(36, 148, 178, 0.4)",
+  TEXTBOX: color.orange.transparent,
+  CHECKBOX: color.orange.transparent,
+  RADIOBOX: color.orange.transparent,
+  LABEL: color.teal.transparent,
+  GROUP: color.teal.transparent,
+  GROUP_LABEL: color.teal.transparent,
 };
 
 // FIXME: Here we need to implement page logic.
@@ -310,7 +311,7 @@ export type AccessibleFormAction =
       payload: number;
     }
   | {
-      type: "JUMP_BACK_TO_SECTION_LAYER";
+      type: "JUMP_BACK_TO_FIELD_LAYER";
     }
   | {
       type: "SELECT_ANNOTATION";
@@ -445,6 +446,7 @@ export const reduceAccessibleForm = (
         const nextStep = STEPS[idx + 1]?.id;
         if (nextStep === undefined) return;
         draft.step = nextStep;
+        draft.tool = "SELECT";
       });
     }
     case "SHOW_LOADING_SCREEN": {
@@ -457,9 +459,9 @@ export const reduceAccessibleForm = (
         draft.step = action.payload;
       });
     }
-    case "JUMP_BACK_TO_SECTION_LAYER": {
+    case "JUMP_BACK_TO_FIELD_LAYER": {
       return produce(previous, (draft) => {
-        draft.step = "SECTION_LAYER";
+        draft.step = "FIELD_LAYER";
         draft.showResizeModal = false;
       });
     }
@@ -484,6 +486,9 @@ export const reduceAccessibleForm = (
             token.width *= scale;
           }
         }
+        for (const section of draft.sections) {
+          section.y *= scale;
+        }
         return;
       });
     }
@@ -496,7 +501,14 @@ export const reduceAccessibleForm = (
     case "MOVE_SECTION_SLIDER": {
       return produceWithUndo(previous, (draft) => {
         draft.sections[draft.currentSection].y = action.payload;
-        if (draft.step !== "SECTION_LAYER") {
+        if (draft.step === "SECTION_LAYER" || draft.step === "FIELD_LAYER") {
+          // If we're in the section layer or field layer, we don't need to
+          // show the resize modal. Section layer is obvious. Field layer is
+          // where we are directed after users uses resize hande. So it doesn't
+          // make sense to show resize modal asking user to go to field layer,
+          // when they are already on field layer.
+          return;
+        } else {
           draft.showResizeModal = true;
         }
       });
@@ -582,7 +594,12 @@ export const reduceAccessibleForm = (
       return produce(action.payload, (draft) => {
         // Different devicePixelRatio values will change the display; as such,
         // we need to scale the tokens accordingly.
+        // We start with scale as devicePixelRatio, and then we use zoom to scale
+        // things up and down.
         const scale = window.devicePixelRatio;
+        // We are dividing the scale here by 2 because our initial pdfHeight was taken
+        // on a retina display, which have pixelRatio of 2.
+        draft.pdfHeight = (draft.pdfHeight / 2) * scale;
         const annotationIds = Object.keys(draft.annotations);
         for (const annotationId of annotationIds) {
           const annotation = draft.annotations[annotationId];
@@ -596,7 +613,7 @@ export const reduceAccessibleForm = (
           for (const token of pageTokens) {
             token.left *= scale;
             token.top *= scale;
-            token.top += i * draft.pdfHeight;
+            token.top += i * (draft.pdfHeight / scale);
             token.height *= scale;
             token.width *= scale;
           }
@@ -701,6 +718,7 @@ export const reduceAccessibleForm = (
         });
         draft.currentSection = currentSection + 1;
         draft.step = "SECTION_LAYER";
+        draft.tool = "SELECT";
         return;
       });
     }

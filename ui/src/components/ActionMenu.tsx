@@ -28,7 +28,7 @@ export const Container: React.FC<ContainerProps> = ({ children }) => {
           width: "auto",
           height: "100%",
           background: "white",
-          boxShadow: `${color.gray.light} 0px 7px 29px 0px`,
+          boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
           borderRadius: "0.5rem",
           display: "flex",
           alignItems: "center",

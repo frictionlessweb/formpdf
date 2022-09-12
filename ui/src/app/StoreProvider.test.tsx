@@ -702,14 +702,14 @@ describe("Our form reducer", () => {
     expect(res.sections).toEqual([{ y: 10 }, { y: 300 }, { y: 600 }]);
   });
   test("We can update existing sections", () => {});
-  test("We can jump back to the section layer", () => {
+  test("We can jump back to the field layer", () => {
     const res = reduce(
       { ...init, showResizeModal: true, step: "LABEL_LAYER" },
       {
-        type: "JUMP_BACK_TO_SECTION_LAYER",
+        type: "JUMP_BACK_TO_FIELD_LAYER",
       }
     );
-    expect(res.step).toEqual("SECTION_LAYER");
+    expect(res.step).toEqual("FIELD_LAYER");
     expect(res.showResizeModal).toBe(false);
   });
   test("We can set the loading screen to true", () => {
