@@ -221,10 +221,9 @@ export const FieldLayerAnnotation: React.FC<AnnotationProps> = (props) => {
 
 const FieldLayer: React.FC<LayerControllerProps> = (props) => {
   const { pdf, container } = props;
-  const { annotations, height } = useSelector((state) => {
+  const { annotations } = useSelector((state) => {
     return {
       annotations: state.annotations,
-      height: state.sections[state.currentSection].y,
     };
   });
   const layer = useFieldLayer(container);
@@ -244,10 +243,8 @@ const FieldLayer: React.FC<LayerControllerProps> = (props) => {
         onMouseMove={NO_OP}
       />
       {Object.values(annotations)
-        .filter(
-          (annotation) =>
-            annotation.top + annotation.height < height &&
-            ["CHECKBOX", "TEXTBOX", "RADIOBOX"].includes(annotation.type)
+        .filter((annotation) =>
+          ["CHECKBOX", "TEXTBOX", "RADIOBOX"].includes(annotation.type)
         )
         .map((annotation) => {
           return <FieldLayerAnnotation key={annotation.id} {...annotation} />;

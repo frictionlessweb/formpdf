@@ -99,6 +99,7 @@ export const ResizeHandle: React.FC<ResizeHandleProps> = (props) => {
             width: pdfWidth,
             height: disabledDivTopHeight,
             backgroundColor: color.gray.lineTransparent,
+            zIndex: 10,
             ...rootCss,
           }}
           onClick={stopClicks}></div>
@@ -108,7 +109,7 @@ export const ResizeHandle: React.FC<ResizeHandleProps> = (props) => {
           backgroundColor: color.gray.lineTransparent,
           borderTop: `6px solid ${color.yellow}`,
           position: "absolute",
-          zIndex: 2,
+          zIndex: 10,
         }}
         disableDragging
         onMouseUp={stopTopClicks}
