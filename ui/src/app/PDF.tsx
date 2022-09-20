@@ -126,10 +126,10 @@ const useFetchPDFUI = (config: FetchPDFConfig): FetchingPdf => {
           renderingRef.current?.cancel();
         }
 
-        // By default, PDFUIJS will render an extremely blurry PDFUI, so we need to set
-        // the viewport correctly in order to avoid an unpleasant user experience.
-        const scale = window.devicePixelRatio || 1;
-        const viewport = pageProxy.getViewport({ scale: zoom * scale });
+        // By default, PDFUIJS will render an extremely blurry PDF, so we need to set
+        // the scale in viewport correctly to define how sharp or blurry will the image look.
+        const SCALE = 4;
+        const viewport = pageProxy.getViewport({ scale: SCALE });
         canvas.width = viewport.width;
         canvas.height = viewport.height;
         renderingRef.current = pageProxy.render({ viewport, canvasContext });
@@ -202,10 +202,24 @@ interface PDFCanvasProps {
   children: (props: LayerControllerProps) => React.ReactNode;
   // What is the container of the surrounding div?
   container: React.MutableRefObject<HTMLDivElement | null>;
+  // Zoom level
+  zoom: number;
+  // height of the PDF image
+  pdfHeight: number;
+  // width of the PDF image
+  pdfWidth: number;
 }
 
 const PDFCanvas: React.FC<PDFCanvasProps> = (props) => {
-  const { page, documentProxy, children, container } = props;
+  const {
+    page,
+    documentProxy,
+    children,
+    container,
+    zoom,
+    pdfHeight,
+    pdfWidth,
+  } = props;
   const { canvas, image } = useFetchPDFUI({
     pdfDocument: documentProxy,
     page,
@@ -214,7 +228,12 @@ const PDFCanvas: React.FC<PDFCanvasProps> = (props) => {
   return (
     <>
       <img
-        style={{ borderBottom: "2px solid grey", borderTop: "2px solid grey" }}
+        style={{
+          borderBottom: "2px solid grey",
+          borderTop: "2px solid grey",
+          width: `${pdfWidth}px`,
+          height: `${pdfHeight}px`,
+        }}
         id={`pdf-img-${page}`}
         ref={image}
         alt={`page ${page} of the pdf`}
@@ -234,10 +253,11 @@ const PDFCanvas: React.FC<PDFCanvasProps> = (props) => {
 const PDFUI: React.FC<PDFUIProps> = (props) => {
   const { url, children } = props;
   const pdfDocument = usePDFDocumentProxy(url);
-  const { width, height, pages } = useSelector((state) => ({
-    width: state.width,
-    height: state.height,
+  const { pages, zoom, pdfWidth, pdfHeight } = useSelector((state) => ({
     pages: state.tokens.length,
+    zoom: state.zoom,
+    pdfWidth: state.pdfWidth,
+    pdfHeight: state.pdfHeight,
   }));
   const container = React.useRef<HTMLDivElement | null>(null);
   return (
@@ -247,11 +267,7 @@ const PDFUI: React.FC<PDFUIProps> = (props) => {
       css={{
         display: "flex",
         flexDirection: "column",
-        width: "auto",
-        maxHeight: height,
-        maxWidth: width,
-        overflowY: "scroll",
-        overflowX: "scroll",
+        width: "calc(100vw - 120px - 120px + 16px)",
         position: "relative",
       }}>
       <>
@@ -263,6 +279,9 @@ const PDFUI: React.FC<PDFUIProps> = (props) => {
               page={i + 1}
               children={children}
               container={container}
+              zoom={zoom}
+              pdfHeight={pdfHeight}
+              pdfWidth={pdfWidth}
             />
           );
         })}
@@ -314,7 +333,20 @@ const PDF: React.FC<PDFProps> = (props) => {
   const loading = useSelector((state) => state.showLoadingScreen);
   if (loading) return <LoadingScreen />;
   const { url } = props;
-  return <PDFUI url={url}>{(props) => <LayerController {...props} />}</PDFUI>;
+  return (
+    <>
+      <Box
+        style={{
+          overflow: "auto",
+          height: "calc(100vh - 160px)",
+          width: "fit-content",
+          display: "flex",
+          justifyContent: "center",
+        }}>
+        <PDFUI url={url}>{(props) => <LayerController {...props} />}</PDFUI>
+      </Box>
+    </>
+  );
 };
 
 export default PDF;

@@ -8,9 +8,6 @@ const useStepsNav = () => {
   const { activeStep } = useSelector((state) => {
     return {
       activeStep: state.step,
-      width: state.width,
-      height: state.height,
-      pages: state.tokens.length,
     };
   });
   const dispatch = useDispatch();

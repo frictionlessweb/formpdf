@@ -18,12 +18,12 @@ interface sendToApi {
 const ProceedToNextLayer: React.FC = () => {
   const dispatch = useDispatch();
 
-  const { step, pages, width, pdfHeight, annotations } = useSelector(
+  const { step, pages, pdfWidth, pdfHeight, annotations } = useSelector(
     (state) => {
       return {
         step: state.step,
         pages: state.tokens.length,
-        width: state.width,
+        pdfWidth: state.pdfWidth,
         pdfHeight: state.pdfHeight,
         annotations: state.annotations,
       };
@@ -32,7 +32,7 @@ const ProceedToNextLayer: React.FC = () => {
 
   const sendToApi = {
     pages,
-    width,
+    width: pdfWidth,
     height: pdfHeight,
     annotations,
   };

@@ -165,13 +165,11 @@ export interface AccessibleForm {
   page: number;
   // What is the height of the PDF document?
   pdfHeight: number;
-  // What is the height of the div inside which PDF document is rendered?
-  height: number;
-  // What do we want the width of the PDF document to be when rendered into the document?
-  width: number;
+  // What is the width of the PDF document?
+  pdfWidth: number;
   // What are all different sections that user has created?
   sections: Array<Section>;
-  // Users can move between sections, this keeps a track on which section they are.
+  // Users can move between sections, this keeps a track on which section they are. It starts from 0.
   currentSection: number;
   // What are all of the annotations we've kept track of so far?
   annotations: Record<AnnotationId, Annotation>;
@@ -258,9 +256,8 @@ export const DEFAULT_ACCESSIBLE_FORM: AccessibleForm = {
   tool: "CREATE",
   zoom: 1,
   page: 1,
-  pdfHeight: 1595,
-  width: 1000,
-  height: 800,
+  pdfHeight: 2200,
+  pdfWidth: 1700,
   showResizeModal: false,
   currentSection: 1,
   sections: [{ y: 10 }, { y: 300 }],
@@ -489,6 +486,8 @@ export const reduceAccessibleForm = (
         for (const section of draft.sections) {
           section.y *= scale;
         }
+        draft.pdfHeight = draft.pdfHeight * scale;
+        draft.pdfWidth = draft.pdfWidth * scale;
         return;
       });
     }
@@ -592,14 +591,11 @@ export const reduceAccessibleForm = (
     case "HYDRATE_STORE": {
       if (action.payload.haveScaled) return action.payload;
       return produce(action.payload, (draft) => {
-        // Different devicePixelRatio values will change the display; as such,
-        // we need to scale the tokens accordingly.
-        // We start with scale as devicePixelRatio, and then we use zoom to scale
-        // things up and down.
-        const scale = window.devicePixelRatio;
-        // We are dividing the scale here by 2 because our initial pdfHeight was taken
-        // on a retina display, which have pixelRatio of 2.
-        draft.pdfHeight = (draft.pdfHeight / 2) * scale;
+        // This scale variable might be required in the future, when scaling differs for different inputs.
+        const scale = 1;
+        // TODO: Why are we using 1216 X 1577, maybe it was size of canvas before.
+        // const scaleX = 1216 / 1700;
+        // const scaleY = 1577 / 2200;
         const annotationIds = Object.keys(draft.annotations);
         for (const annotationId of annotationIds) {
           const annotation = draft.annotations[annotationId];
@@ -642,7 +638,7 @@ export const reduceAccessibleForm = (
       });
     }
     case "INCREMENT_STEP_AND_ANNOTATIONS": {
-      const scale = window.devicePixelRatio;
+      const scale = 1;
       return produce(previous, (draft) => {
         const newAnnotations: Record<AnnotationId, Annotation> = {};
         for (let i = 0; i < action.payload.annotations.length; ++i) {

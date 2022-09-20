@@ -35,9 +35,10 @@ type HandlerLayerProps = DivProps & {
 // configure the handlers it needs as necessary.
 export const HandlerLayer: React.FC<HandlerLayerProps> = (props) => {
   const { rootCss, pdf, children, ...rest } = props;
-  const { pdfHeight, numPages } = useSelector((state) => {
+  const { pdfHeight, pdfWidth, numPages } = useSelector((state) => {
     return {
       pdfHeight: state.pdfHeight,
+      pdfWidth: state.pdfWidth,
       numPages: state.tokens.length,
     };
   });
@@ -48,7 +49,7 @@ export const HandlerLayer: React.FC<HandlerLayerProps> = (props) => {
         top: 0,
         left: 0,
         position: "absolute",
-        width: pdf.current?.clientWidth,
+        width: pdfWidth,
         height: pdfHeight * numPages,
         ...rootCss,
       }}>
@@ -71,15 +72,14 @@ type ResizeHandleProps = DivProps & {
 // are not relevant.
 export const ResizeHandle: React.FC<ResizeHandleProps> = (props) => {
   const { rootCss, container, pdf, children, ...rest } = props;
-  const { width, sections, currentSection, pdfHeight, numPages } = useSelector(
-    (state) => ({
-      width: state.width,
+  const { pdfWidth, sections, currentSection, pdfHeight, numPages } =
+    useSelector((state) => ({
+      pdfWidth: state.pdfWidth,
       sections: state.sections,
       currentSection: state.currentSection,
       pdfHeight: state.pdfHeight,
       numPages: state.tokens.length,
-    })
-  );
+    }));
 
   const disabledDivTopHeight = sections[currentSection - 1].y;
   const disabledDivBottomY = sections[currentSection].y;
@@ -87,7 +87,6 @@ export const ResizeHandle: React.FC<ResizeHandleProps> = (props) => {
   const dispatch = useDispatch();
   const stopTopClicks = (e: MouseEvent) => e.stopPropagation();
   const stopClicks = (e: React.MouseEvent<HTMLElement>) => e.stopPropagation();
-
   return (
     <>
       {currentSection > 0 && (
@@ -97,7 +96,7 @@ export const ResizeHandle: React.FC<ResizeHandleProps> = (props) => {
             top: 0,
             left: 0,
             position: "absolute",
-            width: width,
+            width: pdfWidth,
             height: disabledDivTopHeight,
             backgroundColor: color.gray.lineTransparent,
             ...rootCss,
@@ -116,7 +115,7 @@ export const ResizeHandle: React.FC<ResizeHandleProps> = (props) => {
         onMouseDown={stopTopClicks}
         size={{
           height: pdfHeight * numPages - disabledDivBottomY,
-          width: width,
+          width: pdfWidth,
         }}
         onResizeStop={(_, __, ref, ___, el) => {
           dispatch({
