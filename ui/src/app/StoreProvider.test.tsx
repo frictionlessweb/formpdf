@@ -724,7 +724,7 @@ describe("Our form reducer", () => {
     const res = reduce(
       { ...init, showLoadingScreen: true },
       {
-        type: "INCREMENT_STEP_AND_ANNOTATIONS",
+        type: "INCREMENT_STEP_AND_GET_ANNOTATIONS",
         payload: {
           annotations: [],
           labelRelations: {},
@@ -738,7 +738,7 @@ describe("Our form reducer", () => {
     const res = reduce(
       { ...init, showLoadingScreen: true, step: "LABEL_LAYER" },
       {
-        type: "INCREMENT_STEP_AND_ANNOTATIONS",
+        type: "INCREMENT_STEP_AND_GET_ANNOTATIONS",
         payload: {
           annotations: [],
           labelRelations: {},
@@ -752,7 +752,7 @@ describe("Our form reducer", () => {
     const res = reduce(
       { ...init, showLoadingScreen: true },
       {
-        type: "INCREMENT_STEP_AND_ANNOTATIONS",
+        type: "INCREMENT_STEP_AND_GET_ANNOTATIONS",
         payload: {
           annotations: [
             [
@@ -779,7 +779,7 @@ describe("Our form reducer", () => {
     const res = reduce(
       { ...init, tool: "CREATE" },
       {
-        type: "INCREMENT_STEP_AND_ANNOTATIONS",
+        type: "INCREMENT_STEP_AND_GET_ANNOTATIONS",
         payload: {
           annotations: [
             [
@@ -806,7 +806,7 @@ describe("Our form reducer", () => {
     const res = reduce(
       { ...init, tool: "CREATE" },
       {
-        type: "INCREMENT_STEP_AND_ANNOTATIONS",
+        type: "INCREMENT_STEP_AND_GET_ANNOTATIONS",
         payload: {
           annotations: [
             [

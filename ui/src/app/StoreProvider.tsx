@@ -18,6 +18,8 @@ import PREDICTIONS from "./predictions.json";
 import { boxContaining } from "./utils";
 import { composeWithDevTools } from "@redux-devtools/extension";
 import color from "../components/color";
+const PDF_HEIGHT = 2200;
+const PDF_WIDTH = 1700;
 
 // This is required to enable immer patches.
 enablePatches();
@@ -223,27 +225,28 @@ const BackgroundColors: Record<ANNOTATION_TYPE, string> = {
   GROUP_LABEL: color.teal.transparent,
 };
 
-// FIXME: Here we need to implement page logic.
 // This function grabs the prediction from prediction.json, creates
 // annotation out of them and its output is used to populate annotations
 // in DEFAULT_ACCESSIBLE_FORM.
-const getPredictedAnnotations = () => {
+const getPredictedAnnotations = (pdfHeight: number) => {
   const predictedAnnotations: Record<AnnotationId, Annotation> = {};
-  PREDICTIONS.forEach((page) => {
+  PREDICTIONS.forEach((page, pageNumber) => {
     page.forEach((prediction) => {
       const { top, left, width, height } = prediction;
+      // Currently this is manually set, later will come from prediction.json
+      const type = "TEXTBOX";
       // @ts-ignore
       const id: AnnotationId = window.crypto.randomUUID();
       predictedAnnotations[id] = {
         id,
-        backgroundColor: ANNOTATION_COLOR,
-        border: ANNOTATION_BORDER,
-        type: "TEXTBOX",
-        top,
+        border: Borders[type],
+        backgroundColor: BackgroundColors[type],
+        type,
+        top: top + pdfHeight * pageNumber,
         left,
         width,
         height,
-        page: 0,
+        page: pageNumber + 1,
         corrected: false,
       };
     });
@@ -256,12 +259,12 @@ export const DEFAULT_ACCESSIBLE_FORM: AccessibleForm = {
   tool: "CREATE",
   zoom: 1,
   page: 1,
-  pdfHeight: 2200,
-  pdfWidth: 1700,
+  pdfHeight: PDF_HEIGHT,
+  pdfWidth: PDF_WIDTH,
   showResizeModal: false,
   currentSection: 1,
   sections: [{ y: 10 }, { y: 300 }],
-  annotations: getPredictedAnnotations(),
+  annotations: getPredictedAnnotations(PDF_HEIGHT),
   selectedAnnotations: {},
   canRedo: false,
   canUndo: false,
@@ -334,7 +337,7 @@ export type AccessibleFormAction =
       payload: Step;
     }
   | {
-      type: "INCREMENT_STEP_AND_ANNOTATIONS";
+      type: "INCREMENT_STEP_AND_GET_ANNOTATIONS";
       payload: {
         annotations: Array<Array<ApiAnnotation>>;
         groupRelations: Record<AnnotationId, AnnotationId[]>;
@@ -637,10 +640,14 @@ export const reduceAccessibleForm = (
         draft.tool = "SELECT";
       });
     }
-    case "INCREMENT_STEP_AND_ANNOTATIONS": {
-      const scale = 1;
+    // This case was used originally to get annotation values from server. This is obselete now.
+    case "INCREMENT_STEP_AND_GET_ANNOTATIONS": {
       return produce(previous, (draft) => {
         const newAnnotations: Record<AnnotationId, Annotation> = {};
+        // All incoming annotations from file are at a scale of 1. So, we need to scale them to the
+        // current scale in UI or the store. If we don't do this, then annotations will be shown in
+        // 100% zoom level, irrespective of zoom level of the UI.
+        const scale = draft.zoom;
         for (let i = 0; i < action.payload.annotations.length; ++i) {
           const page = action.payload.annotations[i];
           for (const annotation of page) {

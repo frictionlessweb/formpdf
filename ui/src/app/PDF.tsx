@@ -211,15 +211,8 @@ interface PDFCanvasProps {
 }
 
 const PDFCanvas: React.FC<PDFCanvasProps> = (props) => {
-  const {
-    page,
-    documentProxy,
-    children,
-    container,
-    zoom,
-    pdfHeight,
-    pdfWidth,
-  } = props;
+  const { page, documentProxy, children, container, pdfHeight, pdfWidth } =
+    props;
   const { canvas, image } = useFetchPDFUI({
     pdfDocument: documentProxy,
     page,
@@ -265,9 +258,11 @@ const PDFUI: React.FC<PDFUIProps> = (props) => {
       id="pdf-container"
       ref={container}
       css={{
+        overflow: "auto",
         display: "flex",
         flexDirection: "column",
         width: "calc(100vw - 120px - 120px + 16px)",
+        height: "calc(100vh - 160px)",
         position: "relative",
       }}>
       <>
@@ -333,20 +328,7 @@ const PDF: React.FC<PDFProps> = (props) => {
   const loading = useSelector((state) => state.showLoadingScreen);
   if (loading) return <LoadingScreen />;
   const { url } = props;
-  return (
-    <>
-      <Box
-        style={{
-          overflow: "auto",
-          height: "calc(100vh - 160px)",
-          width: "fit-content",
-          display: "flex",
-          justifyContent: "center",
-        }}>
-        <PDFUI url={url}>{(props) => <LayerController {...props} />}</PDFUI>
-      </Box>
-    </>
-  );
+  return <PDFUI url={url}>{(props) => <LayerController {...props} />}</PDFUI>;
 };
 
 export default PDF;
