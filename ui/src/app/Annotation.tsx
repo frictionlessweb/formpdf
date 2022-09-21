@@ -8,7 +8,9 @@ import {
   useSelector,
   useDispatch,
 } from "./StoreProvider";
+import Chip from "@mui/material/Chip";
 import { Rnd } from "react-rnd";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
 export type TranslucentBoxProps = React.DetailedHTMLProps<
   React.HTMLAttributes<HTMLDivElement>,
@@ -35,9 +37,10 @@ type HandlerLayerProps = DivProps & {
 // configure the handlers it needs as necessary.
 export const HandlerLayer: React.FC<HandlerLayerProps> = (props) => {
   const { rootCss, pdf, children, ...rest } = props;
-  const { pdfHeight, numPages } = useSelector((state) => {
+  const { pdfHeight, pdfWidth, numPages } = useSelector((state) => {
     return {
       pdfHeight: state.pdfHeight,
+      pdfWidth: state.pdfWidth,
       numPages: state.tokens.length,
     };
   });
@@ -48,11 +51,40 @@ export const HandlerLayer: React.FC<HandlerLayerProps> = (props) => {
         top: 0,
         left: 0,
         position: "absolute",
-        width: pdf.current?.clientWidth,
+        width: pdfWidth,
         height: pdfHeight * numPages,
         ...rootCss,
       }}>
       {children}
+    </div>
+  );
+};
+
+type UnactiveSectionProps = {
+  // height of the section
+  height: number;
+  // function that's executed onClick of edit button
+  onClick: () => void;
+};
+
+const UnactiveSection: React.FC<UnactiveSectionProps> = ({
+  height,
+  onClick,
+}) => {
+  return (
+    <div
+      style={{
+        height: height,
+        width: "100%",
+        borderTop: `4px solid ${color.black}`,
+      }}>
+      <Chip
+        sx={{ margin: "10px" }}
+        icon={<CheckCircleIcon />}
+        variant="filled"
+        label="Edit this section"
+        onClick={onClick}
+      />
     </div>
   );
 };
@@ -71,25 +103,26 @@ type ResizeHandleProps = DivProps & {
 // are not relevant.
 export const ResizeHandle: React.FC<ResizeHandleProps> = (props) => {
   const { rootCss, container, pdf, children, ...rest } = props;
-  const { width, sections, currentSection, pdfHeight, numPages } = useSelector(
-    (state) => ({
-      width: state.width,
+  const { pdfWidth, sections, currentSection, pdfHeight, numPages } =
+    useSelector((state) => ({
+      pdfWidth: state.pdfWidth,
       sections: state.sections,
       currentSection: state.currentSection,
       pdfHeight: state.pdfHeight,
       numPages: state.tokens.length,
-    })
-  );
-
-  const disabledDivTopHeight = sections[currentSection - 1].y;
-  const disabledDivBottomY = sections[currentSection].y;
+    }));
 
   const dispatch = useDispatch();
   const stopTopClicks = (e: MouseEvent) => e.stopPropagation();
   const stopClicks = (e: React.MouseEvent<HTMLElement>) => e.stopPropagation();
 
+  const sectionsBeforeCurrentSection = sections.slice(0, currentSection);
+  //TODO: Think about sections after current section.
+  const sectionsAfterCurrentSection = sections.slice(currentSection + 1);
+
   return (
     <>
+      {/* These are all sections above the active section */}
       {currentSection > 0 && (
         <div
           {...rest}
@@ -97,26 +130,41 @@ export const ResizeHandle: React.FC<ResizeHandleProps> = (props) => {
             top: 0,
             left: 0,
             position: "absolute",
-            width: width,
-            height: disabledDivTopHeight,
+            width: pdfWidth,
+            height: sections[currentSection - 1].y,
             backgroundColor: color.gray.lineTransparent,
+            zIndex: 10,
             ...rootCss,
           }}
-          onClick={stopClicks}></div>
+          onClick={stopClicks}>
+          {sectionsBeforeCurrentSection.map((section, index) => {
+            const sectionHeight =
+              index > 0 ? section.y - sections[index - 1].y : section.y;
+            return (
+              <UnactiveSection
+                height={sectionHeight}
+                onClick={() => {
+                  // People move to previous sections but when they move ahead, new sections with new y values keep on adding.
+                  // dispatch({ type: "SET_CURRENT_SECTION", payload: index });
+                }}
+              />
+            );
+          })}
+        </div>
       )}
       <Rnd
         css={{
           backgroundColor: color.gray.lineTransparent,
           borderTop: `6px solid ${color.yellow}`,
           position: "absolute",
-          zIndex: 2,
+          zIndex: 10,
         }}
         disableDragging
         onMouseUp={stopTopClicks}
         onMouseDown={stopTopClicks}
         size={{
-          height: pdfHeight * numPages - disabledDivBottomY,
-          width: width,
+          height: pdfHeight * numPages - sections[currentSection].y,
+          width: pdfWidth,
         }}
         onResizeStop={(_, __, ref, ___, el) => {
           dispatch({
@@ -124,7 +172,7 @@ export const ResizeHandle: React.FC<ResizeHandleProps> = (props) => {
             payload: el.y,
           });
         }}
-        position={{ x: 0, y: disabledDivBottomY }}
+        position={{ x: 0, y: sections[currentSection].y }}
       />
     </>
   );

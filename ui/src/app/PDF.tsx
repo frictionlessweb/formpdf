@@ -39,6 +39,7 @@ import SectionLayer from "./SectionLayer";
 interface FetchingPdf {
   // Reference to the Canvas element into which we ultimately display the PDFUI.
   canvas: React.MutableRefObject<HTMLCanvasElement | null>;
+  image: React.MutableRefObject<HTMLImageElement | null>;
 }
 
 interface FetchPDFConfig {
@@ -104,6 +105,7 @@ const useFetchPDFUI = (config: FetchPDFConfig): FetchingPdf => {
 
   // Step 2: Render to the canvas.
   const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
+  const imageRef = React.useRef<HTMLImageElement | null>(null);
   const renderingRef = React.useRef<RenderTask | null>(null);
   React.useEffect(() => {
     const displayPdf = async () => {
@@ -114,6 +116,8 @@ const useFetchPDFUI = (config: FetchPDFConfig): FetchingPdf => {
         if (!canvas) return;
         const canvasContext = canvas.getContext("2d");
         if (!canvasContext) return;
+        const image = imageRef?.current;
+        if (!image) return;
 
         if (renderingRef.current) {
           // If we're trying to render something else, prevent it from finishing,
@@ -122,14 +126,17 @@ const useFetchPDFUI = (config: FetchPDFConfig): FetchingPdf => {
           renderingRef.current?.cancel();
         }
 
-        // By default, PDFUIJS will render an extremely blurry PDFUI, so we need to set
-        // the viewport correctly in order to avoid an unpleasant user experience.
-        const scale = window.devicePixelRatio || 1;
-        const viewport = pageProxy.getViewport({ scale: zoom * scale });
+        // By default, PDFUIJS will render an extremely blurry PDF, so we need to set
+        // the scale in viewport correctly to define how sharp or blurry will the image look.
+        const SCALE = 4;
+        const viewport = pageProxy.getViewport({ scale: SCALE });
         canvas.width = viewport.width;
         canvas.height = viewport.height;
         renderingRef.current = pageProxy.render({ viewport, canvasContext });
         await renderingRef.current.promise;
+        // pdfjs-dist does not support directly rendering to img, so we render image to canvas &
+        // then pass the DataURL to an img element on canvas.
+        image.src = canvas.toDataURL();
       } catch (err) {
         if (!(err instanceof RenderingCancelledException)) {
           // An error that we didn't expect happened; throw it.
@@ -139,7 +146,7 @@ const useFetchPDFUI = (config: FetchPDFConfig): FetchingPdf => {
     };
     displayPdf();
   }, [pageProxy, canvasRef, renderingRef, zoom]);
-  return { canvas: canvasRef };
+  return { canvas: canvasRef, image: imageRef };
 };
 
 //  ____                          _   _                 _ _
@@ -195,19 +202,39 @@ interface PDFCanvasProps {
   children: (props: LayerControllerProps) => React.ReactNode;
   // What is the container of the surrounding div?
   container: React.MutableRefObject<HTMLDivElement | null>;
+  // Zoom level
+  zoom: number;
+  // height of the PDF image
+  pdfHeight: number;
+  // width of the PDF image
+  pdfWidth: number;
 }
 
 const PDFCanvas: React.FC<PDFCanvasProps> = (props) => {
-  const { page, documentProxy, children, container } = props;
-  const { canvas } = useFetchPDFUI({
+  const { page, documentProxy, children, container, pdfHeight, pdfWidth } =
+    props;
+  const { canvas, image } = useFetchPDFUI({
     pdfDocument: documentProxy,
     page,
   });
+
   return (
     <>
+      <img
+        style={{
+          borderBottom: "2px solid grey",
+          borderTop: "2px solid grey",
+          width: `${pdfWidth}px`,
+          height: `${pdfHeight}px`,
+        }}
+        id={`pdf-img-${page}`}
+        ref={image}
+        alt={`page ${page} of the pdf`}
+      />
+      {/* Canvas is hidden and is used only for rendering & generating dataURL for img above */}
       <canvas
-        id={`pdf-${page}`}
-        style={{ borderBottom: "2px solid grey", borderTop: "2px solid grey" }}
+        style={{ display: "none" }}
+        id={`pdf-canvas-${page}`}
         ref={canvas}
       />
       {/* We only want to have one big handler for all of the events; don't render stuff twice. */}
@@ -219,10 +246,11 @@ const PDFCanvas: React.FC<PDFCanvasProps> = (props) => {
 const PDFUI: React.FC<PDFUIProps> = (props) => {
   const { url, children } = props;
   const pdfDocument = usePDFDocumentProxy(url);
-  const { width, height, pages } = useSelector((state) => ({
-    width: state.width,
-    height: state.height,
+  const { pages, zoom, pdfWidth, pdfHeight } = useSelector((state) => ({
     pages: state.tokens.length,
+    zoom: state.zoom,
+    pdfWidth: state.pdfWidth,
+    pdfHeight: state.pdfHeight,
   }));
   const container = React.useRef<HTMLDivElement | null>(null);
   return (
@@ -230,13 +258,11 @@ const PDFUI: React.FC<PDFUIProps> = (props) => {
       id="pdf-container"
       ref={container}
       css={{
+        overflow: "auto",
         display: "flex",
         flexDirection: "column",
-        width: "auto",
-        maxHeight: height,
-        maxWidth: width,
-        overflowY: "scroll",
-        overflowX: "scroll",
+        width: "calc(100vw - 120px - 120px + 16px)",
+        height: "calc(100vh - 160px)",
         position: "relative",
       }}>
       <>
@@ -248,6 +274,9 @@ const PDFUI: React.FC<PDFUIProps> = (props) => {
               page={i + 1}
               children={children}
               container={container}
+              zoom={zoom}
+              pdfHeight={pdfHeight}
+              pdfWidth={pdfWidth}
             />
           );
         })}

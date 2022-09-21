@@ -26,7 +26,7 @@ const App = () => {
       display="flex"
       flexDirection="column"
       alignItems="center"
-      paddingX="48px"
+      paddingX="24px"
       paddingY="24px"
       sx={{ backgroundColor: color.gray.line }}>
       <StepsNav paddingBottom="24px" />

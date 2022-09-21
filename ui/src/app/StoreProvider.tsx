@@ -18,6 +18,8 @@ import PREDICTIONS from "./predictions.json";
 import { boxContaining } from "./utils";
 import { composeWithDevTools } from "@redux-devtools/extension";
 import color from "../components/color";
+const PDF_HEIGHT = 2200;
+const PDF_WIDTH = 1700;
 
 // This is required to enable immer patches.
 enablePatches();
@@ -165,13 +167,11 @@ export interface AccessibleForm {
   page: number;
   // What is the height of the PDF document?
   pdfHeight: number;
-  // What is the height of the div inside which PDF document is rendered?
-  height: number;
-  // What do we want the width of the PDF document to be when rendered into the document?
-  width: number;
+  // What is the width of the PDF document?
+  pdfWidth: number;
   // What are all different sections that user has created?
   sections: Array<Section>;
-  // Users can move between sections, this keeps a track on which section they are.
+  // Users can move between sections, this keeps a track on which section they are. It starts from 0.
   currentSection: number;
   // What are all of the annotations we've kept track of so far?
   annotations: Record<AnnotationId, Annotation>;
@@ -225,27 +225,28 @@ const BackgroundColors: Record<ANNOTATION_TYPE, string> = {
   GROUP_LABEL: color.teal.transparent,
 };
 
-// FIXME: Here we need to implement page logic.
 // This function grabs the prediction from prediction.json, creates
 // annotation out of them and its output is used to populate annotations
 // in DEFAULT_ACCESSIBLE_FORM.
-const getPredictedAnnotations = () => {
+const getPredictedAnnotations = (pdfHeight: number) => {
   const predictedAnnotations: Record<AnnotationId, Annotation> = {};
-  PREDICTIONS.forEach((page) => {
+  PREDICTIONS.forEach((page, pageNumber) => {
     page.forEach((prediction) => {
       const { top, left, width, height } = prediction;
+      // Currently this is manually set, later will come from prediction.json
+      const type = "TEXTBOX";
       // @ts-ignore
       const id: AnnotationId = window.crypto.randomUUID();
       predictedAnnotations[id] = {
         id,
-        backgroundColor: ANNOTATION_COLOR,
-        border: ANNOTATION_BORDER,
-        type: "TEXTBOX",
-        top,
+        border: Borders[type],
+        backgroundColor: BackgroundColors[type],
+        type,
+        top: top + pdfHeight * pageNumber,
         left,
         width,
         height,
-        page: 0,
+        page: pageNumber + 1,
         corrected: false,
       };
     });
@@ -258,13 +259,12 @@ export const DEFAULT_ACCESSIBLE_FORM: AccessibleForm = {
   tool: "CREATE",
   zoom: 1,
   page: 1,
-  pdfHeight: 1595,
-  width: 1000,
-  height: 800,
+  pdfHeight: PDF_HEIGHT,
+  pdfWidth: PDF_WIDTH,
   showResizeModal: false,
-  currentSection: 1,
-  sections: [{ y: 10 }, { y: 300 }],
-  annotations: getPredictedAnnotations(),
+  currentSection: 0,
+  sections: [{ y: 300 }],
+  annotations: getPredictedAnnotations(PDF_HEIGHT),
   selectedAnnotations: {},
   canRedo: false,
   canUndo: false,
@@ -281,6 +281,7 @@ export const DEFAULT_ACCESSIBLE_FORM: AccessibleForm = {
 // could take while editing the PDF UI.
 export type AccessibleFormAction =
   | { type: "CHANGE_CURRENT_STEP"; payload: Step }
+  | { type: "SET_CURRENT_SECTION"; payload: number }
   | { type: "GOTO_NEXT_STEP" }
   | { type: "GOTO_PREVIOUS_STEP"; payload: Step }
   | { type: "CHANGE_ZOOM"; payload: number }
@@ -337,7 +338,7 @@ export type AccessibleFormAction =
       payload: Step;
     }
   | {
-      type: "INCREMENT_STEP_AND_ANNOTATIONS";
+      type: "INCREMENT_STEP_AND_GET_ANNOTATIONS";
       payload: {
         annotations: Array<Array<ApiAnnotation>>;
         groupRelations: Record<AnnotationId, AnnotationId[]>;
@@ -489,6 +490,8 @@ export const reduceAccessibleForm = (
         for (const section of draft.sections) {
           section.y *= scale;
         }
+        draft.pdfHeight = draft.pdfHeight * scale;
+        draft.pdfWidth = draft.pdfWidth * scale;
         return;
       });
     }
@@ -592,14 +595,11 @@ export const reduceAccessibleForm = (
     case "HYDRATE_STORE": {
       if (action.payload.haveScaled) return action.payload;
       return produce(action.payload, (draft) => {
-        // Different devicePixelRatio values will change the display; as such,
-        // we need to scale the tokens accordingly.
-        // We start with scale as devicePixelRatio, and then we use zoom to scale
-        // things up and down.
-        const scale = window.devicePixelRatio;
-        // We are dividing the scale here by 2 because our initial pdfHeight was taken
-        // on a retina display, which have pixelRatio of 2.
-        draft.pdfHeight = (draft.pdfHeight / 2) * scale;
+        // This scale variable might be required in the future, when scaling differs for different inputs.
+        const scale = 1;
+        // TODO: Why are we using 1216 X 1577, maybe it was size of canvas before.
+        // const scaleX = 1216 / 1700;
+        // const scaleY = 1577 / 2200;
         const annotationIds = Object.keys(draft.annotations);
         for (const annotationId of annotationIds) {
           const annotation = draft.annotations[annotationId];
@@ -641,10 +641,14 @@ export const reduceAccessibleForm = (
         draft.tool = "SELECT";
       });
     }
-    case "INCREMENT_STEP_AND_ANNOTATIONS": {
-      const scale = window.devicePixelRatio;
+    // This case was used originally to get annotation values from server. This is obselete now.
+    case "INCREMENT_STEP_AND_GET_ANNOTATIONS": {
       return produce(previous, (draft) => {
         const newAnnotations: Record<AnnotationId, Annotation> = {};
+        // All incoming annotations from file are at a scale of 1. So, we need to scale them to the
+        // current scale in UI or the store. If we don't do this, then annotations will be shown in
+        // 100% zoom level, irrespective of zoom level of the UI.
+        const scale = draft.zoom;
         for (let i = 0; i < action.payload.annotations.length; ++i) {
           const page = action.payload.annotations[i];
           for (const annotation of page) {
@@ -707,6 +711,14 @@ export const reduceAccessibleForm = (
         draft.groupRelations[action.payload.from.ui.id] = action.payload.to;
         draft.selectedAnnotations = { [action.payload.from.ui.id]: true };
         draft.tool = "CREATE";
+        return;
+      });
+    }
+    case "SET_CURRENT_SECTION": {
+      return produceWithUndo(previous, (draft) => {
+        draft.currentSection = action.payload;
+        draft.step = "SECTION_LAYER";
+        draft.tool = "SELECT";
         return;
       });
     }

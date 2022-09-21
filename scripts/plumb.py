@@ -2,6 +2,7 @@
 import pytesseract
 from pdf2image import convert_from_path
 import json
+import shutil
 
 # A quick script to extract the relevant tokens out of a PDF file. You won't
 # need to run this unless you change the PDF file. If you do, then you will
@@ -16,28 +17,28 @@ import json
 #
 # After you've finished that, you'll want to make a copy of the PDF file you
 # want to analyze and place the copy into this directory. Then, rename the
-# copy to "plumb.pdf" and run:
+# copy to "form.pdf" and run:
 #
 # python plumb.py
 #
 # That will emit a JSON with the relevant token information which you can
 # copy paste with the relevant UI code.
-# Note: You would also need to copy and paste the pdf in public folder as sample_form.pdf
 
+# TEXT_TOKENS
 DPI = 450
-images = convert_from_path("form.pdf", DPI)
+# Size of 1700,2200 is used because field_token dataset's dimensions are based on 1700 X 2200 resolution PNG form image.
+images = convert_from_path("form.pdf", DPI, size=(1700, 2200))
 all_tokens = []
-ocr_scale_factor = 0.16
 
 for i, image in enumerate(images):
     details = pytesseract.image_to_data(image, output_type="dict")
     num_details = len(details["top"])
     tokens = [
         {
-            "top": details["top"][i] * ocr_scale_factor,
-            "left": details["left"][i] * ocr_scale_factor,
-            "width": details["width"][i] * ocr_scale_factor,
-            "height": details["height"][i] * ocr_scale_factor,
+            "top": details["top"][i],
+            "left": details["left"][i],
+            "width": details["width"][i],
+            "height": details["height"][i],
             "text": details["text"][i],
             "class": "text",
         }
@@ -49,11 +50,12 @@ for i, image in enumerate(images):
 with open("../ui/src/app/tokens.json", "w", encoding="utf-8") as f:
     json.dump(all_tokens, f, ensure_ascii=False, indent=4)
 
+# FIELD_TOKENS
+# The dimensions in this form.json file from the flamingo dataset are based on 1700 X 2200 resolution PNG form image
 form_data = json.load(open("form.json"))
-form_scale_factor = 0.36
 
 all_predictions = []
-# here we can define which of the token classes we want to include such as TextRun, Widget, ChoiceGroups.
+# Here we can define which of the token classes we want to include such as TextRun, Widget, ChoiceGroups.
 included_token_classes = ["Widget"]
 for page_data in form_data:
     mapped_page_data = []
@@ -61,10 +63,10 @@ for page_data in form_data:
         for token in page_data[token_class]:
             mapped_page_data.append(
                 {
-                    "top": token["y"] * form_scale_factor,
-                    "left": token["x"] * form_scale_factor,
-                    "width": token["w"] * form_scale_factor,
-                    "height": token["h"] * form_scale_factor,
+                    "top": token["y"],
+                    "left": token["x"],
+                    "width": token["w"],
+                    "height": token["h"],
                     "class": token["jsonClass"],
                 }
             )
@@ -72,3 +74,6 @@ for page_data in form_data:
 
 with open("../ui/src/app/predictions.json", "w", encoding="utf-8") as f:
     json.dump(all_predictions, f, ensure_ascii=False, indent=4)
+
+# This copies form.pdf in the ui/public folder as sample_form.pdf, which is used in UI for rendering.
+shutil.copyfile("form.pdf", "../ui/public/sample_form.pdf")

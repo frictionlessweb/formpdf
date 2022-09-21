@@ -3,10 +3,9 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import color from "../components/color";
 import { useDispatch, useSelector, Annotation } from "./StoreProvider";
-import allPagesPredictions from "./predictions.json";
 import { Dispatch } from "redux";
 
-const GET_ANNOTATIONS_FROM_SERVER = false;
+// const GET_ANNOTATIONS_FROM_SERVER = false;
 
 interface sendToApi {
   pages: number;
@@ -18,12 +17,12 @@ interface sendToApi {
 const ProceedToNextLayer: React.FC = () => {
   const dispatch = useDispatch();
 
-  const { step, pages, width, pdfHeight, annotations } = useSelector(
+  const { step, pages, pdfWidth, pdfHeight, annotations } = useSelector(
     (state) => {
       return {
         step: state.step,
         pages: state.tokens.length,
-        width: state.width,
+        pdfWidth: state.pdfWidth,
         pdfHeight: state.pdfHeight,
         annotations: state.annotations,
       };
@@ -32,7 +31,7 @@ const ProceedToNextLayer: React.FC = () => {
 
   const sendToApi = {
     pages,
-    width,
+    width: pdfWidth,
     height: pdfHeight,
     annotations,
   };
@@ -60,17 +59,22 @@ const ProceedToNextLayer: React.FC = () => {
         onClick={async () => {
           switch (step) {
             case "SECTION_LAYER": {
-              dispatch({ type: "SHOW_LOADING_SCREEN" });
-              if (GET_ANNOTATIONS_FROM_SERVER) {
-                await getAnnotationsFromServer(dispatch, sendToApi);
-              } else {
-                getAnnotationsFromFile(dispatch, pdfHeight);
-              }
+              dispatch({ type: "GOTO_NEXT_STEP" });
+              // Following code will be useful when fetching annotations from server
+              // dispatch({ type: "SHOW_LOADING_SCREEN" });
+              // if (GET_ANNOTATIONS_FROM_SERVER) {
+              //   await getAnnotationsFromServer(dispatch, sendToApi);
+              // } else {
+              //   getAnnotationsFromFile(dispatch, pdfHeight);
+              // }
               return;
             }
             // Fallthrough intentionally, equivalent to an or
             // eslint-disable-next-line
-            case "FIELD_LAYER":
+            case "FIELD_LAYER": {
+              dispatch({ type: "GOTO_NEXT_STEP" });
+              return;
+            }
             case "LABEL_LAYER": {
               dispatch({ type: "GOTO_NEXT_STEP" });
               return;
@@ -89,54 +93,55 @@ const ProceedToNextLayer: React.FC = () => {
   );
 };
 
-const getAnnotationsFromServer = async (
-  dispatch: Dispatch,
-  sendToApi: sendToApi
-) => {
-  const res = await window.fetch(
-    `${process.env.REACT_APP_API_PATH || ""}/annotations`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(sendToApi),
-    }
-  );
-  const jsonRes = await res.json();
-  const { annotations, groupRelations, labelRelations } = jsonRes;
-  dispatch({
-    type: "INCREMENT_STEP_AND_ANNOTATIONS",
-    payload: {
-      annotations,
-      groupRelations,
-      labelRelations,
-    },
-  });
-};
+// const getAnnotationsFromServer = async (
+//   dispatch: Dispatch,
+//   sendToApi: sendToApi
+// ) => {
+//   const res = await window.fetch(
+//     `${process.env.REACT_APP_API_PATH || ""}/annotations`,
+//     {
+//       method: "POST",
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//       body: JSON.stringify(sendToApi),
+//     }
+//   );
+//   const jsonRes = await res.json();
+//   const { annotations, groupRelations, labelRelations } = jsonRes;
+//   dispatch({
+//     type: "INCREMENT_STEP_AND_GET_ANNOTATIONS",
+//     payload: {
+//       annotations,
+//       groupRelations,
+//       labelRelations,
+//     },
+//   });
+// };
 
-const getAnnotationsFromFile = (dispatch: Dispatch, pdfHeight: number) => {
-  const annotations = allPagesPredictions.map((pagePredictions, pageNumber) => {
-    return pagePredictions.map((annotation) => {
-      const { left, width, top, height } = annotation;
-      return {
-        id: window.crypto.randomUUID(),
-        type: "TEXTBOX",
-        left,
-        width,
-        top: top + pdfHeight * pageNumber,
-        height,
-      };
-    });
-  });
-  dispatch({
-    type: "INCREMENT_STEP_AND_ANNOTATIONS",
-    payload: {
-      annotations,
-      groupRelations: {},
-      labelRelations: {},
-    },
-  });
-};
+// TODO: This thing is repeated in StoreProvider as well, there too we get all annotations when store starts.
+// const getAnnotationsFromFile = (dispatch: Dispatch, pdfHeight: number) => {
+//   const annotations = allPagesPredictions.map((pagePredictions, pageNumber) => {
+//     return pagePredictions.map((annotation) => {
+//       const { left, width, top, height } = annotation;
+//       return {
+//         id: window.crypto.randomUUID(),
+//         type: "TEXTBOX",
+//         left,
+//         width,
+//         top: top + pdfHeight * pageNumber,
+//         height,
+//       };
+//     });
+//   });
+//   dispatch({
+//     type: "INCREMENT_STEP_AND_GET_ANNOTATIONS",
+//     payload: {
+//       annotations,
+//       groupRelations: {},
+//       labelRelations: {},
+//     },
+//   });
+// };
 
 export default ProceedToNextLayer;

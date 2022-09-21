@@ -395,7 +395,8 @@ describe("Our form reducer", () => {
       width: 1000,
       height: 550,
       showResizeModal: false,
-      pdfHeight: 1595,
+      pdfHeight: 2200,
+      pdfWidth: 1700,
       currentSection: 0,
       sections: [{ y: 0 }] as Section[],
     } as const;
@@ -420,7 +421,8 @@ describe("Our form reducer", () => {
       haveScaled: false,
       width: 1000,
       height: 550,
-      pdfHeight: 1595,
+      pdfHeight: 2200,
+      pdfWidth: 1700,
       showResizeModal: false,
       showLoadingScreen: false,
       currentSection: 0,
@@ -450,7 +452,8 @@ describe("Our form reducer", () => {
       haveScaled: false,
       width: 1000,
       height: 550,
-      pdfHeight: 1595,
+      pdfHeight: 2200,
+      pdfWidth: 1700,
       showResizeModal: false,
       showLoadingScreen: false,
       currentSection: 0,
@@ -482,7 +485,8 @@ describe("Our form reducer", () => {
       height: 550,
       showResizeModal: false,
       showLoadingScreen: false,
-      pdfHeight: 1595,
+      pdfHeight: 2200,
+      pdfWidth: 1700,
       currentSection: 0,
       sections: [{ y: 0 }] as Section[],
     } as const;
@@ -720,7 +724,7 @@ describe("Our form reducer", () => {
     const res = reduce(
       { ...init, showLoadingScreen: true },
       {
-        type: "INCREMENT_STEP_AND_ANNOTATIONS",
+        type: "INCREMENT_STEP_AND_GET_ANNOTATIONS",
         payload: {
           annotations: [],
           labelRelations: {},
@@ -734,7 +738,7 @@ describe("Our form reducer", () => {
     const res = reduce(
       { ...init, showLoadingScreen: true, step: "LABEL_LAYER" },
       {
-        type: "INCREMENT_STEP_AND_ANNOTATIONS",
+        type: "INCREMENT_STEP_AND_GET_ANNOTATIONS",
         payload: {
           annotations: [],
           labelRelations: {},
@@ -748,7 +752,7 @@ describe("Our form reducer", () => {
     const res = reduce(
       { ...init, showLoadingScreen: true },
       {
-        type: "INCREMENT_STEP_AND_ANNOTATIONS",
+        type: "INCREMENT_STEP_AND_GET_ANNOTATIONS",
         payload: {
           annotations: [
             [
@@ -775,7 +779,7 @@ describe("Our form reducer", () => {
     const res = reduce(
       { ...init, tool: "CREATE" },
       {
-        type: "INCREMENT_STEP_AND_ANNOTATIONS",
+        type: "INCREMENT_STEP_AND_GET_ANNOTATIONS",
         payload: {
           annotations: [
             [
@@ -802,7 +806,7 @@ describe("Our form reducer", () => {
     const res = reduce(
       { ...init, tool: "CREATE" },
       {
-        type: "INCREMENT_STEP_AND_ANNOTATIONS",
+        type: "INCREMENT_STEP_AND_GET_ANNOTATIONS",
         payload: {
           annotations: [
             [

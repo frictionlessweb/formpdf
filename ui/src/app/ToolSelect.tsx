@@ -51,9 +51,11 @@ const ResetButton = () => {
   const dispatch = useDispatch();
   return (
     <IconButton
-      onClick={() =>
-        dispatch({ type: "HYDRATE_STORE", payload: DEFAULT_ACCESSIBLE_FORM })
-      }
+      onClick={() => {
+        // We also clear localStorage as store is saved into it.
+        window.localStorage.clear();
+        dispatch({ type: "HYDRATE_STORE", payload: DEFAULT_ACCESSIBLE_FORM });
+      }}
       sx={{
         "&:hover": {
           color: color.red.medium,
