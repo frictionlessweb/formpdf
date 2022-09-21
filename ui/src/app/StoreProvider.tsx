@@ -262,8 +262,8 @@ export const DEFAULT_ACCESSIBLE_FORM: AccessibleForm = {
   pdfHeight: PDF_HEIGHT,
   pdfWidth: PDF_WIDTH,
   showResizeModal: false,
-  currentSection: 1,
-  sections: [{ y: 10 }, { y: 300 }],
+  currentSection: 0,
+  sections: [{ y: 300 }],
   annotations: getPredictedAnnotations(PDF_HEIGHT),
   selectedAnnotations: {},
   canRedo: false,
@@ -281,6 +281,7 @@ export const DEFAULT_ACCESSIBLE_FORM: AccessibleForm = {
 // could take while editing the PDF UI.
 export type AccessibleFormAction =
   | { type: "CHANGE_CURRENT_STEP"; payload: Step }
+  | { type: "SET_CURRENT_SECTION"; payload: number }
   | { type: "GOTO_NEXT_STEP" }
   | { type: "GOTO_PREVIOUS_STEP"; payload: Step }
   | { type: "CHANGE_ZOOM"; payload: number }
@@ -710,6 +711,14 @@ export const reduceAccessibleForm = (
         draft.groupRelations[action.payload.from.ui.id] = action.payload.to;
         draft.selectedAnnotations = { [action.payload.from.ui.id]: true };
         draft.tool = "CREATE";
+        return;
+      });
+    }
+    case "SET_CURRENT_SECTION": {
+      return produceWithUndo(previous, (draft) => {
+        draft.currentSection = action.payload;
+        draft.step = "SECTION_LAYER";
+        draft.tool = "SELECT";
         return;
       });
     }
