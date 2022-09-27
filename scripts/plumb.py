@@ -24,10 +24,19 @@ import shutil
 # That will emit a JSON with the relevant token information which you can
 # copy paste with the relevant UI code.
 
+# input files
+form_path = "forms/form_5.pdf"
+json_path = "forms/form_5.json"
+
+# output files
+token_path = "../ui/src/app/tokens/tokens_5.json"
+prediction_path = "../ui/src/app/predictions/predictions_5.json"
+ui_public_folder_path = "../ui/public/form_5.pdf"
+
 # TEXT_TOKENS
 DPI = 450
 # Size of 1700,2200 is used because field_token dataset's dimensions are based on 1700 X 2200 resolution PNG form image.
-images = convert_from_path("form.pdf", DPI, size=(1700, 2200))
+images = convert_from_path(form_path, DPI, size=(1700, 2200))
 all_tokens = []
 
 for i, image in enumerate(images):
@@ -47,12 +56,12 @@ for i, image in enumerate(images):
     ]
     all_tokens.append(tokens)
 
-with open("../ui/src/app/tokens.json", "w", encoding="utf-8") as f:
+with open(token_path, "w", encoding="utf-8") as f:
     json.dump(all_tokens, f, ensure_ascii=False, indent=4)
 
 # FIELD_TOKENS
 # The dimensions in this form.json file from the flamingo dataset are based on 1700 X 2200 resolution PNG form image
-form_data = json.load(open("form.json"))
+form_data = json.load(open(json_path))
 
 all_predictions = []
 # Here we can define which of the token classes we want to include such as TextRun, Widget, ChoiceGroups.
@@ -72,8 +81,8 @@ for page_data in form_data:
             )
     all_predictions.append(mapped_page_data)
 
-with open("../ui/src/app/predictions.json", "w", encoding="utf-8") as f:
+with open(prediction_path, "w", encoding="utf-8") as f:
     json.dump(all_predictions, f, ensure_ascii=False, indent=4)
 
-# This copies form.pdf in the ui/public folder as sample_form.pdf, which is used in UI for rendering.
-shutil.copyfile("form.pdf", "../ui/public/sample_form.pdf")
+# This copies form.pdf in the ui/public folder, which is used in UI for rendering.
+shutil.copyfile(form_path, ui_public_folder_path)

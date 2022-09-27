@@ -13,13 +13,13 @@ import {
   TypedUseSelectorHook,
 } from "react-redux";
 import { createLogger } from "redux-logger";
-import TOKENS from "./tokens.json";
-import PREDICTIONS from "./predictions.json";
-import { boxContaining } from "./utils";
+import { boxContaining, getPredictionsAndTokens } from "./utils";
 import { composeWithDevTools } from "@redux-devtools/extension";
 import color from "../components/color";
 const PDF_HEIGHT = 2200;
 const PDF_WIDTH = 1700;
+
+const [PREDICTIONS, TOKENS] = getPredictionsAndTokens();
 
 // This is required to enable immer patches.
 enablePatches();

@@ -403,99 +403,7 @@ describe("Our form reducer", () => {
     const res = reduce(init, { type: "HYDRATE_STORE", payload });
     expect(res).toEqual(payload);
   });
-  test("When the device pixel ratio changes, the tokens scale", () => {
-    const payload = {
-      annotations: {},
-      selectedAnnotations: {},
-      page: 2,
-      tool: "CREATE",
-      step: "FIELD_LAYER",
-      zoom: 3,
-      canRedo: false,
-      canUndo: false,
-      versions: {},
-      currentVersion: -1,
-      tokens: [[{ top: 0, left: 0, height: 25, width: 25 }]] as Bounds[][],
-      labelRelations: {},
-      groupRelations: {},
-      haveScaled: false,
-      width: 1000,
-      height: 550,
-      pdfHeight: 2200,
-      pdfWidth: 1700,
-      showResizeModal: false,
-      showLoadingScreen: false,
-      currentSection: 0,
-      sections: [{ y: 0 }] as Section[],
-    } as const;
-    window.devicePixelRatio = 2;
-    const res = reduce(init, { type: "HYDRATE_STORE", payload });
-    expect(res.tokens[0][0].height).toEqual(50);
-    expect(res.tokens[0][0].width).toEqual(50);
-    window.devicePixelRatio = 1;
-  });
-  test("Scaling the pixel ratio sets haveScaled to true", () => {
-    const payload = {
-      annotations: {},
-      selectedAnnotations: {},
-      page: 2,
-      tool: "CREATE",
-      step: "FIELD_LAYER",
-      zoom: 3,
-      canRedo: false,
-      canUndo: false,
-      versions: {},
-      currentVersion: -1,
-      tokens: [[{ top: 0, left: 0, height: 25, width: 25 }]] as Bounds[][],
-      labelRelations: {},
-      groupRelations: {},
-      haveScaled: false,
-      width: 1000,
-      height: 550,
-      pdfHeight: 2200,
-      pdfWidth: 1700,
-      showResizeModal: false,
-      showLoadingScreen: false,
-      currentSection: 0,
-      sections: [{ y: 0 }] as Section[],
-    } as const;
-    window.devicePixelRatio = 2;
-    const res = reduce(init, { type: "HYDRATE_STORE", payload });
-    expect(res.haveScaled).toBe(true);
-    window.devicePixelRatio = 1;
-  });
 
-  test("If we have already scaled, we don't scale again", () => {
-    const payload = {
-      annotations: {},
-      selectedAnnotations: {},
-      page: 2,
-      tool: "CREATE",
-      step: "FIELD_LAYER",
-      zoom: 3,
-      canRedo: false,
-      canUndo: false,
-      versions: {},
-      currentVersion: -1,
-      tokens: [[{ top: 0, left: 0, height: 25, width: 25 }]] as Bounds[][],
-      labelRelations: {},
-      groupRelations: {},
-      haveScaled: true,
-      width: 1000,
-      height: 550,
-      showResizeModal: false,
-      showLoadingScreen: false,
-      pdfHeight: 2200,
-      pdfWidth: 1700,
-      currentSection: 0,
-      sections: [{ y: 0 }] as Section[],
-    } as const;
-    window.devicePixelRatio = 2;
-    const res = reduce(init, { type: "HYDRATE_STORE", payload });
-    expect(res.tokens[0][0].height).toEqual(25);
-    expect(res.tokens[0][0].width).toEqual(25);
-    window.devicePixelRatio = 1;
-  });
   test("We can set the annotation type", () => {
     const payload = {
       id: "1",
@@ -702,8 +610,8 @@ describe("Our form reducer", () => {
     const res = reduce(init, {
       type: "CREATE_NEW_SECTION",
     });
-    expect(res.currentSection).toBe(2);
-    expect(res.sections).toEqual([{ y: 10 }, { y: 300 }, { y: 600 }]);
+    expect(res.currentSection).toBe(1);
+    expect(res.sections).toEqual([{ y: 300 }, { y: 600 }]);
   });
   test("We can update existing sections", () => {});
   test("We can jump back to the field layer", () => {
