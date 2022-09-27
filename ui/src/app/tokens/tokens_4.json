@@ -1,0 +1,5390 @@
+[
+    [
+        {
+            "top": 62,
+            "left": 1324,
+            "width": 41,
+            "height": 12,
+            "text": "OMB",
+            "class": "text"
+        },
+        {
+            "top": 61,
+            "left": 1373,
+            "width": 57,
+            "height": 13,
+            "text": "Control",
+            "class": "text"
+        },
+        {
+            "top": 62,
+            "left": 1436,
+            "width": 27,
+            "height": 12,
+            "text": "No.",
+            "class": "text"
+        },
+        {
+            "top": 62,
+            "left": 1470,
+            "width": 82,
+            "height": 12,
+            "text": "2900-0779",
+            "class": "text"
+        },
+        {
+            "top": 80,
+            "left": 1323,
+            "width": 91,
+            "height": 17,
+            "text": "Respondent",
+            "class": "text"
+        },
+        {
+            "top": 80,
+            "left": 1420,
+            "width": 60,
+            "height": 13,
+            "text": "Burden:",
+            "class": "text"
+        },
+        {
+            "top": 81,
+            "left": 1487,
+            "width": 17,
+            "height": 12,
+            "text": "45",
+            "class": "text"
+        },
+        {
+            "top": 80,
+            "left": 1511,
+            "width": 64,
+            "height": 13,
+            "text": "Minutes",
+            "class": "text"
+        },
+        {
+            "top": 99,
+            "left": 1323,
+            "width": 81,
+            "height": 17,
+            "text": "Expiration",
+            "class": "text"
+        },
+        {
+            "top": 100,
+            "left": 1410,
+            "width": 40,
+            "height": 12,
+            "text": "Date:",
+            "class": "text"
+        },
+        {
+            "top": 99,
+            "left": 1462,
+            "width": 87,
+            "height": 13,
+            "text": "01/31/2018",
+            "class": "text"
+        },
+        {
+            "top": 134,
+            "left": 622,
+            "width": 118,
+            "height": 23,
+            "text": "Peripheral",
+            "class": "text"
+        },
+        {
+            "top": 134,
+            "left": 751,
+            "width": 81,
+            "height": 18,
+            "text": "Nerves",
+            "class": "text"
+        },
+        {
+            "top": 134,
+            "left": 841,
+            "width": 128,
+            "height": 18,
+            "text": "Conditions",
+            "class": "text"
+        },
+        {
+            "top": 134,
+            "left": 978,
+            "width": 49,
+            "height": 23,
+            "text": "(Not",
+            "class": "text"
+        },
+        {
+            "top": 134,
+            "left": 1036,
+            "width": 107,
+            "height": 23,
+            "text": "Including",
+            "class": "text"
+        },
+        {
+            "top": 134,
+            "left": 1154,
+            "width": 94,
+            "height": 18,
+            "text": "Diabetic",
+            "class": "text"
+        },
+        {
+            "top": 134,
+            "left": 1257,
+            "width": 97,
+            "height": 23,
+            "text": "Sensory-",
+            "class": "text"
+        },
+        {
+            "top": 134,
+            "left": 1372,
+            "width": 68,
+            "height": 18,
+            "text": "Motor",
+            "class": "text"
+        },
+        {
+            "top": 134,
+            "left": 1449,
+            "width": 118,
+            "height": 23,
+            "text": "Peripheral",
+            "class": "text"
+        },
+        {
+            "top": 164,
+            "left": 823,
+            "width": 144,
+            "height": 23,
+            "text": "Neuropathy)",
+            "class": "text"
+        },
+        {
+            "top": 164,
+            "left": 978,
+            "width": 108,
+            "height": 23,
+            "text": "Disability",
+            "class": "text"
+        },
+        {
+            "top": 164,
+            "left": 1096,
+            "width": 95,
+            "height": 18,
+            "text": "Benefits",
+            "class": "text"
+        },
+        {
+            "top": 164,
+            "left": 1200,
+            "width": 166,
+            "height": 19,
+            "text": "Questionnaire",
+            "class": "text"
+        },
+        {
+            "top": 202,
+            "left": 97,
+            "width": 137,
+            "height": 15,
+            "text": "IMPORTANT",
+            "class": "text"
+        },
+        {
+            "top": 212,
+            "left": 242,
+            "width": 6,
+            "height": 1,
+            "text": "-",
+            "class": "text"
+        },
+        {
+            "top": 202,
+            "left": 264,
+            "width": 42,
+            "height": 15,
+            "text": "THE",
+            "class": "text"
+        },
+        {
+            "top": 202,
+            "left": 314,
+            "width": 149,
+            "height": 15,
+            "text": "DEPARTMENT",
+            "class": "text"
+        },
+        {
+            "top": 202,
+            "left": 472,
+            "width": 26,
+            "height": 15,
+            "text": "OF",
+            "class": "text"
+        },
+        {
+            "top": 202,
+            "left": 507,
+            "width": 115,
+            "height": 15,
+            "text": "VETERANS",
+            "class": "text"
+        },
+        {
+            "top": 202,
+            "left": 632,
+            "width": 89,
+            "height": 15,
+            "text": "AFFAIRS",
+            "class": "text"
+        },
+        {
+            "top": 201,
+            "left": 731,
+            "width": 44,
+            "height": 20,
+            "text": "(VA)",
+            "class": "text"
+        },
+        {
+            "top": 202,
+            "left": 785,
+            "width": 51,
+            "height": 15,
+            "text": "WILL",
+            "class": "text"
+        },
+        {
+            "top": 202,
+            "left": 844,
+            "width": 48,
+            "height": 15,
+            "text": "NOT",
+            "class": "text"
+        },
+        {
+            "top": 202,
+            "left": 903,
+            "width": 38,
+            "height": 15,
+            "text": "PAY",
+            "class": "text"
+        },
+        {
+            "top": 202,
+            "left": 951,
+            "width": 26,
+            "height": 15,
+            "text": "OR",
+            "class": "text"
+        },
+        {
+            "top": 202,
+            "left": 982,
+            "width": 133,
+            "height": 15,
+            "text": "REIMBURSE",
+            "class": "text"
+        },
+        {
+            "top": 202,
+            "left": 1120,
+            "width": 47,
+            "height": 15,
+            "text": "ANY",
+            "class": "text"
+        },
+        {
+            "top": 202,
+            "left": 1175,
+            "width": 109,
+            "height": 15,
+            "text": "EXPENSES",
+            "class": "text"
+        },
+        {
+            "top": 202,
+            "left": 1294,
+            "width": 30,
+            "height": 15,
+            "text": "OR",
+            "class": "text"
+        },
+        {
+            "top": 202,
+            "left": 1332,
+            "width": 55,
+            "height": 15,
+            "text": "COST",
+            "class": "text"
+        },
+        {
+            "top": 202,
+            "left": 1396,
+            "width": 112,
+            "height": 15,
+            "text": "INCURRED",
+            "class": "text"
+        },
+        {
+            "top": 202,
+            "left": 1517,
+            "width": 23,
+            "height": 15,
+            "text": "IN",
+            "class": "text"
+        },
+        {
+            "top": 202,
+            "left": 1549,
+            "width": 42,
+            "height": 15,
+            "text": "THE",
+            "class": "text"
+        },
+        {
+            "top": 229,
+            "left": 96,
+            "width": 95,
+            "height": 15,
+            "text": "PROCESS",
+            "class": "text"
+        },
+        {
+            "top": 229,
+            "left": 202,
+            "width": 26,
+            "height": 15,
+            "text": "OF",
+            "class": "text"
+        },
+        {
+            "top": 229,
+            "left": 240,
+            "width": 142,
+            "height": 15,
+            "text": "COMPLETING",
+            "class": "text"
+        },
+        {
+            "top": 228,
+            "left": 391,
+            "width": 85,
+            "height": 16,
+            "text": "AND/OR",
+            "class": "text"
+        },
+        {
+            "top": 229,
+            "left": 485,
+            "width": 136,
+            "height": 15,
+            "text": "SUBMITTING",
+            "class": "text"
+        },
+        {
+            "top": 229,
+            "left": 631,
+            "width": 47,
+            "height": 15,
+            "text": "THIS",
+            "class": "text"
+        },
+        {
+            "top": 229,
+            "left": 688,
+            "width": 67,
+            "height": 15,
+            "text": "FORM.",
+            "class": "text"
+        },
+        {
+            "top": 229,
+            "left": 765,
+            "width": 81,
+            "height": 15,
+            "text": "PLEASE",
+            "class": "text"
+        },
+        {
+            "top": 229,
+            "left": 856,
+            "width": 59,
+            "height": 15,
+            "text": "READ",
+            "class": "text"
+        },
+        {
+            "top": 229,
+            "left": 926,
+            "width": 41,
+            "height": 15,
+            "text": "THE",
+            "class": "text"
+        },
+        {
+            "top": 229,
+            "left": 977,
+            "width": 97,
+            "height": 15,
+            "text": "PRIVACY",
+            "class": "text"
+        },
+        {
+            "top": 229,
+            "left": 1084,
+            "width": 43,
+            "height": 15,
+            "text": "ACT",
+            "class": "text"
+        },
+        {
+            "top": 229,
+            "left": 1137,
+            "width": 46,
+            "height": 15,
+            "text": "AND",
+            "class": "text"
+        },
+        {
+            "top": 229,
+            "left": 1193,
+            "width": 144,
+            "height": 15,
+            "text": "RESPONDENT",
+            "class": "text"
+        },
+        {
+            "top": 229,
+            "left": 1346,
+            "width": 91,
+            "height": 15,
+            "text": "BURDEN",
+            "class": "text"
+        },
+        {
+            "top": 229,
+            "left": 1446,
+            "width": 156,
+            "height": 15,
+            "text": "INFORMATION",
+            "class": "text"
+        },
+        {
+            "top": 255,
+            "left": 96,
+            "width": 85,
+            "height": 15,
+            "text": "BEFORE",
+            "class": "text"
+        },
+        {
+            "top": 255,
+            "left": 188,
+            "width": 142,
+            "height": 15,
+            "text": "COMPLETING",
+            "class": "text"
+        },
+        {
+            "top": 255,
+            "left": 336,
+            "width": 67,
+            "height": 15,
+            "text": "FORM.",
+            "class": "text"
+        },
+        {
+            "top": 284,
+            "left": 96,
+            "width": 54,
+            "height": 14,
+            "text": "NAME",
+            "class": "text"
+        },
+        {
+            "top": 284,
+            "left": 158,
+            "width": 25,
+            "height": 14,
+            "text": "OF",
+            "class": "text"
+        },
+        {
+            "top": 284,
+            "left": 191,
+            "width": 175,
+            "height": 14,
+            "text": "PATIENTVETERAN",
+            "class": "text"
+        },
+        {
+            "top": 284,
+            "left": 1097,
+            "width": 193,
+            "height": 14,
+            "text": "PATIENT/VETERAN'S",
+            "class": "text"
+        },
+        {
+            "top": 284,
+            "left": 1297,
+            "width": 70,
+            "height": 14,
+            "text": "SOCIAL",
+            "class": "text"
+        },
+        {
+            "top": 284,
+            "left": 1374,
+            "width": 96,
+            "height": 14,
+            "text": "SECURITY",
+            "class": "text"
+        },
+        {
+            "top": 284,
+            "left": 1478,
+            "width": 82,
+            "height": 14,
+            "text": "NUMBER",
+            "class": "text"
+        },
+        {
+            "top": 136,
+            "left": 89,
+            "width": 57,
+            "height": 38,
+            "text": "Wa",
+            "class": "text"
+        },
+        {
+            "top": 148,
+            "left": 161,
+            "width": 148,
+            "height": 25,
+            "text": "Department",
+            "class": "text"
+        },
+        {
+            "top": 148,
+            "left": 317,
+            "width": 25,
+            "height": 20,
+            "text": "of",
+            "class": "text"
+        },
+        {
+            "top": 149,
+            "left": 350,
+            "width": 110,
+            "height": 19,
+            "text": "Veterans",
+            "class": "text"
+        },
+        {
+            "top": 148,
+            "left": 468,
+            "width": 84,
+            "height": 21,
+            "text": "Affairs",
+            "class": "text"
+        },
+        {
+            "top": 348,
+            "left": 94,
+            "width": 59,
+            "height": 15,
+            "text": "NOTE",
+            "class": "text"
+        },
+        {
+            "top": 348,
+            "left": 160,
+            "width": 28,
+            "height": 15,
+            "text": "TO",
+            "class": "text"
+        },
+        {
+            "top": 348,
+            "left": 194,
+            "width": 119,
+            "height": 15,
+            "text": "PHYSICIAN",
+            "class": "text"
+        },
+        {
+            "top": 357,
+            "left": 319,
+            "width": 5,
+            "height": 2,
+            "text": "-",
+            "class": "text"
+        },
+        {
+            "top": 348,
+            "left": 331,
+            "width": 46,
+            "height": 15,
+            "text": "Your",
+            "class": "text"
+        },
+        {
+            "top": 347,
+            "left": 383,
+            "width": 60,
+            "height": 21,
+            "text": "patient",
+            "class": "text"
+        },
+        {
+            "top": 347,
+            "left": 450,
+            "width": 13,
+            "height": 16,
+            "text": "is",
+            "class": "text"
+        },
+        {
+            "top": 347,
+            "left": 470,
+            "width": 76,
+            "height": 21,
+            "text": "applying",
+            "class": "text"
+        },
+        {
+            "top": 349,
+            "left": 552,
+            "width": 16,
+            "height": 14,
+            "text": "to",
+            "class": "text"
+        },
+        {
+            "top": 347,
+            "left": 575,
+            "width": 26,
+            "height": 16,
+            "text": "the",
+            "class": "text"
+        },
+        {
+            "top": 348,
+            "left": 608,
+            "width": 20,
+            "height": 15,
+            "text": "U.",
+            "class": "text"
+        },
+        {
+            "top": 348,
+            "left": 636,
+            "width": 15,
+            "height": 15,
+            "text": "8.",
+            "class": "text"
+        },
+        {
+            "top": 348,
+            "left": 658,
+            "width": 105,
+            "height": 20,
+            "text": "Department",
+            "class": "text"
+        },
+        {
+            "top": 347,
+            "left": 770,
+            "width": 19,
+            "height": 16,
+            "text": "of",
+            "class": "text"
+        },
+        {
+            "top": 348,
+            "left": 793,
+            "width": 78,
+            "height": 15,
+            "text": "Veterans",
+            "class": "text"
+        },
+        {
+            "top": 347,
+            "left": 879,
+            "width": 61,
+            "height": 16,
+            "text": "Affairs",
+            "class": "text"
+        },
+        {
+            "top": 347,
+            "left": 947,
+            "width": 45,
+            "height": 20,
+            "text": "(VA)",
+            "class": "text"
+        },
+        {
+            "top": 347,
+            "left": 998,
+            "width": 26,
+            "height": 16,
+            "text": "for",
+            "class": "text"
+        },
+        {
+            "top": 347,
+            "left": 1031,
+            "width": 82,
+            "height": 21,
+            "text": "disability",
+            "class": "text"
+        },
+        {
+            "top": 347,
+            "left": 1118,
+            "width": 75,
+            "height": 16,
+            "text": "benefits.",
+            "class": "text"
+        },
+        {
+            "top": 348,
+            "left": 1205,
+            "width": 32,
+            "height": 15,
+            "text": "VA",
+            "class": "text"
+        },
+        {
+            "top": 347,
+            "left": 1242,
+            "width": 34,
+            "height": 16,
+            "text": "will",
+            "class": "text"
+        },
+        {
+            "top": 347,
+            "left": 1284,
+            "width": 74,
+            "height": 16,
+            "text": "consider",
+            "class": "text"
+        },
+        {
+            "top": 347,
+            "left": 1364,
+            "width": 26,
+            "height": 16,
+            "text": "the",
+            "class": "text"
+        },
+        {
+            "top": 347,
+            "left": 1398,
+            "width": 102,
+            "height": 16,
+            "text": "information",
+            "class": "text"
+        },
+        {
+            "top": 352,
+            "left": 1507,
+            "width": 32,
+            "height": 16,
+            "text": "you",
+            "class": "text"
+        },
+        {
+            "top": 369,
+            "left": 94,
+            "width": 67,
+            "height": 21,
+            "text": "provide",
+            "class": "text"
+        },
+        {
+            "top": 374,
+            "left": 169,
+            "width": 20,
+            "height": 11,
+            "text": "on",
+            "class": "text"
+        },
+        {
+            "top": 369,
+            "left": 196,
+            "width": 31,
+            "height": 16,
+            "text": "this",
+            "class": "text"
+        },
+        {
+            "top": 369,
+            "left": 234,
+            "width": 118,
+            "height": 21,
+            "text": "questionnaire",
+            "class": "text"
+        },
+        {
+            "top": 374,
+            "left": 359,
+            "width": 17,
+            "height": 11,
+            "text": "as",
+            "class": "text"
+        },
+        {
+            "top": 371,
+            "left": 383,
+            "width": 34,
+            "height": 19,
+            "text": "part",
+            "class": "text"
+        },
+        {
+            "top": 369,
+            "left": 424,
+            "width": 19,
+            "height": 16,
+            "text": "of",
+            "class": "text"
+        },
+        {
+            "top": 369,
+            "left": 447,
+            "width": 40,
+            "height": 16,
+            "text": "their",
+            "class": "text"
+        },
+        {
+            "top": 369,
+            "left": 494,
+            "width": 90,
+            "height": 16,
+            "text": "evaluation",
+            "class": "text"
+        },
+        {
+            "top": 369,
+            "left": 592,
+            "width": 15,
+            "height": 16,
+            "text": "in",
+            "class": "text"
+        },
+        {
+            "top": 369,
+            "left": 614,
+            "width": 94,
+            "height": 21,
+            "text": "processing",
+            "class": "text"
+        },
+        {
+            "top": 369,
+            "left": 715,
+            "width": 26,
+            "height": 16,
+            "text": "the",
+            "class": "text"
+        },
+        {
+            "top": 370,
+            "left": 747,
+            "width": 78,
+            "height": 15,
+            "text": "veteran's",
+            "class": "text"
+        },
+        {
+            "top": 369,
+            "left": 832,
+            "width": 52,
+            "height": 16,
+            "text": "claim.",
+            "class": "text"
+        },
+        {
+            "top": 370,
+            "left": 897,
+            "width": 32,
+            "height": 15,
+            "text": "VA",
+            "class": "text"
+        },
+        {
+            "top": 374,
+            "left": 935,
+            "width": 72,
+            "height": 11,
+            "text": "reserves",
+            "class": "text"
+        },
+        {
+            "top": 369,
+            "left": 1013,
+            "width": 26,
+            "height": 16,
+            "text": "the",
+            "class": "text"
+        },
+        {
+            "top": 369,
+            "left": 1046,
+            "width": 41,
+            "height": 21,
+            "text": "right",
+            "class": "text"
+        },
+        {
+            "top": 371,
+            "left": 1093,
+            "width": 16,
+            "height": 14,
+            "text": "to",
+            "class": "text"
+        },
+        {
+            "top": 369,
+            "left": 1117,
+            "width": 68,
+            "height": 16,
+            "text": "confirm",
+            "class": "text"
+        },
+        {
+            "top": 369,
+            "left": 1192,
+            "width": 26,
+            "height": 16,
+            "text": "the",
+            "class": "text"
+        },
+        {
+            "top": 369,
+            "left": 1226,
+            "width": 103,
+            "height": 21,
+            "text": "authenticity",
+            "class": "text"
+        },
+        {
+            "top": 369,
+            "left": 1336,
+            "width": 19,
+            "height": 16,
+            "text": "of",
+            "class": "text"
+        },
+        {
+            "top": 370,
+            "left": 1360,
+            "width": 41,
+            "height": 15,
+            "text": "ALL",
+            "class": "text"
+        },
+        {
+            "top": 370,
+            "left": 1408,
+            "width": 55,
+            "height": 19,
+            "text": "DBQs",
+            "class": "text"
+        },
+        {
+            "top": 369,
+            "left": 1470,
+            "width": 92,
+            "height": 21,
+            "text": "completed",
+            "class": "text"
+        },
+        {
+            "top": 369,
+            "left": 1567,
+            "width": 22,
+            "height": 21,
+            "text": "by",
+            "class": "text"
+        },
+        {
+            "top": 392,
+            "left": 94,
+            "width": 61,
+            "height": 21,
+            "text": "private",
+            "class": "text"
+        },
+        {
+            "top": 392,
+            "left": 162,
+            "width": 53,
+            "height": 16,
+            "text": "health",
+            "class": "text"
+        },
+        {
+            "top": 397,
+            "left": 222,
+            "width": 36,
+            "height": 11,
+            "text": "care",
+            "class": "text"
+        },
+        {
+            "top": 392,
+            "left": 264,
+            "width": 88,
+            "height": 21,
+            "text": "providers.",
+            "class": "text"
+        },
+        {
+            "top": 425,
+            "left": 714,
+            "width": 96,
+            "height": 16,
+            "text": "SECTION",
+            "class": "text"
+        },
+        {
+            "top": 425,
+            "left": 819,
+            "width": 3,
+            "height": 16,
+            "text": "|",
+            "class": "text"
+        },
+        {
+            "top": 434,
+            "left": 832,
+            "width": 6,
+            "height": 3,
+            "text": "-",
+            "class": "text"
+        },
+        {
+            "top": 425,
+            "left": 846,
+            "width": 122,
+            "height": 16,
+            "text": "DIAGNOSIS",
+            "class": "text"
+        },
+        {
+            "top": 458,
+            "left": 103,
+            "width": 25,
+            "height": 14,
+            "text": "1A.",
+            "class": "text"
+        },
+        {
+            "top": 458,
+            "left": 137,
+            "width": 52,
+            "height": 14,
+            "text": "DOES",
+            "class": "text"
+        },
+        {
+            "top": 458,
+            "left": 197,
+            "width": 37,
+            "height": 14,
+            "text": "THE",
+            "class": "text"
+        },
+        {
+            "top": 458,
+            "left": 240,
+            "width": 90,
+            "height": 14,
+            "text": "VETERAN",
+            "class": "text"
+        },
+        {
+            "top": 458,
+            "left": 338,
+            "width": 51,
+            "height": 14,
+            "text": "HAVE",
+            "class": "text"
+        },
+        {
+            "top": 458,
+            "left": 396,
+            "width": 13,
+            "height": 14,
+            "text": "A",
+            "class": "text"
+        },
+        {
+            "top": 458,
+            "left": 416,
+            "width": 120,
+            "height": 14,
+            "text": "PERIPHERAL",
+            "class": "text"
+        },
+        {
+            "top": 458,
+            "left": 544,
+            "width": 65,
+            "height": 14,
+            "text": "NERVE",
+            "class": "text"
+        },
+        {
+            "top": 458,
+            "left": 616,
+            "width": 106,
+            "height": 14,
+            "text": "CONDITION",
+            "class": "text"
+        },
+        {
+            "top": 458,
+            "left": 730,
+            "width": 28,
+            "height": 14,
+            "text": "OR",
+            "class": "text"
+        },
+        {
+            "top": 458,
+            "left": 766,
+            "width": 120,
+            "height": 14,
+            "text": "PERIPHERAL",
+            "class": "text"
+        },
+        {
+            "top": 458,
+            "left": 894,
+            "width": 144,
+            "height": 14,
+            "text": "NEUROPATHY?",
+            "class": "text"
+        },
+        {
+            "top": 492,
+            "left": 150,
+            "width": 33,
+            "height": 14,
+            "text": "Yes",
+            "class": "text"
+        },
+        {
+            "top": 492,
+            "left": 268,
+            "width": 23,
+            "height": 14,
+            "text": "No",
+            "class": "text"
+        },
+        {
+            "top": 489,
+            "left": 311,
+            "width": 23,
+            "height": 21,
+            "text": "(f",
+            "class": "text"
+        },
+        {
+            "top": 490,
+            "left": 339,
+            "width": 53,
+            "height": 18,
+            "text": "\"Yes,\"",
+            "class": "text"
+        },
+        {
+            "top": 489,
+            "left": 397,
+            "width": 79,
+            "height": 21,
+            "text": "complete",
+            "class": "text"
+        },
+        {
+            "top": 490,
+            "left": 481,
+            "width": 40,
+            "height": 15,
+            "text": "Item",
+            "class": "text"
+        },
+        {
+            "top": 489,
+            "left": 529,
+            "width": 28,
+            "height": 20,
+            "text": "1B)",
+            "class": "text"
+        },
+        {
+            "top": 531,
+            "left": 97,
+            "width": 26,
+            "height": 14,
+            "text": "1B.",
+            "class": "text"
+        },
+        {
+            "top": 531,
+            "left": 132,
+            "width": 84,
+            "height": 14,
+            "text": "PROVIDE",
+            "class": "text"
+        },
+        {
+            "top": 531,
+            "left": 223,
+            "width": 51,
+            "height": 14,
+            "text": "ONLY",
+            "class": "text"
+        },
+        {
+            "top": 531,
+            "left": 283,
+            "width": 112,
+            "height": 14,
+            "text": "DIAGNOSES",
+            "class": "text"
+        },
+        {
+            "top": 531,
+            "left": 403,
+            "width": 49,
+            "height": 14,
+            "text": "THAT",
+            "class": "text"
+        },
+        {
+            "top": 531,
+            "left": 460,
+            "width": 80,
+            "height": 14,
+            "text": "PERTAIN",
+            "class": "text"
+        },
+        {
+            "top": 531,
+            "left": 549,
+            "width": 25,
+            "height": 14,
+            "text": "TO",
+            "class": "text"
+        },
+        {
+            "top": 531,
+            "left": 580,
+            "width": 13,
+            "height": 14,
+            "text": "A",
+            "class": "text"
+        },
+        {
+            "top": 531,
+            "left": 600,
+            "width": 121,
+            "height": 14,
+            "text": "PERIPHERAL",
+            "class": "text"
+        },
+        {
+            "top": 531,
+            "left": 728,
+            "width": 65,
+            "height": 14,
+            "text": "NERVE",
+            "class": "text"
+        },
+        {
+            "top": 531,
+            "left": 800,
+            "width": 107,
+            "height": 14,
+            "text": "CONDITION",
+            "class": "text"
+        },
+        {
+            "top": 531,
+            "left": 914,
+            "width": 75,
+            "height": 14,
+            "text": "AND/OR",
+            "class": "text"
+        },
+        {
+            "top": 531,
+            "left": 997,
+            "width": 120,
+            "height": 14,
+            "text": "PERIPHERAL",
+            "class": "text"
+        },
+        {
+            "top": 531,
+            "left": 1125,
+            "width": 138,
+            "height": 14,
+            "text": "NEUROPATHY:",
+            "class": "text"
+        },
+        {
+            "top": 583,
+            "left": 96,
+            "width": 83,
+            "height": 18,
+            "text": "Diagnosis",
+            "class": "text"
+        },
+        {
+            "top": 583,
+            "left": 185,
+            "width": 11,
+            "height": 14,
+            "text": "#",
+            "class": "text"
+        },
+        {
+            "top": 583,
+            "left": 203,
+            "width": 13,
+            "height": 14,
+            "text": "1:",
+            "class": "text"
+        },
+        {
+            "top": 583,
+            "left": 730,
+            "width": 30,
+            "height": 14,
+            "text": "ICD",
+            "class": "text"
+        },
+        {
+            "top": 583,
+            "left": 768,
+            "width": 49,
+            "height": 14,
+            "text": "Code:",
+            "class": "text"
+        },
+        {
+            "top": 583,
+            "left": 1196,
+            "width": 39,
+            "height": 14,
+            "text": "Date",
+            "class": "text"
+        },
+        {
+            "top": 583,
+            "left": 1242,
+            "width": 17,
+            "height": 14,
+            "text": "of",
+            "class": "text"
+        },
+        {
+            "top": 583,
+            "left": 1264,
+            "width": 85,
+            "height": 18,
+            "text": "diagnosis:",
+            "class": "text"
+        },
+        {
+            "top": 650,
+            "left": 96,
+            "width": 83,
+            "height": 18,
+            "text": "Diagnosis",
+            "class": "text"
+        },
+        {
+            "top": 650,
+            "left": 185,
+            "width": 11,
+            "height": 14,
+            "text": "#",
+            "class": "text"
+        },
+        {
+            "top": 650,
+            "left": 202,
+            "width": 14,
+            "height": 14,
+            "text": "2:",
+            "class": "text"
+        },
+        {
+            "top": 650,
+            "left": 730,
+            "width": 30,
+            "height": 14,
+            "text": "ICD",
+            "class": "text"
+        },
+        {
+            "top": 650,
+            "left": 768,
+            "width": 49,
+            "height": 14,
+            "text": "Code:",
+            "class": "text"
+        },
+        {
+            "top": 650,
+            "left": 1196,
+            "width": 39,
+            "height": 14,
+            "text": "Date",
+            "class": "text"
+        },
+        {
+            "top": 650,
+            "left": 1242,
+            "width": 17,
+            "height": 14,
+            "text": "of",
+            "class": "text"
+        },
+        {
+            "top": 650,
+            "left": 1264,
+            "width": 85,
+            "height": 18,
+            "text": "diagnosis:",
+            "class": "text"
+        },
+        {
+            "top": 717,
+            "left": 96,
+            "width": 83,
+            "height": 18,
+            "text": "Diagnosis",
+            "class": "text"
+        },
+        {
+            "top": 717,
+            "left": 185,
+            "width": 11,
+            "height": 14,
+            "text": "#",
+            "class": "text"
+        },
+        {
+            "top": 717,
+            "left": 202,
+            "width": 14,
+            "height": 14,
+            "text": "3:",
+            "class": "text"
+        },
+        {
+            "top": 717,
+            "left": 730,
+            "width": 30,
+            "height": 14,
+            "text": "ICD",
+            "class": "text"
+        },
+        {
+            "top": 717,
+            "left": 768,
+            "width": 49,
+            "height": 14,
+            "text": "Code:",
+            "class": "text"
+        },
+        {
+            "top": 717,
+            "left": 1196,
+            "width": 39,
+            "height": 14,
+            "text": "Date",
+            "class": "text"
+        },
+        {
+            "top": 717,
+            "left": 1242,
+            "width": 17,
+            "height": 14,
+            "text": "of",
+            "class": "text"
+        },
+        {
+            "top": 717,
+            "left": 1264,
+            "width": 85,
+            "height": 18,
+            "text": "diagnosis:",
+            "class": "text"
+        },
+        {
+            "top": 766,
+            "left": 95,
+            "width": 27,
+            "height": 14,
+            "text": "1C.",
+            "class": "text"
+        },
+        {
+            "top": 766,
+            "left": 131,
+            "width": 14,
+            "height": 14,
+            "text": "IF",
+            "class": "text"
+        },
+        {
+            "top": 766,
+            "left": 152,
+            "width": 64,
+            "height": 14,
+            "text": "THERE",
+            "class": "text"
+        },
+        {
+            "top": 766,
+            "left": 223,
+            "width": 39,
+            "height": 14,
+            "text": "ARE",
+            "class": "text"
+        },
+        {
+            "top": 766,
+            "left": 268,
+            "width": 116,
+            "height": 14,
+            "text": "ADDITIONAL",
+            "class": "text"
+        },
+        {
+            "top": 766,
+            "left": 392,
+            "width": 113,
+            "height": 14,
+            "text": "DIAGNOSES",
+            "class": "text"
+        },
+        {
+            "top": 766,
+            "left": 512,
+            "width": 49,
+            "height": 14,
+            "text": "THAT",
+            "class": "text"
+        },
+        {
+            "top": 766,
+            "left": 569,
+            "width": 81,
+            "height": 14,
+            "text": "PERTAIN",
+            "class": "text"
+        },
+        {
+            "top": 766,
+            "left": 658,
+            "width": 25,
+            "height": 14,
+            "text": "TO",
+            "class": "text"
+        },
+        {
+            "top": 766,
+            "left": 689,
+            "width": 13,
+            "height": 14,
+            "text": "A",
+            "class": "text"
+        },
+        {
+            "top": 766,
+            "left": 710,
+            "width": 120,
+            "height": 14,
+            "text": "PERIPHERAL",
+            "class": "text"
+        },
+        {
+            "top": 766,
+            "left": 837,
+            "width": 65,
+            "height": 14,
+            "text": "NERVE",
+            "class": "text"
+        },
+        {
+            "top": 766,
+            "left": 910,
+            "width": 106,
+            "height": 14,
+            "text": "CONDITION",
+            "class": "text"
+        },
+        {
+            "top": 766,
+            "left": 1023,
+            "width": 75,
+            "height": 14,
+            "text": "AND/OR",
+            "class": "text"
+        },
+        {
+            "top": 766,
+            "left": 1106,
+            "width": 121,
+            "height": 14,
+            "text": "PERIPHERAL",
+            "class": "text"
+        },
+        {
+            "top": 766,
+            "left": 1234,
+            "width": 137,
+            "height": 17,
+            "text": "NEUROPATHY,",
+            "class": "text"
+        },
+        {
+            "top": 766,
+            "left": 1381,
+            "width": 38,
+            "height": 14,
+            "text": "LIST",
+            "class": "text"
+        },
+        {
+            "top": 766,
+            "left": 1426,
+            "width": 60,
+            "height": 14,
+            "text": "USING",
+            "class": "text"
+        },
+        {
+            "top": 766,
+            "left": 1492,
+            "width": 66,
+            "height": 14,
+            "text": "ABOVE",
+            "class": "text"
+        },
+        {
+            "top": 789,
+            "left": 127,
+            "width": 85,
+            "height": 14,
+            "text": "FORMAT:",
+            "class": "text"
+        },
+        {
+            "top": 1061,
+            "left": 94,
+            "width": 151,
+            "height": 16,
+            "text": "DEFINITIONS:",
+            "class": "text"
+        },
+        {
+            "top": 1061,
+            "left": 253,
+            "width": 31,
+            "height": 16,
+            "text": "For",
+            "class": "text"
+        },
+        {
+            "top": 1061,
+            "left": 290,
+            "width": 32,
+            "height": 16,
+            "text": "VA",
+            "class": "text"
+        },
+        {
+            "top": 1065,
+            "left": 327,
+            "width": 83,
+            "height": 17,
+            "text": "purposes,",
+            "class": "text"
+        },
+        {
+            "top": 1060,
+            "left": 417,
+            "width": 83,
+            "height": 22,
+            "text": "neuralgia",
+            "class": "text"
+        },
+        {
+            "top": 1060,
+            "left": 507,
+            "width": 77,
+            "height": 17,
+            "text": "indicates",
+            "class": "text"
+        },
+        {
+            "top": 1065,
+            "left": 591,
+            "width": 9,
+            "height": 12,
+            "text": "a",
+            "class": "text"
+        },
+        {
+            "top": 1060,
+            "left": 607,
+            "width": 81,
+            "height": 17,
+            "text": "condition",
+            "class": "text"
+        },
+        {
+            "top": 1060,
+            "left": 696,
+            "width": 117,
+            "height": 17,
+            "text": "characterized",
+            "class": "text"
+        },
+        {
+            "top": 1060,
+            "left": 819,
+            "width": 22,
+            "height": 22,
+            "text": "by",
+            "class": "text"
+        },
+        {
+            "top": 1065,
+            "left": 848,
+            "width": 9,
+            "height": 12,
+            "text": "a",
+            "class": "text"
+        },
+        {
+            "top": 1060,
+            "left": 863,
+            "width": 33,
+            "height": 17,
+            "text": "dull",
+            "class": "text"
+        },
+        {
+            "top": 1060,
+            "left": 903,
+            "width": 31,
+            "height": 17,
+            "text": "and",
+            "class": "text"
+        },
+        {
+            "top": 1060,
+            "left": 941,
+            "width": 103,
+            "height": 17,
+            "text": "intermittent",
+            "class": "text"
+        },
+        {
+            "top": 1060,
+            "left": 1049,
+            "width": 37,
+            "height": 22,
+            "text": "pain",
+            "class": "text"
+        },
+        {
+            "top": 1060,
+            "left": 1094,
+            "width": 19,
+            "height": 17,
+            "text": "of",
+            "class": "text"
+        },
+        {
+            "top": 1060,
+            "left": 1117,
+            "width": 59,
+            "height": 22,
+            "text": "typical",
+            "class": "text"
+        },
+        {
+            "top": 1060,
+            "left": 1184,
+            "width": 101,
+            "height": 17,
+            "text": "distribution",
+            "class": "text"
+        },
+        {
+            "top": 1065,
+            "left": 1292,
+            "width": 18,
+            "height": 12,
+            "text": "so",
+            "class": "text"
+        },
+        {
+            "top": 1065,
+            "left": 1318,
+            "width": 16,
+            "height": 12,
+            "text": "as",
+            "class": "text"
+        },
+        {
+            "top": 1062,
+            "left": 1341,
+            "width": 16,
+            "height": 15,
+            "text": "to",
+            "class": "text"
+        },
+        {
+            "top": 1060,
+            "left": 1364,
+            "width": 69,
+            "height": 22,
+            "text": "identify",
+            "class": "text"
+        },
+        {
+            "top": 1087,
+            "left": 94,
+            "width": 27,
+            "height": 17,
+            "text": "the",
+            "class": "text"
+        },
+        {
+            "top": 1092,
+            "left": 127,
+            "width": 54,
+            "height": 15,
+            "text": "nerve,",
+            "class": "text"
+        },
+        {
+            "top": 1087,
+            "left": 187,
+            "width": 49,
+            "height": 17,
+            "text": "while",
+            "class": "text"
+        },
+        {
+            "top": 1087,
+            "left": 243,
+            "width": 66,
+            "height": 17,
+            "text": "neuritis",
+            "class": "text"
+        },
+        {
+            "top": 1087,
+            "left": 316,
+            "width": 13,
+            "height": 17,
+            "text": "is",
+            "class": "text"
+        },
+        {
+            "top": 1087,
+            "left": 336,
+            "width": 117,
+            "height": 17,
+            "text": "characterized",
+            "class": "text"
+        },
+        {
+            "top": 1087,
+            "left": 459,
+            "width": 22,
+            "height": 22,
+            "text": "by",
+            "class": "text"
+        },
+        {
+            "top": 1087,
+            "left": 488,
+            "width": 33,
+            "height": 17,
+            "text": "loss",
+            "class": "text"
+        },
+        {
+            "top": 1087,
+            "left": 528,
+            "width": 19,
+            "height": 17,
+            "text": "of",
+            "class": "text"
+        },
+        {
+            "top": 1087,
+            "left": 551,
+            "width": 74,
+            "height": 20,
+            "text": "reflexes,",
+            "class": "text"
+        },
+        {
+            "top": 1087,
+            "left": 633,
+            "width": 62,
+            "height": 17,
+            "text": "muscle",
+            "class": "text"
+        },
+        {
+            "top": 1087,
+            "left": 702,
+            "width": 71,
+            "height": 22,
+            "text": "atrophy,",
+            "class": "text"
+        },
+        {
+            "top": 1092,
+            "left": 781,
+            "width": 67,
+            "height": 17,
+            "text": "sensory",
+            "class": "text"
+        },
+        {
+            "top": 1087,
+            "left": 855,
+            "width": 109,
+            "height": 17,
+            "text": "disturbances",
+            "class": "text"
+        },
+        {
+            "top": 1087,
+            "left": 971,
+            "width": 31,
+            "height": 17,
+            "text": "and",
+            "class": "text"
+        },
+        {
+            "top": 1089,
+            "left": 1009,
+            "width": 73,
+            "height": 15,
+            "text": "constant",
+            "class": "text"
+        },
+        {
+            "top": 1087,
+            "left": 1087,
+            "width": 43,
+            "height": 22,
+            "text": "pain,",
+            "class": "text"
+        },
+        {
+            "top": 1089,
+            "left": 1138,
+            "width": 15,
+            "height": 15,
+            "text": "at",
+            "class": "text"
+        },
+        {
+            "top": 1087,
+            "left": 1158,
+            "width": 48,
+            "height": 17,
+            "text": "times",
+            "class": "text"
+        },
+        {
+            "top": 1087,
+            "left": 1213,
+            "width": 113,
+            "height": 22,
+            "text": "excruciating.",
+            "class": "text"
+        },
+        {
+            "top": 1125,
+            "left": 696,
+            "width": 96,
+            "height": 17,
+            "text": "SECTION",
+            "class": "text"
+        },
+        {
+            "top": 1125,
+            "left": 801,
+            "width": 9,
+            "height": 17,
+            "text": "Il",
+            "class": "text"
+        },
+        {
+            "top": 1134,
+            "left": 823,
+            "width": 3,
+            "height": 4,
+            "text": "-",
+            "class": "text"
+        },
+        {
+            "top": 1125,
+            "left": 833,
+            "width": 99,
+            "height": 17,
+            "text": "MEDICAL",
+            "class": "text"
+        },
+        {
+            "top": 1125,
+            "left": 941,
+            "width": 96,
+            "height": 17,
+            "text": "HISTORY",
+            "class": "text"
+        },
+        {
+            "top": 1157,
+            "left": 97,
+            "width": 27,
+            "height": 15,
+            "text": "2A.",
+            "class": "text"
+        },
+        {
+            "top": 1157,
+            "left": 132,
+            "width": 97,
+            "height": 15,
+            "text": "DESCRIBE",
+            "class": "text"
+        },
+        {
+            "top": 1157,
+            "left": 236,
+            "width": 37,
+            "height": 15,
+            "text": "THE",
+            "class": "text"
+        },
+        {
+            "top": 1157,
+            "left": 280,
+            "width": 85,
+            "height": 15,
+            "text": "HISTORY",
+            "class": "text"
+        },
+        {
+            "top": 1155,
+            "left": 372,
+            "width": 91,
+            "height": 22,
+            "text": "(including",
+            "class": "text"
+        },
+        {
+            "top": 1159,
+            "left": 468,
+            "width": 47,
+            "height": 13,
+            "text": "onset",
+            "class": "text"
+        },
+        {
+            "top": 1155,
+            "left": 521,
+            "width": 34,
+            "height": 17,
+            "text": "and",
+            "class": "text"
+        },
+        {
+            "top": 1155,
+            "left": 560,
+            "width": 64,
+            "height": 21,
+            "text": "course)",
+            "class": "text"
+        },
+        {
+            "top": 1157,
+            "left": 633,
+            "width": 25,
+            "height": 15,
+            "text": "OF",
+            "class": "text"
+        },
+        {
+            "top": 1157,
+            "left": 665,
+            "width": 37,
+            "height": 15,
+            "text": "THE",
+            "class": "text"
+        },
+        {
+            "top": 1157,
+            "left": 708,
+            "width": 108,
+            "height": 15,
+            "text": "VETERAN'S",
+            "class": "text"
+        },
+        {
+            "top": 1157,
+            "left": 824,
+            "width": 121,
+            "height": 15,
+            "text": "PERIPHERAL",
+            "class": "text"
+        },
+        {
+            "top": 1157,
+            "left": 952,
+            "width": 65,
+            "height": 15,
+            "text": "NERVE",
+            "class": "text"
+        },
+        {
+            "top": 1157,
+            "left": 1024,
+            "width": 106,
+            "height": 15,
+            "text": "CONDITION",
+            "class": "text"
+        },
+        {
+            "top": 1151,
+            "left": 1131,
+            "width": 58,
+            "height": 31,
+            "text": "(brief",
+            "class": "text"
+        },
+        {
+            "top": 1151,
+            "left": 1198,
+            "width": 88,
+            "height": 31,
+            "text": "summary):",
+            "class": "text"
+        },
+        {
+            "top": 1359,
+            "left": 95,
+            "width": 27,
+            "height": 14,
+            "text": "2B.",
+            "class": "text"
+        },
+        {
+            "top": 1359,
+            "left": 131,
+            "width": 101,
+            "height": 14,
+            "text": "DOMINANT",
+            "class": "text"
+        },
+        {
+            "top": 1358,
+            "left": 239,
+            "width": 53,
+            "height": 15,
+            "text": "HAND",
+            "class": "text"
+        },
+        {
+            "top": 1410,
+            "left": 152,
+            "width": 43,
+            "height": 26,
+            "text": "Right",
+            "class": "text"
+        },
+        {
+            "top": 1414,
+            "left": 400,
+            "width": 118,
+            "height": 14,
+            "text": "Ambidextrous",
+            "class": "text"
+        },
+        {
+            "top": 1459,
+            "left": 744,
+            "width": 96,
+            "height": 16,
+            "text": "SECTION",
+            "class": "text"
+        },
+        {
+            "top": 1459,
+            "left": 849,
+            "width": 15,
+            "height": 16,
+            "text": "Ill",
+            "class": "text"
+        },
+        {
+            "top": 1468,
+            "left": 880,
+            "width": 1,
+            "height": 3,
+            "text": "-",
+            "class": "text"
+        },
+        {
+            "top": 1459,
+            "left": 887,
+            "width": 126,
+            "height": 16,
+            "text": "SYMPTOMS",
+            "class": "text"
+        },
+        {
+            "top": 1491,
+            "left": 97,
+            "width": 27,
+            "height": 14,
+            "text": "3A.",
+            "class": "text"
+        },
+        {
+            "top": 1491,
+            "left": 138,
+            "width": 42,
+            "height": 14,
+            "text": "Does",
+            "class": "text"
+        },
+        {
+            "top": 1491,
+            "left": 187,
+            "width": 26,
+            "height": 14,
+            "text": "the",
+            "class": "text"
+        },
+        {
+            "top": 1492,
+            "left": 219,
+            "width": 63,
+            "height": 13,
+            "text": "veteran",
+            "class": "text"
+        },
+        {
+            "top": 1491,
+            "left": 290,
+            "width": 41,
+            "height": 14,
+            "text": "have",
+            "class": "text"
+        },
+        {
+            "top": 1495,
+            "left": 338,
+            "width": 29,
+            "height": 14,
+            "text": "any",
+            "class": "text"
+        },
+        {
+            "top": 1492,
+            "left": 375,
+            "width": 86,
+            "height": 17,
+            "text": "symptoms",
+            "class": "text"
+        },
+        {
+            "top": 1491,
+            "left": 469,
+            "width": 94,
+            "height": 14,
+            "text": "attributable",
+            "class": "text"
+        },
+        {
+            "top": 1492,
+            "left": 569,
+            "width": 16,
+            "height": 13,
+            "text": "to",
+            "class": "text"
+        },
+        {
+            "top": 1495,
+            "left": 592,
+            "width": 29,
+            "height": 14,
+            "text": "any",
+            "class": "text"
+        },
+        {
+            "top": 1491,
+            "left": 629,
+            "width": 84,
+            "height": 18,
+            "text": "peripheral",
+            "class": "text"
+        },
+        {
+            "top": 1495,
+            "left": 720,
+            "width": 47,
+            "height": 10,
+            "text": "nerve",
+            "class": "text"
+        },
+        {
+            "top": 1491,
+            "left": 774,
+            "width": 97,
+            "height": 14,
+            "text": "conditions?",
+            "class": "text"
+        },
+        {
+            "top": 1526,
+            "left": 150,
+            "width": 33,
+            "height": 14,
+            "text": "Yes",
+            "class": "text"
+        },
+        {
+            "top": 1526,
+            "left": 268,
+            "width": 23,
+            "height": 14,
+            "text": "No",
+            "class": "text"
+        },
+        {
+            "top": 1562,
+            "left": 119,
+            "width": 11,
+            "height": 14,
+            "text": "If",
+            "class": "text"
+        },
+        {
+            "top": 1562,
+            "left": 134,
+            "width": 33,
+            "height": 18,
+            "text": "yes,",
+            "class": "text"
+        },
+        {
+            "top": 1562,
+            "left": 176,
+            "width": 65,
+            "height": 14,
+            "text": "indicate",
+            "class": "text"
+        },
+        {
+            "top": 1562,
+            "left": 248,
+            "width": 91,
+            "height": 18,
+            "text": "symptoms'",
+            "class": "text"
+        },
+        {
+            "top": 1562,
+            "left": 346,
+            "width": 64,
+            "height": 14,
+            "text": "location",
+            "class": "text"
+        },
+        {
+            "top": 1562,
+            "left": 418,
+            "width": 31,
+            "height": 14,
+            "text": "and",
+            "class": "text"
+        },
+        {
+            "top": 1562,
+            "left": 456,
+            "width": 65,
+            "height": 18,
+            "text": "severity",
+            "class": "text"
+        },
+        {
+            "top": 1560,
+            "left": 528,
+            "width": 58,
+            "height": 20,
+            "text": "(check",
+            "class": "text"
+        },
+        {
+            "top": 1560,
+            "left": 591,
+            "width": 23,
+            "height": 16,
+            "text": "all",
+            "class": "text"
+        },
+        {
+            "top": 1560,
+            "left": 620,
+            "width": 34,
+            "height": 16,
+            "text": "that",
+            "class": "text"
+        },
+        {
+            "top": 1560,
+            "left": 660,
+            "width": 62,
+            "height": 21,
+            "text": "apply):",
+            "class": "text"
+        },
+        {
+            "top": 1593,
+            "left": 118,
+            "width": 76,
+            "height": 14,
+            "text": "Constant",
+            "class": "text"
+        },
+        {
+            "top": 1593,
+            "left": 201,
+            "width": 34,
+            "height": 18,
+            "text": "pain",
+            "class": "text"
+        },
+        {
+            "top": 1591,
+            "left": 243,
+            "width": 44,
+            "height": 21,
+            "text": "(may",
+            "class": "text"
+        },
+        {
+            "top": 1591,
+            "left": 292,
+            "width": 20,
+            "height": 16,
+            "text": "be",
+            "class": "text"
+        },
+        {
+            "top": 1593,
+            "left": 319,
+            "width": 111,
+            "height": 19,
+            "text": "excruciating",
+            "class": "text"
+        },
+        {
+            "top": 1594,
+            "left": 435,
+            "width": 17,
+            "height": 13,
+            "text": "at",
+            "class": "text"
+        },
+        {
+            "top": 1591,
+            "left": 458,
+            "width": 52,
+            "height": 20,
+            "text": "times)",
+            "class": "text"
+        },
+        {
+            "top": 1626,
+            "left": 152,
+            "width": 43,
+            "height": 18,
+            "text": "Right",
+            "class": "text"
+        },
+        {
+            "top": 1630,
+            "left": 202,
+            "width": 48,
+            "height": 14,
+            "text": "upper",
+            "class": "text"
+        },
+        {
+            "top": 1626,
+            "left": 257,
+            "width": 82,
+            "height": 18,
+            "text": "extremity:",
+            "class": "text"
+        },
+        {
+            "top": 1626,
+            "left": 484,
+            "width": 45,
+            "height": 14,
+            "text": "None",
+            "class": "text"
+        },
+        {
+            "top": 1622,
+            "left": 614,
+            "width": 37,
+            "height": 26,
+            "text": "Mild",
+            "class": "text"
+        },
+        {
+            "top": 1622,
+            "left": 734,
+            "width": 81,
+            "height": 26,
+            "text": "Moderate",
+            "class": "text"
+        },
+        {
+            "top": 1626,
+            "left": 918,
+            "width": 59,
+            "height": 14,
+            "text": "Severe",
+            "class": "text"
+        },
+        {
+            "top": 1661,
+            "left": 152,
+            "width": 30,
+            "height": 14,
+            "text": "Left",
+            "class": "text"
+        },
+        {
+            "top": 1665,
+            "left": 189,
+            "width": 48,
+            "height": 14,
+            "text": "upper",
+            "class": "text"
+        },
+        {
+            "top": 1661,
+            "left": 244,
+            "width": 82,
+            "height": 18,
+            "text": "extremity:",
+            "class": "text"
+        },
+        {
+            "top": 1659,
+            "left": 484,
+            "width": 45,
+            "height": 14,
+            "text": "None",
+            "class": "text"
+        },
+        {
+            "top": 1655,
+            "left": 618,
+            "width": 33,
+            "height": 27,
+            "text": "Mild",
+            "class": "text"
+        },
+        {
+            "top": 1655,
+            "left": 734,
+            "width": 81,
+            "height": 27,
+            "text": "Moderate",
+            "class": "text"
+        },
+        {
+            "top": 1659,
+            "left": 918,
+            "width": 59,
+            "height": 14,
+            "text": "Severe",
+            "class": "text"
+        },
+        {
+            "top": 1694,
+            "left": 152,
+            "width": 43,
+            "height": 18,
+            "text": "Right",
+            "class": "text"
+        },
+        {
+            "top": 1694,
+            "left": 202,
+            "width": 45,
+            "height": 14,
+            "text": "lower",
+            "class": "text"
+        },
+        {
+            "top": 1694,
+            "left": 254,
+            "width": 82,
+            "height": 18,
+            "text": "extremity:",
+            "class": "text"
+        },
+        {
+            "top": 1693,
+            "left": 484,
+            "width": 45,
+            "height": 14,
+            "text": "None",
+            "class": "text"
+        },
+        {
+            "top": 1689,
+            "left": 618,
+            "width": 33,
+            "height": 27,
+            "text": "Mild",
+            "class": "text"
+        },
+        {
+            "top": 1689,
+            "left": 734,
+            "width": 81,
+            "height": 27,
+            "text": "Moderate",
+            "class": "text"
+        },
+        {
+            "top": 1693,
+            "left": 918,
+            "width": 59,
+            "height": 14,
+            "text": "Severe",
+            "class": "text"
+        },
+        {
+            "top": 1727,
+            "left": 152,
+            "width": 30,
+            "height": 14,
+            "text": "Left",
+            "class": "text"
+        },
+        {
+            "top": 1727,
+            "left": 189,
+            "width": 45,
+            "height": 14,
+            "text": "lower",
+            "class": "text"
+        },
+        {
+            "top": 1727,
+            "left": 241,
+            "width": 82,
+            "height": 18,
+            "text": "extremity:",
+            "class": "text"
+        },
+        {
+            "top": 1726,
+            "left": 484,
+            "width": 45,
+            "height": 14,
+            "text": "None",
+            "class": "text"
+        },
+        {
+            "top": 1722,
+            "left": 618,
+            "width": 33,
+            "height": 27,
+            "text": "Mild",
+            "class": "text"
+        },
+        {
+            "top": 1722,
+            "left": 734,
+            "width": 81,
+            "height": 27,
+            "text": "Moderate",
+            "class": "text"
+        },
+        {
+            "top": 1726,
+            "left": 918,
+            "width": 59,
+            "height": 14,
+            "text": "Severe",
+            "class": "text"
+        },
+        {
+            "top": 1755,
+            "left": 119,
+            "width": 95,
+            "height": 14,
+            "text": "Intermittent",
+            "class": "text"
+        },
+        {
+            "top": 1755,
+            "left": 220,
+            "width": 34,
+            "height": 18,
+            "text": "pain",
+            "class": "text"
+        },
+        {
+            "top": 1753,
+            "left": 262,
+            "width": 71,
+            "height": 21,
+            "text": "(asually",
+            "class": "text"
+        },
+        {
+            "top": 1753,
+            "left": 339,
+            "width": 39,
+            "height": 20,
+            "text": "dull)",
+            "class": "text"
+        },
+        {
+            "top": 1793,
+            "left": 152,
+            "width": 43,
+            "height": 18,
+            "text": "Right",
+            "class": "text"
+        },
+        {
+            "top": 1797,
+            "left": 202,
+            "width": 48,
+            "height": 14,
+            "text": "upper",
+            "class": "text"
+        },
+        {
+            "top": 1793,
+            "left": 257,
+            "width": 82,
+            "height": 18,
+            "text": "extremity:",
+            "class": "text"
+        },
+        {
+            "top": 1793,
+            "left": 484,
+            "width": 45,
+            "height": 14,
+            "text": "None",
+            "class": "text"
+        },
+        {
+            "top": 1789,
+            "left": 614,
+            "width": 37,
+            "height": 26,
+            "text": "Mild",
+            "class": "text"
+        },
+        {
+            "top": 1789,
+            "left": 734,
+            "width": 81,
+            "height": 26,
+            "text": "Moderate",
+            "class": "text"
+        },
+        {
+            "top": 1793,
+            "left": 918,
+            "width": 59,
+            "height": 14,
+            "text": "Severe",
+            "class": "text"
+        },
+        {
+            "top": 1830,
+            "left": 152,
+            "width": 30,
+            "height": 14,
+            "text": "Left",
+            "class": "text"
+        },
+        {
+            "top": 1834,
+            "left": 189,
+            "width": 48,
+            "height": 14,
+            "text": "upper",
+            "class": "text"
+        },
+        {
+            "top": 1830,
+            "left": 244,
+            "width": 82,
+            "height": 18,
+            "text": "extremity:",
+            "class": "text"
+        },
+        {
+            "top": 1826,
+            "left": 484,
+            "width": 45,
+            "height": 14,
+            "text": "None",
+            "class": "text"
+        },
+        {
+            "top": 1822,
+            "left": 614,
+            "width": 37,
+            "height": 26,
+            "text": "Mild",
+            "class": "text"
+        },
+        {
+            "top": 1822,
+            "left": 734,
+            "width": 81,
+            "height": 26,
+            "text": "Moderate",
+            "class": "text"
+        },
+        {
+            "top": 1826,
+            "left": 918,
+            "width": 59,
+            "height": 14,
+            "text": "Severe",
+            "class": "text"
+        },
+        {
+            "top": 1863,
+            "left": 152,
+            "width": 43,
+            "height": 18,
+            "text": "Right",
+            "class": "text"
+        },
+        {
+            "top": 1863,
+            "left": 202,
+            "width": 45,
+            "height": 14,
+            "text": "lower",
+            "class": "text"
+        },
+        {
+            "top": 1863,
+            "left": 254,
+            "width": 82,
+            "height": 18,
+            "text": "extremity:",
+            "class": "text"
+        },
+        {
+            "top": 1859,
+            "left": 484,
+            "width": 45,
+            "height": 14,
+            "text": "None",
+            "class": "text"
+        },
+        {
+            "top": 1855,
+            "left": 614,
+            "width": 37,
+            "height": 31,
+            "text": "Mild",
+            "class": "text"
+        },
+        {
+            "top": 1855,
+            "left": 734,
+            "width": 81,
+            "height": 30,
+            "text": "Moderate",
+            "class": "text"
+        },
+        {
+            "top": 1861,
+            "left": 917,
+            "width": 60,
+            "height": 14,
+            "text": "Severe",
+            "class": "text"
+        },
+        {
+            "top": 1897,
+            "left": 152,
+            "width": 30,
+            "height": 14,
+            "text": "Left",
+            "class": "text"
+        },
+        {
+            "top": 1897,
+            "left": 189,
+            "width": 45,
+            "height": 14,
+            "text": "lower",
+            "class": "text"
+        },
+        {
+            "top": 1897,
+            "left": 241,
+            "width": 82,
+            "height": 18,
+            "text": "extremity:",
+            "class": "text"
+        },
+        {
+            "top": 1893,
+            "left": 484,
+            "width": 45,
+            "height": 14,
+            "text": "None",
+            "class": "text"
+        },
+        {
+            "top": 1889,
+            "left": 618,
+            "width": 33,
+            "height": 27,
+            "text": "Mild",
+            "class": "text"
+        },
+        {
+            "top": 1889,
+            "left": 734,
+            "width": 81,
+            "height": 27,
+            "text": "Moderate",
+            "class": "text"
+        },
+        {
+            "top": 1893,
+            "left": 918,
+            "width": 59,
+            "height": 14,
+            "text": "Severe",
+            "class": "text"
+        },
+        {
+            "top": 1922,
+            "left": 119,
+            "width": 109,
+            "height": 14,
+            "text": "Paresthesias",
+            "class": "text"
+        },
+        {
+            "top": 1922,
+            "left": 235,
+            "width": 54,
+            "height": 14,
+            "text": "and/or",
+            "class": "text"
+        },
+        {
+            "top": 1922,
+            "left": 296,
+            "width": 111,
+            "height": 18,
+            "text": "dysesthesias",
+            "class": "text"
+        },
+        {
+            "top": 1958,
+            "left": 152,
+            "width": 43,
+            "height": 18,
+            "text": "Right",
+            "class": "text"
+        },
+        {
+            "top": 1962,
+            "left": 202,
+            "width": 48,
+            "height": 14,
+            "text": "upper",
+            "class": "text"
+        },
+        {
+            "top": 1958,
+            "left": 257,
+            "width": 82,
+            "height": 18,
+            "text": "extremity:",
+            "class": "text"
+        },
+        {
+            "top": 1959,
+            "left": 484,
+            "width": 45,
+            "height": 14,
+            "text": "None",
+            "class": "text"
+        },
+        {
+            "top": 1955,
+            "left": 614,
+            "width": 37,
+            "height": 26,
+            "text": "Mild",
+            "class": "text"
+        },
+        {
+            "top": 1955,
+            "left": 734,
+            "width": 81,
+            "height": 26,
+            "text": "Moderate",
+            "class": "text"
+        },
+        {
+            "top": 1959,
+            "left": 918,
+            "width": 59,
+            "height": 14,
+            "text": "Severe",
+            "class": "text"
+        },
+        {
+            "top": 1997,
+            "left": 152,
+            "width": 30,
+            "height": 14,
+            "text": "Left",
+            "class": "text"
+        },
+        {
+            "top": 2001,
+            "left": 189,
+            "width": 48,
+            "height": 14,
+            "text": "upper",
+            "class": "text"
+        },
+        {
+            "top": 1997,
+            "left": 244,
+            "width": 82,
+            "height": 18,
+            "text": "extremity:",
+            "class": "text"
+        },
+        {
+            "top": 1993,
+            "left": 484,
+            "width": 45,
+            "height": 14,
+            "text": "None",
+            "class": "text"
+        },
+        {
+            "top": 1989,
+            "left": 614,
+            "width": 37,
+            "height": 26,
+            "text": "Mild",
+            "class": "text"
+        },
+        {
+            "top": 1989,
+            "left": 734,
+            "width": 81,
+            "height": 26,
+            "text": "Moderate",
+            "class": "text"
+        },
+        {
+            "top": 1993,
+            "left": 918,
+            "width": 59,
+            "height": 14,
+            "text": "Severe",
+            "class": "text"
+        },
+        {
+            "top": 2030,
+            "left": 152,
+            "width": 43,
+            "height": 18,
+            "text": "Right",
+            "class": "text"
+        },
+        {
+            "top": 2030,
+            "left": 202,
+            "width": 45,
+            "height": 14,
+            "text": "lower",
+            "class": "text"
+        },
+        {
+            "top": 2030,
+            "left": 254,
+            "width": 82,
+            "height": 18,
+            "text": "extremity:",
+            "class": "text"
+        },
+        {
+            "top": 2026,
+            "left": 484,
+            "width": 45,
+            "height": 14,
+            "text": "None",
+            "class": "text"
+        },
+        {
+            "top": 2022,
+            "left": 618,
+            "width": 33,
+            "height": 27,
+            "text": "Mild",
+            "class": "text"
+        },
+        {
+            "top": 2022,
+            "left": 734,
+            "width": 81,
+            "height": 27,
+            "text": "Moderate",
+            "class": "text"
+        },
+        {
+            "top": 2026,
+            "left": 918,
+            "width": 59,
+            "height": 14,
+            "text": "Severe",
+            "class": "text"
+        },
+        {
+            "top": 2063,
+            "left": 152,
+            "width": 30,
+            "height": 14,
+            "text": "Left",
+            "class": "text"
+        },
+        {
+            "top": 2063,
+            "left": 189,
+            "width": 45,
+            "height": 14,
+            "text": "lower",
+            "class": "text"
+        },
+        {
+            "top": 2063,
+            "left": 241,
+            "width": 82,
+            "height": 18,
+            "text": "extremity:",
+            "class": "text"
+        },
+        {
+            "top": 2059,
+            "left": 484,
+            "width": 45,
+            "height": 14,
+            "text": "None",
+            "class": "text"
+        },
+        {
+            "top": 2055,
+            "left": 618,
+            "width": 33,
+            "height": 27,
+            "text": "Mild",
+            "class": "text"
+        },
+        {
+            "top": 2055,
+            "left": 734,
+            "width": 81,
+            "height": 27,
+            "text": "Moderate",
+            "class": "text"
+        },
+        {
+            "top": 2059,
+            "left": 918,
+            "width": 59,
+            "height": 14,
+            "text": "Severe",
+            "class": "text"
+        },
+        {
+            "top": 2108,
+            "left": 83,
+            "width": 26,
+            "height": 14,
+            "text": "VA",
+            "class": "text"
+        },
+        {
+            "top": 2108,
+            "left": 117,
+            "width": 53,
+            "height": 14,
+            "text": "FORM",
+            "class": "text"
+        },
+        {
+            "top": 2107,
+            "left": 640,
+            "width": 131,
+            "height": 14,
+            "text": "SUPERSEDES",
+            "class": "text"
+        },
+        {
+            "top": 2107,
+            "left": 778,
+            "width": 26,
+            "height": 14,
+            "text": "VA",
+            "class": "text"
+        },
+        {
+            "top": 2107,
+            "left": 811,
+            "width": 53,
+            "height": 14,
+            "text": "FORM",
+            "class": "text"
+        },
+        {
+            "top": 2107,
+            "left": 873,
+            "width": 115,
+            "height": 17,
+            "text": "21-0960C-10,",
+            "class": "text"
+        },
+        {
+            "top": 2107,
+            "left": 1002,
+            "width": 39,
+            "height": 14,
+            "text": "OCT",
+            "class": "text"
+        },
+        {
+            "top": 2107,
+            "left": 1049,
+            "width": 45,
+            "height": 17,
+            "text": "2012,",
+            "class": "text"
+        },
+        {
+            "top": 2106,
+            "left": 1548,
+            "width": 49,
+            "height": 20,
+            "text": "Page",
+            "class": "text"
+        },
+        {
+            "top": 2106,
+            "left": 1606,
+            "width": 6,
+            "height": 16,
+            "text": "1",
+            "class": "text"
+        },
+        {
+            "top": 2131,
+            "left": 85,
+            "width": 35,
+            "height": 14,
+            "text": "FEB",
+            "class": "text"
+        },
+        {
+            "top": 2131,
+            "left": 128,
+            "width": 41,
+            "height": 14,
+            "text": "2015",
+            "class": "text"
+        },
+        {
+            "top": 2112,
+            "left": 201,
+            "width": 191,
+            "height": 24,
+            "text": "21-0960C-10",
+            "class": "text"
+        },
+        {
+            "top": 2129,
+            "left": 639,
+            "width": 64,
+            "height": 14,
+            "text": "WHICH",
+            "class": "text"
+        },
+        {
+            "top": 2129,
+            "left": 711,
+            "width": 44,
+            "height": 14,
+            "text": "WILL",
+            "class": "text"
+        },
+        {
+            "top": 2129,
+            "left": 762,
+            "width": 40,
+            "height": 14,
+            "text": "NOT",
+            "class": "text"
+        },
+        {
+            "top": 2129,
+            "left": 810,
+            "width": 23,
+            "height": 14,
+            "text": "BE",
+            "class": "text"
+        },
+        {
+            "top": 2129,
+            "left": 840,
+            "width": 57,
+            "height": 14,
+            "text": "USED.",
+            "class": "text"
+        }
+    ],
+    [
+        {
+            "top": 63,
+            "left": 654,
+            "width": 95,
+            "height": 16,
+            "text": "SECTION",
+            "class": "text"
+        },
+        {
+            "top": 63,
+            "left": 759,
+            "width": 15,
+            "height": 16,
+            "text": "Ill",
+            "class": "text"
+        },
+        {
+            "top": 72,
+            "left": 787,
+            "width": 2,
+            "height": 3,
+            "text": "-",
+            "class": "text"
+        },
+        {
+            "top": 63,
+            "left": 797,
+            "width": 125,
+            "height": 16,
+            "text": "SYMPTOMS",
+            "class": "text"
+        },
+        {
+            "top": 63,
+            "left": 930,
+            "width": 108,
+            "height": 20,
+            "text": "(Continued",
+            "class": "text"
+        },
+        {
+            "top": 93,
+            "left": 96,
+            "width": 27,
+            "height": 14,
+            "text": "3A.",
+            "class": "text"
+        },
+        {
+            "top": 93,
+            "left": 131,
+            "width": 43,
+            "height": 14,
+            "text": "Does",
+            "class": "text"
+        },
+        {
+            "top": 93,
+            "left": 180,
+            "width": 26,
+            "height": 14,
+            "text": "the",
+            "class": "text"
+        },
+        {
+            "top": 94,
+            "left": 213,
+            "width": 63,
+            "height": 13,
+            "text": "veteran",
+            "class": "text"
+        },
+        {
+            "top": 93,
+            "left": 284,
+            "width": 40,
+            "height": 14,
+            "text": "have",
+            "class": "text"
+        },
+        {
+            "top": 97,
+            "left": 331,
+            "width": 30,
+            "height": 14,
+            "text": "any",
+            "class": "text"
+        },
+        {
+            "top": 94,
+            "left": 368,
+            "width": 87,
+            "height": 17,
+            "text": "symptoms",
+            "class": "text"
+        },
+        {
+            "top": 93,
+            "left": 462,
+            "width": 95,
+            "height": 14,
+            "text": "attributable",
+            "class": "text"
+        },
+        {
+            "top": 94,
+            "left": 563,
+            "width": 15,
+            "height": 13,
+            "text": "to",
+            "class": "text"
+        },
+        {
+            "top": 97,
+            "left": 585,
+            "width": 30,
+            "height": 14,
+            "text": "any",
+            "class": "text"
+        },
+        {
+            "top": 93,
+            "left": 622,
+            "width": 84,
+            "height": 18,
+            "text": "peripheral",
+            "class": "text"
+        },
+        {
+            "top": 97,
+            "left": 714,
+            "width": 47,
+            "height": 10,
+            "text": "nerve",
+            "class": "text"
+        },
+        {
+            "top": 93,
+            "left": 768,
+            "width": 97,
+            "height": 14,
+            "text": "conditions?",
+            "class": "text"
+        },
+        {
+            "top": 94,
+            "left": 872,
+            "width": 91,
+            "height": 17,
+            "text": "(Continued)",
+            "class": "text"
+        },
+        {
+            "top": 123,
+            "left": 115,
+            "width": 91,
+            "height": 14,
+            "text": "Numbness",
+            "class": "text"
+        },
+        {
+            "top": 149,
+            "left": 154,
+            "width": 43,
+            "height": 18,
+            "text": "Right",
+            "class": "text"
+        },
+        {
+            "top": 153,
+            "left": 204,
+            "width": 48,
+            "height": 14,
+            "text": "upper",
+            "class": "text"
+        },
+        {
+            "top": 149,
+            "left": 259,
+            "width": 82,
+            "height": 18,
+            "text": "extremity:",
+            "class": "text"
+        },
+        {
+            "top": 149,
+            "left": 486,
+            "width": 45,
+            "height": 14,
+            "text": "None",
+            "class": "text"
+        },
+        {
+            "top": 145,
+            "left": 616,
+            "width": 37,
+            "height": 26,
+            "text": "Mild",
+            "class": "text"
+        },
+        {
+            "top": 145,
+            "left": 736,
+            "width": 80,
+            "height": 26,
+            "text": "Moderate",
+            "class": "text"
+        },
+        {
+            "top": 149,
+            "left": 919,
+            "width": 60,
+            "height": 14,
+            "text": "Severe",
+            "class": "text"
+        },
+        {
+            "top": 187,
+            "left": 154,
+            "width": 30,
+            "height": 14,
+            "text": "Left",
+            "class": "text"
+        },
+        {
+            "top": 191,
+            "left": 191,
+            "width": 48,
+            "height": 14,
+            "text": "upper",
+            "class": "text"
+        },
+        {
+            "top": 187,
+            "left": 246,
+            "width": 82,
+            "height": 18,
+            "text": "extremity:",
+            "class": "text"
+        },
+        {
+            "top": 200,
+            "left": 444,
+            "width": 24,
+            "height": 1,
+            "text": "|_|",
+            "class": "text"
+        },
+        {
+            "top": 183,
+            "left": 486,
+            "width": 45,
+            "height": 14,
+            "text": "None",
+            "class": "text"
+        },
+        {
+            "top": 200,
+            "left": 577,
+            "width": 24,
+            "height": 1,
+            "text": "L_]",
+            "class": "text"
+        },
+        {
+            "top": 183,
+            "left": 619,
+            "width": 34,
+            "height": 14,
+            "text": "Mild",
+            "class": "text"
+        },
+        {
+            "top": 200,
+            "left": 694,
+            "width": 24,
+            "height": 1,
+            "text": "L_]",
+            "class": "text"
+        },
+        {
+            "top": 183,
+            "left": 736,
+            "width": 80,
+            "height": 14,
+            "text": "Moderate",
+            "class": "text"
+        },
+        {
+            "top": 200,
+            "left": 877,
+            "width": 24,
+            "height": 1,
+            "text": "L_|",
+            "class": "text"
+        },
+        {
+            "top": 183,
+            "left": 919,
+            "width": 60,
+            "height": 14,
+            "text": "Severe",
+            "class": "text"
+        },
+        {
+            "top": 220,
+            "left": 154,
+            "width": 43,
+            "height": 18,
+            "text": "Right",
+            "class": "text"
+        },
+        {
+            "top": 220,
+            "left": 204,
+            "width": 45,
+            "height": 14,
+            "text": "lower",
+            "class": "text"
+        },
+        {
+            "top": 220,
+            "left": 255,
+            "width": 82,
+            "height": 18,
+            "text": "extremity:",
+            "class": "text"
+        },
+        {
+            "top": 216,
+            "left": 486,
+            "width": 45,
+            "height": 14,
+            "text": "None",
+            "class": "text"
+        },
+        {
+            "top": 212,
+            "left": 619,
+            "width": 34,
+            "height": 27,
+            "text": "Mild",
+            "class": "text"
+        },
+        {
+            "top": 212,
+            "left": 736,
+            "width": 80,
+            "height": 27,
+            "text": "Moderate",
+            "class": "text"
+        },
+        {
+            "top": 216,
+            "left": 919,
+            "width": 60,
+            "height": 14,
+            "text": "Severe",
+            "class": "text"
+        },
+        {
+            "top": 254,
+            "left": 154,
+            "width": 30,
+            "height": 14,
+            "text": "Left",
+            "class": "text"
+        },
+        {
+            "top": 254,
+            "left": 191,
+            "width": 45,
+            "height": 14,
+            "text": "lower",
+            "class": "text"
+        },
+        {
+            "top": 254,
+            "left": 242,
+            "width": 82,
+            "height": 18,
+            "text": "extremity:",
+            "class": "text"
+        },
+        {
+            "top": 249,
+            "left": 486,
+            "width": 45,
+            "height": 14,
+            "text": "None",
+            "class": "text"
+        },
+        {
+            "top": 245,
+            "left": 619,
+            "width": 34,
+            "height": 27,
+            "text": "Mild",
+            "class": "text"
+        },
+        {
+            "top": 245,
+            "left": 736,
+            "width": 80,
+            "height": 27,
+            "text": "Moderate",
+            "class": "text"
+        },
+        {
+            "top": 249,
+            "left": 919,
+            "width": 60,
+            "height": 14,
+            "text": "Severe",
+            "class": "text"
+        },
+        {
+            "top": 285,
+            "left": 96,
+            "width": 27,
+            "height": 14,
+            "text": "3B.",
+            "class": "text"
+        },
+        {
+            "top": 285,
+            "left": 130,
+            "width": 48,
+            "height": 14,
+            "text": "Other",
+            "class": "text"
+        },
+        {
+            "top": 286,
+            "left": 184,
+            "width": 87,
+            "height": 17,
+            "text": "symptoms",
+            "class": "text"
+        },
+        {
+            "top": 283,
+            "left": 278,
+            "width": 81,
+            "height": 20,
+            "text": "(describe",
+            "class": "text"
+        },
+        {
+            "top": 286,
+            "left": 366,
+            "width": 89,
+            "height": 18,
+            "text": "symptoms,",
+            "class": "text"
+        },
+        {
+            "top": 283,
+            "left": 464,
+            "width": 72,
+            "height": 16,
+            "text": "location",
+            "class": "text"
+        },
+        {
+            "top": 283,
+            "left": 543,
+            "width": 34,
+            "height": 16,
+            "text": "and",
+            "class": "text"
+        },
+        {
+            "top": 283,
+            "left": 582,
+            "width": 80,
+            "height": 21,
+            "text": "severity):",
+            "class": "text"
+        },
+        {
+            "top": 397,
+            "left": 640,
+            "width": 96,
+            "height": 16,
+            "text": "SECTION",
+            "class": "text"
+        },
+        {
+            "top": 397,
+            "left": 745,
+            "width": 21,
+            "height": 16,
+            "text": "IV",
+            "class": "text"
+        },
+        {
+            "top": 406,
+            "left": 776,
+            "width": 3,
+            "height": 3,
+            "text": "-",
+            "class": "text"
+        },
+        {
+            "top": 397,
+            "left": 786,
+            "width": 92,
+            "height": 16,
+            "text": "MUSCLE",
+            "class": "text"
+        },
+        {
+            "top": 397,
+            "left": 886,
+            "width": 119,
+            "height": 16,
+            "text": "STRENGTH",
+            "class": "text"
+        },
+        {
+            "top": 397,
+            "left": 1015,
+            "width": 94,
+            "height": 16,
+            "text": "TESTING",
+            "class": "text"
+        },
+        {
+            "top": 428,
+            "left": 96,
+            "width": 28,
+            "height": 14,
+            "text": "4A.",
+            "class": "text"
+        },
+        {
+            "top": 428,
+            "left": 132,
+            "width": 39,
+            "height": 14,
+            "text": "Rate",
+            "class": "text"
+        },
+        {
+            "top": 428,
+            "left": 178,
+            "width": 67,
+            "height": 18,
+            "text": "strength",
+            "class": "text"
+        },
+        {
+            "top": 428,
+            "left": 254,
+            "width": 82,
+            "height": 18,
+            "text": "according",
+            "class": "text"
+        },
+        {
+            "top": 429,
+            "left": 342,
+            "width": 16,
+            "height": 13,
+            "text": "to",
+            "class": "text"
+        },
+        {
+            "top": 428,
+            "left": 364,
+            "width": 26,
+            "height": 14,
+            "text": "the",
+            "class": "text"
+        },
+        {
+            "top": 428,
+            "left": 397,
+            "width": 74,
+            "height": 18,
+            "text": "following",
+            "class": "text"
+        },
+        {
+            "top": 428,
+            "left": 478,
+            "width": 49,
+            "height": 14,
+            "text": "scale:",
+            "class": "text"
+        },
+        {
+            "top": 458,
+            "left": 222,
+            "width": 25,
+            "height": 14,
+            "text": "0/5",
+            "class": "text"
+        },
+        {
+            "top": 458,
+            "left": 254,
+            "width": 23,
+            "height": 14,
+            "text": "No",
+            "class": "text"
+        },
+        {
+            "top": 458,
+            "left": 285,
+            "width": 59,
+            "height": 14,
+            "text": "muscle",
+            "class": "text"
+        },
+        {
+            "top": 459,
+            "left": 352,
+            "width": 89,
+            "height": 13,
+            "text": "movement",
+            "class": "text"
+        },
+        {
+            "top": 490,
+            "left": 223,
+            "width": 24,
+            "height": 14,
+            "text": "1/5",
+            "class": "text"
+        },
+        {
+            "top": 490,
+            "left": 255,
+            "width": 73,
+            "height": 18,
+            "text": "Palpable",
+            "class": "text"
+        },
+        {
+            "top": 494,
+            "left": 335,
+            "width": 16,
+            "height": 10,
+            "text": "or",
+            "class": "text"
+        },
+        {
+            "top": 490,
+            "left": 357,
+            "width": 53,
+            "height": 14,
+            "text": "visible",
+            "class": "text"
+        },
+        {
+            "top": 490,
+            "left": 417,
+            "width": 60,
+            "height": 14,
+            "text": "muscle",
+            "class": "text"
+        },
+        {
+            "top": 490,
+            "left": 484,
+            "width": 98,
+            "height": 17,
+            "text": "contraction,",
+            "class": "text"
+        },
+        {
+            "top": 490,
+            "left": 590,
+            "width": 26,
+            "height": 14,
+            "text": "but",
+            "class": "text"
+        },
+        {
+            "top": 494,
+            "left": 624,
+            "width": 16,
+            "height": 10,
+            "text": "no",
+            "class": "text"
+        },
+        {
+            "top": 490,
+            "left": 648,
+            "width": 36,
+            "height": 18,
+            "text": "joint",
+            "class": "text"
+        },
+        {
+            "top": 491,
+            "left": 691,
+            "width": 89,
+            "height": 13,
+            "text": "movement",
+            "class": "text"
+        },
+        {
+            "top": 525,
+            "left": 222,
+            "width": 25,
+            "height": 14,
+            "text": "2/5",
+            "class": "text"
+        },
+        {
+            "top": 525,
+            "left": 253,
+            "width": 52,
+            "height": 14,
+            "text": "Active",
+            "class": "text"
+        },
+        {
+            "top": 526,
+            "left": 313,
+            "width": 89,
+            "height": 13,
+            "text": "movement",
+            "class": "text"
+        },
+        {
+            "top": 525,
+            "left": 408,
+            "width": 33,
+            "height": 14,
+            "text": "with",
+            "class": "text"
+        },
+        {
+            "top": 525,
+            "left": 449,
+            "width": 55,
+            "height": 18,
+            "text": "gravity",
+            "class": "text"
+        },
+        {
+            "top": 525,
+            "left": 511,
+            "width": 87,
+            "height": 14,
+            "text": "eliminated",
+            "class": "text"
+        },
+        {
+            "top": 556,
+            "left": 222,
+            "width": 25,
+            "height": 14,
+            "text": "3/5",
+            "class": "text"
+        },
+        {
+            "top": 556,
+            "left": 253,
+            "width": 52,
+            "height": 14,
+            "text": "Active",
+            "class": "text"
+        },
+        {
+            "top": 557,
+            "left": 313,
+            "width": 89,
+            "height": 13,
+            "text": "movement",
+            "class": "text"
+        },
+        {
+            "top": 556,
+            "left": 409,
+            "width": 61,
+            "height": 18,
+            "text": "against",
+            "class": "text"
+        },
+        {
+            "top": 556,
+            "left": 477,
+            "width": 55,
+            "height": 18,
+            "text": "gravity",
+            "class": "text"
+        },
+        {
+            "top": 592,
+            "left": 221,
+            "width": 26,
+            "height": 14,
+            "text": "4/5",
+            "class": "text"
+        },
+        {
+            "top": 592,
+            "left": 253,
+            "width": 52,
+            "height": 14,
+            "text": "Active",
+            "class": "text"
+        },
+        {
+            "top": 593,
+            "left": 313,
+            "width": 89,
+            "height": 13,
+            "text": "movement",
+            "class": "text"
+        },
+        {
+            "top": 592,
+            "left": 409,
+            "width": 61,
+            "height": 18,
+            "text": "against",
+            "class": "text"
+        },
+        {
+            "top": 596,
+            "left": 477,
+            "width": 46,
+            "height": 10,
+            "text": "some",
+            "class": "text"
+        },
+        {
+            "top": 592,
+            "left": 530,
+            "width": 87,
+            "height": 14,
+            "text": "resistance",
+            "class": "text"
+        },
+        {
+            "top": 625,
+            "left": 222,
+            "width": 25,
+            "height": 14,
+            "text": "5/5",
+            "class": "text"
+        },
+        {
+            "top": 625,
+            "left": 254,
+            "width": 61,
+            "height": 14,
+            "text": "Normal",
+            "class": "text"
+        },
+        {
+            "top": 625,
+            "left": 322,
+            "width": 68,
+            "height": 18,
+            "text": "strength",
+            "class": "text"
+        },
+        {
+            "top": 658,
+            "left": 148,
+            "width": 20,
+            "height": 14,
+            "text": "All",
+            "class": "text"
+        },
+        {
+            "top": 658,
+            "left": 176,
+            "width": 57,
+            "height": 14,
+            "text": "normal",
+            "class": "text"
+        },
+        {
+            "top": 695,
+            "left": 119,
+            "width": 50,
+            "height": 14,
+            "text": "Elbow",
+            "class": "text"
+        },
+        {
+            "top": 695,
+            "left": 176,
+            "width": 59,
+            "height": 14,
+            "text": "flexion:",
+            "class": "text"
+        },
+        {
+            "top": 695,
+            "left": 369,
+            "width": 47,
+            "height": 18,
+            "text": "Right:",
+            "class": "text"
+        },
+        {
+            "top": 728,
+            "left": 369,
+            "width": 34,
+            "height": 14,
+            "text": "Left:",
+            "class": "text"
+        },
+        {
+            "top": 761,
+            "left": 119,
+            "width": 50,
+            "height": 14,
+            "text": "Elbow",
+            "class": "text"
+        },
+        {
+            "top": 761,
+            "left": 176,
+            "width": 86,
+            "height": 14,
+            "text": "extension:",
+            "class": "text"
+        },
+        {
+            "top": 761,
+            "left": 369,
+            "width": 47,
+            "height": 18,
+            "text": "Right:",
+            "class": "text"
+        },
+        {
+            "top": 795,
+            "left": 369,
+            "width": 34,
+            "height": 14,
+            "text": "Left:",
+            "class": "text"
+        },
+        {
+            "top": 828,
+            "left": 117,
+            "width": 44,
+            "height": 14,
+            "text": "Wrist",
+            "class": "text"
+        },
+        {
+            "top": 828,
+            "left": 167,
+            "width": 60,
+            "height": 14,
+            "text": "flexion:",
+            "class": "text"
+        },
+        {
+            "top": 828,
+            "left": 369,
+            "width": 47,
+            "height": 18,
+            "text": "Right:",
+            "class": "text"
+        },
+        {
+            "top": 862,
+            "left": 369,
+            "width": 34,
+            "height": 14,
+            "text": "Left:",
+            "class": "text"
+        },
+        {
+            "top": 895,
+            "left": 117,
+            "width": 44,
+            "height": 14,
+            "text": "Wrist",
+            "class": "text"
+        },
+        {
+            "top": 895,
+            "left": 167,
+            "width": 87,
+            "height": 14,
+            "text": "extension:",
+            "class": "text"
+        },
+        {
+            "top": 895,
+            "left": 369,
+            "width": 47,
+            "height": 18,
+            "text": "Right:",
+            "class": "text"
+        },
+        {
+            "top": 928,
+            "left": 369,
+            "width": 34,
+            "height": 14,
+            "text": "Left:",
+            "class": "text"
+        },
+        {
+            "top": 957,
+            "left": 114,
+            "width": 43,
+            "height": 26,
+            "text": "Grip:",
+            "class": "text"
+        },
+        {
+            "top": 961,
+            "left": 369,
+            "width": 47,
+            "height": 18,
+            "text": "Right:",
+            "class": "text"
+        },
+        {
+            "top": 995,
+            "left": 369,
+            "width": 34,
+            "height": 14,
+            "text": "Left:",
+            "class": "text"
+        },
+        {
+            "top": 1033,
+            "left": 119,
+            "width": 44,
+            "height": 15,
+            "text": "Pinch",
+            "class": "text"
+        },
+        {
+            "top": 1028,
+            "left": 369,
+            "width": 47,
+            "height": 19,
+            "text": "Right:",
+            "class": "text"
+        },
+        {
+            "top": 1056,
+            "left": 118,
+            "width": 58,
+            "height": 19,
+            "text": "(thumb",
+            "class": "text"
+        },
+        {
+            "top": 1057,
+            "left": 183,
+            "width": 15,
+            "height": 14,
+            "text": "to",
+            "class": "text"
+        },
+        {
+            "top": 1056,
+            "left": 205,
+            "width": 45,
+            "height": 15,
+            "text": "index",
+            "class": "text"
+        },
+        {
+            "top": 1056,
+            "left": 257,
+            "width": 58,
+            "height": 19,
+            "text": "finger):",
+            "class": "text"
+        },
+        {
+            "top": 1061,
+            "left": 369,
+            "width": 34,
+            "height": 15,
+            "text": "Left:",
+            "class": "text"
+        },
+        {
+            "top": 1095,
+            "left": 119,
+            "width": 42,
+            "height": 15,
+            "text": "Knee",
+            "class": "text"
+        },
+        {
+            "top": 1095,
+            "left": 168,
+            "width": 87,
+            "height": 15,
+            "text": "extension:",
+            "class": "text"
+        },
+        {
+            "top": 1095,
+            "left": 369,
+            "width": 47,
+            "height": 19,
+            "text": "Right:",
+            "class": "text"
+        },
+        {
+            "top": 1128,
+            "left": 369,
+            "width": 34,
+            "height": 15,
+            "text": "Left:",
+            "class": "text"
+        },
+        {
+            "top": 1161,
+            "left": 369,
+            "width": 47,
+            "height": 19,
+            "text": "Right:",
+            "class": "text"
+        },
+        {
+            "top": 1195,
+            "left": 369,
+            "width": 34,
+            "height": 14,
+            "text": "Left:",
+            "class": "text"
+        },
+        {
+            "top": 1170,
+            "left": 117,
+            "width": 48,
+            "height": 15,
+            "text": "Ankle",
+            "class": "text"
+        },
+        {
+            "top": 1170,
+            "left": 172,
+            "width": 58,
+            "height": 19,
+            "text": "plantar",
+            "class": "text"
+        },
+        {
+            "top": 1170,
+            "left": 237,
+            "width": 59,
+            "height": 15,
+            "text": "flexion:",
+            "class": "text"
+        },
+        {
+            "top": 1229,
+            "left": 117,
+            "width": 48,
+            "height": 14,
+            "text": "Ankle",
+            "class": "text"
+        },
+        {
+            "top": 1229,
+            "left": 172,
+            "width": 101,
+            "height": 14,
+            "text": "dorsiflexion:",
+            "class": "text"
+        },
+        {
+            "top": 1229,
+            "left": 369,
+            "width": 47,
+            "height": 18,
+            "text": "Right:",
+            "class": "text"
+        },
+        {
+            "top": 1262,
+            "left": 369,
+            "width": 34,
+            "height": 14,
+            "text": "Left:",
+            "class": "text"
+        },
+        {
+            "top": 1300,
+            "left": 98,
+            "width": 28,
+            "height": 14,
+            "text": "4B.",
+            "class": "text"
+        },
+        {
+            "top": 1300,
+            "left": 134,
+            "width": 43,
+            "height": 14,
+            "text": "Does",
+            "class": "text"
+        },
+        {
+            "top": 1300,
+            "left": 183,
+            "width": 26,
+            "height": 14,
+            "text": "the",
+            "class": "text"
+        },
+        {
+            "top": 1301,
+            "left": 216,
+            "width": 63,
+            "height": 13,
+            "text": "veteran",
+            "class": "text"
+        },
+        {
+            "top": 1300,
+            "left": 287,
+            "width": 40,
+            "height": 14,
+            "text": "have",
+            "class": "text"
+        },
+        {
+            "top": 1300,
+            "left": 334,
+            "width": 60,
+            "height": 14,
+            "text": "muscle",
+            "class": "text"
+        },
+        {
+            "top": 1300,
+            "left": 401,
+            "width": 74,
+            "height": 18,
+            "text": "atrophy?",
+            "class": "text"
+        },
+        {
+            "top": 1336,
+            "left": 160,
+            "width": 33,
+            "height": 14,
+            "text": "Yes",
+            "class": "text"
+        },
+        {
+            "top": 1336,
+            "left": 278,
+            "width": 23,
+            "height": 14,
+            "text": "No",
+            "class": "text"
+        },
+        {
+            "top": 1376,
+            "left": 111,
+            "width": 11,
+            "height": 14,
+            "text": "If",
+            "class": "text"
+        },
+        {
+            "top": 1376,
+            "left": 126,
+            "width": 60,
+            "height": 14,
+            "text": "muscle",
+            "class": "text"
+        },
+        {
+            "top": 1376,
+            "left": 193,
+            "width": 64,
+            "height": 18,
+            "text": "atrophy",
+            "class": "text"
+        },
+        {
+            "top": 1376,
+            "left": 264,
+            "width": 12,
+            "height": 14,
+            "text": "is",
+            "class": "text"
+        },
+        {
+            "top": 1377,
+            "left": 283,
+            "width": 67,
+            "height": 17,
+            "text": "present,",
+            "class": "text"
+        },
+        {
+            "top": 1376,
+            "left": 359,
+            "width": 65,
+            "height": 14,
+            "text": "indicate",
+            "class": "text"
+        },
+        {
+            "top": 1376,
+            "left": 431,
+            "width": 70,
+            "height": 14,
+            "text": "location:",
+            "class": "text"
+        },
+        {
+            "top": 1407,
+            "left": 112,
+            "width": 27,
+            "height": 14,
+            "text": "For",
+            "class": "text"
+        },
+        {
+            "top": 1407,
+            "left": 146,
+            "width": 39,
+            "height": 14,
+            "text": "each",
+            "class": "text"
+        },
+        {
+            "top": 1407,
+            "left": 193,
+            "width": 71,
+            "height": 14,
+            "text": "instance",
+            "class": "text"
+        },
+        {
+            "top": 1407,
+            "left": 271,
+            "width": 17,
+            "height": 14,
+            "text": "of",
+            "class": "text"
+        },
+        {
+            "top": 1407,
+            "left": 293,
+            "width": 60,
+            "height": 14,
+            "text": "muscle",
+            "class": "text"
+        },
+        {
+            "top": 1407,
+            "left": 360,
+            "width": 67,
+            "height": 18,
+            "text": "atrophy,",
+            "class": "text"
+        },
+        {
+            "top": 1407,
+            "left": 435,
+            "width": 62,
+            "height": 18,
+            "text": "provide",
+            "class": "text"
+        },
+        {
+            "top": 1408,
+            "left": 505,
+            "width": 126,
+            "height": 13,
+            "text": "measurements",
+            "class": "text"
+        },
+        {
+            "top": 1407,
+            "left": 639,
+            "width": 12,
+            "height": 14,
+            "text": "in",
+            "class": "text"
+        },
+        {
+            "top": 1407,
+            "left": 659,
+            "width": 99,
+            "height": 14,
+            "text": "centimeters",
+            "class": "text"
+        },
+        {
+            "top": 1407,
+            "left": 765,
+            "width": 17,
+            "height": 14,
+            "text": "of",
+            "class": "text"
+        },
+        {
+            "top": 1407,
+            "left": 787,
+            "width": 57,
+            "height": 14,
+            "text": "normal",
+            "class": "text"
+        },
+        {
+            "top": 1407,
+            "left": 851,
+            "width": 34,
+            "height": 14,
+            "text": "side",
+            "class": "text"
+        },
+        {
+            "top": 1407,
+            "left": 892,
+            "width": 31,
+            "height": 14,
+            "text": "and",
+            "class": "text"
+        },
+        {
+            "top": 1407,
+            "left": 930,
+            "width": 80,
+            "height": 18,
+            "text": "atrophied",
+            "class": "text"
+        },
+        {
+            "top": 1407,
+            "left": 1017,
+            "width": 37,
+            "height": 17,
+            "text": "side,",
+            "class": "text"
+        },
+        {
+            "top": 1407,
+            "left": 1063,
+            "width": 85,
+            "height": 14,
+            "text": "measured",
+            "class": "text"
+        },
+        {
+            "top": 1408,
+            "left": 1155,
+            "width": 15,
+            "height": 13,
+            "text": "at",
+            "class": "text"
+        },
+        {
+            "top": 1407,
+            "left": 1177,
+            "width": 82,
+            "height": 14,
+            "text": "maximum",
+            "class": "text"
+        },
+        {
+            "top": 1407,
+            "left": 1266,
+            "width": 60,
+            "height": 14,
+            "text": "muscle",
+            "class": "text"
+        },
+        {
+            "top": 1407,
+            "left": 1333,
+            "width": 39,
+            "height": 14,
+            "text": "bulk:",
+            "class": "text"
+        },
+        {
+            "top": 1451,
+            "left": 368,
+            "width": 60,
+            "height": 14,
+            "text": "Normal",
+            "class": "text"
+        },
+        {
+            "top": 1451,
+            "left": 436,
+            "width": 38,
+            "height": 14,
+            "text": "side:",
+            "class": "text"
+        },
+        {
+            "top": 1459,
+            "left": 657,
+            "width": 23,
+            "height": 10,
+            "text": "om",
+            "class": "text"
+        },
+        {
+            "top": 1450,
+            "left": 874,
+            "width": 83,
+            "height": 18,
+            "text": "Atrophied",
+            "class": "text"
+        },
+        {
+            "top": 1450,
+            "left": 964,
+            "width": 38,
+            "height": 14,
+            "text": "side:",
+            "class": "text"
+        },
+        {
+            "top": 1458,
+            "left": 1182,
+            "width": 24,
+            "height": 10,
+            "text": "cm",
+            "class": "text"
+        },
+        {
+            "top": 1490,
+            "left": 721,
+            "width": 95,
+            "height": 16,
+            "text": "SECTION",
+            "class": "text"
+        },
+        {
+            "top": 1490,
+            "left": 825,
+            "width": 15,
+            "height": 16,
+            "text": "V",
+            "class": "text"
+        },
+        {
+            "top": 1499,
+            "left": 847,
+            "width": 6,
+            "height": 3,
+            "text": "-",
+            "class": "text"
+        },
+        {
+            "top": 1490,
+            "left": 861,
+            "width": 85,
+            "height": 16,
+            "text": "REFLEX",
+            "class": "text"
+        },
+        {
+            "top": 1490,
+            "left": 955,
+            "width": 60,
+            "height": 16,
+            "text": "EXAM",
+            "class": "text"
+        },
+        {
+            "top": 1521,
+            "left": 99,
+            "width": 14,
+            "height": 14,
+            "text": "5.",
+            "class": "text"
+        },
+        {
+            "top": 1521,
+            "left": 122,
+            "width": 38,
+            "height": 14,
+            "text": "Rate",
+            "class": "text"
+        },
+        {
+            "top": 1521,
+            "left": 167,
+            "width": 42,
+            "height": 18,
+            "text": "deep",
+            "class": "text"
+        },
+        {
+            "top": 1521,
+            "left": 215,
+            "width": 58,
+            "height": 14,
+            "text": "tendon",
+            "class": "text"
+        },
+        {
+            "top": 1521,
+            "left": 281,
+            "width": 66,
+            "height": 14,
+            "text": "reflexes",
+            "class": "text"
+        },
+        {
+            "top": 1521,
+            "left": 354,
+            "width": 61,
+            "height": 18,
+            "text": "(DTRs)",
+            "class": "text"
+        },
+        {
+            "top": 1521,
+            "left": 422,
+            "width": 83,
+            "height": 18,
+            "text": "according",
+            "class": "text"
+        },
+        {
+            "top": 1522,
+            "left": 511,
+            "width": 16,
+            "height": 13,
+            "text": "to",
+            "class": "text"
+        },
+        {
+            "top": 1521,
+            "left": 533,
+            "width": 26,
+            "height": 14,
+            "text": "the",
+            "class": "text"
+        },
+        {
+            "top": 1521,
+            "left": 566,
+            "width": 74,
+            "height": 18,
+            "text": "following",
+            "class": "text"
+        },
+        {
+            "top": 1521,
+            "left": 647,
+            "width": 49,
+            "height": 14,
+            "text": "scale:",
+            "class": "text"
+        },
+        {
+            "top": 1548,
+            "left": 222,
+            "width": 20,
+            "height": 14,
+            "text": "0-",
+            "class": "text"
+        },
+        {
+            "top": 1548,
+            "left": 249,
+            "width": 60,
+            "height": 14,
+            "text": "Absent",
+            "class": "text"
+        },
+        {
+            "top": 1576,
+            "left": 223,
+            "width": 20,
+            "height": 14,
+            "text": "1+",
+            "class": "text"
+        },
+        {
+            "top": 1576,
+            "left": 249,
+            "width": 95,
+            "height": 18,
+            "text": "Hypoactive",
+            "class": "text"
+        },
+        {
+            "top": 1607,
+            "left": 222,
+            "width": 21,
+            "height": 14,
+            "text": "2+",
+            "class": "text"
+        },
+        {
+            "top": 1607,
+            "left": 249,
+            "width": 61,
+            "height": 14,
+            "text": "Normal",
+            "class": "text"
+        },
+        {
+            "top": 1642,
+            "left": 222,
+            "width": 21,
+            "height": 14,
+            "text": "3+",
+            "class": "text"
+        },
+        {
+            "top": 1642,
+            "left": 249,
+            "width": 101,
+            "height": 18,
+            "text": "Hyperactive",
+            "class": "text"
+        },
+        {
+            "top": 1642,
+            "left": 356,
+            "width": 62,
+            "height": 14,
+            "text": "without",
+            "class": "text"
+        },
+        {
+            "top": 1642,
+            "left": 424,
+            "width": 55,
+            "height": 14,
+            "text": "clonus",
+            "class": "text"
+        },
+        {
+            "top": 1677,
+            "left": 221,
+            "width": 22,
+            "height": 14,
+            "text": "4+",
+            "class": "text"
+        },
+        {
+            "top": 1677,
+            "left": 249,
+            "width": 101,
+            "height": 18,
+            "text": "Hyperactive",
+            "class": "text"
+        },
+        {
+            "top": 1677,
+            "left": 356,
+            "width": 33,
+            "height": 14,
+            "text": "with",
+            "class": "text"
+        },
+        {
+            "top": 1677,
+            "left": 397,
+            "width": 55,
+            "height": 14,
+            "text": "clonus",
+            "class": "text"
+        },
+        {
+            "top": 1707,
+            "left": 150,
+            "width": 20,
+            "height": 14,
+            "text": "All",
+            "class": "text"
+        },
+        {
+            "top": 1707,
+            "left": 178,
+            "width": 57,
+            "height": 14,
+            "text": "normal",
+            "class": "text"
+        },
+        {
+            "top": 1740,
+            "left": 119,
+            "width": 55,
+            "height": 18,
+            "text": "Biceps",
+            "class": "text"
+        },
+        {
+            "top": 1740,
+            "left": 369,
+            "width": 47,
+            "height": 18,
+            "text": "Right:",
+            "class": "text"
+        },
+        {
+            "top": 1774,
+            "left": 369,
+            "width": 34,
+            "height": 14,
+            "text": "Left:",
+            "class": "text"
+        },
+        {
+            "top": 1807,
+            "left": 118,
+            "width": 62,
+            "height": 18,
+            "text": "Triceps",
+            "class": "text"
+        },
+        {
+            "top": 1807,
+            "left": 369,
+            "width": 47,
+            "height": 18,
+            "text": "Right:",
+            "class": "text"
+        },
+        {
+            "top": 1840,
+            "left": 369,
+            "width": 34,
+            "height": 14,
+            "text": "Left:",
+            "class": "text"
+        },
+        {
+            "top": 1870,
+            "left": 119,
+            "width": 124,
+            "height": 26,
+            "text": "Brachioradialis",
+            "class": "text"
+        },
+        {
+            "top": 1874,
+            "left": 369,
+            "width": 47,
+            "height": 18,
+            "text": "Right:",
+            "class": "text"
+        },
+        {
+            "top": 1907,
+            "left": 369,
+            "width": 34,
+            "height": 14,
+            "text": "Left:",
+            "class": "text"
+        },
+        {
+            "top": 1940,
+            "left": 119,
+            "width": 42,
+            "height": 14,
+            "text": "Knee",
+            "class": "text"
+        },
+        {
+            "top": 1940,
+            "left": 369,
+            "width": 47,
+            "height": 18,
+            "text": "Right:",
+            "class": "text"
+        },
+        {
+            "top": 1974,
+            "left": 369,
+            "width": 34,
+            "height": 14,
+            "text": "Left:",
+            "class": "text"
+        },
+        {
+            "top": 2003,
+            "left": 117,
+            "width": 48,
+            "height": 26,
+            "text": "Ankle",
+            "class": "text"
+        },
+        {
+            "top": 2007,
+            "left": 369,
+            "width": 47,
+            "height": 18,
+            "text": "Right:",
+            "class": "text"
+        },
+        {
+            "top": 2040,
+            "left": 369,
+            "width": 34,
+            "height": 14,
+            "text": "Left:",
+            "class": "text"
+        },
+        {
+            "top": 2095,
+            "left": 88,
+            "width": 26,
+            "height": 14,
+            "text": "VA",
+            "class": "text"
+        },
+        {
+            "top": 2095,
+            "left": 121,
+            "width": 53,
+            "height": 14,
+            "text": "FORM",
+            "class": "text"
+        },
+        {
+            "top": 2095,
+            "left": 183,
+            "width": 115,
+            "height": 17,
+            "text": "21-0960C-10,",
+            "class": "text"
+        },
+        {
+            "top": 2095,
+            "left": 308,
+            "width": 35,
+            "height": 14,
+            "text": "FEB",
+            "class": "text"
+        },
+        {
+            "top": 2095,
+            "left": 350,
+            "width": 42,
+            "height": 14,
+            "text": "2015",
+            "class": "text"
+        },
+        {
+            "top": 2095,
+            "left": 1548,
+            "width": 49,
+            "height": 20,
+            "text": "Page",
+            "class": "text"
+        },
+        {
+            "top": 2095,
+            "left": 1605,
+            "width": 10,
+            "height": 16,
+            "text": "2",
+            "class": "text"
+        }
+    ]
+]

@@ -6,7 +6,7 @@ import Zoom from "./app/Zoom";
 import ToolSelect from "./app/ToolSelect";
 import UndoAndRedo from "./components/UndoAndRedo";
 import ResizeDialog from "./app/ResizeModal";
-import { useSaveState } from "./app/utils";
+import { useSaveState, getPdfUrl } from "./app/utils";
 import ProceedToNextLayer from "./app/ProceedToNextLayer";
 import color from "./components/color";
 
@@ -20,6 +20,7 @@ const Logo = () => {
 
 const App = () => {
   useSaveState();
+  const pdfUrl = getPdfUrl();
   return (
     <Box
       width="100%"
@@ -32,7 +33,7 @@ const App = () => {
       <StepsNav paddingBottom="24px" />
       <ToolSelect />
       <Box display="flex" width="100%" justifyContent="center" marginTop="8px">
-        <PDF url="/sample_form.pdf" />
+        <PDF url={pdfUrl} />
       </Box>
       <UndoAndRedo />
       <Zoom />
