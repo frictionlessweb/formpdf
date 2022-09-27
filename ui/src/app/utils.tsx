@@ -71,16 +71,16 @@ export const boxContaining = (tokens: Bounds[], padding: number): Bounds => {
 
 // i feel sorry for writing all this code. I know there's a better way to do this.
 export const getPredictionsAndTokens = () => {
-  switch (window.location.pathname) {
-    case "/1":
+  switch (window.location.hash) {
+    case "#1":
       return [PREDICTIONS_1, TOKENS_1];
-    case "/2":
+    case "#2":
       return [PREDICTIONS_2, TOKENS_2];
-    case "/3":
+    case "#3":
       return [PREDICTIONS_3, TOKENS_3];
-    case "/4":
+    case "#4":
       return [PREDICTIONS_4, TOKENS_4];
-    case "/5":
+    case "#5":
       return [PREDICTIONS_5, TOKENS_5];
     default:
       return [PREDICTIONS_1, TOKENS_1];
@@ -88,16 +88,16 @@ export const getPredictionsAndTokens = () => {
 };
 
 export const getPdfUrl = () => {
-  switch (window.location.pathname) {
-    case "/1":
+  switch (window.location.hash) {
+    case "#1":
       return "form_1.pdf";
-    case "/2":
+    case "#2":
       return "form_2.pdf";
-    case "/3":
+    case "#3":
       return "form_3.pdf";
-    case "/4":
+    case "#4":
       return "form_4.pdf";
-    case "/5":
+    case "#5":
       return "form_5.pdf";
     default:
       return "form_1.pdf";
