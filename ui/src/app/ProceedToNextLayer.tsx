@@ -42,7 +42,7 @@ const ProceedToNextLayer: React.FC = () => {
       position="fixed"
       bottom="24px"
       display="flex"
-      zIndex={10}
+      zIndex={100}
       flexDirection="column"
       paddingTop="20px">
       <Button

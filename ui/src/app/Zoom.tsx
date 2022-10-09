@@ -43,7 +43,7 @@ const Zoom: React.FC<ZoomProps> = () => {
         justifyContent: "space-between",
         alignItems: "center",
         padding: "8px",
-        zIndex: 10,
+        zIndex: 100,
         borderRadius: "8px",
         boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
       }}>

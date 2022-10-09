@@ -131,6 +131,9 @@ export const FieldLayerAnnotation: React.FC<AnnotationProps> = (props) => {
             ...css,
             position: "absolute",
             backgroundColor: color.orange.transparent,
+            // Here zIndex is used to fix the issue where – the action menu (which is a child of selected annotation)
+            // gets overlapped by previous section's grey area.
+            zIndex: isSelected ? 100 : 0,
             border: isSelected
               ? "3px solid black"
               : `4px solid ${color.orange.dark}`,
