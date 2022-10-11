@@ -236,7 +236,12 @@ const RelationshipLink: React.FC<RelationshipLinkProps> = (props) => {
 };
 
 const SelectAnnotation: React.FC = () => {
-  const annotations = useSelector((state) => Object.values(state.annotations));
+  const annotations = useSelector((state) =>
+    Object.values(state.annotations).filter((annotation) => {
+      // we don't want to show groups and group labels in this layer.
+      return annotation.type !== "GROUP" && annotation.type !== "GROUP_LABEL";
+    })
+  );
   return (
     <>
       {annotations.map((annotation) => {

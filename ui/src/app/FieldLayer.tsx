@@ -222,10 +222,10 @@ export const FieldLayerAnnotation: React.FC<AnnotationProps> = (props) => {
 
 const FieldLayer: React.FC<LayerControllerProps> = (props) => {
   const { pdf, container } = props;
-  const { annotations } = useSelector((state) => {
-    return {
-      annotations: state.annotations,
-    };
+  const annotations = useSelector((state) => {
+    return Object.values(state.annotations).filter((annotation) =>
+      ["CHECKBOX", "TEXTBOX", "RADIOBOX"].includes(annotation.type)
+    );
   });
   const layer = useFieldLayer(container);
   return (
@@ -244,13 +244,9 @@ const FieldLayer: React.FC<LayerControllerProps> = (props) => {
         onMouseDown={NO_OP}
         onMouseMove={NO_OP}
       />
-      {Object.values(annotations)
-        .filter((annotation) =>
-          ["CHECKBOX", "TEXTBOX", "RADIOBOX"].includes(annotation.type)
-        )
-        .map((annotation) => {
-          return <FieldLayerAnnotation key={annotation.id} {...annotation} />;
-        })}
+      {annotations.map((annotation) => {
+        return <FieldLayerAnnotation key={annotation.id} {...annotation} />;
+      })}
     </HandlerLayer>
   );
 };

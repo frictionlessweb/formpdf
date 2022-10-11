@@ -206,12 +206,11 @@ const GroupLayerSelectAnnotation: React.FC<AnnotationStatic> = (
 
 const GroupLayerSelections = () => {
   const { annotationsToGroup, labelRelations } = useSelector((state) => {
-    const annotations = state.annotations;
     const annotationsToGroup = Object.values(state.annotations).filter(
       shouldBeGrouped
     );
     const labelRelations = state.labelRelations;
-    return { annotations, annotationsToGroup, labelRelations };
+    return { annotationsToGroup, labelRelations };
   });
   return (
     <>
