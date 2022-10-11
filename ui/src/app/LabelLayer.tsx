@@ -117,9 +117,7 @@ export const useFieldLayer = (
         onMouseDown: NO_OP,
         onMouseLeave: NO_OP,
         onClick: () => {
-          if (tool === "SELECT") {
-            dispatch({ type: "DESELECT_ALL_ANNOTATION" });
-          }
+          dispatch({ type: "DESELECT_ALL_ANNOTATION" });
         },
       };
     }
@@ -169,7 +167,8 @@ export const LabelLayerSelectAnnotation: React.FC<AnnotationStatic> = (
       css={{
         cursor: "pointer",
         ...css,
-        border: isSelected ? "2px solid black" : css.border,
+        border: isSelected ? "3px solid black" : css.border,
+        zIndex: isSelected ? 100 : 0,
       }}
       onClick={(e: React.MouseEvent<HTMLElement>) => {
         e.stopPropagation();

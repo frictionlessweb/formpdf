@@ -141,7 +141,8 @@ const GroupLayerSelectAnnotation: React.FC<AnnotationStatic> = (
         cursor: "pointer",
         ...css,
         position: "absolute",
-        border: isSelected ? "2px solid black" : css.border,
+        zIndex: isSelected ? 100 : 0,
+        border: isSelected ? "3px solid black" : css.border,
       }}
       onClick={(e: React.MouseEvent<HTMLElement>) => {
         e.stopPropagation();

@@ -16,7 +16,7 @@ export const Container: React.FC<ContainerProps> = ({ children }) => {
   return (
     <div
       css={{
-        transform: "translateY(-180%)",
+        transform: "translateY(calc(-100% - 12px))",
         position: "absolute",
         width: "auto",
         height: "2.5rem",

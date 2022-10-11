@@ -74,9 +74,7 @@ export const useFieldLayer = (
         onMouseDown: NO_OP,
         onMouseLeave: NO_OP,
         onClick: () => {
-          if (tool === "SELECT") {
-            dispatch({ type: "DESELECT_ALL_ANNOTATION" });
-          }
+          dispatch({ type: "DESELECT_ALL_ANNOTATION" });
         },
       };
     }
@@ -236,7 +234,8 @@ const FieldLayer: React.FC<LayerControllerProps> = (props) => {
       rootCss={{ cursor: layer.cursor }}
       onMouseMove={layer.onMouseMove}
       onMouseDown={layer.onMouseDown}
-      onMouseUp={layer.onMouseUp}>
+      onMouseUp={layer.onMouseUp}
+      onClick={layer.onClick}>
       <ResizeHandle pdf={pdf} container={container} />
       <AnnotationBeingCreated
         creationState={layer.creationState}
