@@ -92,6 +92,8 @@ interface StepDescription {
   title: string;
   // What is the description of the current step?
   description: string;
+  // What is the description to use currently selected tool?
+  toolDescription: Record<string, string>;
 }
 
 export const STEPS: Array<StepDescription> = [
@@ -99,25 +101,33 @@ export const STEPS: Array<StepDescription> = [
     id: "SECTION_LAYER",
     title: "Section",
     description:
-      "Choose size of the section using the Handle. Ensure that fields or groups are not cut off in half .",
+      "Select area or part of the form you want to fix at once using the Handle, it may contain one or more number of field row. Ensure the section doesn't cut off fields or groups in half.",
+    toolDescription: {},
   },
   {
     id: "FIELD_LAYER",
     title: "Fields",
     description:
-      "Ensure form fields are marked by a box and have a field type. If not, use Create Tool.",
+      "Ensure that each form field has a box around it and is associated with an appropriate field type. If it does not, use the Create Tool to create one.",
+    toolDescription: {},
   },
   {
     id: "LABEL_LAYER",
     title: "Labels",
     description:
-      "Ensure form fields have label. If not, select the field and Update Label.",
+      "Ensure that all form fields have correct labels. If a label is missing or incorrect, select the field and Create/Update label.",
+    toolDescription: {
+      CREATE: "Click and drag with the mouse to select text for the label.",
+    },
   },
   {
     id: "GROUP_LAYER",
     title: "Groups",
     description:
-      "Ensure the checkbox and radiobox are grouped properly and have labels. If not, select boxes and Create New Group. ",
+      "Ensure that all checkboxes and radioboxes are properly grouped, and each group has an appropriate label. If not, use Shift + Click to select multiple field and use the Create New Group option.",
+    toolDescription: {
+      CREATE: "Click and drag with the mouse to select text for the label",
+    },
   },
 ];
 

@@ -236,13 +236,7 @@ const RelationshipLink: React.FC<RelationshipLinkProps> = (props) => {
 };
 
 const SelectAnnotation: React.FC = () => {
-  const annotations = useSelector((state) =>
-    Object.values(state.annotations).filter(
-      (annotation) =>
-        annotation.height + annotation.top <
-        state.sections[state.currentSection].y
-    )
-  );
+  const annotations = useSelector((state) => Object.values(state.annotations));
   return (
     <>
       {annotations.map((annotation) => {
