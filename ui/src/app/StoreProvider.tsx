@@ -428,7 +428,7 @@ export const reduceAccessibleForm = (
   if (previous === undefined) return DEFAULT_ACCESSIBLE_FORM;
   switch (action.type) {
     case "GOTO_PREVIOUS_STEP": {
-      return produce(previous, (draft) => {
+      return produceWithUndo(previous, (draft) => {
         const currentStep = STEPS.findIndex((aStep) => aStep.id === draft.step);
         if (currentStep === -1) return;
         const previousStep = STEPS.findIndex(
@@ -441,7 +441,7 @@ export const reduceAccessibleForm = (
       });
     }
     case "GOTO_NEXT_STEP": {
-      return produce(previous, (draft) => {
+      return produceWithUndo(previous, (draft) => {
         const idx = STEPS.findIndex((aStep) => aStep.id === draft.step);
         if (idx === -1) return;
         const nextStep = STEPS[idx + 1]?.id;
@@ -496,7 +496,7 @@ export const reduceAccessibleForm = (
       });
     }
     case "CHANGE_TOOL": {
-      return produce(previous, (draft) => {
+      return produceWithUndo(previous, (draft) => {
         draft.tool = action.payload;
         return;
       });
@@ -548,7 +548,7 @@ export const reduceAccessibleForm = (
       });
     }
     case "MOVE_ANNOTATION": {
-      return produce(previous, (draft) => {
+      return produceWithUndo(previous, (draft) => {
         const annotation = draft.annotations[action.payload.id];
         annotation.left = action.payload.x;
         annotation.top = action.payload.y;
@@ -556,6 +556,8 @@ export const reduceAccessibleForm = (
       });
     }
     case "RESIZE_ANNOTATION": {
+      // we are not adding undo here because reisizing dispatches a large number of
+      // resize events. Maybe we can fix this in future.
       return produce(previous, (draft) => {
         const annotation = draft.annotations[action.payload.id];
         annotation.width = action.payload.width;
