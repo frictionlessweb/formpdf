@@ -81,6 +81,29 @@ export const useFieldLayer = (
   }
 };
 
+// This signifier helps users to understand that they can click and drag to resize the selected annotation.
+const ResizeHandleForAnnotations: React.FC = () => {
+  return (
+    <div
+      style={{
+        height: "100%",
+        width: "100%",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}>
+      <div
+        style={{
+          height: "90%",
+          width: "90%",
+          border: "3px solid black",
+          backgroundColor: "white",
+        }}
+      />
+    </div>
+  );
+};
+
 export const FieldLayerAnnotation: React.FC<AnnotationProps> = (props) => {
   const [tool, selectedAnnotations] = useSelector((state) => [
     state.tool,
@@ -135,6 +158,13 @@ export const FieldLayerAnnotation: React.FC<AnnotationProps> = (props) => {
             border: isSelected
               ? "3px solid black"
               : `4px solid ${color.orange.dark}`,
+          }}
+          enableResizing={isSelected}
+          resizeHandleComponent={{
+            topRight: <ResizeHandleForAnnotations />,
+            bottomRight: <ResizeHandleForAnnotations />,
+            bottomLeft: <ResizeHandleForAnnotations />,
+            topLeft: <ResizeHandleForAnnotations />,
           }}
           allowAnyClick
           position={{
