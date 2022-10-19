@@ -117,9 +117,7 @@ export const useFieldLayer = (
         onMouseDown: NO_OP,
         onMouseLeave: NO_OP,
         onClick: () => {
-          if (tool === "SELECT") {
-            dispatch({ type: "DESELECT_ALL_ANNOTATION" });
-          }
+          dispatch({ type: "DESELECT_ALL_ANNOTATION" });
         },
       };
     }
@@ -169,7 +167,8 @@ export const LabelLayerSelectAnnotation: React.FC<AnnotationStatic> = (
       css={{
         cursor: "pointer",
         ...css,
-        border: isSelected ? "2px solid black" : css.border,
+        border: isSelected ? "3px solid black" : css.border,
+        zIndex: isSelected ? 100 : 0,
       }}
       onClick={(e: React.MouseEvent<HTMLElement>) => {
         e.stopPropagation();
@@ -238,11 +237,10 @@ const RelationshipLink: React.FC<RelationshipLinkProps> = (props) => {
 
 const SelectAnnotation: React.FC = () => {
   const annotations = useSelector((state) =>
-    Object.values(state.annotations).filter(
-      (annotation) =>
-        annotation.height + annotation.top <
-        state.sections[state.currentSection].y
-    )
+    Object.values(state.annotations).filter((annotation) => {
+      // we don't want to show groups and group labels in this layer.
+      return annotation.type !== "GROUP" && annotation.type !== "GROUP_LABEL";
+    })
   );
   return (
     <>

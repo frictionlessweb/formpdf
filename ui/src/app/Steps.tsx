@@ -10,7 +10,7 @@ import StepConnector, {
   stepConnectorClasses,
 } from "@mui/material/StepConnector";
 import { StepIconProps } from "@mui/material/StepIcon";
-import { Step as StepType, STEPS } from "./StoreProvider";
+import { Step as StepType, STEPS, TOOL as ToolType } from "./StoreProvider";
 
 // styled is a part of mui and is a recommendation for reusable style overrides.
 // Ref: https://mui.com/customization/how-to-customize/#2-reusable-style-overrides
@@ -77,9 +77,13 @@ function StepIcon(props: StepIconProps) {
 // FIXME: Why is `onStepChange` a prop? I think we can just dispatch in the render
 // method.
 const Steps: React.FC<
-  BoxProps & { activeStep: StepType; onStepChange: (step: StepType) => void }
+  BoxProps & {
+    activeStep: StepType;
+    onStepChange: (step: StepType) => void;
+    activeTool: ToolType;
+  }
 > = (props) => {
-  const { activeStep, onStepChange, ...boxProps } = props;
+  const { activeStep, activeTool, onStepChange, ...boxProps } = props;
   const stepIndex = STEPS.findIndex((step) => step.id === activeStep);
   //BUG: is not boxProps inline style ?
   return (
@@ -127,7 +131,9 @@ const Steps: React.FC<
           width: "80%",
           color: color.black,
         }}>
-        {STEPS[stepIndex].description}
+        {/* If a step has tool specific description then show that, if not, show default step description. */}
+        {STEPS[stepIndex].toolDescription[activeTool] ??
+          STEPS[stepIndex].description}
       </div>
     </Box>
   );

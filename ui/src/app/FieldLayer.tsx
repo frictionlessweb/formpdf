@@ -74,13 +74,34 @@ export const useFieldLayer = (
         onMouseDown: NO_OP,
         onMouseLeave: NO_OP,
         onClick: () => {
-          if (tool === "SELECT") {
-            dispatch({ type: "DESELECT_ALL_ANNOTATION" });
-          }
+          dispatch({ type: "DESELECT_ALL_ANNOTATION" });
         },
       };
     }
   }
+};
+
+// This signifier helps users to understand that they can click and drag to resize the selected annotation.
+const ResizeHandleForAnnotations: React.FC = () => {
+  return (
+    <div
+      style={{
+        height: "100%",
+        width: "100%",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}>
+      <div
+        style={{
+          height: "90%",
+          width: "90%",
+          border: "3px solid black",
+          backgroundColor: "white",
+        }}
+      />
+    </div>
+  );
 };
 
 export const FieldLayerAnnotation: React.FC<AnnotationProps> = (props) => {
@@ -131,9 +152,19 @@ export const FieldLayerAnnotation: React.FC<AnnotationProps> = (props) => {
             ...css,
             position: "absolute",
             backgroundColor: color.orange.transparent,
+            // Here zIndex is used to fix the issue where – the action menu (which is a child of selected annotation)
+            // gets overlapped by previous section's grey area.
+            zIndex: isSelected ? 100 : 0,
             border: isSelected
               ? "3px solid black"
               : `4px solid ${color.orange.dark}`,
+          }}
+          enableResizing={isSelected}
+          resizeHandleComponent={{
+            topRight: <ResizeHandleForAnnotations />,
+            bottomRight: <ResizeHandleForAnnotations />,
+            bottomLeft: <ResizeHandleForAnnotations />,
+            topLeft: <ResizeHandleForAnnotations />,
           }}
           allowAnyClick
           position={{
@@ -221,10 +252,10 @@ export const FieldLayerAnnotation: React.FC<AnnotationProps> = (props) => {
 
 const FieldLayer: React.FC<LayerControllerProps> = (props) => {
   const { pdf, container } = props;
-  const { annotations } = useSelector((state) => {
-    return {
-      annotations: state.annotations,
-    };
+  const annotations = useSelector((state) => {
+    return Object.values(state.annotations).filter((annotation) =>
+      ["CHECKBOX", "TEXTBOX", "RADIOBOX"].includes(annotation.type)
+    );
   });
   const layer = useFieldLayer(container);
   return (
@@ -233,7 +264,8 @@ const FieldLayer: React.FC<LayerControllerProps> = (props) => {
       rootCss={{ cursor: layer.cursor }}
       onMouseMove={layer.onMouseMove}
       onMouseDown={layer.onMouseDown}
-      onMouseUp={layer.onMouseUp}>
+      onMouseUp={layer.onMouseUp}
+      onClick={layer.onClick}>
       <ResizeHandle pdf={pdf} container={container} />
       <AnnotationBeingCreated
         creationState={layer.creationState}
@@ -242,13 +274,9 @@ const FieldLayer: React.FC<LayerControllerProps> = (props) => {
         onMouseDown={NO_OP}
         onMouseMove={NO_OP}
       />
-      {Object.values(annotations)
-        .filter((annotation) =>
-          ["CHECKBOX", "TEXTBOX", "RADIOBOX"].includes(annotation.type)
-        )
-        .map((annotation) => {
-          return <FieldLayerAnnotation key={annotation.id} {...annotation} />;
-        })}
+      {annotations.map((annotation) => {
+        return <FieldLayerAnnotation key={annotation.id} {...annotation} />;
+      })}
     </HandlerLayer>
   );
 };

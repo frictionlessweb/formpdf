@@ -92,6 +92,8 @@ interface StepDescription {
   title: string;
   // What is the description of the current step?
   description: string;
+  // What is the description to use currently selected tool?
+  toolDescription: Record<string, string>;
 }
 
 export const STEPS: Array<StepDescription> = [
@@ -99,25 +101,33 @@ export const STEPS: Array<StepDescription> = [
     id: "SECTION_LAYER",
     title: "Section",
     description:
-      "Choose size of the section using the Handle. Ensure that fields or groups are not cut off in half .",
+      "Select area or part of the form you want to fix at once using the Handle, it may contain one or more number of field row. Ensure the section doesn't cut off fields or groups in half.",
+    toolDescription: {},
   },
   {
     id: "FIELD_LAYER",
     title: "Fields",
     description:
-      "Ensure form fields are marked by a box and have a field type. If not, use Create Tool.",
+      "Ensure that each form field has a box around it and is associated with an appropriate field type. If it does not, use the Create Tool to create one.",
+    toolDescription: {},
   },
   {
     id: "LABEL_LAYER",
     title: "Labels",
     description:
-      "Ensure form fields have label. If not, select the field and Update Label.",
+      "Ensure that all form fields have correct labels. If a label is missing or incorrect, select the field and Create/Update label.",
+    toolDescription: {
+      CREATE: "Click and drag with the mouse to select text for the label.",
+    },
   },
   {
     id: "GROUP_LAYER",
     title: "Groups",
     description:
-      "Ensure the checkbox and radiobox are grouped properly and have labels. If not, select boxes and Create New Group. ",
+      "Ensure that all checkboxes and radioboxes are properly grouped, and each group has an appropriate label. If not, use Shift + Click to select multiple field and use the Create New Group option.",
+    toolDescription: {
+      CREATE: "Click and drag with the mouse to select text for the label",
+    },
   },
 ];
 
@@ -428,7 +438,7 @@ export const reduceAccessibleForm = (
   if (previous === undefined) return DEFAULT_ACCESSIBLE_FORM;
   switch (action.type) {
     case "GOTO_PREVIOUS_STEP": {
-      return produce(previous, (draft) => {
+      return produceWithUndo(previous, (draft) => {
         const currentStep = STEPS.findIndex((aStep) => aStep.id === draft.step);
         if (currentStep === -1) return;
         const previousStep = STEPS.findIndex(
@@ -441,7 +451,7 @@ export const reduceAccessibleForm = (
       });
     }
     case "GOTO_NEXT_STEP": {
-      return produce(previous, (draft) => {
+      return produceWithUndo(previous, (draft) => {
         const idx = STEPS.findIndex((aStep) => aStep.id === draft.step);
         if (idx === -1) return;
         const nextStep = STEPS[idx + 1]?.id;
@@ -496,7 +506,7 @@ export const reduceAccessibleForm = (
       });
     }
     case "CHANGE_TOOL": {
-      return produce(previous, (draft) => {
+      return produceWithUndo(previous, (draft) => {
         draft.tool = action.payload;
         return;
       });
@@ -548,7 +558,7 @@ export const reduceAccessibleForm = (
       });
     }
     case "MOVE_ANNOTATION": {
-      return produce(previous, (draft) => {
+      return produceWithUndo(previous, (draft) => {
         const annotation = draft.annotations[action.payload.id];
         annotation.left = action.payload.x;
         annotation.top = action.payload.y;
@@ -556,6 +566,8 @@ export const reduceAccessibleForm = (
       });
     }
     case "RESIZE_ANNOTATION": {
+      // we are not adding undo here because reisizing dispatches a large number of
+      // resize events. Maybe we can fix this in future.
       return produce(previous, (draft) => {
         const annotation = draft.annotations[action.payload.id];
         annotation.width = action.payload.width;

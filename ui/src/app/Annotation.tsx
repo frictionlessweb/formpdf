@@ -60,20 +60,33 @@ export const HandlerLayer: React.FC<HandlerLayerProps> = (props) => {
   );
 };
 
-type UnactiveSectionProps = {
+type ResizeHandleProps = DivProps & {
+  // Where is the container of the canvas with the PDF?
+  container: React.MutableRefObject<HTMLDivElement | null>;
+  // What is the actual PDF in the DOM?
+  pdf: React.MutableRefObject<HTMLCanvasElement | null>;
+  // What styling should we apply?
+  rootCss?: CSSObject;
+};
+
+type SectionProps = {
+  // is active Section
+  isCurrentSection: boolean;
   // height of the section
   height: number;
   // function that's executed onClick of edit button
   onClick: () => void;
 };
 
-const UnactiveSection: React.FC<UnactiveSectionProps> = ({
+const Section: React.FC<SectionProps> = ({
+  isCurrentSection,
   height,
   onClick,
 }) => {
   return (
     <div
       style={{
+        visibility: isCurrentSection ? "hidden" : "visible",
         height: height,
         width: "100%",
         borderTop: `4px solid ${color.black}`,
@@ -87,15 +100,6 @@ const UnactiveSection: React.FC<UnactiveSectionProps> = ({
       />
     </div>
   );
-};
-
-type ResizeHandleProps = DivProps & {
-  // Where is the container of the canvas with the PDF?
-  container: React.MutableRefObject<HTMLDivElement | null>;
-  // What is the actual PDF in the DOM?
-  pdf: React.MutableRefObject<HTMLCanvasElement | null>;
-  // What styling should we apply?
-  rootCss?: CSSObject;
 };
 
 // An draggable box that we put *on top* of the PDF that we show to the user.
@@ -116,42 +120,63 @@ export const ResizeHandle: React.FC<ResizeHandleProps> = (props) => {
   const stopTopClicks = (e: MouseEvent) => e.stopPropagation();
   const stopClicks = (e: React.MouseEvent<HTMLElement>) => e.stopPropagation();
 
-  const sectionsBeforeCurrentSection = sections.slice(0, currentSection);
-  //TODO: Think about sections after current section.
-  const sectionsAfterCurrentSection = sections.slice(currentSection + 1);
+  const allSectionDivs =
+    sections &&
+    sections.map((section, index) => {
+      let sectionHeight =
+        index > 0 ? section.y - sections[index - 1].y : section.y;
+      const beforeCurrentSection = index < currentSection;
+      const firstSectionAfterCurrentSection = index === currentSection + 1;
+
+      // section's top value is 0 for first section and for rest it is the y value of previous section.
+      let sectionTop = index === 0 ? 0 : sections[index - 1].y;
+      // We give this extra 8px so that the handle of RnD appears above this section box.
+      // Theses sections boxes have higher zIndex of 100 (as compared to Rnd's zIndex of 10),
+      // if we don't do this the handle gets burried below the border of these boxes and we
+      // are not able to use it.
+      if (firstSectionAfterCurrentSection) {
+        sectionTop = sectionTop + 8;
+      }
+
+      return (
+        <div
+          onClick={stopClicks}
+          style={{
+            top: sectionTop,
+            left: 0,
+            position: "absolute",
+            // We have a section box for current section as well, however we don't show it
+            // as it is active.
+            visibility: index === currentSection ? "hidden" : "visible",
+            height: sectionHeight,
+            width: pdfWidth,
+            borderTop: `4px solid ${color.black}`,
+            // For the section after the current section, we don't want background color as it
+            // will overlap with the Rnd's background color and make it look darker.
+            backgroundColor: beforeCurrentSection
+              ? color.gray.lineTransparent
+              : "transparent",
+            zIndex: 100,
+          }}>
+          <Chip
+            sx={{ margin: "10px" }}
+            icon={<CheckCircleIcon />}
+            variant="filled"
+            label="Edit this section"
+            onClick={() =>
+              dispatch({ type: "SET_CURRENT_SECTION", payload: index })
+            }
+          />
+        </div>
+      );
+    });
 
   return (
     <>
-      {/* These are all sections above the active section */}
-      {currentSection > 0 && (
-        <div
-          {...rest}
-          css={{
-            top: 0,
-            left: 0,
-            position: "absolute",
-            width: pdfWidth,
-            height: sections[currentSection - 1].y,
-            backgroundColor: color.gray.lineTransparent,
-            zIndex: 10,
-            ...rootCss,
-          }}
-          onClick={stopClicks}>
-          {sectionsBeforeCurrentSection.map((section, index) => {
-            const sectionHeight =
-              index > 0 ? section.y - sections[index - 1].y : section.y;
-            return (
-              <UnactiveSection
-                height={sectionHeight}
-                onClick={() => {
-                  // People move to previous sections but when they move ahead, new sections with new y values keep on adding.
-                  // dispatch({ type: "SET_CURRENT_SECTION", payload: index });
-                }}
-              />
-            );
-          })}
-        </div>
-      )}
+      {/* We render all section divs on the page, these have two purposes – they allow users to view the sections
+      they have created and navigate to them. Also, these section divs have high zIndex and onClick set to stopClicks,
+      this ensures that users are not able to perform actions only on current section. */}
+      {sections.length > 1 && allSectionDivs}
       <Rnd
         css={{
           backgroundColor: color.gray.lineTransparent,
@@ -166,6 +191,18 @@ export const ResizeHandle: React.FC<ResizeHandleProps> = (props) => {
           height: pdfHeight * numPages - sections[currentSection].y,
           width: pdfWidth,
         }}
+        // The max height and min height are used here to ensure users don't resize
+        // the current section such that it overlaps with the previous & next section.
+        maxHeight={
+          pdfHeight * numPages -
+          (sections[currentSection - 1] ? sections[currentSection - 1].y : 0)
+        }
+        minHeight={
+          pdfHeight * numPages -
+          (sections[currentSection + 1]
+            ? sections[currentSection + 1].y
+            : Number.MAX_VALUE)
+        }
         onResizeStop={(_, __, ref, ___, el) => {
           dispatch({
             type: "MOVE_SECTION_SLIDER",
