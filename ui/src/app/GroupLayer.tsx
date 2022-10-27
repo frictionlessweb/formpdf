@@ -52,6 +52,8 @@ const useGroupLayer = (div: React.MutableRefObject<HTMLDivElement | null>) => {
         onMouseMove: updateCreationState,
         onMouseLeave: resetCreationState,
         onMouseUp: () => {
+          // this is step 2, you reach here after CREATE_GROUP_RELATION is run.
+          // in CREATE_GROUP_RELATION reducer tool is set to CREATE and 
           if (!creationState) return;
           const id = window.crypto.randomUUID();
           dispatch({
@@ -175,6 +177,7 @@ const GroupLayerSelectAnnotation: React.FC<AnnotationStatic> = (
           }}
           onCreateNewGroup={() => {
             const uuid = window.crypto.randomUUID();
+            // this is step 1. Here we start by creating a group.
             dispatch({
               type: "CREATE_GROUP_RELATION",
               payload: {
@@ -185,6 +188,7 @@ const GroupLayerSelectAnnotation: React.FC<AnnotationStatic> = (
                     border: `4px solid ${color.yellow}`,
                     type: "GROUP",
                   },
+                  // here tokens mean the annotations 
                   tokens: Object.keys(selectedAnnotations).map((id) => {
                     return {
                       height: annotations[id].height,

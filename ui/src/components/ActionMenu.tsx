@@ -80,18 +80,33 @@ interface LabelLayerActionMenuProps {
   totalSelections: number;
   onUpdateLabel: () => void;
   onDelete: () => void;
-  showDelete: boolean;
+  hasRelation: boolean;
 }
 
 export const LabelLayerActionMenu: React.FC<LabelLayerActionMenuProps> = ({
   onDelete,
   onUpdateLabel,
   totalSelections,
-  showDelete,
+  hasRelation,
 }) => {
-  if (showDelete) {
-    return (
-      <Container>
+  return (
+    <Container>
+      {totalSelections === 1 && (
+        <ActionMenuItem
+          // We have to prevent the default behaviour for
+          // the pdf canvas here, in order to be able to capture
+          // the click event.
+          onClick={(e) => {
+            onUpdateLabel();
+            e.stopPropagation();
+          }}
+          onMouseDown={(e) => {
+            e.stopPropagation();
+          }}>
+          {hasRelation ? "Update Label" : "Create Label"}
+        </ActionMenuItem>
+      )}
+      {hasRelation && (
         <ActionMenuItem
           // We have to prevent the default behaviour for
           // the pdf canvas here, in order to be able to capture
@@ -105,29 +120,9 @@ export const LabelLayerActionMenu: React.FC<LabelLayerActionMenuProps> = ({
           }}>
           Delete
         </ActionMenuItem>
-      </Container>
-    );
-  }
-  if (totalSelections === 1) {
-    return (
-      <Container>
-        <ActionMenuItem
-          // We have to prevent the default behaviour for
-          // the pdf canvas here, in order to be able to capture
-          // the click event.
-          onClick={(e) => {
-            onUpdateLabel();
-            e.stopPropagation();
-          }}
-          onMouseDown={(e) => {
-            e.stopPropagation();
-          }}>
-          Update Label
-        </ActionMenuItem>
-      </Container>
-    );
-  }
-  return null;
+      )}
+    </Container>
+  );
 };
 
 interface GroupLayerActionMenuProps {
@@ -214,14 +209,7 @@ const ActionMenuItem: React.FC<ActionMenuItemProps> = (props) => {
         "&:hover": {
           background: color.gray.line,
           cursor: "pointer",
-        },
-        "&:firstOfType:hover": {
-          borderTopLeftRadius: "0.5rem",
-          borderBottomLeftRadius: "0.5rem",
-        },
-        "&:lastOfType:hover": {
-          borderTopRightRadius: "0.5rem",
-          borderBottomRightRadius: "0.5rem",
+          borderRadius: "0.5rem",
         },
         ...moreCss,
       }}>

@@ -37,7 +37,7 @@ export const AllTokens: React.FC = React.memo(() => {
       {tokens.map((token) => (
         <TranslucentBox
           id={`token-${token.top}-${token.left}`}
-          key={token.top * token.left}
+          key={`${token.top}-${token.left}`}
           css={{
             position: "absolute",
             backgroundColor: color.blue.transparent,
@@ -147,11 +147,10 @@ const CreateLink: React.FC<CreationProps> = (props) => {
 export const LabelLayerSelectAnnotation: React.FC<AnnotationStatic> = (
   props
 ) => {
-  const { selectedAnnotations, labelRelations } = useSelector((state) => {
-    const selectedAnnotations = state.selectedAnnotations;
-    const labelRelations = state.labelRelations;
-    return { selectedAnnotations, labelRelations };
-  });
+  const [selectedAnnotations, labelRelations] = useSelector((state) => [
+    state.selectedAnnotations,
+    state.labelRelations,
+  ]);
   const dispatch = useDispatch();
   const { id, type, children, ...cssProps } = props;
   const css = {
@@ -161,6 +160,23 @@ export const LabelLayerSelectAnnotation: React.FC<AnnotationStatic> = (
   const hasRelation = Boolean(labelRelations[id]);
   const isSelected = Boolean(selectedAnnotations[id]);
   const isFirstSelection = Object.keys(selectedAnnotations)[0] === id;
+  if (type === "LABEL") {
+    // TODO: Refactor this bit.
+    // Render just a normal div that doesn't have interactions.
+    return (
+      <TranslucentBox
+        id={id}
+        css={{
+          ...css,
+          border: css.border,
+          zIndex: 0,
+        }}
+        onClick={(e: React.MouseEvent<HTMLElement>) => {
+          e.stopPropagation();
+        }}
+      />
+    );
+  }
   return (
     <TranslucentBox
       id={id}
@@ -190,11 +206,11 @@ export const LabelLayerSelectAnnotation: React.FC<AnnotationStatic> = (
       }}>
       {isFirstSelection && (
         <LabelLayerActionMenu
-          showDelete={hasRelation}
+          hasRelation={hasRelation}
           totalSelections={Object.keys(selectedAnnotations).length}
           onDelete={() => {
             dispatch({
-              type: "DELETE_ANNOTATION",
+              type: "DELETE_LABEL",
               payload: Object.keys(selectedAnnotations),
             });
           }}
@@ -222,8 +238,8 @@ const RelationshipLink: React.FC<RelationshipLinkProps> = (props) => {
   if (!relationship) return null;
   return (
     <Xarrow
-      end={String(relationship)}
-      start={id}
+      end={id}
+      start={String(relationship)}
       endAnchor="middle"
       headSize={2}
       headShape="circle"

@@ -303,6 +303,7 @@ export type AccessibleFormAction =
       payload: { ui: AnnotationUIState; tokens: Bounds[] };
     }
   | { type: "DELETE_ANNOTATION"; payload: Array<AnnotationId> }
+  | { type: "DELETE_LABEL"; payload: Array<AnnotationId> }
   | {
       type: "MOVE_ANNOTATION";
       payload: { id: AnnotationId; x: number; y: number };
@@ -586,6 +587,16 @@ export const reduceAccessibleForm = (
         return;
       });
     }
+    case "DELETE_LABEL": {
+      // here we take in array of annotations whose label we want to delete. Not label ids.
+      return produceWithUndo(previous, (draft) => {
+        action.payload.forEach((id) => {
+          delete draft.annotations[draft.labelRelations[id]];
+          delete draft.labelRelations[id];
+        });
+        return;
+      });
+    }
     case "SELECT_ANNOTATION": {
       return produce(previous, (draft) => {
         draft.selectedAnnotations[action.payload] = true;
@@ -693,18 +704,16 @@ export const reduceAccessibleForm = (
     case "CREATE_LABEL_RELATION": {
       if (action.payload.to.tokens.length === 0) return previous;
       const res = produceWithUndo(previous, (draft) => {
-        Object.keys(draft.labelRelations).forEach((key) => {
-          if (draft.labelRelations[key] === action.payload.from) {
-            delete draft.annotations[key];
-            delete draft.labelRelations[key];
-          }
-        });
+        if (draft.labelRelations[action.payload.from]) {
+          delete draft.annotations[draft.labelRelations[action.payload.from]];
+          delete draft.labelRelations[action.payload.from];
+        }
         draft.annotations[action.payload.to.ui.id] = {
           ...action.payload.to.ui,
           ...boxContaining(action.payload.to.tokens, 3),
           corrected: true,
         };
-        draft.labelRelations[action.payload.to.ui.id] = action.payload.from;
+        draft.labelRelations[action.payload.from] = action.payload.to.ui.id;
         draft.tool = "SELECT";
         draft.selectedAnnotations = {};
         return;
@@ -712,6 +721,9 @@ export const reduceAccessibleForm = (
       return res;
     }
     case "CREATE_GROUP_RELATION": {
+      // Here, we create a new annotation for the box.
+      // Create a new group relation from this new box to [all boxes in this group].
+      // Set the newly created group box annotation as selected annotation, so that a label relation can be created with it.
       if (action.payload.from.tokens.length === 0) return previous;
       return produceWithUndo(previous, (draft) => {
         draft.annotations[action.payload.from.ui.id] = {
