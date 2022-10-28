@@ -288,6 +288,19 @@ export const LabelLayerSelectAnnotation: React.FC<AnnotationStatic> = (
           }}
         />
       )}
+      <div
+        style={{
+          height: "100%",
+          padding: "2rem",
+          display: "flex",
+          alignItems: "center",
+          fontWeight: "bold",
+          whiteSpace: "nowrap",
+          overflow: "hidden",
+          textOverflow: "ellipsis",
+        }}>
+        {customTooltip}
+      </div>
     </TranslucentBox>
   );
 };
