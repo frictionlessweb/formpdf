@@ -86,45 +86,6 @@ describe("Our form reducer", () => {
     });
     expect(res.annotations["1"]).toEqual(payload);
   });
-  test("We can create an annotation from a token", () => {
-    const payload = {
-      tokens: [{ height: 10, width: 10, top: 3, left: 3 }],
-      ui: {
-        type: "TEXTBOX" as ANNOTATION_TYPE,
-        id: "1",
-        backgroundColor: "red",
-        border: "2px solid blue",
-        corrected: false,
-        page: 1,
-      },
-    };
-    const res = reduce(init, {
-      type: "CREATE_ANNOTATION_FROM_TOKENS",
-      payload,
-    });
-    expect(res.annotations["1"].height).toBe(13);
-    expect(res.annotations["1"].width).toBe(13);
-    expect(res.annotations["1"].top).toBe(0);
-    expect(res.annotations["1"].left).toBe(0);
-  });
-  test("Creating annotations from 0 tokens does nothing", () => {
-    const payload = {
-      tokens: [],
-      ui: {
-        type: "TEXTBOX" as ANNOTATION_TYPE,
-        id: "1",
-        backgroundColor: "red",
-        border: "2px solid blue",
-        corrected: false,
-        page: 1,
-      },
-    };
-    const res = reduce(init, {
-      type: "CREATE_ANNOTATION_FROM_TOKENS",
-      payload,
-    });
-    expect(res).toEqual(init);
-  });
   test("Adding an annotation does the right thing with undo/redo", () => {
     const payload = {
       id: "1",
@@ -465,10 +426,10 @@ describe("Our form reducer", () => {
       ],
     };
     const relationCreated = reduce(init, {
-      type: "CREATE_LABEL_RELATION",
+      type: "CREATE_LABEL",
       payload: {
         to,
-        from: "2",
+        from: ["2"],
       },
     });
     expect(relationCreated.annotations["1"].id).toEqual("1");
@@ -498,14 +459,14 @@ describe("Our form reducer", () => {
       ],
     };
     const relationCreated = reduce(init, {
-      type: "CREATE_LABEL_RELATION",
+      type: "CREATE_LABEL",
       payload: {
         to,
-        from: "2",
+        from: ["2"],
       },
     });
     const relationCreatedAgain = reduce(relationCreated, {
-      type: "CREATE_LABEL_RELATION",
+      type: "CREATE_LABEL",
       payload: {
         to: {
           ...to,
@@ -514,7 +475,7 @@ describe("Our form reducer", () => {
             id: "3",
           },
         },
-        from: "2",
+        from: ["2"],
       },
     });
     expect(Object.keys(relationCreatedAgain.labelRelations).length).toEqual(1);
@@ -537,10 +498,10 @@ describe("Our form reducer", () => {
       tokens: [],
     };
     const relationCreated = reduce(init, {
-      type: "CREATE_LABEL_RELATION",
+      type: "CREATE_LABEL",
       payload: {
         to,
-        from: "2",
+        from: ["2"],
       },
     });
     expect(relationCreated).toEqual(init);

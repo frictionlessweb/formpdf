@@ -53,11 +53,11 @@ const useGroupLayer = (div: React.MutableRefObject<HTMLDivElement | null>) => {
         onMouseLeave: resetCreationState,
         onMouseUp: () => {
           // this is step 2, you reach here after CREATE_GROUP_RELATION is run.
-          // in CREATE_GROUP_RELATION reducer tool is set to CREATE and 
+          // in CREATE_GROUP_RELATION reducer tool is set to CREATE and
           if (!creationState) return;
           const id = window.crypto.randomUUID();
           dispatch({
-            type: "CREATE_LABEL_RELATION",
+            type: "CREATE_LABEL",
             payload: {
               to: {
                 ui: {
@@ -71,7 +71,7 @@ const useGroupLayer = (div: React.MutableRefObject<HTMLDivElement | null>) => {
                 },
                 tokens: creationState.tokens,
               },
-              from: Object.keys(selectedAnnotations)[0],
+              from: Object.keys(selectedAnnotations),
             },
           });
           resetCreationState();
@@ -188,7 +188,7 @@ const GroupLayerSelectAnnotation: React.FC<AnnotationStatic> = (
                     border: `4px solid ${color.yellow}`,
                     type: "GROUP",
                   },
-                  // here tokens mean the annotations 
+                  // here tokens mean the annotations
                   tokens: Object.keys(selectedAnnotations).map((id) => {
                     return {
                       height: annotations[id].height,

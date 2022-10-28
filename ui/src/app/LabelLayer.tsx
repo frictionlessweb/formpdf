@@ -86,7 +86,7 @@ export const useFieldLayer = (
           if (!creationState) return;
           const id = window.crypto.randomUUID();
           dispatch({
-            type: "CREATE_LABEL_RELATION",
+            type: "CREATE_LABEL",
             payload: {
               to: {
                 ui: {
@@ -100,7 +100,7 @@ export const useFieldLayer = (
                 },
                 tokens: creationState.tokens,
               },
-              from: Object.keys(selectedAnnotations)[0],
+              from: Object.keys(selectedAnnotations),
             },
           });
           resetCreationState();
@@ -177,6 +177,58 @@ export const LabelLayerSelectAnnotation: React.FC<AnnotationStatic> = (
       />
     );
   }
+
+  const allSelectedAnnotation = Object.keys(selectedAnnotations);
+  const totalSelections = allSelectedAnnotation.length;
+
+  // We have three option to show users – Create, Delete and Additional Tooltip
+  // when single is selected: hasRelation or noRelation is same as below only
+  let showCreateOrUpdateLabel = true;
+  let createOrUpdateLabelText = hasRelation ? "Update Label" : "Create Label";
+  let showDelete = hasRelation ? true : false;
+  let showAdditionalTooltip = totalSelections === 1 ? true : false;
+
+  // Multiple Selections
+  if (totalSelections > 1) {
+    // logic to find if allhaverelation, allhavenorelation, or mixed.
+    let numberOfSelectionsHaveRelation = 0;
+    let numberOfSelectionsHaveNoRelation = 0;
+    allSelectedAnnotation.forEach((annotationId) => {
+      if (Boolean(labelRelations[annotationId])) {
+        numberOfSelectionsHaveRelation += 1;
+      } else {
+        numberOfSelectionsHaveNoRelation += 1;
+      }
+    });
+    const allhaveRelation =
+      numberOfSelectionsHaveRelation > 0 &&
+      numberOfSelectionsHaveNoRelation === 0;
+    const allhaveNoRelation =
+      numberOfSelectionsHaveRelation === 0 &&
+      numberOfSelectionsHaveNoRelation > 0;
+    const somehaveRelation =
+      numberOfSelectionsHaveRelation > 0 &&
+      numberOfSelectionsHaveNoRelation > 0;
+
+    //   1. all have Relation: C(update) - Show, D - Show, A - Don't show
+    if (allhaveRelation) {
+      showCreateOrUpdateLabel = true;
+      showDelete = true;
+      createOrUpdateLabelText = "Update Label";
+    }
+    //   2. all no Relation: C(create) - Show, D - Don't show, A - Don't show
+    if (allhaveNoRelation) {
+      showCreateOrUpdateLabel = true;
+      createOrUpdateLabelText = "Create Label";
+      showDelete = false;
+    }
+    //   3. some have Relation, some no Relation: C - Don't Show, D - Don't show, A - Don't show
+    if (somehaveRelation) {
+      showCreateOrUpdateLabel = false;
+      showDelete = false;
+    }
+  }
+
   return (
     <TranslucentBox
       id={id}
@@ -206,8 +258,11 @@ export const LabelLayerSelectAnnotation: React.FC<AnnotationStatic> = (
       }}>
       {isFirstSelection && (
         <LabelLayerActionMenu
-          hasRelation={hasRelation}
-          totalSelections={Object.keys(selectedAnnotations).length}
+          showDelete={showDelete}
+          showCreateOrUpdateLabel={showCreateOrUpdateLabel}
+          createOrUpdateLabelText={createOrUpdateLabelText}
+          // Only shown for single selection.
+          showAdditionalTooltip={showAdditionalTooltip}
           onDelete={() => {
             dispatch({
               type: "DELETE_LABEL",

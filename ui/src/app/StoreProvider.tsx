@@ -298,10 +298,6 @@ export type AccessibleFormAction =
   | { type: "CHANGE_PAGE"; payload: number }
   | { type: "CHANGE_TOOL"; payload: TOOL }
   | { type: "CREATE_ANNOTATION"; payload: Annotation }
-  | {
-      type: "CREATE_ANNOTATION_FROM_TOKENS";
-      payload: { ui: AnnotationUIState; tokens: Bounds[] };
-    }
   | { type: "DELETE_ANNOTATION"; payload: Array<AnnotationId> }
   | { type: "DELETE_LABEL"; payload: Array<AnnotationId> }
   | {
@@ -357,13 +353,13 @@ export type AccessibleFormAction =
       };
     }
   | {
-      type: "CREATE_LABEL_RELATION";
+      type: "CREATE_LABEL";
       payload: {
         to: {
           ui: AnnotationUIState;
           tokens: Bounds[];
         };
-        from: AnnotationId;
+        from: Array<AnnotationId>;
       };
     }
   | {
@@ -549,15 +545,6 @@ export const reduceAccessibleForm = (
         draft.selectedAnnotations = {};
       });
     }
-    case "CREATE_ANNOTATION_FROM_TOKENS": {
-      if (action.payload.tokens.length === 0) return previous;
-      return produce(previous, (draft) => {
-        draft.annotations[action.payload.ui.id] = {
-          ...action.payload.ui,
-          ...boxContaining(action.payload.tokens, 3),
-        };
-      });
-    }
     case "MOVE_ANNOTATION": {
       return produceWithUndo(previous, (draft) => {
         const annotation = draft.annotations[action.payload.id];
@@ -587,13 +574,27 @@ export const reduceAccessibleForm = (
         return;
       });
     }
+    // TODO: for multiple selected annotations – incorporate this edgecase
+    // delete label annotation
+    // Edgecase: if deleted annotations exist on Object.values of labelRelations don't delete. Multiple delete can create issues.
+    // delete label relations
     case "DELETE_LABEL": {
       // here we take in array of annotations whose label we want to delete. Not label ids.
       return produceWithUndo(previous, (draft) => {
         action.payload.forEach((id) => {
-          delete draft.annotations[draft.labelRelations[id]];
+          const labelId = draft.labelRelations[id];
           delete draft.labelRelations[id];
+
+          // edgecase: if a label is shared by many fields, deleting it will delete it from all fields.
+          // so we keep it.
+          const isLabelSharedByAnotherField = Object.values(
+            draft.labelRelations
+          ).includes(labelId);
+          if (!isLabelSharedByAnotherField) {
+            delete draft.annotations[labelId];
+          }
         });
+        draft.selectedAnnotations = {};
         return;
       });
     }
@@ -701,19 +702,56 @@ export const reduceAccessibleForm = (
         draft.groupRelations = action.payload.groupRelations;
       });
     }
-    case "CREATE_LABEL_RELATION": {
+    // payloed: from – An array of annotations, to – an label annotation.
+    // SINGLE
+    // create
+    //   create new lable annotation
+    //   create new lable relation
+    // update
+    //   create new label annotation
+    //   delete old label annotation
+    //   update label relation
+    // MULTIPLE
+    // allHaveRelation –
+    //   create
+    //      create new label annotation
+    //      delete old label annotations of rest of the annotations
+    //           Edgecase: if deleted annotations exist on Object.values of labelRelations don't delete. Multiple delete can create issues.
+    //      create new label relations for all annotations
+    // noneHaveRelation -
+    //   create
+    //      create new label annotation
+    //      create new label relation for all incoming from Ids
+    // someHaveRelation - never happening
+
+    case "CREATE_LABEL": {
       if (action.payload.to.tokens.length === 0) return previous;
       const res = produceWithUndo(previous, (draft) => {
-        if (draft.labelRelations[action.payload.from]) {
-          delete draft.annotations[draft.labelRelations[action.payload.from]];
-          delete draft.labelRelations[action.payload.from];
-        }
+        // Create new relation
         draft.annotations[action.payload.to.ui.id] = {
           ...action.payload.to.ui,
-          ...boxContaining(action.payload.to.tokens, 3),
+          ...boxContaining(action.payload.to.tokens, 6),
           corrected: true,
         };
-        draft.labelRelations[action.payload.from] = action.payload.to.ui.id;
+
+        // FIXME: O(N2)
+        action.payload.from.forEach((id) => {
+          const existingLabel = draft.labelRelations[id];
+          // delete existing relation
+          if (existingLabel) {
+            delete draft.labelRelations[id];
+          }
+          // edgecase: if a label is shared by many fields, deleting it will delete it from all fields.
+          // so we keep it.
+          const isExistingLabelSharedByAnotherField = Object.values(
+            draft.labelRelations
+          ).includes(existingLabel);
+          if (!isExistingLabelSharedByAnotherField) {
+            delete draft.annotations[existingLabel];
+          }
+          // create new relation
+          draft.labelRelations[id] = action.payload.to.ui.id;
+        });
         draft.tool = "SELECT";
         draft.selectedAnnotations = {};
         return;
@@ -728,7 +766,7 @@ export const reduceAccessibleForm = (
       return produceWithUndo(previous, (draft) => {
         draft.annotations[action.payload.from.ui.id] = {
           ...action.payload.from.ui,
-          ...boxContaining(action.payload.from.tokens, 3),
+          ...boxContaining(action.payload.from.tokens, 6),
           corrected: true,
           page: draft.page,
         };

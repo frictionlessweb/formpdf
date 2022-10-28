@@ -77,21 +77,38 @@ export const FieldLayerActionMenu: React.FC<FieldLayerActionMenuProps> = (
 };
 
 interface LabelLayerActionMenuProps {
-  totalSelections: number;
   onUpdateLabel: () => void;
   onDelete: () => void;
-  hasRelation: boolean;
+  showDelete: boolean;
+  showCreateOrUpdateLabel: boolean;
+  createOrUpdateLabelText: string;
+  showAdditionalTooltip: boolean;
 }
 
 export const LabelLayerActionMenu: React.FC<LabelLayerActionMenuProps> = ({
   onDelete,
   onUpdateLabel,
-  totalSelections,
-  hasRelation,
+  showDelete,
+  showCreateOrUpdateLabel,
+  createOrUpdateLabelText,
+  showAdditionalTooltip,
 }) => {
+  const hasNoMenuItems =
+    !showDelete && !showCreateOrUpdateLabel && !showAdditionalTooltip;
   return (
     <Container>
-      {totalSelections === 1 && (
+      {hasNoMenuItems && (
+        <ActionMenuItem
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
+          onMouseDown={(e) => {
+            e.stopPropagation();
+          }}>
+          No Possible Actions
+        </ActionMenuItem>
+      )}
+      {showCreateOrUpdateLabel && (
         <ActionMenuItem
           // We have to prevent the default behaviour for
           // the pdf canvas here, in order to be able to capture
@@ -103,10 +120,10 @@ export const LabelLayerActionMenu: React.FC<LabelLayerActionMenuProps> = ({
           onMouseDown={(e) => {
             e.stopPropagation();
           }}>
-          {hasRelation ? "Update Label" : "Create Label"}
+          {createOrUpdateLabelText}
         </ActionMenuItem>
       )}
-      {hasRelation && (
+      {showDelete && (
         <ActionMenuItem
           // We have to prevent the default behaviour for
           // the pdf canvas here, in order to be able to capture
@@ -119,6 +136,20 @@ export const LabelLayerActionMenu: React.FC<LabelLayerActionMenuProps> = ({
             e.stopPropagation();
           }}>
           Delete
+        </ActionMenuItem>
+      )}
+      {showAdditionalTooltip && (
+        <ActionMenuItem
+          // We have to prevent the default behaviour for
+          // the pdf canvas here, in order to be able to capture
+          // the click event.
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
+          onMouseDown={(e) => {
+            e.stopPropagation();
+          }}>
+          Additional Tooltip
         </ActionMenuItem>
       )}
     </Container>

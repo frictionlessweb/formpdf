@@ -64,8 +64,8 @@ export const boxContaining = (tokens: Bounds[], padding: number): Bounds => {
   return {
     top: top - padding,
     left: left - padding,
-    width: width + padding,
-    height: height + padding,
+    width: width + 2 * padding,
+    height: height + 2 * padding,
   };
 };
 
