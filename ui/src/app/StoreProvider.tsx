@@ -68,6 +68,8 @@ export type AnnotationUIState = {
   page: number;
   // Has the user modified this annotation?
   corrected: boolean;
+  // Custom tooltip for the annotation
+  customTooltip: string;
 };
 
 export type Annotation = Bounds & AnnotationUIState;
@@ -258,6 +260,7 @@ const getPredictedAnnotations = (pdfHeight: number) => {
         height,
         page: pageNumber + 1,
         corrected: false,
+        customTooltip: "",
       };
     });
   });
@@ -291,6 +294,13 @@ export const DEFAULT_ACCESSIBLE_FORM: AccessibleForm = {
 // could take while editing the PDF UI.
 export type AccessibleFormAction =
   | { type: "CHANGE_CURRENT_STEP"; payload: Step }
+  | {
+      type: "CHANGE_CUSTOM_TOOLTIP";
+      payload: {
+        id: AnnotationId;
+        customTooltip: string;
+      };
+    }
   | { type: "SET_CURRENT_SECTION"; payload: number }
   | { type: "GOTO_NEXT_STEP" }
   | { type: "GOTO_PREVIOUS_STEP"; payload: Step }
@@ -687,6 +697,7 @@ export const reduceAccessibleForm = (
               backgroundColor: BackgroundColors[annotation.type],
               page: i + 1,
               corrected: false,
+              customTooltip: "",
             };
           }
         }
@@ -768,6 +779,7 @@ export const reduceAccessibleForm = (
           ...action.payload.from.ui,
           ...boxContaining(action.payload.from.tokens, 6),
           corrected: true,
+          customTooltip: "",
           page: draft.page,
         };
         draft.groupRelations[action.payload.from.ui.id] = action.payload.to;
@@ -801,6 +813,13 @@ export const reduceAccessibleForm = (
       return produceWithUndo(previous, (draft) => {
         const currentSection = draft.currentSection;
         draft.sections[currentSection] = action.payload;
+        return;
+      });
+    }
+    case "CHANGE_CUSTOM_TOOLTIP": {
+      return produce(previous, (draft) => {
+        draft.annotations[action.payload.id].customTooltip =
+          action.payload.customTooltip;
         return;
       });
     }

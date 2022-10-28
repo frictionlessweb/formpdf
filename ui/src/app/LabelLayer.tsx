@@ -94,6 +94,7 @@ export const useFieldLayer = (
                   backgroundColor: color.teal.transparent,
                   border: `4px solid ${color.teal.medium}`,
                   borderRadius: 50,
+                  customTooltip: "",
                   type: "LABEL" as ANNOTATION_TYPE,
                   page,
                   corrected: true,
@@ -152,7 +153,7 @@ export const LabelLayerSelectAnnotation: React.FC<AnnotationStatic> = (
     state.labelRelations,
   ]);
   const dispatch = useDispatch();
-  const { id, type, children, ...cssProps } = props;
+  const { id, type, children, customTooltip, ...cssProps } = props;
   const css = {
     ...cssProps,
     position: "absolute" as const,
@@ -263,6 +264,16 @@ export const LabelLayerSelectAnnotation: React.FC<AnnotationStatic> = (
           createOrUpdateLabelText={createOrUpdateLabelText}
           // Only shown for single selection.
           showAdditionalTooltip={showAdditionalTooltip}
+          customTooltip={customTooltip}
+          onCustomTooltipChange={(value) => {
+            dispatch({
+              type: "CHANGE_CUSTOM_TOOLTIP",
+              payload: {
+                id,
+                customTooltip: value,
+              },
+            });
+          }}
           onDelete={() => {
             dispatch({
               type: "DELETE_LABEL",

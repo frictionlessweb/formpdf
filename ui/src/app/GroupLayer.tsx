@@ -65,6 +65,7 @@ const useGroupLayer = (div: React.MutableRefObject<HTMLDivElement | null>) => {
                   backgroundColor: color.teal.transparent,
                   border: `4px solid ${color.teal.medium}`,
                   borderRadius: 50,
+                  customTooltip: "",
                   type: "GROUP_LABEL" as ANNOTATION_TYPE,
                   page,
                   corrected: true,

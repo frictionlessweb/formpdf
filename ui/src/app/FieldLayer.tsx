@@ -54,6 +54,7 @@ export const useFieldLayer = (
               id: window.crypto.randomUUID(),
               page,
               corrected: true,
+              customTooltip: "",
               backgroundColor: color.orange.transparent,
               border: `4px solid ${color.orange.dark}`,
               type: "TEXTBOX",
