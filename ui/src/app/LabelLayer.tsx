@@ -291,7 +291,7 @@ export const LabelLayerSelectAnnotation: React.FC<AnnotationStatic> = (
       <div
         style={{
           height: "100%",
-          padding: "2rem",
+          paddingLeft: "1rem",
           display: "flex",
           alignItems: "center",
           fontWeight: "bold",
