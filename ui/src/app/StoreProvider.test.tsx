@@ -3,11 +3,9 @@ import {
   DEFAULT_ACCESSIBLE_FORM as init,
   Bounds,
   ANNOTATION_TYPE,
-  AccessibleForm,
   ANNOTATION_BORDER,
   Section,
 } from "./StoreProvider";
-import exampleState from "./exampleState.json";
 
 describe("Our form reducer", () => {
   test("Returns the default initial state if it didn't previously exist", () => {
@@ -39,6 +37,7 @@ describe("Our form reducer", () => {
       left: 5,
       border: "pink",
       corrected: false,
+      customTooltip: "",
       page: 1,
     } as const;
     const created = reduce(init, {
@@ -78,6 +77,7 @@ describe("Our form reducer", () => {
       left: 5,
       border: "pink",
       corrected: false,
+      customTooltip: "",
       page: 1,
     } as const;
     const res = reduce(init, {
@@ -85,45 +85,6 @@ describe("Our form reducer", () => {
       payload,
     });
     expect(res.annotations["1"]).toEqual(payload);
-  });
-  test("We can create an annotation from a token", () => {
-    const payload = {
-      tokens: [{ height: 10, width: 10, top: 3, left: 3 }],
-      ui: {
-        type: "TEXTBOX" as ANNOTATION_TYPE,
-        id: "1",
-        backgroundColor: "red",
-        border: "2px solid blue",
-        corrected: false,
-        page: 1,
-      },
-    };
-    const res = reduce(init, {
-      type: "CREATE_ANNOTATION_FROM_TOKENS",
-      payload,
-    });
-    expect(res.annotations["1"].height).toBe(13);
-    expect(res.annotations["1"].width).toBe(13);
-    expect(res.annotations["1"].top).toBe(0);
-    expect(res.annotations["1"].left).toBe(0);
-  });
-  test("Creating annotations from 0 tokens does nothing", () => {
-    const payload = {
-      tokens: [],
-      ui: {
-        type: "TEXTBOX" as ANNOTATION_TYPE,
-        id: "1",
-        backgroundColor: "red",
-        border: "2px solid blue",
-        corrected: false,
-        page: 1,
-      },
-    };
-    const res = reduce(init, {
-      type: "CREATE_ANNOTATION_FROM_TOKENS",
-      payload,
-    });
-    expect(res).toEqual(init);
   });
   test("Adding an annotation does the right thing with undo/redo", () => {
     const payload = {
@@ -137,6 +98,7 @@ describe("Our form reducer", () => {
       border: "pink",
       page: 1,
       corrected: false,
+      customTooltip: "",
     } as const;
     const res = reduce(init, {
       type: "CREATE_ANNOTATION",
@@ -158,6 +120,7 @@ describe("Our form reducer", () => {
       left: 5,
       border: "pink",
       corrected: false,
+      customTooltip: "",
       page: 1,
     } as const;
     const length = Object.keys(init.annotations).length;
@@ -181,6 +144,7 @@ describe("Our form reducer", () => {
       top: 5,
       left: 5,
       corrected: false,
+      customTooltip: "",
       page: 1,
       border: "pink",
     } as const;
@@ -206,6 +170,7 @@ describe("Our form reducer", () => {
       left: 5,
       border: "pink",
       corrected: false,
+      customTooltip: "",
       page: 1,
     } as const;
     const created = reduce(init, {
@@ -229,6 +194,7 @@ describe("Our form reducer", () => {
       width: 10,
       border: "pink",
       corrected: false,
+      customTooltip: "",
       page: 1,
     } as const;
     const created = reduce(init, {
@@ -257,6 +223,7 @@ describe("Our form reducer", () => {
       width: 10,
       border: "pink",
       corrected: false,
+      customTooltip: "",
       page: 1,
     } as const;
     const created = reduce(init, {
@@ -290,6 +257,7 @@ describe("Our form reducer", () => {
       width: 10,
       border: "pink",
       corrected: false,
+      customTooltip: "",
       page: 1,
     } as const;
     const created = reduce(init, {
@@ -313,6 +281,7 @@ describe("Our form reducer", () => {
       width: 10,
       border: "pink",
       corrected: false,
+      customTooltip: "",
       page: 1,
     } as const;
     const created = reduce(init, {
@@ -340,6 +309,7 @@ describe("Our form reducer", () => {
       width: 10,
       border: "pink",
       corrected: false,
+      customTooltip: "",
       page: 1,
     } as const;
     const payload2 = {
@@ -352,6 +322,7 @@ describe("Our form reducer", () => {
       width: 5,
       border: "pink",
       corrected: false,
+      customTooltip: "",
       page: 1,
     } as const;
     const createdFirst = reduce(init, {
@@ -415,6 +386,7 @@ describe("Our form reducer", () => {
       width: 5,
       border: "pink",
       corrected: false,
+      customTooltip: "",
       page: 1,
     } as const;
     const created = reduce(init, {
@@ -452,6 +424,7 @@ describe("Our form reducer", () => {
         type: "TEXTBOX" as ANNOTATION_TYPE,
         border: "3px solid grey",
         corrected: false,
+        customTooltip: "",
         page: 1,
       },
       tokens: [
@@ -465,10 +438,10 @@ describe("Our form reducer", () => {
       ],
     };
     const relationCreated = reduce(init, {
-      type: "CREATE_LABEL_RELATION",
+      type: "CREATE_LABEL",
       payload: {
         to,
-        from: "2",
+        from: ["2"],
       },
     });
     expect(relationCreated.annotations["1"].id).toEqual("1");
@@ -485,6 +458,7 @@ describe("Our form reducer", () => {
         type: "TEXTBOX" as ANNOTATION_TYPE,
         border: "3px solid grey",
         corrected: false,
+        customTooltip: "",
         page: 1,
       },
       tokens: [
@@ -498,14 +472,14 @@ describe("Our form reducer", () => {
       ],
     };
     const relationCreated = reduce(init, {
-      type: "CREATE_LABEL_RELATION",
+      type: "CREATE_LABEL",
       payload: {
         to,
-        from: "2",
+        from: ["2"],
       },
     });
     const relationCreatedAgain = reduce(relationCreated, {
-      type: "CREATE_LABEL_RELATION",
+      type: "CREATE_LABEL",
       payload: {
         to: {
           ...to,
@@ -514,7 +488,7 @@ describe("Our form reducer", () => {
             id: "3",
           },
         },
-        from: "2",
+        from: ["2"],
       },
     });
     expect(Object.keys(relationCreatedAgain.labelRelations).length).toEqual(1);
@@ -532,15 +506,16 @@ describe("Our form reducer", () => {
         type: "TEXTBOX" as ANNOTATION_TYPE,
         border: "3px solid grey",
         corrected: false,
+        customTooltip: "",
         page: 1,
       },
       tokens: [],
     };
     const relationCreated = reduce(init, {
-      type: "CREATE_LABEL_RELATION",
+      type: "CREATE_LABEL",
       payload: {
         to,
-        from: "2",
+        from: ["2"],
       },
     });
     expect(relationCreated).toEqual(init);
@@ -573,19 +548,6 @@ describe("Our form reducer", () => {
     expect(relationWithArrayCreated.annotations["3"]).toBeDefined();
     expect(relationWithArrayCreated.groupRelations["3"]).toEqual(["2", "1"]);
     expect(relationWithArrayCreated.tool).toEqual("CREATE");
-  });
-  test("We can delete a group relation", () => {
-    const groupLabelId = "98d3098e-10db-4fe8-bba7-2d04b07e20aa";
-    const groupId = exampleState.labelRelations[groupLabelId];
-    const res = reduce(exampleState as AccessibleForm, {
-      type: "DELETE_GROUP",
-      payload: "98d3098e-10db-4fe8-bba7-2d04b07e20aa",
-    });
-    expect(res.labelRelations).toEqual({});
-    expect(res.groupRelations).toEqual({});
-    expect(res.annotations[groupLabelId]).toBeUndefined();
-    expect(res.annotations[groupId]).toBeUndefined();
-    expect(res.selectedAnnotations).toEqual({});
   });
   test("We can move the section slider around on the first step", () => {
     const res = reduce(init, {

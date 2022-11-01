@@ -68,6 +68,8 @@ export type AnnotationUIState = {
   page: number;
   // Has the user modified this annotation?
   corrected: boolean;
+  // Custom tooltip for the annotation
+  customTooltip: string;
 };
 
 export type Annotation = Bounds & AnnotationUIState;
@@ -258,6 +260,7 @@ const getPredictedAnnotations = (pdfHeight: number) => {
         height,
         page: pageNumber + 1,
         corrected: false,
+        customTooltip: "",
       };
     });
   });
@@ -291,6 +294,13 @@ export const DEFAULT_ACCESSIBLE_FORM: AccessibleForm = {
 // could take while editing the PDF UI.
 export type AccessibleFormAction =
   | { type: "CHANGE_CURRENT_STEP"; payload: Step }
+  | {
+      type: "CHANGE_CUSTOM_TOOLTIP";
+      payload: {
+        id: AnnotationId;
+        customTooltip: string;
+      };
+    }
   | { type: "SET_CURRENT_SECTION"; payload: number }
   | { type: "GOTO_NEXT_STEP" }
   | { type: "GOTO_PREVIOUS_STEP"; payload: Step }
@@ -298,11 +308,8 @@ export type AccessibleFormAction =
   | { type: "CHANGE_PAGE"; payload: number }
   | { type: "CHANGE_TOOL"; payload: TOOL }
   | { type: "CREATE_ANNOTATION"; payload: Annotation }
-  | {
-      type: "CREATE_ANNOTATION_FROM_TOKENS";
-      payload: { ui: AnnotationUIState; tokens: Bounds[] };
-    }
   | { type: "DELETE_ANNOTATION"; payload: Array<AnnotationId> }
+  | { type: "DELETE_LABEL"; payload: Array<AnnotationId> }
   | {
       type: "MOVE_ANNOTATION";
       payload: { id: AnnotationId; x: number; y: number };
@@ -356,13 +363,13 @@ export type AccessibleFormAction =
       };
     }
   | {
-      type: "CREATE_LABEL_RELATION";
+      type: "CREATE_LABEL";
       payload: {
         to: {
           ui: AnnotationUIState;
           tokens: Bounds[];
         };
-        from: AnnotationId;
+        from: Array<AnnotationId>;
       };
     }
   | {
@@ -381,8 +388,12 @@ export type AccessibleFormAction =
       };
     }
   | {
-      type: "DELETE_GROUP";
-      payload: AnnotationId;
+      type: "REMOVE_FROM_GROUP";
+      payload: Array<AnnotationId>;
+    }
+  | {
+      type: "CHANGE_GROUP";
+      payload: { annotationIds: Array<AnnotationId>; groupId: AnnotationId };
     }
   | {
       type: "UPDATE_SECTION";
@@ -538,23 +549,111 @@ export const reduceAccessibleForm = (
         return;
       });
     }
-    case "DELETE_GROUP": {
+    case "CHANGE_GROUP": {
       return produceWithUndo(previous, (draft) => {
-        const theGroupId = draft.labelRelations[action.payload];
-        delete draft.labelRelations[action.payload];
-        delete draft.groupRelations[theGroupId];
-        delete draft.annotations[action.payload];
-        delete draft.annotations[theGroupId];
+        // We need to remove the annotation from the group it was previously in.
+        action.payload.annotationIds.forEach((fieldId) => {
+          Object.keys(draft.groupRelations).forEach((groupId) => {
+            // 1. Remove from existing groupRelation
+            const group = draft.groupRelations[groupId];
+            if (group.includes(fieldId)) {
+              draft.groupRelations[groupId] = draft.groupRelations[
+                groupId
+              ].filter((id) => id !== fieldId);
+              // we also need to resize the annotation considering a field from it was removed.
+              draft.annotations[groupId] = {
+                ...draft.annotations[groupId],
+                ...boxContaining(
+                  draft.groupRelations[groupId].map((id) => {
+                    return {
+                      top: draft.annotations[id].top,
+                      left: draft.annotations[id].left,
+                      width: draft.annotations[id].width,
+                      height: draft.annotations[id].height,
+                    };
+                  }),
+                  6
+                ),
+              };
+            }
+            // 2. Edgecase: if that group is now empty - delete groupRelation, delete groupAnnotation, delete groupLabel, delete labelRelation
+            if (draft.groupRelations[groupId].length === 0) {
+              delete draft.groupRelations[groupId];
+              delete draft.annotations[groupId];
+
+              const labelAnnotationId = draft.labelRelations[groupId];
+              delete draft.annotations[labelAnnotationId];
+
+              delete draft.labelRelations[groupId];
+            }
+          });
+        });
+
+        draft.groupRelations[action.payload.groupId] = [
+          ...draft.groupRelations[action.payload.groupId],
+          ...action.payload.annotationIds,
+        ];
+
+        // we also need to resize the annotation considering a field is added to it.
+        draft.annotations[action.payload.groupId] = {
+          ...draft.annotations[action.payload.groupId],
+          ...boxContaining(
+            draft.groupRelations[action.payload.groupId].map((id) => {
+              return {
+                top: draft.annotations[id].top,
+                left: draft.annotations[id].left,
+                width: draft.annotations[id].width,
+                height: draft.annotations[id].height,
+              };
+            }),
+            6
+          ),
+        };
+
         draft.selectedAnnotations = {};
       });
     }
-    case "CREATE_ANNOTATION_FROM_TOKENS": {
-      if (action.payload.tokens.length === 0) return previous;
-      return produce(previous, (draft) => {
-        draft.annotations[action.payload.ui.id] = {
-          ...action.payload.ui,
-          ...boxContaining(action.payload.tokens, 3),
-        };
+    case "REMOVE_FROM_GROUP": {
+      return produceWithUndo(previous, (draft) => {
+        // Cleaning work
+        // 1. Delete groupRelation for each of the fields
+        action.payload.forEach((fieldId) => {
+          Object.keys(draft.groupRelations).forEach((groupId) => {
+            // 1. Remove from existing groupRelation
+            const group = draft.groupRelations[groupId];
+            if (group.includes(fieldId)) {
+              draft.groupRelations[groupId] = draft.groupRelations[
+                groupId
+              ].filter((id) => id !== fieldId);
+              // we also need to resize the annotation considering a field from it was removed.
+              draft.annotations[groupId] = {
+                ...draft.annotations[groupId],
+                ...boxContaining(
+                  draft.groupRelations[groupId].map((id) => {
+                    return {
+                      top: draft.annotations[id].top,
+                      left: draft.annotations[id].left,
+                      width: draft.annotations[id].width,
+                      height: draft.annotations[id].height,
+                    };
+                  }),
+                  6
+                ),
+              };
+            }
+            // 2. Edgecase: if that group is now empty - delete groupRelation, delete groupAnnotation, delete groupLabel, delete labelRelation
+            if (draft.groupRelations[groupId].length === 0) {
+              delete draft.groupRelations[groupId];
+              delete draft.annotations[groupId];
+
+              const labelAnnotationId = draft.labelRelations[groupId];
+              delete draft.annotations[labelAnnotationId];
+
+              delete draft.labelRelations[groupId];
+            }
+          });
+        });
+        draft.selectedAnnotations = {};
       });
     }
     case "MOVE_ANNOTATION": {
@@ -583,6 +682,30 @@ export const reduceAccessibleForm = (
         action.payload.forEach((id) => {
           delete draft.annotations[id];
         });
+        return;
+      });
+    }
+    // TODO: for multiple selected annotations – incorporate this edgecase
+    // delete label annotation
+    // Edgecase: if deleted annotations exist on Object.values of labelRelations don't delete. Multiple delete can create issues.
+    // delete label relations
+    case "DELETE_LABEL": {
+      // here we take in array of annotations whose label we want to delete. Not label ids.
+      return produceWithUndo(previous, (draft) => {
+        action.payload.forEach((id) => {
+          const labelId = draft.labelRelations[id];
+          delete draft.labelRelations[id];
+
+          // edgecase: if a label is shared by many fields, deleting it will delete it from all fields.
+          // so we keep it.
+          const isLabelSharedByAnotherField = Object.values(
+            draft.labelRelations
+          ).includes(labelId);
+          if (!isLabelSharedByAnotherField) {
+            delete draft.annotations[labelId];
+          }
+        });
+        draft.selectedAnnotations = {};
         return;
       });
     }
@@ -675,6 +798,7 @@ export const reduceAccessibleForm = (
               backgroundColor: BackgroundColors[annotation.type],
               page: i + 1,
               corrected: false,
+              customTooltip: "",
             };
           }
         }
@@ -690,21 +814,62 @@ export const reduceAccessibleForm = (
         draft.groupRelations = action.payload.groupRelations;
       });
     }
-    case "CREATE_LABEL_RELATION": {
+    // payloed: from – An array of annotations, to – an label annotation.
+    // SINGLE
+    // create
+    //   create new lable annotation
+    //   create new lable relation
+    // update
+    //   create new label annotation
+    //   delete old label annotation
+    //   update label relation
+    // MULTIPLE
+    // allHaveRelation –
+    //   create
+    //      create new label annotation
+    //      delete old label annotations of rest of the annotations
+    //           Edgecase: if deleted annotations exist on Object.values of labelRelations don't delete. Multiple delete can create issues.
+    //      create new label relations for all annotations
+    // noneHaveRelation -
+    //   create
+    //      create new label annotation
+    //      create new label relation for all incoming from Ids
+    // someHaveRelation - never happening
+
+    case "CREATE_LABEL": {
       if (action.payload.to.tokens.length === 0) return previous;
       const res = produceWithUndo(previous, (draft) => {
-        Object.keys(draft.labelRelations).forEach((key) => {
-          if (draft.labelRelations[key] === action.payload.from) {
-            delete draft.annotations[key];
-            delete draft.labelRelations[key];
-          }
-        });
+        // Create new relation
         draft.annotations[action.payload.to.ui.id] = {
           ...action.payload.to.ui,
-          ...boxContaining(action.payload.to.tokens, 3),
+          ...boxContaining(action.payload.to.tokens, 6),
+          customTooltip: action.payload.to.tokens.reduce(
+            //@ts-ignore
+            //we are using customTooltip of label annotation to store text of tokens inside it.
+            (prevValue, token) => prevValue + " " + token.text,
+            ""
+          ),
           corrected: true,
         };
-        draft.labelRelations[action.payload.to.ui.id] = action.payload.from;
+
+        // FIXME: O(N2)
+        action.payload.from.forEach((id) => {
+          const existingLabel = draft.labelRelations[id];
+          // delete existing relation
+          if (existingLabel) {
+            delete draft.labelRelations[id];
+          }
+          // edgecase: if a label is shared by many fields, deleting it will delete it from all fields.
+          // so we keep it.
+          const isExistingLabelSharedByAnotherField = Object.values(
+            draft.labelRelations
+          ).includes(existingLabel);
+          if (!isExistingLabelSharedByAnotherField) {
+            delete draft.annotations[existingLabel];
+          }
+          // create new relation
+          draft.labelRelations[id] = action.payload.to.ui.id;
+        });
         draft.tool = "SELECT";
         draft.selectedAnnotations = {};
         return;
@@ -714,14 +879,60 @@ export const reduceAccessibleForm = (
     case "CREATE_GROUP_RELATION": {
       if (action.payload.from.tokens.length === 0) return previous;
       return produceWithUndo(previous, (draft) => {
+        // Cleaning work
+        // 1. Delete groupRelation for each of the fields
+        action.payload.to.forEach((fieldId) => {
+          const allGroupIds = Object.keys(draft.groupRelations);
+          allGroupIds.forEach((groupId) => {
+            // 1. Remove from existing groupRelation
+            const group = draft.groupRelations[groupId];
+            if (group.includes(fieldId)) {
+              draft.groupRelations[groupId] = draft.groupRelations[
+                groupId
+              ].filter((id) => id !== fieldId);
+              // we also need to resize the annotation considering a field from it was removed.
+              draft.annotations[groupId] = {
+                ...draft.annotations[groupId],
+                ...boxContaining(
+                  draft.groupRelations[groupId].map((id) => {
+                    return {
+                      top: draft.annotations[id].top,
+                      left: draft.annotations[id].left,
+                      width: draft.annotations[id].width,
+                      height: draft.annotations[id].height,
+                    };
+                  }),
+                  6
+                ),
+              };
+            }
+            // 2. Edgecase: if that group is now empty - delete groupRelation, delete groupAnnotation, delete groupLabel, delete labelRelation
+            if (draft.groupRelations[groupId].length === 0) {
+              delete draft.groupRelations[groupId];
+              delete draft.annotations[groupId];
+
+              const labelAnnotationId = draft.labelRelations[groupId];
+              delete draft.annotations[labelAnnotationId];
+
+              delete draft.labelRelations[groupId];
+            }
+          });
+        });
+
+        // Creating work
+        // 1. Create one new Group Annotation
         draft.annotations[action.payload.from.ui.id] = {
           ...action.payload.from.ui,
-          ...boxContaining(action.payload.from.tokens, 3),
+          ...boxContaining(action.payload.from.tokens, 6),
           corrected: true,
+          customTooltip: "",
           page: draft.page,
         };
+        // 2. Add mapping from group annotation to all fields annotations inside it in GroupRelations
         draft.groupRelations[action.payload.from.ui.id] = action.payload.to;
+        // 3. Set group annotation as first element in the selected fields.
         draft.selectedAnnotations = { [action.payload.from.ui.id]: true };
+
         draft.tool = "CREATE";
         return;
       });
@@ -751,6 +962,13 @@ export const reduceAccessibleForm = (
       return produceWithUndo(previous, (draft) => {
         const currentSection = draft.currentSection;
         draft.sections[currentSection] = action.payload;
+        return;
+      });
+    }
+    case "CHANGE_CUSTOM_TOOLTIP": {
+      return produce(previous, (draft) => {
+        draft.annotations[action.payload.id].customTooltip =
+          action.payload.customTooltip;
         return;
       });
     }

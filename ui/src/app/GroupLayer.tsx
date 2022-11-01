@@ -18,8 +18,9 @@ import {
   ANNOTATION_TYPE,
 } from "./StoreProvider";
 import React from "react";
-import Xarrow from "react-xarrows";
-import { AllTokens } from "./LabelLayer";
+import { AllTokens, RelationshipLink } from "./LabelLayer";
+import { useXarrow, Xwrapper } from "react-xarrows";
+
 import color from "../components/color";
 
 const useGroupLayer = (div: React.MutableRefObject<HTMLDivElement | null>) => {
@@ -52,10 +53,12 @@ const useGroupLayer = (div: React.MutableRefObject<HTMLDivElement | null>) => {
         onMouseMove: updateCreationState,
         onMouseLeave: resetCreationState,
         onMouseUp: () => {
+          // this is step 2, you reach here after CREATE_GROUP_RELATION is run.
+          // in CREATE_GROUP_RELATION reducer tool is set to CREATE and
           if (!creationState) return;
           const id = window.crypto.randomUUID();
           dispatch({
-            type: "CREATE_LABEL_RELATION",
+            type: "CREATE_LABEL",
             payload: {
               to: {
                 ui: {
@@ -63,13 +66,14 @@ const useGroupLayer = (div: React.MutableRefObject<HTMLDivElement | null>) => {
                   backgroundColor: color.teal.transparent,
                   border: `4px solid ${color.teal.medium}`,
                   borderRadius: 50,
+                  customTooltip: "",
                   type: "GROUP_LABEL" as ANNOTATION_TYPE,
                   page,
                   corrected: true,
                 },
                 tokens: creationState.tokens,
               },
-              from: Object.keys(selectedAnnotations)[0],
+              from: Object.keys(selectedAnnotations),
             },
           });
           resetCreationState();
@@ -113,27 +117,48 @@ const GroupLayerCreation: React.FC<HasCreationState> = (props) => {
   );
 };
 
-const shouldBeGrouped = (annotation: AnnotationStatic): boolean => {
-  return (
-    annotation.type === "CHECKBOX" ||
-    annotation.type === "RADIOBOX" ||
-    annotation.type === "GROUP" ||
-    annotation.type === "GROUP_LABEL"
-  );
-};
-
 const GroupLayerSelectAnnotation: React.FC<AnnotationStatic> = (
   annotationProps
 ) => {
-  const [selectedAnnotations, annotations] = useSelector((state) => [
-    state.selectedAnnotations,
-    state.annotations,
-  ]);
+  // We put XWrapper around our LinkRealationship. useArrow is used to manually re-renders xarrow.
+  // There was a bug where XArrow was not updating its position until clicked on the canvas.
+  // using useArrow and XWrapper fixes this issue. This issue happened when we removed or moved
+  // fields from a group. Now we have put useXarrow inside the groupLayerSelectAnnotation component
+  // we know that a particular group annotation is re-rendered, so when its re-rendered we also
+  // trigger re-render of the xarrow.
+  useXarrow();
+  const [selectedAnnotations, annotations, groupRelations, labelRelations] =
+    useSelector((state) => [
+      state.selectedAnnotations,
+      state.annotations,
+      state.groupRelations,
+      state.labelRelations,
+    ]);
   const dispatch = useDispatch();
-  const { id, children, type, ...css } = annotationProps;
+  const { id, children, type, ...cssProps } = annotationProps;
+  const css = {
+    ...cssProps,
+    position: "absolute" as const,
+  };
+
   const isSelected = Boolean(selectedAnnotations[annotationProps.id]);
   const isFirstSelection =
     Object.keys(selectedAnnotations)[0] === annotationProps.id;
+
+  if (type === "GROUP_LABEL" || type === "GROUP") {
+    // Render just a normal div that doesn't have interactions.
+    return (
+      <TranslucentBox
+        id={id}
+        css={{
+          ...css,
+          border: css.border,
+          zIndex: 0,
+          pointerEvents: "none",
+        }}
+      />
+    );
+  }
   return (
     <TranslucentBox
       id={id}
@@ -164,17 +189,41 @@ const GroupLayerSelectAnnotation: React.FC<AnnotationStatic> = (
       }}>
       {isFirstSelection && (
         <GroupLayerActionMenu
+          groupOptions={Object.keys(groupRelations).map((groupId) => {
+            return {
+              label: annotations[labelRelations[groupId]].customTooltip,
+              value: annotations[labelRelations[groupId]].id,
+            };
+          })}
+          currentGroup={"None"}
+          onGroupChange={(value) => {
+            let groupId = "None";
+            Object.keys(labelRelations).forEach((field) => {
+              if (labelRelations[field] === value) {
+                groupId = field;
+              }
+            });
+
+            dispatch({
+              type: "CHANGE_GROUP",
+              payload: {
+                annotationIds: Object.keys(selectedAnnotations),
+                groupId,
+              },
+            });
+          }}
           type={type}
           onDelete={() => {
-            if (type === "GROUP_LABEL") {
+            if (type === "RADIOBOX" || "CHECKBOX") {
               dispatch({
-                type: "DELETE_GROUP",
-                payload: id,
+                type: "REMOVE_FROM_GROUP",
+                payload: Object.keys(selectedAnnotations),
               });
             }
           }}
           onCreateNewGroup={() => {
             const uuid = window.crypto.randomUUID();
+            // this is step 1. Here we start by creating a group.
             dispatch({
               type: "CREATE_GROUP_RELATION",
               payload: {
@@ -185,6 +234,7 @@ const GroupLayerSelectAnnotation: React.FC<AnnotationStatic> = (
                     border: `4px solid ${color.yellow}`,
                     type: "GROUP",
                   },
+                  // here tokens mean the annotations
                   tokens: Object.keys(selectedAnnotations).map((id) => {
                     return {
                       height: annotations[id].height,
@@ -205,34 +255,29 @@ const GroupLayerSelectAnnotation: React.FC<AnnotationStatic> = (
 };
 
 const GroupLayerSelections = () => {
-  const { annotationsToGroup, labelRelations } = useSelector((state) => {
-    const annotationsToGroup = Object.values(state.annotations).filter(
-      shouldBeGrouped
+  const { annotations } = useSelector((state) => {
+    const annotations = Object.values(state.annotations).filter(
+      (annotation) => {
+        return (
+          annotation.type === "CHECKBOX" ||
+          annotation.type === "RADIOBOX" ||
+          annotation.type === "GROUP" ||
+          annotation.type === "GROUP_LABEL"
+        );
+      }
     );
     const labelRelations = state.labelRelations;
-    return { annotationsToGroup, labelRelations };
+    return { annotations, labelRelations };
   });
   return (
     <>
-      {annotationsToGroup.map((annotation) => {
-        const labelId: string = labelRelations[annotation.id];
-        const isGroupLabel = labelId && annotation.type === "GROUP_LABEL";
+      {annotations.map((annotation) => {
         return (
           <React.Fragment key={annotation.id}>
-            <GroupLayerSelectAnnotation {...annotation} />
-            {isGroupLabel && (
-              <Xarrow
-                start={annotation.id}
-                end={labelRelations[annotation.id]}
-                endAnchor="middle"
-                headSize={2}
-                headShape="circle"
-                // This curveness 0.01 is used to make the arrow look straight.
-                // we could have used path="straight" property but it gives the
-                // following error - Error: <path> attribute d: Expected number...
-                curveness={0.01}
-              />
-            )}
+            <Xwrapper>
+              <GroupLayerSelectAnnotation {...annotation} />
+              <RelationshipLink id={annotation.id} />
+            </Xwrapper>
           </React.Fragment>
         );
       })}

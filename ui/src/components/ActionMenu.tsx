@@ -6,6 +6,7 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import { ANNOTATION_TYPE } from "../app/StoreProvider";
 import { CSSObject } from "@emotion/react";
+import TextField from "@mui/material/TextField";
 
 interface ContainerProps {
   // Other components to render inside the Container div.
@@ -77,21 +78,57 @@ export const FieldLayerActionMenu: React.FC<FieldLayerActionMenuProps> = (
 };
 
 interface LabelLayerActionMenuProps {
-  totalSelections: number;
   onUpdateLabel: () => void;
   onDelete: () => void;
+  onCustomTooltipChange: (value: string) => void;
+  customTooltip: string;
   showDelete: boolean;
+  showCreateOrUpdateLabel: boolean;
+  createOrUpdateLabelText: string;
+  showAdditionalTooltip: boolean;
 }
 
 export const LabelLayerActionMenu: React.FC<LabelLayerActionMenuProps> = ({
   onDelete,
   onUpdateLabel,
-  totalSelections,
+  onCustomTooltipChange,
+  customTooltip,
   showDelete,
+  showCreateOrUpdateLabel,
+  createOrUpdateLabelText,
+  showAdditionalTooltip,
 }) => {
-  if (showDelete) {
-    return (
-      <Container>
+  const hasNoMenuItems =
+    !showDelete && !showCreateOrUpdateLabel && !showAdditionalTooltip;
+  return (
+    <Container>
+      {hasNoMenuItems && (
+        <ActionMenuItem
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
+          onMouseDown={(e) => {
+            e.stopPropagation();
+          }}>
+          No Possible Actions
+        </ActionMenuItem>
+      )}
+      {showCreateOrUpdateLabel && (
+        <ActionMenuItem
+          // We have to prevent the default behaviour for
+          // the pdf canvas here, in order to be able to capture
+          // the click event.
+          onClick={(e) => {
+            onUpdateLabel();
+            e.stopPropagation();
+          }}
+          onMouseDown={(e) => {
+            e.stopPropagation();
+          }}>
+          {createOrUpdateLabelText}
+        </ActionMenuItem>
+      )}
+      {showDelete && (
         <ActionMenuItem
           // We have to prevent the default behaviour for
           // the pdf canvas here, in order to be able to capture
@@ -105,45 +142,45 @@ export const LabelLayerActionMenu: React.FC<LabelLayerActionMenuProps> = ({
           }}>
           Delete
         </ActionMenuItem>
-      </Container>
-    );
-  }
-  if (totalSelections === 1) {
-    return (
-      <Container>
-        <ActionMenuItem
-          // We have to prevent the default behaviour for
-          // the pdf canvas here, in order to be able to capture
-          // the click event.
-          onClick={(e) => {
-            onUpdateLabel();
-            e.stopPropagation();
-          }}
-          onMouseDown={(e) => {
-            e.stopPropagation();
-          }}>
-          Update Label
+      )}
+      {showAdditionalTooltip && (
+        <ActionMenuItem>
+          <TextField
+            id="custom-tooltip"
+            variant="standard"
+            placeholder="Custom Tooltip"
+            margin="none"
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+            value={customTooltip}
+            onChange={(e) => {
+              onCustomTooltipChange(e.target.value);
+            }}
+          />
         </ActionMenuItem>
-      </Container>
-    );
-  }
-  return null;
+      )}
+    </Container>
+  );
 };
 
 interface GroupLayerActionMenuProps {
   onDelete: () => void;
   onCreateNewGroup: () => void;
   type: string;
+  groupOptions: { label: string; value: string }[];
+  onGroupChange: (value: string) => void;
+  currentGroup: string;
 }
 
 export const GroupLayerActionMenu: React.FC<GroupLayerActionMenuProps> = ({
   onDelete,
   onCreateNewGroup,
+  groupOptions,
+  onGroupChange,
+  currentGroup,
   type,
 }) => {
-  if (type !== "CHECKBOX" && type !== "RADIOBOX" && type !== "GROUP_LABEL") {
-    return null;
-  }
   return (
     <Container>
       {["CHECKBOX", "RADIOBOX"].includes(type) && (
@@ -159,7 +196,20 @@ export const GroupLayerActionMenu: React.FC<GroupLayerActionMenuProps> = ({
           Create New Group
         </ActionMenuItem>
       )}
-      {["GROUP_LABEL"].includes(type) && (
+      <Select
+        label="Move to Group"
+        value={currentGroup}
+        onChange={(e) => onGroupChange(e.target.value as ANNOTATION_TYPE)}
+        css={{ height: "40px" }}>
+        <MenuItem value={"None"}>{"Move To Group..."}</MenuItem>
+        {groupOptions.map((groupOption) => (
+          <MenuItem key={groupOption.value} value={groupOption.value}>
+            {groupOption.label}
+          </MenuItem>
+        ))}
+      </Select>
+
+      {["CHECKBOX", "RADIOBOX"].includes(type) && (
         <ActionMenuItem
           // We have to prevent the default behaviour for
           // the pdf canvas here, in order to be able to capture
@@ -171,7 +221,7 @@ export const GroupLayerActionMenu: React.FC<GroupLayerActionMenuProps> = ({
           onMouseDown={(e) => {
             e.stopPropagation();
           }}>
-          Delete
+          Remove from Group
         </ActionMenuItem>
       )}
     </Container>
@@ -192,7 +242,7 @@ const ActionMenuItem: React.FC<ActionMenuItemProps> = (props) => {
       {...rest}
       css={{
         width: "auto",
-        minWidth: "4rem",
+        minWidth: "6.5rem",
         height: "100%",
         display: "flex",
         alignItems: "center",
@@ -214,14 +264,7 @@ const ActionMenuItem: React.FC<ActionMenuItemProps> = (props) => {
         "&:hover": {
           background: color.gray.line,
           cursor: "pointer",
-        },
-        "&:firstOfType:hover": {
-          borderTopLeftRadius: "0.5rem",
-          borderBottomLeftRadius: "0.5rem",
-        },
-        "&:lastOfType:hover": {
-          borderTopRightRadius: "0.5rem",
-          borderBottomRightRadius: "0.5rem",
+          borderRadius: "0.5rem",
         },
         ...moreCss,
       }}>

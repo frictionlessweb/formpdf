@@ -37,7 +37,7 @@ export const AllTokens: React.FC = React.memo(() => {
       {tokens.map((token) => (
         <TranslucentBox
           id={`token-${token.top}-${token.left}`}
-          key={token.top * token.left}
+          key={`${token.top}-${token.left}`}
           css={{
             position: "absolute",
             backgroundColor: color.blue.transparent,
@@ -86,7 +86,7 @@ export const useFieldLayer = (
           if (!creationState) return;
           const id = window.crypto.randomUUID();
           dispatch({
-            type: "CREATE_LABEL_RELATION",
+            type: "CREATE_LABEL",
             payload: {
               to: {
                 ui: {
@@ -94,13 +94,14 @@ export const useFieldLayer = (
                   backgroundColor: color.teal.transparent,
                   border: `4px solid ${color.teal.medium}`,
                   borderRadius: 50,
+                  customTooltip: "",
                   type: "LABEL" as ANNOTATION_TYPE,
                   page,
                   corrected: true,
                 },
                 tokens: creationState.tokens,
               },
-              from: Object.keys(selectedAnnotations)[0],
+              from: Object.keys(selectedAnnotations),
             },
           });
           resetCreationState();
@@ -147,13 +148,12 @@ const CreateLink: React.FC<CreationProps> = (props) => {
 export const LabelLayerSelectAnnotation: React.FC<AnnotationStatic> = (
   props
 ) => {
-  const { selectedAnnotations, labelRelations } = useSelector((state) => {
-    const selectedAnnotations = state.selectedAnnotations;
-    const labelRelations = state.labelRelations;
-    return { selectedAnnotations, labelRelations };
-  });
+  const [selectedAnnotations, labelRelations] = useSelector((state) => [
+    state.selectedAnnotations,
+    state.labelRelations,
+  ]);
   const dispatch = useDispatch();
-  const { id, type, children, ...cssProps } = props;
+  const { id, type, children, customTooltip, ...cssProps } = props;
   const css = {
     ...cssProps,
     position: "absolute" as const,
@@ -161,6 +161,75 @@ export const LabelLayerSelectAnnotation: React.FC<AnnotationStatic> = (
   const hasRelation = Boolean(labelRelations[id]);
   const isSelected = Boolean(selectedAnnotations[id]);
   const isFirstSelection = Object.keys(selectedAnnotations)[0] === id;
+  if (type === "LABEL") {
+    // TODO: Refactor this bit.
+    // Render just a normal div that doesn't have interactions.
+    return (
+      <TranslucentBox
+        id={id}
+        css={{
+          ...css,
+          border: css.border,
+          zIndex: 0,
+        }}
+        onClick={(e: React.MouseEvent<HTMLElement>) => {
+          e.stopPropagation();
+        }}
+      />
+    );
+  }
+
+  const allSelectedAnnotation = Object.keys(selectedAnnotations);
+  const totalSelections = allSelectedAnnotation.length;
+
+  // We have three option to show users – Create, Delete and Additional Tooltip
+  // when single is selected: hasRelation or noRelation is same as below only
+  let showCreateOrUpdateLabel = true;
+  let createOrUpdateLabelText = hasRelation ? "Update Label" : "Create Label";
+  let showDelete = hasRelation ? true : false;
+  let showAdditionalTooltip = totalSelections === 1 ? true : false;
+
+  // Multiple Selections
+  if (totalSelections > 1) {
+    // logic to find if allhaverelation, allhavenorelation, or mixed.
+    let numberOfSelectionsHaveRelation = 0;
+    let numberOfSelectionsHaveNoRelation = 0;
+    allSelectedAnnotation.forEach((annotationId) => {
+      if (Boolean(labelRelations[annotationId])) {
+        numberOfSelectionsHaveRelation += 1;
+      } else {
+        numberOfSelectionsHaveNoRelation += 1;
+      }
+    });
+    const allhaveRelation =
+      numberOfSelectionsHaveRelation > 0 &&
+      numberOfSelectionsHaveNoRelation === 0;
+    const allhaveNoRelation =
+      numberOfSelectionsHaveRelation === 0 &&
+      numberOfSelectionsHaveNoRelation > 0;
+    const somehaveRelation =
+      numberOfSelectionsHaveRelation > 0 &&
+      numberOfSelectionsHaveNoRelation > 0;
+
+    //   1. all have Relation: C(update) - Show, D - Show, A - Don't show
+    if (allhaveRelation) {
+      showCreateOrUpdateLabel = true;
+      showDelete = true;
+      createOrUpdateLabelText = "Update Label";
+    }
+    //   2. all no Relation: C(create) - Show, D - Don't show, A - Don't show
+    if (allhaveNoRelation) {
+      showCreateOrUpdateLabel = true;
+      createOrUpdateLabelText = "Create Label";
+      showDelete = false;
+    }
+    //   3. some have Relation, some no Relation: C - Don't Show, D - Don't show, A - Don't show
+    if (somehaveRelation) {
+      showCreateOrUpdateLabel = false;
+      showDelete = false;
+    }
+  }
+
   return (
     <TranslucentBox
       id={id}
@@ -190,11 +259,24 @@ export const LabelLayerSelectAnnotation: React.FC<AnnotationStatic> = (
       }}>
       {isFirstSelection && (
         <LabelLayerActionMenu
-          showDelete={hasRelation}
-          totalSelections={Object.keys(selectedAnnotations).length}
+          showDelete={showDelete}
+          showCreateOrUpdateLabel={showCreateOrUpdateLabel}
+          createOrUpdateLabelText={createOrUpdateLabelText}
+          // Only shown for single selection.
+          showAdditionalTooltip={showAdditionalTooltip}
+          customTooltip={customTooltip}
+          onCustomTooltipChange={(value) => {
+            dispatch({
+              type: "CHANGE_CUSTOM_TOOLTIP",
+              payload: {
+                id,
+                customTooltip: value,
+              },
+            });
+          }}
           onDelete={() => {
             dispatch({
-              type: "DELETE_ANNOTATION",
+              type: "DELETE_LABEL",
               payload: Object.keys(selectedAnnotations),
             });
           }}
@@ -206,6 +288,19 @@ export const LabelLayerSelectAnnotation: React.FC<AnnotationStatic> = (
           }}
         />
       )}
+      <div
+        style={{
+          height: "100%",
+          paddingLeft: "1rem",
+          display: "flex",
+          alignItems: "center",
+          fontWeight: "bold",
+          whiteSpace: "nowrap",
+          overflow: "hidden",
+          textOverflow: "ellipsis",
+        }}>
+        {customTooltip}
+      </div>
     </TranslucentBox>
   );
 };
@@ -214,7 +309,7 @@ interface RelationshipLinkProps {
   id: string;
 }
 
-const RelationshipLink: React.FC<RelationshipLinkProps> = (props) => {
+export const RelationshipLink: React.FC<RelationshipLinkProps> = (props) => {
   const { id } = props;
   const relationship = useSelector((state) => {
     return state.labelRelations[id];
@@ -222,8 +317,8 @@ const RelationshipLink: React.FC<RelationshipLinkProps> = (props) => {
   if (!relationship) return null;
   return (
     <Xarrow
-      end={String(relationship)}
-      start={id}
+      end={id}
+      start={String(relationship)}
       endAnchor="middle"
       headSize={2}
       headShape="circle"
