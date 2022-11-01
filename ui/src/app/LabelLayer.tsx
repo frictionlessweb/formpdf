@@ -309,7 +309,7 @@ interface RelationshipLinkProps {
   id: string;
 }
 
-const RelationshipLink: React.FC<RelationshipLinkProps> = (props) => {
+export const RelationshipLink: React.FC<RelationshipLinkProps> = (props) => {
   const { id } = props;
   const relationship = useSelector((state) => {
     return state.labelRelations[id];

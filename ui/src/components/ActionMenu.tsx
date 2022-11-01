@@ -168,16 +168,19 @@ interface GroupLayerActionMenuProps {
   onDelete: () => void;
   onCreateNewGroup: () => void;
   type: string;
+  groupOptions: { label: string; value: string }[];
+  onGroupChange: (value: string) => void;
+  currentGroup: string;
 }
 
 export const GroupLayerActionMenu: React.FC<GroupLayerActionMenuProps> = ({
   onDelete,
   onCreateNewGroup,
+  groupOptions,
+  onGroupChange,
+  currentGroup,
   type,
 }) => {
-  if (type !== "CHECKBOX" && type !== "RADIOBOX" && type !== "GROUP_LABEL") {
-    return null;
-  }
   return (
     <Container>
       {["CHECKBOX", "RADIOBOX"].includes(type) && (
@@ -193,7 +196,20 @@ export const GroupLayerActionMenu: React.FC<GroupLayerActionMenuProps> = ({
           Create New Group
         </ActionMenuItem>
       )}
-      {["GROUP_LABEL"].includes(type) && (
+      <Select
+        label="Move to Group"
+        value={currentGroup}
+        onChange={(e) => onGroupChange(e.target.value as ANNOTATION_TYPE)}
+        css={{ height: "40px" }}>
+        <MenuItem value={"None"}>{"Move To Group..."}</MenuItem>
+        {groupOptions.map((groupOption) => (
+          <MenuItem key={groupOption.value} value={groupOption.value}>
+            {groupOption.label}
+          </MenuItem>
+        ))}
+      </Select>
+
+      {["CHECKBOX", "RADIOBOX"].includes(type) && (
         <ActionMenuItem
           // We have to prevent the default behaviour for
           // the pdf canvas here, in order to be able to capture
@@ -205,7 +221,7 @@ export const GroupLayerActionMenu: React.FC<GroupLayerActionMenuProps> = ({
           onMouseDown={(e) => {
             e.stopPropagation();
           }}>
-          Delete
+          Remove from Group
         </ActionMenuItem>
       )}
     </Container>
