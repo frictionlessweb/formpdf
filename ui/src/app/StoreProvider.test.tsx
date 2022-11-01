@@ -446,7 +446,7 @@ describe("Our form reducer", () => {
     });
     expect(relationCreated.annotations["1"].id).toEqual("1");
     expect(relationCreated.annotations["1"].corrected).toEqual(true);
-    expect(relationCreated.labelRelations["1"]).toEqual("2");
+    expect(relationCreated.labelRelations["2"]).toEqual("1");
     expect(relationCreated.tool).toEqual("SELECT");
     expect(relationCreated.selectedAnnotations).toEqual({});
   });
@@ -494,7 +494,7 @@ describe("Our form reducer", () => {
     expect(Object.keys(relationCreatedAgain.labelRelations).length).toEqual(1);
     expect(relationCreated.annotations["1"].id).toEqual("1");
     expect(relationCreated.annotations["1"].corrected).toEqual(true);
-    expect(relationCreated.labelRelations["1"]).toEqual("2");
+    expect(relationCreated.labelRelations["2"]).toEqual("1");
     expect(relationCreated.tool).toEqual("SELECT");
     expect(relationCreated.selectedAnnotations).toEqual({});
   });
