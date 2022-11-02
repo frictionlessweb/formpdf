@@ -266,17 +266,20 @@ const GroupLayerSelections = () => {
         );
       }
     );
-    const labelRelations = state.labelRelations;
-    return { annotations, labelRelations };
+    return { annotations };
   });
   return (
     <>
       {annotations.map((annotation) => {
+        let hasGroupLabel = false;
+        if (annotation.type === "GROUP") {
+          hasGroupLabel = true;
+        }
         return (
           <React.Fragment key={annotation.id}>
             <Xwrapper>
               <GroupLayerSelectAnnotation {...annotation} />
-              <RelationshipLink id={annotation.id} />
+              {hasGroupLabel && <RelationshipLink id={annotation.id} />}
             </Xwrapper>
           </React.Fragment>
         );
