@@ -38,7 +38,19 @@
     "redux-logger": "^3.0.6",
     "typescript": "^4.6.2",
     "web-vitals": "^2.1.4",
-    "@types/redux-logger": "^3.0.9"
+    "@types/redux-logger": "^3.0.9",
+    "workbox-background-sync": "^6.5.4",
+    "workbox-broadcast-update": "^6.5.4",
+    "workbox-cacheable-response": "^6.5.4",
+    "workbox-core": "^6.5.4",
+    "workbox-expiration": "^6.5.4",
+    "workbox-google-analytics": "^6.5.4",
+    "workbox-navigation-preload": "^6.5.4",
+    "workbox-precaching": "^6.5.4",
+    "workbox-range-requests": "^6.5.4",
+    "workbox-routing": "^6.5.4",
+    "workbox-strategies": "^6.5.4",
+    "workbox-streams": "^6.5.4"
   },
   "prettier": {
     "bracketSameLine": true
