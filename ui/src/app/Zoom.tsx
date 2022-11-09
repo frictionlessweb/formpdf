@@ -54,7 +54,7 @@ const Zoom: React.FC<ZoomProps> = () => {
             backgroundColor: color.blue.transparent,
             borderRadius: "12px",
           },
-          color: color.black,
+          color: color.black.medium,
         }}
         disabled={zoom <= MIN_ZOOM}
         onClick={onDecrease}>
@@ -70,7 +70,7 @@ const Zoom: React.FC<ZoomProps> = () => {
             backgroundColor: color.blue.transparent,
             borderRadius: "12px",
           },
-          color: color.black,
+          color: color.black.medium,
         }}
         disabled={zoom >= MAX_ZOOM}
         onClick={onIncrease}>

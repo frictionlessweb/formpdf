@@ -44,7 +44,7 @@ const UndoAndRedo: React.FC<BoxProps> = (props) => {
             backgroundColor: color.blue.transparent,
             borderRadius: "12px",
           },
-          color: color.black,
+          color: color.black.medium,
         }}
         onClick={onUndo}
         disabled={!canUndo}>
@@ -57,7 +57,7 @@ const UndoAndRedo: React.FC<BoxProps> = (props) => {
             backgroundColor: color.blue.transparent,
             borderRadius: "12px",
           },
-          color: color.black,
+          color: color.black.medium,
         }}
         onClick={onRedo}
         disabled={!canRedo}>

@@ -25,7 +25,7 @@ const ToolButton: React.FC<ToolButtonProps> = (props) => {
   const { toolName, activeTool, tooltip, children } = props;
   const dispatch = useDispatch();
   const isActiveColor =
-    toolName === activeTool ? color.blue.medium : color.black;
+    toolName === activeTool ? color.blue.medium : color.black.medium;
   return (
     <Tooltip title={tooltip} placement="right">
       <IconButton

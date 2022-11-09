@@ -69,39 +69,6 @@ type ResizeHandleProps = DivProps & {
   rootCss?: CSSObject;
 };
 
-type SectionProps = {
-  // is active Section
-  isCurrentSection: boolean;
-  // height of the section
-  height: number;
-  // function that's executed onClick of edit button
-  onClick: () => void;
-};
-
-const Section: React.FC<SectionProps> = ({
-  isCurrentSection,
-  height,
-  onClick,
-}) => {
-  return (
-    <div
-      style={{
-        visibility: isCurrentSection ? "hidden" : "visible",
-        height: height,
-        width: "100%",
-        borderTop: `4px solid ${color.black}`,
-      }}>
-      <Chip
-        sx={{ margin: "10px" }}
-        icon={<CheckCircleIcon />}
-        variant="filled"
-        label="Edit this section"
-        onClick={onClick}
-      />
-    </div>
-  );
-};
-
 // An draggable box that we put *on top* of the PDF that we show to the user.
 // This box lets us configure which sections of the provided document are and
 // are not relevant.
@@ -150,7 +117,7 @@ export const ResizeHandle: React.FC<ResizeHandleProps> = (props) => {
             visibility: index === currentSection ? "hidden" : "visible",
             height: sectionHeight,
             width: pdfWidth,
-            borderTop: `4px solid ${color.black}`,
+            borderTop: `4px solid ${color.black.medium}`,
             // For the section after the current section, we don't want background color as it
             // will overlap with the Rnd's background color and make it look darker.
             backgroundColor: beforeCurrentSection
@@ -180,7 +147,7 @@ export const ResizeHandle: React.FC<ResizeHandleProps> = (props) => {
       <Rnd
         css={{
           backgroundColor: color.gray.lineTransparent,
-          borderTop: `6px solid ${color.yellow}`,
+          borderTop: `6px solid ${color.yellow.medium}`,
           position: "absolute",
           zIndex: 10,
         }}

@@ -51,9 +51,19 @@ export type ANNOTATION_TYPE =
   | "TEXTBOX"
   | "RADIOBOX"
   | "CHECKBOX"
+  | "SIGNATURE"
+  | "DATE"
   | "LABEL"
   | "GROUP"
   | "GROUP_LABEL";
+
+export const fieldTypes = [
+  "TEXTBOX",
+  "RADIOBOX",
+  "CHECKBOX",
+  "SIGNATURE",
+  "DATE",
+];
 
 export type AnnotationUIState = {
   // What is the ID of the annotation -- how do we uniquely identify it?
@@ -219,19 +229,23 @@ export const ANNOTATION_COLOR = color.orange.transparent;
 
 export const ANNOTATION_BORDER = `4px solid ${color.orange.dark}`;
 
-const Borders: Record<ANNOTATION_TYPE, string> = {
-  TEXTBOX: `4px solid ${color.orange.dark}`,
-  CHECKBOX: `4px solid ${color.orange.dark}`,
-  RADIOBOX: `4px solid ${color.orange.dark}`,
+export const Borders: Record<ANNOTATION_TYPE, string> = {
+  TEXTBOX: `4px solid ${color.orange.medium}`,
+  CHECKBOX: `4px solid ${color.yellow.medium}`,
+  RADIOBOX: `4px solid ${color.purple.medium}`,
+  SIGNATURE: `4px solid ${color.pink.medium}`,
+  DATE: `4px solid ${color.green.medium}`,
   LABEL: `4px solid ${color.teal.medium}`,
   GROUP: `4px solid ${color.teal.medium}`,
   GROUP_LABEL: `4px solid ${color.teal.medium}`,
 };
 
-const BackgroundColors: Record<ANNOTATION_TYPE, string> = {
+export const BackgroundColors: Record<ANNOTATION_TYPE, string> = {
   TEXTBOX: color.orange.transparent,
-  CHECKBOX: color.orange.transparent,
-  RADIOBOX: color.orange.transparent,
+  CHECKBOX: color.yellow.transparent,
+  RADIOBOX: color.purple.transparent,
+  SIGNATURE: color.pink.transparent,
+  DATE: color.green.transparent,
   LABEL: color.teal.transparent,
   GROUP: color.teal.transparent,
   GROUP_LABEL: color.teal.transparent,
@@ -761,6 +775,8 @@ export const reduceAccessibleForm = (
         action.payload.ids.forEach((id) => {
           const annotation = draft.annotations[id];
           annotation.type = action.payload.type;
+          annotation.backgroundColor = BackgroundColors[action.payload.type];
+          annotation.border = Borders[action.payload.type];
           annotation.corrected = true;
         });
         return;

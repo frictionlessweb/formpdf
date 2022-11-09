@@ -17,6 +17,8 @@ import {
   Annotation as AnnotationStatic,
   ANNOTATION_TYPE,
   Bounds,
+  BackgroundColors,
+  Borders,
 } from "./StoreProvider";
 import color from "../components/color";
 import Xarrow from "react-xarrows";
@@ -91,8 +93,8 @@ export const useFieldLayer = (
               to: {
                 ui: {
                   id,
-                  backgroundColor: color.teal.transparent,
-                  border: `4px solid ${color.teal.medium}`,
+                  backgroundColor: BackgroundColors["LABEL"],
+                  border: Borders["LABEL"],
                   borderRadius: 50,
                   customTooltip: "",
                   type: "LABEL" as ANNOTATION_TYPE,

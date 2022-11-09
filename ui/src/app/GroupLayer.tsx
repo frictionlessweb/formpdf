@@ -16,6 +16,8 @@ import {
   LayerControllerProps,
   Annotation as AnnotationStatic,
   ANNOTATION_TYPE,
+  BackgroundColors,
+  Borders,
 } from "./StoreProvider";
 import React from "react";
 import { AllTokens, RelationshipLink } from "./LabelLayer";
@@ -63,8 +65,8 @@ const useGroupLayer = (div: React.MutableRefObject<HTMLDivElement | null>) => {
               to: {
                 ui: {
                   id,
-                  backgroundColor: color.teal.transparent,
-                  border: `4px solid ${color.teal.medium}`,
+                  backgroundColor: BackgroundColors["GROUP_LABEL"],
+                  border: Borders["GROUP_LABEL"],
                   borderRadius: 50,
                   customTooltip: "",
                   type: "GROUP_LABEL" as ANNOTATION_TYPE,
@@ -230,8 +232,8 @@ const GroupLayerSelectAnnotation: React.FC<AnnotationStatic> = (
                 from: {
                   ui: {
                     id: uuid,
-                    backgroundColor: "rgba(0,0,0,0)",
-                    border: `4px solid ${color.yellow}`,
+                    backgroundColor: BackgroundColors["GROUP"],
+                    border: Borders["GROUP"],
                     type: "GROUP",
                   },
                   // here tokens mean the annotations

@@ -15,6 +15,9 @@ import {
   useSelector,
   useDispatch,
   LayerControllerProps,
+  fieldTypes,
+  BackgroundColors,
+  Borders,
 } from "./StoreProvider";
 import { Rnd } from "react-rnd";
 
@@ -55,8 +58,8 @@ export const useFieldLayer = (
               page,
               corrected: true,
               customTooltip: "",
-              backgroundColor: color.orange.transparent,
-              border: `4px solid ${color.orange.dark}`,
+              backgroundColor: BackgroundColors["TEXTBOX"],
+              border: Borders["TEXTBOX"],
               type: "TEXTBOX",
               ...mapCreationBoundsToFinalBounds(creationState.bounds),
             },
@@ -131,7 +134,7 @@ export const FieldLayerAnnotation: React.FC<AnnotationProps> = (props) => {
           }}>
           <span
             style={{
-              color: color.black,
+              color: color.black.medium,
               fontWeight: "bold",
               fontFamily: "Times New Roman",
               paddingLeft: "4px",
@@ -152,13 +155,11 @@ export const FieldLayerAnnotation: React.FC<AnnotationProps> = (props) => {
           css={{
             ...css,
             position: "absolute",
-            backgroundColor: color.orange.transparent,
+            backgroundColor: cssProps.backgroundColor,
             // Here zIndex is used to fix the issue where – the action menu (which is a child of selected annotation)
             // gets overlapped by previous section's grey area.
             zIndex: isSelected ? 100 : 0,
-            border: isSelected
-              ? "3px solid black"
-              : `4px solid ${color.orange.dark}`,
+            border: isSelected ? "4px solid black" : cssProps.border,
           }}
           enableResizing={isSelected}
           resizeHandleComponent={{
@@ -238,7 +239,7 @@ export const FieldLayerAnnotation: React.FC<AnnotationProps> = (props) => {
           )}
           <span
             style={{
-              color: color.black,
+              color: color.black.medium,
               fontWeight: "bold",
               fontFamily: "Times New Roman",
               paddingLeft: "4px",
@@ -255,7 +256,7 @@ const FieldLayer: React.FC<LayerControllerProps> = (props) => {
   const { pdf, container } = props;
   const annotations = useSelector((state) => {
     return Object.values(state.annotations).filter((annotation) =>
-      ["CHECKBOX", "TEXTBOX", "RADIOBOX"].includes(annotation.type)
+      fieldTypes.includes(annotation.type)
     );
   });
   const layer = useFieldLayer(container);

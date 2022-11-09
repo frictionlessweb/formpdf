@@ -129,7 +129,7 @@ const Steps: React.FC<
           textAlign: "center",
           fontSize: 14,
           width: "80%",
-          color: color.black,
+          color: color.black.medium,
         }}>
         {/* If a step has tool specific description then show that, if not, show default step description. */}
         {STEPS[stepIndex].toolDescription[activeTool] ??
