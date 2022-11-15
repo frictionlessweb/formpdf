@@ -236,7 +236,7 @@ export const Borders: Record<ANNOTATION_TYPE, string> = {
   SIGNATURE: `4px solid ${color.pink.medium}`,
   DATE: `4px solid ${color.green.medium}`,
   LABEL: `4px solid ${color.teal.medium}`,
-  GROUP: `4px solid ${color.teal.medium}`,
+  GROUP: `4px solid ${color.brown.medium}`,
   GROUP_LABEL: `4px solid ${color.teal.medium}`,
 };
 
@@ -247,7 +247,7 @@ export const BackgroundColors: Record<ANNOTATION_TYPE, string> = {
   SIGNATURE: color.pink.transparent,
   DATE: color.green.transparent,
   LABEL: color.teal.transparent,
-  GROUP: color.teal.transparent,
+  GROUP: color.brown.transparent,
   GROUP_LABEL: color.teal.transparent,
 };
 
