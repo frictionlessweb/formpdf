@@ -4,6 +4,7 @@ import Button from "@mui/material/Button";
 import color from "../components/color";
 import { useDispatch, useSelector, Annotation } from "./StoreProvider";
 import { Dispatch } from "redux";
+import { useHotkeys } from "react-hotkeys-hook";
 
 // const GET_ANNOTATIONS_FROM_SERVER = false;
 
@@ -37,6 +38,39 @@ const ProceedToNextLayer: React.FC = () => {
   };
   const isLastStep = step === "GROUP_LAYER";
 
+  const onNext = async () => {
+    switch (step) {
+      case "SECTION_LAYER": {
+        dispatch({ type: "GOTO_NEXT_STEP" });
+        // Following code will be useful when fetching annotations from server
+        // dispatch({ type: "SHOW_LOADING_SCREEN" });
+        // if (GET_ANNOTATIONS_FROM_SERVER) {
+        //   await getAnnotationsFromServer(dispatch, sendToApi);
+        // } else {
+        //   getAnnotationsFromFile(dispatch, pdfHeight);
+        // }
+        return;
+      }
+      // Fallthrough intentionally, equivalent to an or
+      // eslint-disable-next-line
+      case "FIELD_LAYER": {
+        dispatch({ type: "GOTO_NEXT_STEP" });
+        return;
+      }
+      case "LABEL_LAYER": {
+        dispatch({ type: "GOTO_NEXT_STEP" });
+        return;
+      }
+      case "GROUP_LAYER": {
+        dispatch({
+          type: "CREATE_NEW_SECTION",
+        });
+      }
+    }
+  };
+
+  useHotkeys("n", onNext, [step]);
+
   return (
     <Box
       position="fixed"
@@ -56,38 +90,11 @@ const ProceedToNextLayer: React.FC = () => {
           border: "2px solid white",
           boxShadow: 6,
         }}
-        onClick={async () => {
-          switch (step) {
-            case "SECTION_LAYER": {
-              dispatch({ type: "GOTO_NEXT_STEP" });
-              // Following code will be useful when fetching annotations from server
-              // dispatch({ type: "SHOW_LOADING_SCREEN" });
-              // if (GET_ANNOTATIONS_FROM_SERVER) {
-              //   await getAnnotationsFromServer(dispatch, sendToApi);
-              // } else {
-              //   getAnnotationsFromFile(dispatch, pdfHeight);
-              // }
-              return;
-            }
-            // Fallthrough intentionally, equivalent to an or
-            // eslint-disable-next-line
-            case "FIELD_LAYER": {
-              dispatch({ type: "GOTO_NEXT_STEP" });
-              return;
-            }
-            case "LABEL_LAYER": {
-              dispatch({ type: "GOTO_NEXT_STEP" });
-              return;
-            }
-            case "GROUP_LAYER": {
-              dispatch({
-                type: "CREATE_NEW_SECTION",
-              });
-            }
-          }
-        }}
+        onClick={onNext}
         variant="contained">
-        {isLastStep ? "Proceed to Next Section" : "Proceed to Next Layer"}
+        {isLastStep
+          ? "Proceed to Next Section (N)"
+          : "Proceed to Next Step (N)"}
       </Button>
     </Box>
   );

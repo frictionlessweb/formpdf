@@ -85,13 +85,13 @@ const ToolSelect: React.FC<BoxProps> = (props) => {
           <ToolButton
             activeTool={activeTool}
             toolName="SELECT"
-            tooltip="Select">
+            tooltip="Select (S)">
             <CursorIcon />
           </ToolButton>
           <ToolButton
             activeTool={activeTool}
             toolName="CREATE"
-            tooltip="Create">
+            tooltip="Create (C)">
             <FormatShapesIcon />
           </ToolButton>
           <ResetButton />

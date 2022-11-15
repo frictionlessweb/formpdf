@@ -3,9 +3,10 @@ import React from "react";
 import Box from "@mui/material/Box";
 import color from "../components/color";
 import { useSelector, useDispatch } from "./StoreProvider";
-import { IconButton } from "@mui/material";
+import { IconButton, Tooltip } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
+import { useHotkeys } from "react-hotkeys-hook";
 
 const MIN_ZOOM = 0.5;
 const MAX_ZOOM = 1.5;
@@ -17,6 +18,7 @@ const Zoom: React.FC<ZoomProps> = () => {
   const dispatch = useDispatch();
 
   const onIncrease = () => {
+    if (zoom >= MAX_ZOOM) return;
     const newZoom = zoom + 0.1;
     dispatch({
       type: "CHANGE_ZOOM",
@@ -25,12 +27,16 @@ const Zoom: React.FC<ZoomProps> = () => {
   };
 
   const onDecrease = () => {
+    if (zoom <= MIN_ZOOM) return;
     const newZoom = zoom - 0.1;
     dispatch({
       type: "CHANGE_ZOOM",
       payload: newZoom,
     });
   };
+
+  useHotkeys("i", onDecrease, [zoom]);
+  useHotkeys("o", onIncrease, [zoom]);
 
   return (
     <Box
@@ -47,35 +53,40 @@ const Zoom: React.FC<ZoomProps> = () => {
         borderRadius: "8px",
         boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
       }}>
-      <IconButton
-        sx={{
-          "&:hover": {
-            color: color.blue.medium,
-            backgroundColor: color.blue.transparent,
-            borderRadius: "12px",
-          },
-          color: color.black.medium,
-        }}
-        disabled={zoom <= MIN_ZOOM}
-        onClick={onDecrease}>
-        <RemoveIcon />
-      </IconButton>
+      <Tooltip title={"Zoom Out (O)"} placement="top">
+        <IconButton
+          sx={{
+            "&:hover": {
+              color: color.blue.medium,
+              backgroundColor: color.blue.transparent,
+              borderRadius: "12px",
+            },
+            color: color.black.medium,
+          }}
+          disabled={zoom <= MIN_ZOOM}
+          onClick={onDecrease}>
+          <RemoveIcon />
+        </IconButton>
+      </Tooltip>
+
       <span style={{ fontWeight: "bold", paddingLeft: 8, paddingRight: 8 }}>
         {Math.floor(zoom * 100)}%
       </span>
-      <IconButton
-        sx={{
-          "&:hover": {
-            color: color.blue.medium,
-            backgroundColor: color.blue.transparent,
-            borderRadius: "12px",
-          },
-          color: color.black.medium,
-        }}
-        disabled={zoom >= MAX_ZOOM}
-        onClick={onIncrease}>
-        <AddIcon />
-      </IconButton>
+      <Tooltip title={"Zoom In (I)"} placement="top">
+        <IconButton
+          sx={{
+            "&:hover": {
+              color: color.blue.medium,
+              backgroundColor: color.blue.transparent,
+              borderRadius: "12px",
+            },
+            color: color.black.medium,
+          }}
+          disabled={zoom >= MAX_ZOOM}
+          onClick={onIncrease}>
+          <AddIcon />
+        </IconButton>
+      </Tooltip>
     </Box>
   );
 };

@@ -20,6 +20,7 @@ import {
   Borders,
 } from "./StoreProvider";
 import { Rnd } from "react-rnd";
+import { useHotkeys } from "react-hotkeys-hook";
 
 export const useFieldLayer = (
   div: React.MutableRefObject<HTMLDivElement | null>
@@ -260,6 +261,10 @@ const FieldLayer: React.FC<LayerControllerProps> = (props) => {
     );
   });
   const layer = useFieldLayer(container);
+  const dispatch = useDispatch();
+  useHotkeys("s", () => dispatch({ type: "CHANGE_TOOL", payload: "SELECT" }));
+  useHotkeys("c", () => dispatch({ type: "CHANGE_TOOL", payload: "CREATE" }));
+
   return (
     <HandlerLayer
       pdf={pdf}

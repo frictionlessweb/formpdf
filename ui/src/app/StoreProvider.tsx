@@ -443,7 +443,14 @@ const produceWithUndo = (previous: AccessibleForm, producer: Producer) => {
     previous,
     producer
   );
+
   return produce(nextState, (draft) => {
+    // Sometimes an action is dispatched however it doesn't modify the state, example user moved
+    // an annotation and in the same move they put it back in the same place. Or a user just clicks,
+    // on a section slider. This would dispatch a MOVE_SLIDER action however, it doesn't change the
+    // state. In such case, there is no need for undo or redo to log the 0 change. Or else when
+    // user tries undo or redo they won't see any change.
+    if (patches.length === 0) return;
     draft.canRedo = false;
     draft.canUndo = true;
     draft.currentVersion += 1;
