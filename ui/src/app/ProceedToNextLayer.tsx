@@ -37,7 +37,7 @@ const ProceedToNextLayer: React.FC = () => {
     height: pdfHeight,
     annotations,
   };
-  const isLastStep = step === "GROUP_LAYER";
+  const isLastStep = step === "LABEL_LAYER";
 
   const onNext = async () => {
     switch (step) {

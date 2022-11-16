@@ -20,104 +20,30 @@ import {
   Borders,
 } from "./StoreProvider";
 import React from "react";
-import { AllTokens, RelationshipLink } from "./LabelLayer";
 import { useXarrow, Xwrapper } from "react-xarrows";
-
-import color from "../components/color";
 
 const useGroupLayer = (div: React.MutableRefObject<HTMLDivElement | null>) => {
   const attr = useCreateAnnotation(div);
-  const {
-    div: container,
-    creationState,
-    newCreationBounds,
-    resetCreationState,
-    updateCreationState,
-  } = attr;
+  const { div: container, creationState } = attr;
   const dispatch = useDispatch();
-  const { tool, selectedAnnotations, page } = useSelector((state) => {
-    const tool = state.tool;
-    const selectedAnnotations = state.selectedAnnotations;
-    return {
-      tool,
-      selectedAnnotations,
-      page: state.page,
-    };
-  });
-  switch (tool) {
-    case "CREATE": {
-      return {
-        cursor: "crosshair",
-        creationState,
-        container,
-        onClick: NO_OP,
-        onMouseDown: newCreationBounds,
-        onMouseMove: updateCreationState,
-        onMouseLeave: resetCreationState,
-        onMouseUp: () => {
-          // this is step 2, you reach here after CREATE_GROUP_RELATION is run.
-          // in CREATE_GROUP_RELATION reducer tool is set to CREATE and
-          if (!creationState) return;
-          const id = window.crypto.randomUUID();
-          dispatch({
-            type: "CREATE_LABEL",
-            payload: {
-              to: {
-                ui: {
-                  id,
-                  backgroundColor: BackgroundColors["GROUP_LABEL"],
-                  border: Borders["GROUP_LABEL"],
-                  borderRadius: 50,
-                  customTooltip: "",
-                  type: "GROUP_LABEL" as ANNOTATION_TYPE,
-                  page,
-                  corrected: true,
-                },
-                tokens: creationState.tokens,
-              },
-              from: Object.keys(selectedAnnotations),
-            },
-          });
-          resetCreationState();
-        },
-      };
-    }
-    case "SELECT": {
-      return {
-        cursor: "auto",
-        creationState,
-        container,
-        onMouseMove: NO_OP,
-        onMouseUp: NO_OP,
-        onMouseDown: NO_OP,
-        onMouseLeave: NO_OP,
-        onClick: () => {
-          dispatch({ type: "DESELECT_ALL_ANNOTATION" });
-        },
-      };
-    }
-  }
+
+  return {
+    cursor: "auto",
+    creationState,
+    container,
+    onMouseMove: NO_OP,
+    onMouseUp: NO_OP,
+    onMouseDown: NO_OP,
+    onMouseLeave: NO_OP,
+    onClick: () => {
+      dispatch({ type: "DESELECT_ALL_ANNOTATION" });
+    },
+  };
 };
 
 interface HasCreationState {
   creationState: CreationState | null;
 }
-
-const GroupLayerCreation: React.FC<HasCreationState> = (props) => {
-  const { creationState } = props;
-  return (
-    <>
-      <AnnotationBeingCreated
-        creationState={creationState}
-        showTokens={true}
-        onMouseUp={NO_OP}
-        onMouseDown={NO_OP}
-        onMouseMove={NO_OP}
-      />
-      <AllTokens />
-    </>
-  );
-};
 
 const GroupLayerSelectAnnotation: React.FC<AnnotationStatic> = (
   annotationProps
@@ -191,29 +117,6 @@ const GroupLayerSelectAnnotation: React.FC<AnnotationStatic> = (
       }}>
       {isFirstSelection && (
         <GroupLayerActionMenu
-          groupOptions={Object.keys(groupRelations).map((groupId) => {
-            return {
-              label: annotations[labelRelations[groupId]].customTooltip,
-              value: annotations[labelRelations[groupId]].id,
-            };
-          })}
-          currentGroup={"None"}
-          onGroupChange={(value) => {
-            let groupId = "None";
-            Object.keys(labelRelations).forEach((field) => {
-              if (labelRelations[field] === value) {
-                groupId = field;
-              }
-            });
-
-            dispatch({
-              type: "CHANGE_GROUP",
-              payload: {
-                annotationIds: Object.keys(selectedAnnotations),
-                groupId,
-              },
-            });
-          }}
           type={type}
           onDelete={() => {
             if (type === "RADIOBOX" || "CHECKBOX") {
@@ -263,8 +166,7 @@ const GroupLayerSelections = () => {
         return (
           annotation.type === "CHECKBOX" ||
           annotation.type === "RADIOBOX" ||
-          annotation.type === "GROUP" ||
-          annotation.type === "GROUP_LABEL"
+          annotation.type === "GROUP"
         );
       }
     );
@@ -273,15 +175,10 @@ const GroupLayerSelections = () => {
   return (
     <>
       {annotations.map((annotation) => {
-        let hasGroupLabel = false;
-        if (annotation.type === "GROUP") {
-          hasGroupLabel = true;
-        }
         return (
           <React.Fragment key={annotation.id}>
             <Xwrapper>
               <GroupLayerSelectAnnotation {...annotation} />
-              {hasGroupLabel && <RelationshipLink id={annotation.id} />}
             </Xwrapper>
           </React.Fragment>
         );
@@ -291,16 +188,7 @@ const GroupLayerSelections = () => {
 };
 
 const GroupLayerGateway: React.FC<HasCreationState> = (props) => {
-  const { creationState } = props;
-  const tool = useSelector((state) => state.tool);
-  switch (tool) {
-    case "SELECT": {
-      return <GroupLayerSelections />;
-    }
-    case "CREATE": {
-      return <GroupLayerCreation creationState={creationState} />;
-    }
-  }
+  return <GroupLayerSelections />;
 };
 
 const GroupLayer: React.FC<LayerControllerProps> = (props) => {

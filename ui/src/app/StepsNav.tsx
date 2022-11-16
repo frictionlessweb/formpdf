@@ -25,7 +25,7 @@ const useStepsNav = () => {
 const NextStepButton: React.FC = () => {
   const dispatch = useDispatch();
   const step = useSelector((state) => state.step);
-  const isLastStep = step === "GROUP_LAYER";
+  const isLastStep = step === "LABEL_LAYER";
 
   const onNext = () => {
     dispatch({ type: "GOTO_NEXT_STEP" });

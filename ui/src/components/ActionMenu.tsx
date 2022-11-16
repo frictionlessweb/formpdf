@@ -169,17 +169,11 @@ interface GroupLayerActionMenuProps {
   onDelete: () => void;
   onCreateNewGroup: () => void;
   type: string;
-  groupOptions: { label: string; value: string }[];
-  onGroupChange: (value: string) => void;
-  currentGroup: string;
 }
 
 export const GroupLayerActionMenu: React.FC<GroupLayerActionMenuProps> = ({
   onDelete,
   onCreateNewGroup,
-  groupOptions,
-  onGroupChange,
-  currentGroup,
   type,
 }) => {
   return (
@@ -197,18 +191,6 @@ export const GroupLayerActionMenu: React.FC<GroupLayerActionMenuProps> = ({
           Create New Group
         </ActionMenuItem>
       )}
-      <Select
-        label="Move to Group"
-        value={currentGroup}
-        onChange={(e) => onGroupChange(e.target.value as ANNOTATION_TYPE)}
-        css={{ height: "40px" }}>
-        <MenuItem value={"None"}>{"Move To Group..."}</MenuItem>
-        {groupOptions.map((groupOption) => (
-          <MenuItem key={groupOption.value} value={groupOption.value}>
-            {groupOption.label}
-          </MenuItem>
-        ))}
-      </Select>
 
       {["CHECKBOX", "RADIOBOX"].includes(type) && (
         <ActionMenuItem

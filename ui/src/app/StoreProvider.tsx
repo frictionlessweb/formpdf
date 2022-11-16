@@ -124,21 +124,21 @@ export const STEPS: Array<StepDescription> = [
     toolDescription: {},
   },
   {
-    id: "LABEL_LAYER",
-    title: "Labels",
-    description:
-      "Ensure that all form fields have correct labels. If a label is missing or incorrect, select the field and Create/Update label.",
-    toolDescription: {
-      CREATE: "Click and drag with the mouse to select text for the label.",
-    },
-  },
-  {
     id: "GROUP_LAYER",
     title: "Groups",
     description:
       "Ensure that all checkboxes and radioboxes are properly grouped, and each group has an appropriate label. If not, use Shift + Click to select multiple field and use the Create New Group option.",
     toolDescription: {
       CREATE: "Click and drag with the mouse to select text for the label",
+    },
+  },
+  {
+    id: "LABEL_LAYER",
+    title: "Labels",
+    description:
+      "Ensure that all form fields have correct labels. If a label is missing or incorrect, select the field and Create/Update label.",
+    toolDescription: {
+      CREATE: "Click and drag with the mouse to select text for the label.",
     },
   },
 ];
@@ -992,7 +992,7 @@ export const reduceAccessibleForm = (
         // 3. Set group annotation as first element in the selected fields.
         draft.selectedAnnotations = { [action.payload.from.ui.id]: true };
 
-        draft.tool = "CREATE";
+        // draft.tool = "CREATE";
         return;
       });
     }
