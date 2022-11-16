@@ -12,6 +12,9 @@ import color from "./components/color";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import { FormControl } from "@mui/material";
+import Fab from "@mui/material/Fab";
+import ClearIcon from "@mui/icons-material/Clear";
+import { useSelector, useDispatch } from "./app/StoreProvider";
 
 const Logo = () => {
   return (
@@ -51,6 +54,35 @@ const FormSelect = () => {
   );
 };
 
+const ExitButtonForCreateTool = () => {
+  const [step, tool] = useSelector((state) => [state.step, state.tool]);
+  const dispatch = useDispatch();
+  const showCancelButton = step === "LABEL_LAYER" && tool === "CREATE";
+  // TODO : We need to think about how to handle GROPU_LAYER here as when
+  // user moves CREATE tool a gropu is already created so we need to undo that as well.
+  // (step === "LABEL_LAYER" || step === "GROUP_LAYER") && tool === "CREATE";
+  return (
+    <>
+      {showCancelButton && (
+        <Fab
+          sx={{
+            position: "absolute",
+            top: "8rem",
+            left: "50%",
+          }}
+          size="medium"
+          color="primary"
+          aria-label="cancel"
+          onClick={() => {
+            dispatch({ type: "CHANGE_TOOL", payload: "SELECT" });
+          }}>
+          <ClearIcon />
+        </Fab>
+      )}
+    </>
+  );
+};
+
 const App = () => {
   useSaveState();
   const pdfUrl = getPdfUrl();
@@ -68,6 +100,7 @@ const App = () => {
       <Box display="flex" width="100%" justifyContent="center" marginTop="8px">
         <PDF url={pdfUrl} />
       </Box>
+      <ExitButtonForCreateTool />
       <UndoAndRedo />
       <Zoom />
       <Logo />
