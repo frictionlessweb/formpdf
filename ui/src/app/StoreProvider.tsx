@@ -601,6 +601,7 @@ export const reduceAccessibleForm = (
     case "CREATE_ANNOTATION": {
       return produceWithUndo(previous, (draft) => {
         draft.annotations[action.payload.id] = action.payload;
+        draft.tool = "SELECT";
         return;
       });
     }
