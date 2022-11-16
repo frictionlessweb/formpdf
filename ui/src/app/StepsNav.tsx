@@ -3,10 +3,10 @@ import React from "react";
 import Steps from "./Steps";
 import Box, { BoxProps } from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import { useSelector, useDispatch, Step } from "./StoreProvider";
+import { useSelector, useDispatch, Step, STEPS } from "./StoreProvider";
 import color from "../components/color";
-import { STEPS } from "./StoreProvider";
 import { useHotkeys } from "react-hotkeys-hook";
+import LinearProgress from "@mui/material/LinearProgress";
 
 const useStepsNav = () => {
   const { activeStep, activeTool } = useSelector((state) => {
@@ -49,6 +49,67 @@ const NextStepButton: React.FC = () => {
       variant="contained">
       {isLastStep ? "Next Section" : "Next Step"}
     </Button>
+  );
+};
+
+const Progress = () => {
+  const { sections, currentSection, currentStep, pdfHeight, numPages } =
+    useSelector((state) => ({
+      sections: state.sections,
+      currentSection: state.currentSection,
+      currentStep: state.step,
+      pdfHeight: state.pdfHeight,
+      numPages: state.tokens.length,
+    }));
+  const prevSectionY =
+    currentSection === 0 ? 0 : sections[currentSection - 1].y;
+  const totalHeight = pdfHeight * numPages;
+
+  const currentSectionHeight =
+    currentSection === 0
+      ? sections[currentSection].y
+      : sections[currentSection].y - sections[currentSection - 1].y;
+
+  const currentStepIdx = STEPS.findIndex((aStep) => aStep.id === currentStep);
+
+  const progressValue =
+    (prevSectionY / totalHeight +
+      (currentSectionHeight / totalHeight) *
+        ((currentStepIdx + 1) / STEPS.length)) *
+    100;
+  return (
+    <div
+      style={{
+        fontSize: "0.9rem",
+      }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+        }}>
+        <span>Progress</span>
+        <span>{Math.round(progressValue)}%</span>
+      </div>
+      <div>
+        <LinearProgress
+          variant="determinate"
+          color="success"
+          sx={{
+            backgroundColor: color.white.medium,
+            marginTop: "0.3rem",
+            marginBottom: "0.3rem",
+          }}
+          value={progressValue}
+        />
+      </div>
+      <div
+        style={{
+          color: color.black.medium,
+          opacity: 0.8,
+        }}>
+        You are working in section {currentSection + 1}
+      </div>
+    </div>
   );
 };
 
@@ -114,6 +175,15 @@ const StepsNav: React.FC<BoxProps> = (props) => {
         <PrevStepButton />
         <Steps onStepChange={goToStep} stepIndex={stepIndex} />
         <NextStepButton />
+        <div
+          style={{
+            width: "15rem",
+            position: "absolute",
+            right: "2rem",
+            top: "1.2rem",
+          }}>
+          <Progress />
+        </div>
       </div>
       <div
         css={{
