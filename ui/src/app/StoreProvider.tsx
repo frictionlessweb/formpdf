@@ -472,6 +472,7 @@ export const reduceAccessibleForm = (
   switch (action.type) {
     case "GOTO_STEP": {
       return produceWithUndo(previous, (draft) => {
+        draft.tool = "SELECT";
         draft.step = action.payload;
       });
     }
