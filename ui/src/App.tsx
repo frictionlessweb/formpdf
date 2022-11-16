@@ -4,7 +4,6 @@ import StepsNav from "./app/StepsNav";
 import PDF from "./app/PDF";
 import Zoom from "./app/Zoom";
 import ToolSelect from "./app/ToolSelect";
-import UndoAndRedo from "./components/UndoAndRedo";
 import ResizeDialog from "./app/ResizeModal";
 import { useSaveState, getPdfUrl } from "./app/utils";
 import ProceedToNextLayer from "./app/ProceedToNextLayer";
@@ -30,7 +29,7 @@ const FormSelect = () => {
   const currentForm =
     window.location.hash === "" ? "1" : window.location.hash.substring(1);
   return (
-    <Box position="fixed" right="24px" top="24px">
+    <Box position="fixed" left="24px" top="24px" zIndex={110}>
       <FormControl size="small">
         <Select
           value={currentForm}
@@ -43,11 +42,11 @@ const FormSelect = () => {
           }}
           displayEmpty
           inputProps={{ "aria-label": "Without label" }}>
-          <MenuItem value={1}>Form 1</MenuItem>
-          <MenuItem value={2}>Form 2</MenuItem>
-          <MenuItem value={3}>Form 3</MenuItem>
-          <MenuItem value={4}>Form 4</MenuItem>
-          <MenuItem value={5}>Form 5</MenuItem>
+          <MenuItem value={1}>1</MenuItem>
+          <MenuItem value={2}>2</MenuItem>
+          <MenuItem value={3}>3</MenuItem>
+          <MenuItem value={4}>4</MenuItem>
+          <MenuItem value={5}>5</MenuItem>
         </Select>
       </FormControl>
     </Box>
@@ -89,23 +88,24 @@ const App = () => {
   return (
     <Box
       width="100%"
+      height="100vh"
       display="flex"
       flexDirection="column"
       alignItems="center"
-      paddingX="24px"
-      paddingY="24px"
-      sx={{ backgroundColor: color.gray.line }}>
-      <StepsNav paddingBottom="24px" />
+      sx={{ backgroundColor: color.gray.dark }}>
+      <StepsNav />
       <ToolSelect />
-      <Box display="flex" width="100%" justifyContent="center" marginTop="8px">
+      <Box
+        display="flex"
+        justifyContent="flex-start"
+        marginTop="0.4rem"
+        marginLeft="8rem">
         <PDF url={pdfUrl} />
       </Box>
       <ExitButtonForCreateTool />
-      <UndoAndRedo />
       <Zoom />
-      <Logo />
+      {/* <Logo /> */}
       <FormSelect />
-      <ProceedToNextLayer />
       <ResizeDialog />
     </Box>
   );

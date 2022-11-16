@@ -38,18 +38,12 @@ const UndoAndRedo: React.FC<BoxProps> = (props) => {
   return (
     <Box
       sx={{
-        position: "fixed",
-        left: 24,
-        bottom: 24,
-        backgroundColor: "white",
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between",
         alignItems: "center",
         padding: "8px",
         zIndex: 100,
-        borderRadius: "8px",
-        boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
       }}>
       <Tooltip title={"Undo (U)"} placement="right">
         {/* Span around IconButton is a workaround for https://mui.com/material-ui/react-tooltip/#disabled-elements */}

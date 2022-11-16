@@ -317,7 +317,8 @@ export type AccessibleFormAction =
     }
   | { type: "SET_CURRENT_SECTION"; payload: number }
   | { type: "GOTO_NEXT_STEP" }
-  | { type: "GOTO_PREVIOUS_STEP"; payload: Step }
+  | { type: "GOTO_PREVIOUS_STEP" }
+  | { type: "GOTO_STEP"; payload: Step }
   | { type: "CHANGE_ZOOM"; payload: number }
   | { type: "CHANGE_PAGE"; payload: number }
   | { type: "CHANGE_TOOL"; payload: TOOL }
@@ -469,27 +470,60 @@ export const reduceAccessibleForm = (
 ): AccessibleForm => {
   if (previous === undefined) return DEFAULT_ACCESSIBLE_FORM;
   switch (action.type) {
+    case "GOTO_STEP": {
+      return produceWithUndo(previous, (draft) => {
+        draft.step = action.payload;
+      });
+    }
     case "GOTO_PREVIOUS_STEP": {
       return produceWithUndo(previous, (draft) => {
-        const currentStep = STEPS.findIndex((aStep) => aStep.id === draft.step);
-        if (currentStep === -1) return;
-        const previousStep = STEPS.findIndex(
-          (aStep) => aStep.id === action.payload
-        );
-        if (previousStep === -1) return;
-        if (previousStep < currentStep) {
-          draft.step = action.payload;
+        draft.tool = "SELECT";
+        const idx = STEPS.findIndex((aStep) => aStep.id === draft.step);
+
+        const isFirstStep = idx === 0;
+
+        if (isFirstStep && draft.currentSection === 0) return;
+
+        // when on first step
+        if (isFirstStep && draft.currentSection > 0) {
+          draft.currentSection -= 1;
+          draft.step = STEPS[STEPS.length - 1].id;
         }
+
+        //normal case
+        const prevStep = STEPS[idx - 1]?.id;
+        if (prevStep === undefined) return;
+        draft.step = prevStep;
       });
     }
     case "GOTO_NEXT_STEP": {
       return produceWithUndo(previous, (draft) => {
+        draft.tool = "SELECT";
         const idx = STEPS.findIndex((aStep) => aStep.id === draft.step);
-        if (idx === -1) return;
+
+        const isLastStep = idx === STEPS.length - 1;
+        // when on last step and section exists
+        if (isLastStep && draft.currentSection < draft.sections.length - 1) {
+          draft.currentSection += 1;
+          draft.step = STEPS[0].id;
+          return;
+        }
+
+        // when on last step and section needs to be created
+        if (isLastStep && draft.currentSection === draft.sections.length - 1) {
+          const currentSection = draft.currentSection;
+          draft.sections.push({
+            y: draft.sections[currentSection].y + 300,
+          });
+          draft.currentSection = currentSection + 1;
+          draft.step = STEPS[0].id;
+          return;
+        }
+
+        // normal case
         const nextStep = STEPS[idx + 1]?.id;
         if (nextStep === undefined) return;
         draft.step = nextStep;
-        draft.tool = "SELECT";
       });
     }
     case "SHOW_LOADING_SCREEN": {

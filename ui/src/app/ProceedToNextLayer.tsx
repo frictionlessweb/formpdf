@@ -1,3 +1,4 @@
+// Old file
 import React from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -72,31 +73,18 @@ const ProceedToNextLayer: React.FC = () => {
   useHotkeys("n", onNext, [step]);
 
   return (
-    <Box
-      position="fixed"
-      bottom="24px"
-      display="flex"
-      zIndex={100}
-      flexDirection="column"
-      paddingTop="20px">
-      <Button
-        sx={{
-          borderRadius: "50px",
-          textTransform: "none",
-          fontWeight: "800",
-          paddingLeft: "48px",
-          paddingRight: "48px",
-          backgroundColor: color.blue.medium,
-          border: "2px solid white",
-          boxShadow: 6,
-        }}
-        onClick={onNext}
-        variant="contained">
-        {isLastStep
-          ? "Proceed to Next Section (N)"
-          : "Proceed to Next Step (N)"}
-      </Button>
-    </Box>
+    <Button
+      sx={{
+        borderRadius: "50px",
+        textTransform: "none",
+        fontWeight: "800",
+        backgroundColor: color.blue.medium,
+        zIndex: 100,
+      }}
+      onClick={onNext}
+      variant="contained">
+      {isLastStep ? "Next Section (N)" : "Next Step (N)"}
+    </Button>
   );
 };
 

@@ -11,6 +11,7 @@ import color from "../components/color";
 import NearMeIcon from "@mui/icons-material/NearMe";
 import FormatShapesIcon from "@mui/icons-material/FormatShapes";
 import PlaylistRemoveIcon from "@mui/icons-material/PlaylistRemove";
+import UndoAndRedo from "../components/UndoAndRedo";
 
 const CursorIcon = () => <NearMeIcon sx={{ transform: "scaleX(-1)" }} />;
 
@@ -117,21 +118,30 @@ const ToolSelect: React.FC<BoxProps> = (props) => {
   return (
     <Box
       sx={{
-        position: "fixed",
-        left: 24,
-        top: "25%",
-        backgroundColor: "white",
+        position: "absolute",
+        left: 0,
+        top: 0,
+        height: "100vh",
+        backgroundColor: color.gray.light,
+        borderRight: `2px solid ${color.gray.line}`,
+        width: "3.5rem",
+        paddingTop: "9rem",
+        zIndex: 10,
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between",
-        alignItems: "center",
-        padding: "8px",
-        zIndex: 100,
-        borderRadius: "8px",
-        boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-      }}
-      {...props}>
-      {tools}
+      }}>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "flex-start",
+          alignItems: "center",
+        }}
+        {...props}>
+        {tools}
+      </Box>
+      <UndoAndRedo />
     </Box>
   );
 };

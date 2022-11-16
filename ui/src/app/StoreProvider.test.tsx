@@ -707,16 +707,14 @@ describe("Our form reducer", () => {
     const next = reduce(init, { type: "GOTO_NEXT_STEP" });
     const prev = reduce(next, {
       type: "GOTO_PREVIOUS_STEP",
-      payload: "SECTION_LAYER",
     });
-    expect(prev.step).toEqual("SECTION_LAYER");
+    expect(prev.step).toEqual("GROUP_LAYER");
   });
   test("We can't skip ahead with goto previous step", () => {
     const next = reduce(init, { type: "GOTO_NEXT_STEP" });
     const prev = reduce(next, {
       type: "GOTO_PREVIOUS_STEP",
-      payload: "GROUP_LAYER",
     });
-    expect(prev.step).toEqual("FIELD_LAYER");
+    expect(prev.step).toEqual("LABEL_LAYER");
   });
 });

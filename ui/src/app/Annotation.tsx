@@ -10,7 +10,7 @@ import {
 } from "./StoreProvider";
 import Chip from "@mui/material/Chip";
 import { Rnd } from "react-rnd";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import EditIcon from "@mui/icons-material/Edit";
 
 export type TranslucentBoxProps = React.DetailedHTMLProps<
   React.HTMLAttributes<HTMLDivElement>,
@@ -126,8 +126,10 @@ export const ResizeHandle: React.FC<ResizeHandleProps> = (props) => {
             zIndex: 100,
           }}>
           <Chip
-            sx={{ margin: "10px" }}
-            icon={<CheckCircleIcon />}
+            sx={{
+              margin: "2rem",
+            }}
+            icon={<EditIcon />}
             variant="filled"
             label="Edit this section"
             onClick={() =>

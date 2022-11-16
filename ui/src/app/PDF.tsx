@@ -261,8 +261,8 @@ const PDFUI: React.FC<PDFUIProps> = (props) => {
         overflow: "auto",
         display: "flex",
         flexDirection: "column",
-        width: "calc(100vw - 120px - 120px + 16px)",
-        height: "calc(100vh - 160px)",
+        width: "calc(100vw - 8rem)",
+        height: "calc(100vh - 8.5rem)",
         position: "relative",
       }}>
       <>
