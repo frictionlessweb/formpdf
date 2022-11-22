@@ -92,7 +92,7 @@ const App = () => {
       display="flex"
       flexDirection="column"
       alignItems="center"
-      sx={{ backgroundColor: color.gray.dark }}>
+      sx={{ backgroundColor: color.gray.dark, userSelect: "none" }}>
       <StepsNav />
       <ToolSelect />
       <Box
