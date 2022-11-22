@@ -381,7 +381,7 @@ export type AccessibleFormAction =
       type: "CREATE_LABEL";
       payload: {
         to: {
-          ui: AnnotationUIState;
+          ui: Omit<AnnotationUIState, "customTooltip">;
           tokens: Bounds[];
         };
         from: Array<AnnotationId>;
@@ -991,8 +991,6 @@ export const reduceAccessibleForm = (
         draft.groupRelations[action.payload.from.ui.id] = action.payload.to;
         // 3. Set group annotation as first element in the selected fields.
         draft.selectedAnnotations = { [action.payload.from.ui.id]: true };
-
-        // draft.tool = "CREATE";
         return;
       });
     }

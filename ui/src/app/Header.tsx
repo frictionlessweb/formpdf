@@ -7,6 +7,11 @@ import { useSelector, useDispatch, Step, STEPS } from "./StoreProvider";
 import color from "../components/color";
 import { useHotkeys } from "react-hotkeys-hook";
 import LinearProgress from "@mui/material/LinearProgress";
+import MenuItem from "@mui/material/MenuItem";
+import Select from "@mui/material/Select";
+import { FormControl } from "@mui/material";
+import Fab from "@mui/material/Fab";
+import ClearIcon from "@mui/icons-material/Clear";
 
 const useStepsNav = () => {
   const { activeStep, activeTool } = useSelector((state) => {
@@ -52,6 +57,40 @@ const NextStepButton: React.FC = () => {
   );
 };
 
+const PrevStepButton: React.FC = () => {
+  const dispatch = useDispatch();
+  const [step, currentSection] = useSelector((state) => [
+    state.step,
+    state.currentSection,
+  ]);
+  const isFirstStep = step === "SECTION_LAYER";
+  const isFirstSection = currentSection === 0;
+  const onPrev = () => {
+    dispatch({
+      type: "GOTO_PREVIOUS_STEP",
+    });
+  };
+
+  useHotkeys("p", onPrev, [step]);
+
+  return (
+    <Button
+      sx={{
+        borderRadius: "50px",
+        textTransform: "none",
+        fontWeight: "800",
+        width: "6.5rem",
+      }}
+      size="small"
+      disableElevation
+      disabled={isFirstStep && isFirstSection}
+      onClick={onPrev}
+      variant="outlined">
+      {isFirstStep ? "Prev Section" : "Prev Step"}
+    </Button>
+  );
+};
+
 const Progress = () => {
   const { sections, currentSection, currentStep, pdfHeight, numPages } =
     useSelector((state) => ({
@@ -61,14 +100,13 @@ const Progress = () => {
       pdfHeight: state.pdfHeight,
       numPages: state.tokens.length,
     }));
+
   const prevSectionY =
     currentSection === 0 ? 0 : sections[currentSection - 1].y;
+
   const totalHeight = pdfHeight * numPages;
 
-  const currentSectionHeight =
-    currentSection === 0
-      ? sections[currentSection].y
-      : sections[currentSection].y - sections[currentSection - 1].y;
+  const currentSectionHeight = sections[currentSection].y - prevSectionY;
 
   const currentStepIdx = STEPS.findIndex((aStep) => aStep.id === currentStep);
 
@@ -113,41 +151,7 @@ const Progress = () => {
   );
 };
 
-const PrevStepButton: React.FC = () => {
-  const dispatch = useDispatch();
-  const [step, currentSection] = useSelector((state) => [
-    state.step,
-    state.currentSection,
-  ]);
-  const isFirstStep = step === "SECTION_LAYER";
-  const isFirstSection = currentSection === 0;
-  const onPrev = () => {
-    dispatch({
-      type: "GOTO_PREVIOUS_STEP",
-    });
-  };
-
-  useHotkeys("p", onPrev, [step]);
-
-  return (
-    <Button
-      sx={{
-        borderRadius: "50px",
-        textTransform: "none",
-        fontWeight: "800",
-        width: "6.5rem",
-      }}
-      size="small"
-      disableElevation
-      disabled={isFirstStep && isFirstSection}
-      onClick={onPrev}
-      variant="outlined">
-      {isFirstStep ? "Prev Section" : "Prev Step"}
-    </Button>
-  );
-};
-
-const StepsNav: React.FC<BoxProps> = (props) => {
+const Header: React.FC<BoxProps> = (props) => {
   const { activeStep, goToStep, activeTool } = useStepsNav();
   const stepIndex = STEPS.findIndex((step) => step.id === activeStep);
   return (
@@ -175,6 +179,7 @@ const StepsNav: React.FC<BoxProps> = (props) => {
         <PrevStepButton />
         <Steps onStepChange={goToStep} stepIndex={stepIndex} />
         <NextStepButton />
+
         <div
           style={{
             width: "15rem",
@@ -185,6 +190,7 @@ const StepsNav: React.FC<BoxProps> = (props) => {
           <Progress />
         </div>
       </div>
+
       <div
         css={{
           textAlign: "center",
@@ -203,4 +209,63 @@ const StepsNav: React.FC<BoxProps> = (props) => {
   );
 };
 
-export default StepsNav;
+const FormSelect: React.FC = () => {
+  // we cannot use useState here as we are reloading the page and clearing state
+  // and all information will be lost this way.
+  const currentForm =
+    window.location.hash === "" ? "1" : window.location.hash.substring(1);
+  return (
+    <Box position="fixed" left="24px" top="24px" zIndex={110}>
+      <FormControl size="small">
+        <Select
+          value={currentForm}
+          onChange={(e) => {
+            window.location.href =
+              window.location.origin + "#" + e.target.value;
+            // we clear the current state present in local storage, when page is reloaded new state is loaded automatically from the URL.
+            window.localStorage.clear();
+            window.location.reload();
+          }}
+          displayEmpty
+          inputProps={{ "aria-label": "Without label" }}>
+          <MenuItem value={1}>1</MenuItem>
+          <MenuItem value={2}>2</MenuItem>
+          <MenuItem value={3}>3</MenuItem>
+          <MenuItem value={4}>4</MenuItem>
+          <MenuItem value={5}>5</MenuItem>
+        </Select>
+      </FormControl>
+    </Box>
+  );
+};
+
+const ExitButtonForCreateTool: React.FC = () => {
+  const [step, tool] = useSelector((state) => [state.step, state.tool]);
+  const dispatch = useDispatch();
+  const showCancelButton = step === "LABEL_LAYER" && tool === "CREATE";
+  // TODO : We need to think about how to handle GROPU_LAYER here as when
+  // user moves CREATE tool a gropu is already created so we need to undo that as well.
+  // (step === "LABEL_LAYER" || step === "GROUP_LAYER") && tool === "CREATE";
+  return (
+    <>
+      {showCancelButton && (
+        <Fab
+          sx={{
+            position: "absolute",
+            top: "8rem",
+            left: "50%",
+          }}
+          size="medium"
+          color="primary"
+          aria-label="cancel"
+          onClick={() => {
+            dispatch({ type: "CHANGE_TOOL", payload: "SELECT" });
+          }}>
+          <ClearIcon />
+        </Fab>
+      )}
+    </>
+  );
+};
+
+export { Header, ExitButtonForCreateTool, FormSelect };

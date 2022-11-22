@@ -11,6 +11,10 @@ import { useHotkeys } from "react-hotkeys-hook";
 const MIN_ZOOM = 0.5;
 const MAX_ZOOM = 1.5;
 
+// floating point arithmetic created zoom level such as 0.70000000000001, so we
+// started using predefined values.
+const ZOOM_LEVELS = [0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4, 1.5];
+
 interface ZoomProps {}
 
 const Zoom: React.FC<ZoomProps> = () => {
@@ -19,19 +23,19 @@ const Zoom: React.FC<ZoomProps> = () => {
 
   const onIncrease = () => {
     if (zoom >= MAX_ZOOM) return;
-    const newZoom = zoom + 0.1;
+    const currentZoomIdx = ZOOM_LEVELS.findIndex((z) => z === zoom);
     dispatch({
       type: "CHANGE_ZOOM",
-      payload: newZoom,
+      payload: ZOOM_LEVELS[currentZoomIdx + 1],
     });
   };
 
   const onDecrease = () => {
     if (zoom <= MIN_ZOOM) return;
-    const newZoom = zoom - 0.1;
+    const currentZoomIdx = ZOOM_LEVELS.findIndex((z) => z === zoom);
     dispatch({
       type: "CHANGE_ZOOM",
-      payload: newZoom,
+      payload: ZOOM_LEVELS[currentZoomIdx - 1],
     });
   };
 
