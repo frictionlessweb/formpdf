@@ -354,13 +354,21 @@ const GroupAndField: React.FC<AnnotationStatic> = (props) => {
       groupIdForCurrentAnnotation = groupId;
     }
   });
+  let groupLabel = "";
 
-  const tooltipPreview =
-    (groupIdForCurrentAnnotation
+  if (groupIdForCurrentAnnotation) {
+    const isGroupLabeled = Boolean(labelRelations[groupIdForCurrentAnnotation]);
+    groupLabel = isGroupLabeled
       ? annotations[labelRelations[groupIdForCurrentAnnotation]].customTooltip
-      : "") +
-    (hasRelation ? annotations[labelRelations[id]].customTooltip : "") +
-    (customTooltip ? customTooltip : "");
+      : "";
+  }
+
+  const fieldLabel = hasRelation
+    ? annotations[labelRelations[id]].customTooltip
+    : "";
+  const customLabel = customTooltip ?? "";
+
+  const tooltipPreview = groupLabel + fieldLabel + customLabel;
 
   return (
     <TranslucentBox
