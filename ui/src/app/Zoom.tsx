@@ -91,7 +91,6 @@ const FloatingDiv: React.FC<{
   position: React.CSSProperties;
 }> = (props) => {
   const { children, position } = props;
-  console.log(props);
   return (
     <Box
       sx={{

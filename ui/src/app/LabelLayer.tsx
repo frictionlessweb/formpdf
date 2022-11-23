@@ -379,60 +379,65 @@ const GroupAndField: React.FC<AnnotationStatic> = (props) => {
   const tooltipPreview = groupLabel + fieldLabel + customLabel;
 
   return (
-    <TranslucentBox
-      id={id}
-      css={{
-        cursor: "pointer",
-        ...css,
-        border: isSelected ? "3px solid black" : css.border,
-        zIndex: isSelected ? 100 : 0,
-      }}
-      onClick={(e: React.MouseEvent<HTMLElement>) => {
-        e.stopPropagation();
-        const shiftNotPressed = !e.shiftKey;
-        if (shiftNotPressed) {
-          dispatch({ type: "DESELECT_ALL_ANNOTATION" });
-        }
-        if (isSelected) {
-          dispatch({
-            type: "DESELECT_ANNOTATION",
-            payload: id,
-          });
-        } else {
-          dispatch({
-            type: "SELECT_ANNOTATION",
-            payload: id,
-          });
-        }
-      }}>
-      {isFirstSelection && (
-        <LabelLayerActionMenu
-          showDelete={showDelete}
-          showCreateOrUpdateLabel={showCreateOrUpdateLabel}
-          createOrUpdateLabelText={createOrUpdateLabelText}
-          // Only shown for single selection.
-          showAdditionalTooltip={showAdditionalTooltip}
-          customTooltip={customTooltip}
-          onCustomTooltipChange={handleCustomTooltipChange}
-          onDelete={handleDelete}
-          onUpdateLabel={handleUpdateLabel}
-        />
-      )}
+    <>
       {previewTooltips && tooltipPreview !== "" && (
         <span
           style={{
-            fontSize: `${1.2 * zoom}rem`,
+            position: "absolute",
+            top: css.top,
+            left: css.left,
+            fontSize: `${0.8 * zoom}rem`,
             backgroundColor: color.blue.dark,
             color: "white",
             borderRadius: "0.4rem",
             padding: "0.2rem",
             whiteSpace: "nowrap",
-            zIndex: 100000,
+            zIndex: 200,
           }}>
           {tooltipPreview}
         </span>
       )}
-    </TranslucentBox>
+      <TranslucentBox
+        id={id}
+        css={{
+          cursor: "pointer",
+          ...css,
+          border: isSelected ? "3px solid black" : css.border,
+          zIndex: isSelected ? 100 : 0,
+        }}
+        onClick={(e: React.MouseEvent<HTMLElement>) => {
+          e.stopPropagation();
+          const shiftNotPressed = !e.shiftKey;
+          if (shiftNotPressed) {
+            dispatch({ type: "DESELECT_ALL_ANNOTATION" });
+          }
+          if (isSelected) {
+            dispatch({
+              type: "DESELECT_ANNOTATION",
+              payload: id,
+            });
+          } else {
+            dispatch({
+              type: "SELECT_ANNOTATION",
+              payload: id,
+            });
+          }
+        }}>
+        {isFirstSelection && (
+          <LabelLayerActionMenu
+            showDelete={showDelete}
+            showCreateOrUpdateLabel={showCreateOrUpdateLabel}
+            createOrUpdateLabelText={createOrUpdateLabelText}
+            // Only shown for single selection.
+            showAdditionalTooltip={showAdditionalTooltip}
+            customTooltip={customTooltip}
+            onCustomTooltipChange={handleCustomTooltipChange}
+            onDelete={handleDelete}
+            onUpdateLabel={handleUpdateLabel}
+          />
+        )}
+      </TranslucentBox>
+    </>
   );
 };
 
