@@ -1,8 +1,13 @@
 /** @jsxImportSource @emotion/react */
 import Box from "@mui/material/Box";
-import { FormSelect, ExitButtonForCreateTool, Header } from "./app/Header";
+import {
+  FormSelect,
+  ExitButtonForCreateTool,
+  Header,
+  PreviewTooltipCheckbox,
+} from "./app/Header";
 import PDF from "./app/PDF";
-import Zoom from "./app/Zoom";
+import { Zoom } from "./app/Zoom";
 import ToolSelect from "./app/ToolSelect";
 import ResizeDialog from "./app/ResizeModal";
 import { useSaveState, getPdfUrl } from "./app/utils";
@@ -30,6 +35,7 @@ const App = () => {
       </Box>
       <ExitButtonForCreateTool />
       <Zoom />
+      <PreviewTooltipCheckbox />
       <FormSelect />
       <ResizeDialog />
     </Box>

@@ -203,13 +203,21 @@ const Label: React.FC<AnnotationStatic> = (props) => {
 };
 
 const GroupAndField: React.FC<AnnotationStatic> = (props) => {
-  const [selectedAnnotations, labelRelations, annotations, groupRelations] =
-    useSelector((state) => [
-      state.selectedAnnotations,
-      state.labelRelations,
-      state.annotations,
-      state.groupRelations,
-    ]);
+  const [
+    selectedAnnotations,
+    labelRelations,
+    annotations,
+    groupRelations,
+    previewTooltips,
+    zoom,
+  ] = useSelector((state) => [
+    state.selectedAnnotations,
+    state.labelRelations,
+    state.annotations,
+    state.groupRelations,
+    state.previewTooltips,
+    state.zoom,
+  ]);
   const dispatch = useDispatch();
   const { id, type, children, customTooltip, ...cssProps } = props;
   const css = {
@@ -410,7 +418,20 @@ const GroupAndField: React.FC<AnnotationStatic> = (props) => {
           onUpdateLabel={handleUpdateLabel}
         />
       )}
-      {tooltipPreview}
+      {previewTooltips && tooltipPreview !== "" && (
+        <span
+          style={{
+            fontSize: `${1.2 * zoom}rem`,
+            backgroundColor: color.blue.dark,
+            color: "white",
+            borderRadius: "0.4rem",
+            padding: "0.2rem",
+            whiteSpace: "nowrap",
+            zIndex: 100000,
+          }}>
+          {tooltipPreview}
+        </span>
+      )}
     </TranslucentBox>
   );
 };

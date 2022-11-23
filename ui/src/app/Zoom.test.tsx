@@ -1,4 +1,4 @@
-import Zoom from "./Zoom";
+import { Zoom } from "./Zoom";
 import { render } from "../testUtils";
 
 describe("Our Zoom component", () => {

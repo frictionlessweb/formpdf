@@ -223,6 +223,8 @@ export interface AccessibleForm {
   showResizeModal: boolean;
   // Should we display a generic screen instead of the pdf?
   showLoadingScreen: boolean;
+  // Should we preview tooltips in label layer?
+  previewTooltips: boolean;
 }
 
 export const ANNOTATION_COLOR = color.orange.transparent;
@@ -302,6 +304,7 @@ export const DEFAULT_ACCESSIBLE_FORM: AccessibleForm = {
   groupRelations: {},
   haveScaled: false,
   showLoadingScreen: false,
+  previewTooltips: true,
 };
 
 // AccessibleFormAction describes every important possible action that a user
@@ -316,6 +319,7 @@ export type AccessibleFormAction =
       };
     }
   | { type: "SET_CURRENT_SECTION"; payload: number }
+  | { type: "TOGGLE_PREVIEW_TOOLTIPS" }
   | { type: "GOTO_NEXT_STEP" }
   | { type: "GOTO_PREVIOUS_STEP" }
   | { type: "GOTO_STEP"; payload: Step }
@@ -470,6 +474,11 @@ export const reduceAccessibleForm = (
 ): AccessibleForm => {
   if (previous === undefined) return DEFAULT_ACCESSIBLE_FORM;
   switch (action.type) {
+    case "TOGGLE_PREVIEW_TOOLTIPS": {
+      return produceWithUndo(previous, (draft) => {
+        draft.previewTooltips = !draft.previewTooltips;
+      });
+    }
     case "GOTO_STEP": {
       return produceWithUndo(previous, (draft) => {
         draft.tool = "SELECT";

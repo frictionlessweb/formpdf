@@ -43,19 +43,10 @@ const Zoom: React.FC<ZoomProps> = () => {
   useHotkeys("o", onIncrease, [zoom]);
 
   return (
-    <Box
-      sx={{
-        position: "fixed",
+    <FloatingDiv
+      position={{
         right: 24,
         bottom: 24,
-        backgroundColor: "white",
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-        padding: "8px",
-        zIndex: 100,
-        borderRadius: "8px",
-        boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
       }}>
       <Tooltip title={"Zoom Out (O)"} placement="top">
         <IconButton
@@ -91,8 +82,33 @@ const Zoom: React.FC<ZoomProps> = () => {
           <AddIcon />
         </IconButton>
       </Tooltip>
+    </FloatingDiv>
+  );
+};
+
+const FloatingDiv: React.FC<{
+  children?: React.ReactNode;
+  position: React.CSSProperties;
+}> = (props) => {
+  const { children, position } = props;
+  console.log(props);
+  return (
+    <Box
+      sx={{
+        position: "fixed",
+        ...position,
+        backgroundColor: "white",
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        padding: "8px",
+        zIndex: 100,
+        borderRadius: "8px",
+        boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
+      }}>
+      {children}
     </Box>
   );
 };
 
-export default Zoom;
+export { FloatingDiv, Zoom };

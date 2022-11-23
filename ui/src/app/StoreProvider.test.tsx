@@ -369,6 +369,7 @@ describe("Our form reducer", () => {
       pdfHeight: 2200,
       pdfWidth: 1700,
       currentSection: 0,
+      previewTooltips: true,
       sections: [{ y: 0 }] as Section[],
     } as const;
     const res = reduce(init, { type: "HYDRATE_STORE", payload });

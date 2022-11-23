@@ -9,9 +9,10 @@ import { useHotkeys } from "react-hotkeys-hook";
 import LinearProgress from "@mui/material/LinearProgress";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
-import { FormControl } from "@mui/material";
+import { Checkbox, FormControl, FormControlLabel } from "@mui/material";
 import Fab from "@mui/material/Fab";
 import ClearIcon from "@mui/icons-material/Clear";
+import { FloatingDiv } from "./Zoom";
 
 const useStepsNav = () => {
   const { activeStep, activeTool } = useSelector((state) => {
@@ -268,4 +269,40 @@ const ExitButtonForCreateTool: React.FC = () => {
   );
 };
 
-export { Header, ExitButtonForCreateTool, FormSelect };
+const PreviewTooltipCheckbox: React.FC = () => {
+  const [step, tool, previewTooltips] = useSelector((state) => [
+    state.step,
+    state.tool,
+    state.previewTooltips,
+  ]);
+  const dispatch = useDispatch();
+  const handlePrevewTooltipsChange = () => {
+    dispatch({ type: "TOGGLE_PREVIEW_TOOLTIPS" });
+  };
+  const showPreviewTooltipCheckbox =
+    step === "LABEL_LAYER" && tool === "SELECT";
+  return (
+    <>
+      {showPreviewTooltipCheckbox && (
+        <FloatingDiv
+          position={{
+            right: 24,
+            top: 144,
+          }}>
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={previewTooltips}
+                onChange={handlePrevewTooltipsChange}
+                inputProps={{ "aria-label": "controlled" }}
+              />
+            }
+            label="Preview Tooltips"
+          />
+        </FloatingDiv>
+      )}
+    </>
+  );
+};
+
+export { Header, ExitButtonForCreateTool, FormSelect, PreviewTooltipCheckbox };
