@@ -41,7 +41,6 @@ const UndoAndRedo: React.FC<BoxProps> = (props) => {
         justifyContent: "space-between",
         alignItems: "center",
         padding: "8px",
-        zIndex: 100,
       }}>
       <Tooltip title={"Undo (U)"} placement="right">
         {/* Span around IconButton is a workaround for https://mui.com/material-ui/react-tooltip/#disabled-elements */}

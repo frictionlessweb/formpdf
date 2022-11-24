@@ -101,7 +101,7 @@ const FloatingDiv: React.FC<{
         justifyContent: "space-between",
         alignItems: "center",
         padding: "8px",
-        zIndex: 100,
+        zIndex: 500,
         borderRadius: "8px",
         boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
       }}>

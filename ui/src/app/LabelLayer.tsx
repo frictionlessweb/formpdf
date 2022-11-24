@@ -22,7 +22,7 @@ import {
   Annotation,
 } from "./StoreProvider";
 import color from "../components/color";
-import Xarrow from "react-xarrows";
+import Xarrow, { useXarrow, Xwrapper } from "react-xarrows";
 import React from "react";
 
 // Render all of the tokens on the current page. We wrap this in React.memo for a
@@ -197,6 +197,11 @@ const Label: React.FC<AnnotationStatic> = (props) => {
 };
 
 const GroupAndField: React.FC<AnnotationStatic> = (props) => {
+  // useArrow is used to manually re-renders xarrow.
+  // There was a bug where XArrow was not updating its position until clicked on the canvas.
+  // using useArrow and XWrapper fixes this issue – https://github.com/Eliav2/react-xarrows#v2-example
+  // Whenever the state changes, useArrow will be called and XWrapper will re-render the XArrow.
+  useXarrow();
   const selectedAnnotations = useSelector((state) => state.selectedAnnotations);
   const labelRelations = useSelector((state) => state.labelRelations);
   const annotations = useSelector((state) => state.annotations);
@@ -462,7 +467,7 @@ const SelectAnnotation: React.FC = () => {
     }
   };
   return (
-    <>
+    <Xwrapper>
       {annotations.map((annotation) => {
         return (
           <React.Fragment key={annotation.id}>
@@ -471,7 +476,7 @@ const SelectAnnotation: React.FC = () => {
           </React.Fragment>
         );
       })}
-    </>
+    </Xwrapper>
   );
 };
 

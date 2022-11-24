@@ -18,7 +18,6 @@ import {
   Borders,
 } from "./StoreProvider";
 import React from "react";
-import { useXarrow, Xwrapper } from "react-xarrows";
 
 const useGroupLayer = (div: React.MutableRefObject<HTMLDivElement | null>) => {
   const attr = useCreateAnnotation(div);
@@ -46,13 +45,6 @@ interface HasCreationState {
 const GroupLayerSelectAnnotation: React.FC<AnnotationStatic> = (
   annotationProps
 ) => {
-  // We put XWrapper around our LinkRealationship. useArrow is used to manually re-renders xarrow.
-  // There was a bug where XArrow was not updating its position until clicked on the canvas.
-  // using useArrow and XWrapper fixes this issue. This issue happened when we removed or moved
-  // fields from a group. Now we have put useXarrow inside the groupLayerSelectAnnotation component
-  // we know that a particular group annotation is re-rendered, so when its re-rendered we also
-  // trigger re-render of the xarrow.
-  useXarrow();
   const selectedAnnotations = useSelector((state) => state.selectedAnnotations);
   const annotations = useSelector((state) => state.annotations);
   const dispatch = useDispatch();
@@ -167,9 +159,7 @@ const GroupLayerSelections = () => {
       {annotations.map((annotation) => {
         return (
           <React.Fragment key={annotation.id}>
-            <Xwrapper>
-              <GroupLayerSelectAnnotation {...annotation} />
-            </Xwrapper>
+            <GroupLayerSelectAnnotation {...annotation} />
           </React.Fragment>
         );
       })}

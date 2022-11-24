@@ -124,7 +124,6 @@ const ToolSelect: React.FC<BoxProps> = (props) => {
         borderRight: `2px solid ${color.gray.line}`,
         width: "3.5rem",
         paddingTop: "9rem",
-        zIndex: 10,
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between",
