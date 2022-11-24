@@ -1,8 +1,15 @@
 /** @jsxImportSource @emotion/react */
-import { Checkbox, FormControlLabel, TextField } from "@mui/material";
+import {
+  Checkbox,
+  FormControlLabel,
+  TextField,
+  IconButton,
+} from "@mui/material";
 import React from "react";
 import { useDispatch, useSelector } from "./StoreProvider";
 import { FloatingDiv } from "./Zoom";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 
 const PreviewTooltipCheckbox: React.FC = () => {
   const step = useSelector((state) => state.step);
@@ -39,6 +46,7 @@ const PreviewTooltipCheckbox: React.FC = () => {
 };
 
 const CustomTooltip: React.FC = () => {
+  const [expanded, setExpanded] = React.useState(true);
   const annotations = useSelector((state) => state.annotations);
   const selectedAnnotations = useSelector((state) => state.selectedAnnotations);
   const step = useSelector((state) => state.step);
@@ -54,47 +62,74 @@ const CustomTooltip: React.FC = () => {
       return null;
     }
 
+    const AccordianTitle = (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          flexDirection: "row",
+          alignItems: "center",
+        }}>
+        <div style={{ fontWeight: "bold" }}>Additional Tooltip</div>
+        <IconButton
+          onClick={() => {
+            setExpanded(!expanded);
+          }}>
+          {expanded ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+        </IconButton>
+      </div>
+    );
+    const AccordianBody = (
+      <>
+        <div
+          style={{
+            fontSize: "0.9rem",
+            paddingTop: "0.2rem",
+            paddingBottom: "1rem",
+          }}>
+          Add data format (. DDMMYYY, .Capital), conditions (. Required) or
+          additional instructions such as table row number (. 1) for fields.
+          <b> As you type, the text automatically gets added to the tooltip.</b>
+        </div>
+        <TextField
+          sx={{
+            paddingBottom: "0.3rem",
+          }}
+          fullWidth
+          size="small"
+          placeholder="Ex. DDMMYYY"
+          margin="none"
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
+          value={selectedAnnotation.customTooltip}
+          onChange={(e) => {
+            dispatch({
+              type: "CHANGE_CUSTOM_TOOLTIP",
+              payload: {
+                id: selectedAnnotationId,
+                customTooltip: e.target.value,
+              },
+            });
+          }}
+        />
+      </>
+    );
+
     return (
       <FloatingDiv
         position={{
           left: "4.5rem",
           bottom: "24px",
         }}>
-        <div style={{ padding: "0.5rem" }}>
-          <div style={{ fontWeight: "bold" }}>Additional Tooltip</div>
-          <div
-            style={{
-              fontSize: "0.9rem",
-              paddingTop: "0.4rem",
-              paddingBottom: "1rem",
-              maxWidth: "42ch",
-            }}>
-            Add data format (. DDMMYYY, .Capital), conditions (. Required) or
-            additional instructions such as table row number (. 1) for fields.
-            <b>
-              {" "}
-              As you type, the text automatically gets added to the tooltip.
-            </b>
-          </div>
-          <TextField
-            fullWidth
-            size="small"
-            placeholder="Ex. DDMMYYY"
-            margin="none"
-            onClick={(e) => {
-              e.stopPropagation();
-            }}
-            value={selectedAnnotation.customTooltip}
-            onChange={(e) => {
-              dispatch({
-                type: "CHANGE_CUSTOM_TOOLTIP",
-                payload: {
-                  id: selectedAnnotationId,
-                  customTooltip: e.target.value,
-                },
-              });
-            }}
-          />
+        <div
+          style={{
+            width: "39ch",
+            paddingLeft: "0.4rem",
+            paddingRight: "0.4rem",
+          }}>
+          {AccordianTitle}
+          {expanded && AccordianBody}
         </div>
       </FloatingDiv>
     );
