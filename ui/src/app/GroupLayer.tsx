@@ -122,7 +122,6 @@ const GroupLayerSelectAnnotation: React.FC<AnnotationStatic> = (
         css={{
           cursor: "pointer",
           ...css,
-          position: "absolute",
           zIndex: isSelected ? 100 : 0,
           border: isSelected ? "3px solid black" : css.border,
         }}

@@ -18,7 +18,6 @@ export type TranslucentBoxProps = React.DetailedHTMLProps<
 > & {
   id: string;
   css: CSSObject;
-  nodeRef?: React.MutableRefObject<HTMLDivElement | null>;
   children?: React.ReactNode;
 };
 
@@ -180,20 +179,9 @@ export const ResizeHandle: React.FC<ResizeHandleProps> = (props) => {
 
 // The basis of all other annotations: A simple box that we sculpt in a number of different ways.
 export const TranslucentBox: React.FC<TranslucentBoxProps> = (props) => {
-  const { id, css, nodeRef, children, ...divProps } = props;
+  const { id, children, ...divProps } = props;
   return (
-    <div
-      id={id}
-      ref={nodeRef}
-      {...divProps}
-      css={{
-        width: "100%",
-        height: "100%",
-        // using opacity on this components makes its children transparent, thus it is
-        // recommeded to use rgba(0,0,0,0.3) for the background color.
-        backgroundColor: props?.css?.backgroundColor,
-        borderRadius: props?.css?.borderRadius,
-      }}>
+    <div id={id} {...divProps}>
       {children}
     </div>
   );

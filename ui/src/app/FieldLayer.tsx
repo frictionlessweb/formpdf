@@ -109,23 +109,18 @@ export const FieldLayerAnnotation: React.FC<AnnotationProps> = (props) => {
   const tool = useSelector((state) => state.tool);
   const selectedAnnotations = useSelector((state) => state.selectedAnnotations);
 
-  const annotationRef = React.useRef<HTMLDivElement | null>(null);
   const dispatch = useDispatch();
-  const { id, type, children, ...cssProps } = props;
+  const { id, type, children, ...css } = props;
   const annotationProps = props;
-  const css = {
-    ...cssProps,
-    position: "absolute" as const,
-  };
   const typeLabel = type.slice(0, 1);
   switch (tool) {
     case "CREATE": {
       return (
         <TranslucentBox
           id={id}
-          nodeRef={annotationRef}
           css={{
             cursor: "inherit",
+            position: "absolute",
             ...css,
           }}>
           <span
@@ -176,11 +171,10 @@ export const FieldLayerAnnotation: React.FC<AnnotationProps> = (props) => {
             css={{
               ...css,
               position: "absolute",
-              backgroundColor: cssProps.backgroundColor,
               // Here zIndex is used to fix the issue where – the action menu (which is a child of selected annotation)
               // gets overlapped by previous section's grey area.
               zIndex: isSelected ? 100 : 0,
-              border: isSelected ? "4px solid black" : cssProps.border,
+              border: isSelected ? "4px solid black" : css.border,
             }}
             enableResizing={isSelected}
             resizeHandleComponent={{
