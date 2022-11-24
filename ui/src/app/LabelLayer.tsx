@@ -434,6 +434,7 @@ const TooltipPreview: React.FC<{
     whiteSpace: "nowrap",
     textOverflow: "ellipsis",
     overflow: "hidden",
+    border: `2px solid ${color.blue.dark}`,
 
     transition: "all 0.2s ease-in-out",
   };
@@ -445,7 +446,10 @@ const TooltipPreview: React.FC<{
     width: (annotation.width * 4) / 5,
     minWidth: "24px",
     "&:hover": {
-      width: tooltipWidth,
+      width: "auto",
+      // this is important or the hovered tooltip will be hidden by other tooltips.
+      zIndex: 210,
+      border: `2px solid ${color.white.medium}`,
     },
   };
 
