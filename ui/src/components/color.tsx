@@ -49,6 +49,7 @@ const color = {
     light: "#FBFBFB",
     medium: "#EAEAEA",
     dark: "#999999",
+    darker: "#37352F",
     lineTransparent: "rgba(203, 203, 203, 0.8)",
   },
 };

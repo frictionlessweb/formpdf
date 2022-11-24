@@ -5,7 +5,9 @@ import color from "./color";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import { ANNOTATION_TYPE, fieldTypes } from "../app/StoreProvider";
-import TextField from "@mui/material/TextField";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import CableOutlinedIcon from "@mui/icons-material/CableOutlined";
+import ViewCompactAltOutlinedIcon from "@mui/icons-material/ViewCompactAltOutlined";
 
 const NO_OP = () => {};
 
@@ -26,10 +28,25 @@ export const Container: React.FC<ContainerProps> = ({ children, position }) => {
         height: "2.5rem",
         zIndex: 500,
         background: "white",
-        boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
+        boxShadow: [
+          "0 1px 1px rgba(100, 100, 100, 0.8) ",
+          "0 4px 4px rgba(100, 100, 100, 0.4) ",
+          "0 8px 8px rgba(100, 100, 100, 0.4) ",
+        ],
+        border: `1px solid ${color.gray.medium}`,
         borderRadius: "0.5rem",
         display: "flex",
         alignItems: "center",
+        "& > span": {
+          borderRight: `1px solid ${color.gray.medium}`,
+        },
+        "& > span:first-of-type": {
+          borderRadius: "0.5rem 0 0 0.5rem",
+        },
+        "& > span:last-of-type": {
+          borderRadius: "0 0.5rem 0.5rem 0",
+          borderRight: "none",
+        },
       }}>
       {children}
     </div>
@@ -64,11 +81,12 @@ const ActionMenuItem: React.FC<ActionMenuItemProps> = (props) => {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        padding: "0.25rem 0.75rem",
-        fontSize: "0.875rem",
-        fontFamily: "Roboto, sans-serif",
-        fontWeight: 700,
-        borderRight: `1px solid ${color.gray.line}`,
+        padding: "0 0.8rem",
+        color: color.gray.darker,
+        gap: "0.2rem",
+        fontFamily: "Roboto Medium",
+        fontWeight: 100,
+        fontSize: "0.9rem",
         img: {
           width: "100%",
           height: "100%",
@@ -79,7 +97,7 @@ const ActionMenuItem: React.FC<ActionMenuItemProps> = (props) => {
           borderRight: "none",
         },
         "&:hover": {
-          background: color.gray.line,
+          background: color.gray.medium,
           cursor: "pointer",
           borderRadius: "0.5rem",
         },
@@ -96,23 +114,33 @@ interface FieldLayerActionMenuProps {
   onFieldTypeChange: (value: ANNOTATION_TYPE) => void;
 }
 
+function capitalizeFirstLetterOfText(text: string) {
+  return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
+}
+
 export const FieldLayerActionMenu: React.FC<FieldLayerActionMenuProps> = (
   props
 ) => {
   const { value, onDelete, onFieldTypeChange, position } = props;
   return (
     <Container position={position}>
-      <Select
-        value={value}
-        onChange={(e) => onFieldTypeChange(e.target.value as ANNOTATION_TYPE)}
-        css={{ height: "40px" }}>
-        {fieldTypes.map((fieldType) => (
-          <MenuItem key={fieldType} value={fieldType as ANNOTATION_TYPE}>
-            {fieldType}
-          </MenuItem>
-        ))}
-      </Select>
+      <span>
+        <Select
+          value={value}
+          onChange={(e) => onFieldTypeChange(e.target.value as ANNOTATION_TYPE)}
+          sx={{
+            height: "40px",
+            ".MuiOutlinedInput-notchedOutline": { border: 0 },
+          }}>
+          {fieldTypes.map((fieldType) => (
+            <MenuItem key={fieldType} value={fieldType as ANNOTATION_TYPE}>
+              {capitalizeFirstLetterOfText(fieldType)}
+            </MenuItem>
+          ))}
+        </Select>
+      </span>
       <ActionMenuItem onClick={onDelete} onMouseDown={NO_OP}>
+        <DeleteOutlineIcon sx={{ color: color.gray.darker }} />
         Delete
       </ActionMenuItem>
     </Container>
@@ -146,12 +174,14 @@ export const LabelLayerActionMenu: React.FC<LabelLayerActionMenuProps> = ({
       )}
       {showCreateOrUpdateLabel && (
         <ActionMenuItem onClick={onUpdateLabel} onMouseDown={NO_OP}>
+          <CableOutlinedIcon sx={{ color: color.gray.darker }} />
           {createOrUpdateLabelText}
         </ActionMenuItem>
       )}
       {showDelete && (
         <ActionMenuItem onClick={onDelete} onMouseDown={NO_OP}>
-          Delete
+          <DeleteOutlineIcon sx={{ color: color.gray.darker }} />
+          Delete Label
         </ActionMenuItem>
       )}
     </Container>
@@ -172,9 +202,13 @@ export const GroupLayerActionMenu: React.FC<GroupLayerActionMenuProps> = ({
   return (
     <Container position={position}>
       <ActionMenuItem onClick={onCreateNewGroup} onMouseDown={NO_OP}>
-        Create New Group
+        <ViewCompactAltOutlinedIcon
+          sx={{ color: color.gray.darker, strokeWidth: 0.2 }}
+        />
+        Create Group
       </ActionMenuItem>
       <ActionMenuItem onClick={onDelete} onMouseDown={NO_OP}>
+        <DeleteOutlineIcon />
         Remove from Group
       </ActionMenuItem>
     </Container>
