@@ -20,10 +20,12 @@ import {
   BackgroundColors,
   Borders,
   Annotation,
+  AnnotationId,
 } from "./StoreProvider";
 import color from "../components/color";
 import Xarrow, { useXarrow, Xwrapper } from "react-xarrows";
 import React from "react";
+import { CSSObject } from "@emotion/react";
 
 // Render all of the tokens on the current page. We wrap this in React.memo for a
 // substantial performance boost.
@@ -207,7 +209,6 @@ const GroupAndField: React.FC<AnnotationStatic> = (props) => {
   const annotations = useSelector((state) => state.annotations);
   const groupRelations = useSelector((state) => state.groupRelations);
   const previewTooltips = useSelector((state) => state.previewTooltips);
-  const zoom = useSelector((state) => state.zoom);
 
   const dispatch = useDispatch();
   const { id, type, children, customTooltip, ...cssProps } = props;
@@ -386,22 +387,7 @@ const GroupAndField: React.FC<AnnotationStatic> = (props) => {
         }}
       />
       {previewTooltips && tooltipPreview !== "" && (
-        <span
-          style={{
-            pointerEvents: "none",
-            position: "absolute",
-            top: css.top,
-            left: css.left,
-            fontSize: `${0.8 * zoom}rem`,
-            backgroundColor: color.blue.dark,
-            color: "white",
-            borderRadius: "0.4rem",
-            padding: "0.2rem",
-            whiteSpace: "nowrap",
-            zIndex: 200,
-          }}>
-          {tooltipPreview}
-        </span>
+        <TooltipPreview forId={id} tooltip={tooltipPreview} />
       )}
       {isFirstSelection && (
         <LabelLayerActionMenu
@@ -417,6 +403,61 @@ const GroupAndField: React.FC<AnnotationStatic> = (props) => {
         />
       )}
     </>
+  );
+};
+
+const TooltipPreview: React.FC<{
+  forId: AnnotationId;
+  tooltip: string;
+}> = ({ forId, tooltip }) => {
+  const zoom = useSelector((state) => state.zoom);
+  const annotations = useSelector((state) => state.annotations);
+  const annotation = annotations[forId];
+
+  // we found out this ASPECT_RATIO for Robot manually.
+  const ROBOTO_FONT_AVG_HEIGHT_TO_WIDTH_RATIO = 0.55;
+  const fontSize = 13.5 * zoom;
+  const tooltipWidth =
+    fontSize * ROBOTO_FONT_AVG_HEIGHT_TO_WIDTH_RATIO * tooltip.length;
+
+  const baseTooltipStyle: CSSObject = {
+    position: "absolute",
+    top: annotation.top,
+    left: annotation.left,
+    padding: "0.2rem",
+    borderRadius: "0.4rem",
+    backgroundColor: color.blue.dark,
+    color: "white",
+    zIndex: 200,
+
+    fontSize: `${fontSize}px`,
+    whiteSpace: "nowrap",
+    textOverflow: "ellipsis",
+    overflow: "hidden",
+
+    transition: "all 0.2s ease-in-out",
+  };
+
+  const minimisedTooltipStyle: CSSObject = {
+    ...baseTooltipStyle,
+    // In minimised state, we want to show only 4/5 of
+    // the tooltip or 24px if its really small.
+    width: (annotation.width * 4) / 5,
+    minWidth: "24px",
+    "&:hover": {
+      width: tooltipWidth,
+    },
+  };
+
+  return (
+    <div
+      css={
+        tooltipWidth > annotation.width
+          ? minimisedTooltipStyle
+          : baseTooltipStyle
+      }>
+      {tooltip}
+    </div>
   );
 };
 
