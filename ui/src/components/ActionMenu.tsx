@@ -123,27 +123,20 @@ interface LabelLayerActionMenuProps {
   position: React.CSSProperties;
   onUpdateLabel: () => void;
   onDelete: () => void;
-  onCustomTooltipChange: (value: string) => void;
-  customTooltip: string;
   showDelete: boolean;
   showCreateOrUpdateLabel: boolean;
   createOrUpdateLabelText: string;
-  showAdditionalTooltip: boolean;
 }
 
 export const LabelLayerActionMenu: React.FC<LabelLayerActionMenuProps> = ({
   onDelete,
   onUpdateLabel,
-  onCustomTooltipChange,
-  customTooltip,
   showDelete,
   showCreateOrUpdateLabel,
   createOrUpdateLabelText,
-  showAdditionalTooltip,
   position,
 }) => {
-  const hasNoMenuItems =
-    !showDelete && !showCreateOrUpdateLabel && !showAdditionalTooltip;
+  const hasNoMenuItems = !showDelete && !showCreateOrUpdateLabel;
   return (
     <Container position={position}>
       {hasNoMenuItems && (
@@ -159,23 +152,6 @@ export const LabelLayerActionMenu: React.FC<LabelLayerActionMenuProps> = ({
       {showDelete && (
         <ActionMenuItem onClick={onDelete} onMouseDown={NO_OP}>
           Delete
-        </ActionMenuItem>
-      )}
-      {showAdditionalTooltip && (
-        <ActionMenuItem onClick={NO_OP} onMouseDown={NO_OP}>
-          <TextField
-            id="custom-tooltip"
-            variant="standard"
-            placeholder="Custom Tooltip"
-            margin="none"
-            onClick={(e) => {
-              e.stopPropagation();
-            }}
-            value={customTooltip}
-            onChange={(e) => {
-              onCustomTooltipChange(e.target.value);
-            }}
-          />
         </ActionMenuItem>
       )}
     </Container>

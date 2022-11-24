@@ -227,7 +227,6 @@ const GroupAndField: React.FC<AnnotationStatic> = (props) => {
   let showCreateOrUpdateLabel = true;
   let createOrUpdateLabelText = hasRelation ? "Update Label" : "Create Label";
   let showDelete = hasRelation ? true : false;
-  let showAdditionalTooltip = totalSelections === 1 ? true : false;
 
   // Multiple Selections
   if (totalSelections > 1) {
@@ -270,16 +269,7 @@ const GroupAndField: React.FC<AnnotationStatic> = (props) => {
     }
   }
 
-  const [handleCustomTooltipChange, handleDelete, handleUpdateLabel] = [
-    (value: string) => {
-      dispatch({
-        type: "CHANGE_CUSTOM_TOOLTIP",
-        payload: {
-          id,
-          customTooltip: value,
-        },
-      });
-    },
+  const [handleDelete, handleUpdateLabel] = [
     () => {
       dispatch({
         type: "DELETE_LABEL",
@@ -336,10 +326,6 @@ const GroupAndField: React.FC<AnnotationStatic> = (props) => {
             showDelete={showDelete}
             showCreateOrUpdateLabel={showCreateOrUpdateLabel}
             createOrUpdateLabelText={createOrUpdateLabelText}
-            // We don't shown customtooltip option for group.
-            showAdditionalTooltip={false}
-            customTooltip={customTooltip}
-            onCustomTooltipChange={() => {}}
             onDelete={handleDelete}
             onUpdateLabel={handleUpdateLabel}
           />
@@ -426,10 +412,6 @@ const GroupAndField: React.FC<AnnotationStatic> = (props) => {
           showDelete={showDelete}
           showCreateOrUpdateLabel={showCreateOrUpdateLabel}
           createOrUpdateLabelText={createOrUpdateLabelText}
-          // Only shown for single selection.
-          showAdditionalTooltip={showAdditionalTooltip}
-          customTooltip={customTooltip}
-          onCustomTooltipChange={handleCustomTooltipChange}
           onDelete={handleDelete}
           onUpdateLabel={handleUpdateLabel}
         />
