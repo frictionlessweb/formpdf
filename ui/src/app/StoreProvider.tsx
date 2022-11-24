@@ -324,7 +324,6 @@ export type AccessibleFormAction =
   | { type: "GOTO_PREVIOUS_STEP" }
   | { type: "GOTO_STEP"; payload: Step }
   | { type: "CHANGE_ZOOM"; payload: number }
-  | { type: "CHANGE_PAGE"; payload: number }
   | { type: "CHANGE_TOOL"; payload: TOOL }
   | { type: "CREATE_ANNOTATION"; payload: Annotation }
   | { type: "DELETE_ANNOTATION"; payload: Array<AnnotationId> }
@@ -370,10 +369,6 @@ export type AccessibleFormAction =
       payload: { ids: Array<AnnotationId>; type: ANNOTATION_TYPE };
     }
   | {
-      type: "SET_STEP";
-      payload: Step;
-    }
-  | {
       type: "CREATE_LABEL";
       payload: {
         to: {
@@ -401,17 +396,6 @@ export type AccessibleFormAction =
   | {
       type: "REMOVE_FROM_GROUP";
       payload: Array<AnnotationId>;
-    }
-  | {
-      type: "CHANGE_GROUP";
-      payload: { annotationIds: Array<AnnotationId>; groupId: AnnotationId };
-    }
-  | {
-      type: "UPDATE_SECTION";
-      payload: Section;
-    }
-  | {
-      type: "CREATE_NEW_SECTION";
     }
   | {
       type: "UNDO";
@@ -594,81 +578,11 @@ export const reduceAccessibleForm = (
         }
       });
     }
-    case "CHANGE_PAGE": {
-      return produce(previous, (draft) => {
-        draft.page = action.payload;
-        return;
-      });
-    }
     case "CREATE_ANNOTATION": {
       return produceWithUndo(previous, (draft) => {
         draft.annotations[action.payload.id] = action.payload;
         draft.tool = "SELECT";
         return;
-      });
-    }
-    case "CHANGE_GROUP": {
-      return produceWithUndo(previous, (draft) => {
-        // We need to remove the annotation from the group it was previously in.
-        action.payload.annotationIds.forEach((fieldId) => {
-          Object.keys(draft.groupRelations).forEach((groupId) => {
-            // 1. Remove from existing groupRelation
-            const group = draft.groupRelations[groupId];
-            if (group.includes(fieldId)) {
-              draft.groupRelations[groupId] = draft.groupRelations[
-                groupId
-              ].filter((id) => id !== fieldId);
-              // we also need to resize the annotation considering a field from it was removed.
-              draft.annotations[groupId] = {
-                ...draft.annotations[groupId],
-                ...boxContaining(
-                  draft.groupRelations[groupId].map((id) => {
-                    return {
-                      top: draft.annotations[id].top,
-                      left: draft.annotations[id].left,
-                      width: draft.annotations[id].width,
-                      height: draft.annotations[id].height,
-                    };
-                  }),
-                  6
-                ),
-              };
-            }
-            // 2. Edgecase: if that group is now empty - delete groupRelation, delete groupAnnotation, delete groupLabel, delete labelRelation
-            if (draft.groupRelations[groupId].length === 0) {
-              delete draft.groupRelations[groupId];
-              delete draft.annotations[groupId];
-
-              const labelAnnotationId = draft.labelRelations[groupId];
-              delete draft.annotations[labelAnnotationId];
-
-              delete draft.labelRelations[groupId];
-            }
-          });
-        });
-
-        draft.groupRelations[action.payload.groupId] = [
-          ...draft.groupRelations[action.payload.groupId],
-          ...action.payload.annotationIds,
-        ];
-
-        // we also need to resize the annotation considering a field is added to it.
-        draft.annotations[action.payload.groupId] = {
-          ...draft.annotations[action.payload.groupId],
-          ...boxContaining(
-            draft.groupRelations[action.payload.groupId].map((id) => {
-              return {
-                top: draft.annotations[id].top,
-                left: draft.annotations[id].left,
-                width: draft.annotations[id].width,
-                height: draft.annotations[id].height,
-              };
-            }),
-            6
-          ),
-        };
-
-        draft.selectedAnnotations = {};
       });
     }
     case "REMOVE_FROM_GROUP": {
@@ -826,16 +740,6 @@ export const reduceAccessibleForm = (
         return;
       });
     }
-    case "SET_STEP": {
-      // TODO: When step changes we might want to clean undo and redo. So, that
-      // users don't accidently undo or redo steps out of their view.
-      return produce(previous, (draft) => {
-        draft.step = action.payload;
-        // When user moves to a new page we want "SELECT" tool to be selected as
-        // it is the default tool which is present on all pages.
-        draft.tool = "SELECT";
-      });
-    }
     // payloed: from – An array of annotations, to – an label annotation.
     // SINGLE
     // create
@@ -962,26 +866,6 @@ export const reduceAccessibleForm = (
         draft.currentSection = action.payload;
         draft.step = "SECTION_LAYER";
         draft.tool = "SELECT";
-        return;
-      });
-    }
-    case "CREATE_NEW_SECTION": {
-      return produceWithUndo(previous, (draft) => {
-        const currentSection = draft.currentSection;
-        draft.sections.push({
-          y: draft.sections[currentSection].y + 300,
-        });
-        draft.currentSection = currentSection + 1;
-        draft.step = "SECTION_LAYER";
-        draft.tool = "SELECT";
-        return;
-      });
-    }
-    // This is not being used right now.
-    case "UPDATE_SECTION": {
-      return produceWithUndo(previous, (draft) => {
-        const currentSection = draft.currentSection;
-        draft.sections[currentSection] = action.payload;
         return;
       });
     }

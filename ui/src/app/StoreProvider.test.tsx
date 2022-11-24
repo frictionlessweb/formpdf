@@ -62,10 +62,6 @@ describe("Our form reducer", () => {
     const res = reduce(init, { type: "CHANGE_TOOL", payload: "SELECT" });
     expect(res.tool).toEqual("SELECT");
   });
-  test("We can change the current page", () => {
-    const res = reduce(init, { type: "CHANGE_PAGE", payload: 2 });
-    expect(res.page).toEqual(2);
-  });
   test("We can add an annotation", () => {
     const payload = {
       id: "1",
@@ -404,19 +400,6 @@ describe("Our form reducer", () => {
     expect(changed.annotations["1"].type).toBe("CHECKBOX");
     expect(changed.annotations["1"].corrected).toBe(true);
   });
-  test("We can set step of the process and when we do it tool automatically gets changed to select", () => {
-    const changedTool = reduce(init, {
-      type: "CHANGE_TOOL",
-      payload: "CREATE",
-    });
-    const changedStep = reduce(changedTool, {
-      type: "SET_STEP",
-      payload: "SECTION_LAYER",
-    });
-
-    expect(changedStep.step).toBe("SECTION_LAYER");
-    expect(changedStep.tool).toBe("SELECT");
-  });
   test("We can create label relation", () => {
     const to = {
       ui: {
@@ -568,13 +551,6 @@ describe("Our form reducer", () => {
     );
     expect(res.sections[res.currentSection].y).toEqual(32);
     expect(res.showResizeModal).toBe(true);
-  });
-  test("We can create new section", () => {
-    const res = reduce(init, {
-      type: "CREATE_NEW_SECTION",
-    });
-    expect(res.currentSection).toBe(1);
-    expect(res.sections).toEqual([{ y: 300 }, { y: 600 }]);
   });
   test("We can update existing sections", () => {});
   test("We can jump back to the field layer", () => {
