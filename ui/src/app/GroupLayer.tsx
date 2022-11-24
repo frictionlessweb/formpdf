@@ -2,7 +2,6 @@
 
 import { GroupLayerActionMenu } from "../components/ActionMenu";
 import {
-  AnnotationBeingCreated,
   CreationState,
   TranslucentBox,
   HandlerLayer,
@@ -15,7 +14,6 @@ import {
   useDispatch,
   LayerControllerProps,
   Annotation as AnnotationStatic,
-  ANNOTATION_TYPE,
   BackgroundColors,
   Borders,
 } from "./StoreProvider";
@@ -55,13 +53,8 @@ const GroupLayerSelectAnnotation: React.FC<AnnotationStatic> = (
   // we know that a particular group annotation is re-rendered, so when its re-rendered we also
   // trigger re-render of the xarrow.
   useXarrow();
-  const [selectedAnnotations, annotations, groupRelations, labelRelations] =
-    useSelector((state) => [
-      state.selectedAnnotations,
-      state.annotations,
-      state.groupRelations,
-      state.labelRelations,
-    ]);
+  const selectedAnnotations = useSelector((state) => state.selectedAnnotations);
+  const annotations = useSelector((state) => state.annotations);
   const dispatch = useDispatch();
   const { id, children, type, ...cssProps } = annotationProps;
   const css = {
@@ -160,17 +153,14 @@ const GroupLayerSelectAnnotation: React.FC<AnnotationStatic> = (
 };
 
 const GroupLayerSelections = () => {
-  const { annotations } = useSelector((state) => {
-    const annotations = Object.values(state.annotations).filter(
-      (annotation) => {
-        return (
-          annotation.type === "CHECKBOX" ||
-          annotation.type === "RADIOBOX" ||
-          annotation.type === "GROUP"
-        );
-      }
+  const allAnnotations = useSelector((state) => state.annotations);
+
+  const annotations = Object.values(allAnnotations).filter((annotation) => {
+    return (
+      annotation.type === "CHECKBOX" ||
+      annotation.type === "RADIOBOX" ||
+      annotation.type === "GROUP"
     );
-    return { annotations };
   });
   return (
     <>

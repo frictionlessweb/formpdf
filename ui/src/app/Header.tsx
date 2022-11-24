@@ -46,10 +46,9 @@ const NextStepButton: React.FC = () => {
 
 const PrevStepButton: React.FC = () => {
   const dispatch = useDispatch();
-  const [step, currentSection] = useSelector((state) => [
-    state.step,
-    state.currentSection,
-  ]);
+  const step = useSelector((state) => state.step);
+  const currentSection = useSelector((state) => state.currentSection);
+
   const isFirstStep = step === "SECTION_LAYER";
   const isFirstSection = currentSection === 0;
   const onPrev = () => {
@@ -79,14 +78,11 @@ const PrevStepButton: React.FC = () => {
 };
 
 const Progress = () => {
-  const { sections, currentSection, currentStep, pdfHeight, numPages } =
-    useSelector((state) => ({
-      sections: state.sections,
-      currentSection: state.currentSection,
-      currentStep: state.step,
-      pdfHeight: state.pdfHeight,
-      numPages: state.tokens.length,
-    }));
+  const sections = useSelector((state) => state.sections);
+  const currentSection = useSelector((state) => state.currentSection);
+  const currentStep = useSelector((state) => state.step);
+  const pdfHeight = useSelector((state) => state.pdfHeight);
+  const numPages = useSelector((state) => state.tokens.length);
 
   const prevSectionY =
     currentSection === 0 ? 0 : sections[currentSection - 1].y;
@@ -232,7 +228,8 @@ const FormSelect: React.FC = () => {
 };
 
 const ExitButtonForCreateTool: React.FC = () => {
-  const [step, tool] = useSelector((state) => [state.step, state.tool]);
+  const step = useSelector((state) => state.step);
+  const tool = useSelector((state) => state.tool);
   const dispatch = useDispatch();
   const showCancelButton = step === "LABEL_LAYER" && tool === "CREATE";
   // TODO : We need to think about how to handle GROPU_LAYER here as when

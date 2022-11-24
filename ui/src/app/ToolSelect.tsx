@@ -74,10 +74,8 @@ const ResetButton = () => {
 };
 
 const ToolSelect: React.FC<BoxProps> = (props) => {
-  const [activeTool, activeStep] = useSelector((state) => [
-    state.tool,
-    state.step,
-  ]);
+  const activeTool = useSelector((state) => state.tool);
+  const activeStep = useSelector((state) => state.step);
   let tools = <></>;
   switch (activeStep) {
     case "FIELD_LAYER": {

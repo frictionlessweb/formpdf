@@ -37,13 +37,9 @@ type HandlerLayerProps = DivProps & {
 // configure the handlers it needs as necessary.
 export const HandlerLayer: React.FC<HandlerLayerProps> = (props) => {
   const { rootCss, pdf, children, ...rest } = props;
-  const { pdfHeight, pdfWidth, numPages } = useSelector((state) => {
-    return {
-      pdfHeight: state.pdfHeight,
-      pdfWidth: state.pdfWidth,
-      numPages: state.tokens.length,
-    };
-  });
+  const pdfHeight = useSelector((state) => state.pdfHeight);
+  const pdfWidth = useSelector((state) => state.pdfWidth);
+  const numPages = useSelector((state) => state.tokens.length);
   return (
     <div
       {...rest}
@@ -74,14 +70,12 @@ type ResizeHandleProps = DivProps & {
 // are not relevant.
 export const ResizeHandle: React.FC<ResizeHandleProps> = (props) => {
   const { rootCss, container, pdf, children, ...rest } = props;
-  const { pdfWidth, sections, currentSection, pdfHeight, numPages } =
-    useSelector((state) => ({
-      pdfWidth: state.pdfWidth,
-      sections: state.sections,
-      currentSection: state.currentSection,
-      pdfHeight: state.pdfHeight,
-      numPages: state.tokens.length,
-    }));
+
+  const pdfWidth = useSelector((state) => state.pdfWidth);
+  const sections = useSelector((state) => state.sections);
+  const currentSection = useSelector((state) => state.currentSection);
+  const pdfHeight = useSelector((state) => state.pdfHeight);
+  const numPages = useSelector((state) => state.tokens.length);
 
   const dispatch = useDispatch();
   const stopTopClicks = (e: MouseEvent) => e.stopPropagation();
@@ -291,13 +285,12 @@ export const useCreateAnnotation = (
 ) => {
   // We need to know the container so that we can figure out where relative
   // in the page we should position the bounds.
-  const allTokens = useSelector((state) => {
-    let finalTokens: Array<Bounds> = [];
-    state.tokens.forEach((list) => {
-      finalTokens = [...finalTokens, ...list];
-    });
-    return finalTokens;
+  const tokens = useSelector((state) => state.tokens);
+  let allTokens: Array<Bounds> = [];
+  tokens.forEach((list) => {
+    allTokens = [...allTokens, ...list];
   });
+
   const [creationState, setState] = React.useState<CreationState | null>(null);
 
   const resetCreationState = () => {

@@ -27,12 +27,8 @@ export const useFieldLayer = (
 ) => {
   const attr = useCreateAnnotation(div);
   const dispatch = useDispatch();
-  const { tool, page } = useSelector((state) => {
-    return {
-      tool: state.tool,
-      page: state.page,
-    };
-  });
+  const tool = useSelector((state) => state.tool);
+  const page = useSelector((state) => state.page);
   const {
     div: container,
     creationState,
@@ -110,10 +106,9 @@ const ResizeHandleForAnnotations: React.FC = () => {
 };
 
 export const FieldLayerAnnotation: React.FC<AnnotationProps> = (props) => {
-  const [tool, selectedAnnotations] = useSelector((state) => [
-    state.tool,
-    state.selectedAnnotations,
-  ]);
+  const tool = useSelector((state) => state.tool);
+  const selectedAnnotations = useSelector((state) => state.selectedAnnotations);
+
   const annotationRef = React.useRef<HTMLDivElement | null>(null);
   const dispatch = useDispatch();
   const { id, type, children, ...cssProps } = props;
@@ -255,11 +250,10 @@ export const FieldLayerAnnotation: React.FC<AnnotationProps> = (props) => {
 
 const FieldLayer: React.FC<LayerControllerProps> = (props) => {
   const { pdf, container } = props;
-  const annotations = useSelector((state) => {
-    return Object.values(state.annotations).filter((annotation) =>
-      fieldTypes.includes(annotation.type)
-    );
-  });
+  const allAnnotations = useSelector((state) => state.annotations);
+  const annotations = Object.values(allAnnotations).filter((annotation) =>
+    fieldTypes.includes(annotation.type)
+  );
   const layer = useFieldLayer(container);
   const dispatch = useDispatch();
   useHotkeys("s", () => dispatch({ type: "CHANGE_TOOL", payload: "SELECT" }));

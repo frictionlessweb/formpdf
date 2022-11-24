@@ -28,13 +28,12 @@ import React from "react";
 // Render all of the tokens on the current page. We wrap this in React.memo for a
 // substantial performance boost.
 export const AllTokens: React.FC = React.memo(() => {
-  const tokens = useSelector((state) => {
-    let finalTokens: Array<Bounds> = [];
-    state.tokens.forEach((list) => {
-      finalTokens = [...finalTokens, ...list];
-    });
-    return finalTokens;
+  const allTokens = useSelector((state) => state.tokens);
+  let tokens: Array<Bounds> = [];
+  allTokens.forEach((list) => {
+    tokens = [...tokens, ...list];
   });
+
   return (
     <>
       {tokens.map((token) => (
@@ -67,16 +66,11 @@ export const useFieldLayer = (
     resetCreationState,
     updateCreationState,
   } = attr;
-  const { tool, selectedAnnotations, page, annotations } = useSelector(
-    (state) => {
-      return {
-        tool: state.tool,
-        selectedAnnotations: state.selectedAnnotations,
-        page: state.page,
-        annotations: state.annotations,
-      };
-    }
-  );
+  const tool = useSelector((state) => state.tool);
+  const selectedAnnotations = useSelector((state) => state.selectedAnnotations);
+  const page = useSelector((state) => state.page);
+  const annotations = useSelector((state) => state.annotations);
+
   const dispatch = useDispatch();
   switch (tool) {
     case "CREATE": {
@@ -203,21 +197,13 @@ const Label: React.FC<AnnotationStatic> = (props) => {
 };
 
 const GroupAndField: React.FC<AnnotationStatic> = (props) => {
-  const [
-    selectedAnnotations,
-    labelRelations,
-    annotations,
-    groupRelations,
-    previewTooltips,
-    zoom,
-  ] = useSelector((state) => [
-    state.selectedAnnotations,
-    state.labelRelations,
-    state.annotations,
-    state.groupRelations,
-    state.previewTooltips,
-    state.zoom,
-  ]);
+  const selectedAnnotations = useSelector((state) => state.selectedAnnotations);
+  const labelRelations = useSelector((state) => state.labelRelations);
+  const annotations = useSelector((state) => state.annotations);
+  const groupRelations = useSelector((state) => state.groupRelations);
+  const previewTooltips = useSelector((state) => state.previewTooltips);
+  const zoom = useSelector((state) => state.zoom);
+
   const dispatch = useDispatch();
   const { id, type, children, customTooltip, ...cssProps } = props;
   const css = {
@@ -447,9 +433,8 @@ interface RelationshipLinkProps {
 
 export const RelationshipLink: React.FC<RelationshipLinkProps> = (props) => {
   const { id } = props;
-  const relationship = useSelector((state) => {
-    return state.labelRelations[id];
-  });
+  const labelRelations = useSelector((state) => state.labelRelations);
+  const relationship = labelRelations[id];
   if (!relationship) return null;
   return (
     <Xarrow
@@ -467,7 +452,8 @@ export const RelationshipLink: React.FC<RelationshipLinkProps> = (props) => {
 };
 
 const SelectAnnotation: React.FC = () => {
-  const annotations = useSelector((state) => Object.values(state.annotations));
+  const annotationsMap = useSelector((state) => state.annotations);
+  const annotations = Object.values(annotationsMap);
   const AnnotationComponents = (annotation: Annotation) => {
     if (annotation.type === "LABEL" || annotation.type === "GROUP_LABEL") {
       return <Label {...annotation} />;

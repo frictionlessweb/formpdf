@@ -10,11 +10,9 @@ import { useHotkeys } from "react-hotkeys-hook";
 const UndoAndRedo: React.FC<BoxProps> = (props) => {
   const dispatch = useDispatch();
 
-  const [canRedo, canUndo, currentVersion] = useSelector((state) => [
-    state.canRedo,
-    state.canUndo,
-    state.currentVersion,
-  ]);
+  const canRedo = useSelector((state) => state.canRedo);
+  const canUndo = useSelector((state) => state.canUndo);
+  const currentVersion = useSelector((state) => state.currentVersion);
 
   const onUndo = () => {
     if (canUndo) {
