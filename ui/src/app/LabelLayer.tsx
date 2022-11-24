@@ -17,21 +17,23 @@ import {
   Annotation as AnnotationStatic,
   ANNOTATION_TYPE,
   Bounds,
+  BackgroundColors,
+  Borders,
+  Annotation,
 } from "./StoreProvider";
 import color from "../components/color";
-import Xarrow from "react-xarrows";
+import Xarrow, { useXarrow, Xwrapper } from "react-xarrows";
 import React from "react";
 
 // Render all of the tokens on the current page. We wrap this in React.memo for a
 // substantial performance boost.
 export const AllTokens: React.FC = React.memo(() => {
-  const tokens = useSelector((state) => {
-    let finalTokens: Array<Bounds> = [];
-    state.tokens.forEach((list) => {
-      finalTokens = [...finalTokens, ...list];
-    });
-    return finalTokens;
+  const allTokens = useSelector((state) => state.tokens);
+  let tokens: Array<Bounds> = [];
+  allTokens.forEach((list) => {
+    tokens = [...tokens, ...list];
   });
+
   return (
     <>
       {tokens.map((token) => (
@@ -64,13 +66,11 @@ export const useFieldLayer = (
     resetCreationState,
     updateCreationState,
   } = attr;
-  const { tool, selectedAnnotations, page } = useSelector((state) => {
-    return {
-      tool: state.tool,
-      selectedAnnotations: state.selectedAnnotations,
-      page: state.page,
-    };
-  });
+  const tool = useSelector((state) => state.tool);
+  const selectedAnnotations = useSelector((state) => state.selectedAnnotations);
+  const page = useSelector((state) => state.page);
+  const annotations = useSelector((state) => state.annotations);
+
   const dispatch = useDispatch();
   switch (tool) {
     case "CREATE": {
@@ -85,25 +85,54 @@ export const useFieldLayer = (
         onMouseUp: () => {
           if (!creationState) return;
           const id = window.crypto.randomUUID();
-          dispatch({
-            type: "CREATE_LABEL",
-            payload: {
-              to: {
-                ui: {
-                  id,
-                  backgroundColor: color.teal.transparent,
-                  border: `4px solid ${color.teal.medium}`,
-                  borderRadius: 50,
-                  customTooltip: "",
-                  type: "LABEL" as ANNOTATION_TYPE,
-                  page,
-                  corrected: true,
+          const selectedGroups = Object.keys(selectedAnnotations).filter(
+            (annotationId) => annotations[annotationId].type === "GROUP"
+          );
+          const selectedFields = Object.keys(selectedAnnotations).filter(
+            (annotationId) => annotations[annotationId].type !== "GROUP"
+          );
+          if (selectedGroups.length > 0) {
+            dispatch({
+              type: "CREATE_LABEL",
+              payload: {
+                to: {
+                  ui: {
+                    id,
+                    backgroundColor: BackgroundColors["GROUP_LABEL"],
+                    border: Borders["GROUP_LABEL"],
+                    borderRadius: 50,
+                    type: "GROUP_LABEL",
+                    page,
+                    corrected: true,
+                  },
+                  tokens: creationState.tokens,
                 },
-                tokens: creationState.tokens,
+                from: selectedGroups,
               },
-              from: Object.keys(selectedAnnotations),
-            },
-          });
+            });
+          }
+
+          if (selectedFields.length > 0) {
+            dispatch({
+              type: "CREATE_LABEL",
+              payload: {
+                to: {
+                  ui: {
+                    id,
+                    backgroundColor: BackgroundColors["LABEL"],
+                    border: Borders["LABEL"],
+                    borderRadius: 50,
+                    type: "LABEL" as ANNOTATION_TYPE,
+                    page,
+                    corrected: true,
+                  },
+                  tokens: creationState.tokens,
+                },
+                from: selectedFields,
+              },
+            });
+          }
+
           resetCreationState();
         },
       };
@@ -145,13 +174,41 @@ const CreateLink: React.FC<CreationProps> = (props) => {
   );
 };
 
-export const LabelLayerSelectAnnotation: React.FC<AnnotationStatic> = (
-  props
-) => {
-  const [selectedAnnotations, labelRelations] = useSelector((state) => [
-    state.selectedAnnotations,
-    state.labelRelations,
-  ]);
+const Label: React.FC<AnnotationStatic> = (props) => {
+  const { id, type, children, customTooltip, ...cssProps } = props;
+  const css = {
+    ...cssProps,
+    position: "absolute" as const,
+  };
+
+  return (
+    <TranslucentBox
+      id={id}
+      css={{
+        ...css,
+        border: css.border,
+        zIndex: 0,
+      }}
+      onClick={(e: React.MouseEvent<HTMLElement>) => {
+        e.stopPropagation();
+      }}
+    />
+  );
+};
+
+const GroupAndField: React.FC<AnnotationStatic> = (props) => {
+  // useArrow is used to manually re-renders xarrow.
+  // There was a bug where XArrow was not updating its position until clicked on the canvas.
+  // using useArrow and XWrapper fixes this issue – https://github.com/Eliav2/react-xarrows#v2-example
+  // Whenever the state changes, useArrow will be called and XWrapper will re-render the XArrow.
+  useXarrow();
+  const selectedAnnotations = useSelector((state) => state.selectedAnnotations);
+  const labelRelations = useSelector((state) => state.labelRelations);
+  const annotations = useSelector((state) => state.annotations);
+  const groupRelations = useSelector((state) => state.groupRelations);
+  const previewTooltips = useSelector((state) => state.previewTooltips);
+  const zoom = useSelector((state) => state.zoom);
+
   const dispatch = useDispatch();
   const { id, type, children, customTooltip, ...cssProps } = props;
   const css = {
@@ -161,23 +218,6 @@ export const LabelLayerSelectAnnotation: React.FC<AnnotationStatic> = (
   const hasRelation = Boolean(labelRelations[id]);
   const isSelected = Boolean(selectedAnnotations[id]);
   const isFirstSelection = Object.keys(selectedAnnotations)[0] === id;
-  if (type === "LABEL") {
-    // TODO: Refactor this bit.
-    // Render just a normal div that doesn't have interactions.
-    return (
-      <TranslucentBox
-        id={id}
-        css={{
-          ...css,
-          border: css.border,
-          zIndex: 0,
-        }}
-        onClick={(e: React.MouseEvent<HTMLElement>) => {
-          e.stopPropagation();
-        }}
-      />
-    );
-  }
 
   const allSelectedAnnotation = Object.keys(selectedAnnotations);
   const totalSelections = allSelectedAnnotation.length;
@@ -230,78 +270,165 @@ export const LabelLayerSelectAnnotation: React.FC<AnnotationStatic> = (
     }
   }
 
-  return (
-    <TranslucentBox
-      id={id}
-      css={{
-        cursor: "pointer",
-        ...css,
-        border: isSelected ? "3px solid black" : css.border,
-        zIndex: isSelected ? 100 : 0,
-      }}
-      onClick={(e: React.MouseEvent<HTMLElement>) => {
-        e.stopPropagation();
-        const shiftNotPressed = !e.shiftKey;
-        if (shiftNotPressed) {
-          dispatch({ type: "DESELECT_ALL_ANNOTATION" });
-        }
-        if (isSelected) {
-          dispatch({
-            type: "DESELECT_ANNOTATION",
-            payload: id,
-          });
-        } else {
-          dispatch({
-            type: "SELECT_ANNOTATION",
-            payload: id,
-          });
-        }
-      }}>
-      {isFirstSelection && (
-        <LabelLayerActionMenu
-          showDelete={showDelete}
-          showCreateOrUpdateLabel={showCreateOrUpdateLabel}
-          createOrUpdateLabelText={createOrUpdateLabelText}
-          // Only shown for single selection.
-          showAdditionalTooltip={showAdditionalTooltip}
-          customTooltip={customTooltip}
-          onCustomTooltipChange={(value) => {
-            dispatch({
-              type: "CHANGE_CUSTOM_TOOLTIP",
-              payload: {
-                id,
-                customTooltip: value,
-              },
-            });
+  const [handleCustomTooltipChange, handleDelete, handleUpdateLabel] = [
+    (value: string) => {
+      dispatch({
+        type: "CHANGE_CUSTOM_TOOLTIP",
+        payload: {
+          id,
+          customTooltip: value,
+        },
+      });
+    },
+    () => {
+      dispatch({
+        type: "DELETE_LABEL",
+        payload: Object.keys(selectedAnnotations),
+      });
+    },
+    () => {
+      dispatch({
+        type: "CHANGE_TOOL",
+        payload: "CREATE",
+      });
+    },
+  ];
+
+  if (type === "GROUP") {
+    return (
+      <TranslucentBox
+        id={id}
+        css={{
+          ...css,
+          pointerEvents: "none",
+          border: isSelected ? "3px solid black" : css.border,
+          zIndex: isSelected ? 100 : 0,
+        }}>
+        <div
+          style={{
+            // we have to give pointerEvents auto here because we have pointerEvents none on parent.
+            pointerEvents: "auto",
+            position: "absolute",
+            top: "-10px",
+            left: "-10px",
+            cursor: "pointer",
+            width: "20px",
+            height: "20px",
+            backgroundColor: "brown",
           }}
-          onDelete={() => {
+          onClick={(e) => {
+            e.stopPropagation();
+            dispatch({ type: "DESELECT_ALL_ANNOTATION" });
             dispatch({
-              type: "DELETE_LABEL",
-              payload: Object.keys(selectedAnnotations),
-            });
-          }}
-          onUpdateLabel={() => {
-            dispatch({
-              type: "CHANGE_TOOL",
-              payload: "CREATE",
+              type: "SELECT_ANNOTATION",
+              payload: id,
             });
           }}
         />
+        {isSelected && (
+          <div
+            style={{
+              pointerEvents: "auto",
+            }}>
+            <LabelLayerActionMenu
+              showDelete={showDelete}
+              showCreateOrUpdateLabel={showCreateOrUpdateLabel}
+              createOrUpdateLabelText={createOrUpdateLabelText}
+              // We don't shown customtooltip option for group.
+              showAdditionalTooltip={false}
+              customTooltip={customTooltip}
+              onCustomTooltipChange={() => {}}
+              onDelete={handleDelete}
+              onUpdateLabel={handleUpdateLabel}
+            />
+          </div>
+        )}
+      </TranslucentBox>
+    );
+  }
+
+  let groupIdForCurrentAnnotation = null;
+  Object.keys(groupRelations).forEach((groupId) => {
+    if (groupRelations[groupId].includes(id)) {
+      groupIdForCurrentAnnotation = groupId;
+    }
+  });
+  let groupLabel = "";
+
+  if (groupIdForCurrentAnnotation) {
+    const isGroupLabeled = Boolean(labelRelations[groupIdForCurrentAnnotation]);
+    groupLabel = isGroupLabeled
+      ? annotations[labelRelations[groupIdForCurrentAnnotation]].customTooltip
+      : "";
+  }
+
+  const fieldLabel = hasRelation
+    ? annotations[labelRelations[id]].customTooltip
+    : "";
+  const customLabel = customTooltip ?? "";
+
+  const tooltipPreview = groupLabel + fieldLabel + customLabel;
+
+  return (
+    <>
+      {previewTooltips && tooltipPreview !== "" && (
+        <span
+          style={{
+            position: "absolute",
+            top: css.top,
+            left: css.left,
+            fontSize: `${0.8 * zoom}rem`,
+            backgroundColor: color.blue.dark,
+            color: "white",
+            borderRadius: "0.4rem",
+            padding: "0.2rem",
+            whiteSpace: "nowrap",
+            zIndex: 200,
+          }}>
+          {tooltipPreview}
+        </span>
       )}
-      <div
-        style={{
-          height: "100%",
-          paddingLeft: "1rem",
-          display: "flex",
-          alignItems: "center",
-          fontWeight: "bold",
-          whiteSpace: "nowrap",
-          overflow: "hidden",
-          textOverflow: "ellipsis",
+      <TranslucentBox
+        id={id}
+        css={{
+          cursor: "pointer",
+          ...css,
+          border: isSelected ? "3px solid black" : css.border,
+          zIndex: isSelected ? 100 : 0,
+        }}
+        onClick={(e: React.MouseEvent<HTMLElement>) => {
+          e.stopPropagation();
+          const shiftNotPressed = !e.shiftKey;
+          if (shiftNotPressed) {
+            dispatch({ type: "DESELECT_ALL_ANNOTATION" });
+          }
+          if (isSelected) {
+            dispatch({
+              type: "DESELECT_ANNOTATION",
+              payload: id,
+            });
+          } else {
+            dispatch({
+              type: "SELECT_ANNOTATION",
+              payload: id,
+            });
+          }
         }}>
-        {customTooltip}
-      </div>
-    </TranslucentBox>
+        {isFirstSelection && (
+          <LabelLayerActionMenu
+            showDelete={showDelete}
+            showCreateOrUpdateLabel={showCreateOrUpdateLabel}
+            createOrUpdateLabelText={createOrUpdateLabelText}
+            // Only shown for single selection.
+            showAdditionalTooltip={showAdditionalTooltip}
+            customTooltip={customTooltip}
+            onCustomTooltipChange={handleCustomTooltipChange}
+            onDelete={handleDelete}
+            onUpdateLabel={handleUpdateLabel}
+          />
+        )}
+      </TranslucentBox>
+    </>
   );
 };
 
@@ -311,9 +438,8 @@ interface RelationshipLinkProps {
 
 export const RelationshipLink: React.FC<RelationshipLinkProps> = (props) => {
   const { id } = props;
-  const relationship = useSelector((state) => {
-    return state.labelRelations[id];
-  });
+  const labelRelations = useSelector((state) => state.labelRelations);
+  const relationship = labelRelations[id];
   if (!relationship) return null;
   return (
     <Xarrow
@@ -331,23 +457,26 @@ export const RelationshipLink: React.FC<RelationshipLinkProps> = (props) => {
 };
 
 const SelectAnnotation: React.FC = () => {
-  const annotations = useSelector((state) =>
-    Object.values(state.annotations).filter((annotation) => {
-      // we don't want to show groups and group labels in this layer.
-      return annotation.type !== "GROUP" && annotation.type !== "GROUP_LABEL";
-    })
-  );
+  const annotationsMap = useSelector((state) => state.annotations);
+  const annotations = Object.values(annotationsMap);
+  const AnnotationComponents = (annotation: Annotation) => {
+    if (annotation.type === "LABEL" || annotation.type === "GROUP_LABEL") {
+      return <Label {...annotation} />;
+    } else {
+      return <GroupAndField {...annotation} />;
+    }
+  };
   return (
-    <>
+    <Xwrapper>
       {annotations.map((annotation) => {
         return (
           <React.Fragment key={annotation.id}>
-            <LabelLayerSelectAnnotation {...annotation} />
+            {AnnotationComponents(annotation)}
             <RelationshipLink id={annotation.id} />
           </React.Fragment>
         );
       })}
-    </>
+    </Xwrapper>
   );
 };
 

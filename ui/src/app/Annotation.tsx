@@ -10,7 +10,7 @@ import {
 } from "./StoreProvider";
 import Chip from "@mui/material/Chip";
 import { Rnd } from "react-rnd";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import EditIcon from "@mui/icons-material/Edit";
 
 export type TranslucentBoxProps = React.DetailedHTMLProps<
   React.HTMLAttributes<HTMLDivElement>,
@@ -37,13 +37,9 @@ type HandlerLayerProps = DivProps & {
 // configure the handlers it needs as necessary.
 export const HandlerLayer: React.FC<HandlerLayerProps> = (props) => {
   const { rootCss, pdf, children, ...rest } = props;
-  const { pdfHeight, pdfWidth, numPages } = useSelector((state) => {
-    return {
-      pdfHeight: state.pdfHeight,
-      pdfWidth: state.pdfWidth,
-      numPages: state.tokens.length,
-    };
-  });
+  const pdfHeight = useSelector((state) => state.pdfHeight);
+  const pdfWidth = useSelector((state) => state.pdfWidth);
+  const numPages = useSelector((state) => state.tokens.length);
   return (
     <div
       {...rest}
@@ -69,52 +65,17 @@ type ResizeHandleProps = DivProps & {
   rootCss?: CSSObject;
 };
 
-type SectionProps = {
-  // is active Section
-  isCurrentSection: boolean;
-  // height of the section
-  height: number;
-  // function that's executed onClick of edit button
-  onClick: () => void;
-};
-
-const Section: React.FC<SectionProps> = ({
-  isCurrentSection,
-  height,
-  onClick,
-}) => {
-  return (
-    <div
-      style={{
-        visibility: isCurrentSection ? "hidden" : "visible",
-        height: height,
-        width: "100%",
-        borderTop: `4px solid ${color.black}`,
-      }}>
-      <Chip
-        sx={{ margin: "10px" }}
-        icon={<CheckCircleIcon />}
-        variant="filled"
-        label="Edit this section"
-        onClick={onClick}
-      />
-    </div>
-  );
-};
-
 // An draggable box that we put *on top* of the PDF that we show to the user.
 // This box lets us configure which sections of the provided document are and
 // are not relevant.
 export const ResizeHandle: React.FC<ResizeHandleProps> = (props) => {
   const { rootCss, container, pdf, children, ...rest } = props;
-  const { pdfWidth, sections, currentSection, pdfHeight, numPages } =
-    useSelector((state) => ({
-      pdfWidth: state.pdfWidth,
-      sections: state.sections,
-      currentSection: state.currentSection,
-      pdfHeight: state.pdfHeight,
-      numPages: state.tokens.length,
-    }));
+
+  const pdfWidth = useSelector((state) => state.pdfWidth);
+  const sections = useSelector((state) => state.sections);
+  const currentSection = useSelector((state) => state.currentSection);
+  const pdfHeight = useSelector((state) => state.pdfHeight);
+  const numPages = useSelector((state) => state.tokens.length);
 
   const dispatch = useDispatch();
   const stopTopClicks = (e: MouseEvent) => e.stopPropagation();
@@ -150,7 +111,7 @@ export const ResizeHandle: React.FC<ResizeHandleProps> = (props) => {
             visibility: index === currentSection ? "hidden" : "visible",
             height: sectionHeight,
             width: pdfWidth,
-            borderTop: `4px solid ${color.black}`,
+            borderTop: `4px solid ${color.black.medium}`,
             // For the section after the current section, we don't want background color as it
             // will overlap with the Rnd's background color and make it look darker.
             backgroundColor: beforeCurrentSection
@@ -159,8 +120,10 @@ export const ResizeHandle: React.FC<ResizeHandleProps> = (props) => {
             zIndex: 100,
           }}>
           <Chip
-            sx={{ margin: "10px" }}
-            icon={<CheckCircleIcon />}
+            sx={{
+              margin: "2rem",
+            }}
+            icon={<EditIcon />}
             variant="filled"
             label="Edit this section"
             onClick={() =>
@@ -180,7 +143,7 @@ export const ResizeHandle: React.FC<ResizeHandleProps> = (props) => {
       <Rnd
         css={{
           backgroundColor: color.gray.lineTransparent,
-          borderTop: `6px solid ${color.yellow}`,
+          borderTop: `6px solid ${color.yellow.medium}`,
           position: "absolute",
           zIndex: 10,
         }}
@@ -322,13 +285,12 @@ export const useCreateAnnotation = (
 ) => {
   // We need to know the container so that we can figure out where relative
   // in the page we should position the bounds.
-  const allTokens = useSelector((state) => {
-    let finalTokens: Array<Bounds> = [];
-    state.tokens.forEach((list) => {
-      finalTokens = [...finalTokens, ...list];
-    });
-    return finalTokens;
+  const tokens = useSelector((state) => state.tokens);
+  let allTokens: Array<Bounds> = [];
+  tokens.forEach((list) => {
+    allTokens = [...allTokens, ...list];
   });
+
   const [creationState, setState] = React.useState<CreationState | null>(null);
 
   const resetCreationState = () => {

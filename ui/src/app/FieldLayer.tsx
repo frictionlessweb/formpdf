@@ -15,20 +15,20 @@ import {
   useSelector,
   useDispatch,
   LayerControllerProps,
+  fieldTypes,
+  BackgroundColors,
+  Borders,
 } from "./StoreProvider";
 import { Rnd } from "react-rnd";
+import { useHotkeys } from "react-hotkeys-hook";
 
 export const useFieldLayer = (
   div: React.MutableRefObject<HTMLDivElement | null>
 ) => {
   const attr = useCreateAnnotation(div);
   const dispatch = useDispatch();
-  const { tool, page } = useSelector((state) => {
-    return {
-      tool: state.tool,
-      page: state.page,
-    };
-  });
+  const tool = useSelector((state) => state.tool);
+  const page = useSelector((state) => state.page);
   const {
     div: container,
     creationState,
@@ -55,8 +55,8 @@ export const useFieldLayer = (
               page,
               corrected: true,
               customTooltip: "",
-              backgroundColor: color.orange.transparent,
-              border: `4px solid ${color.orange.dark}`,
+              backgroundColor: BackgroundColors["TEXTBOX"],
+              border: Borders["TEXTBOX"],
               type: "TEXTBOX",
               ...mapCreationBoundsToFinalBounds(creationState.bounds),
             },
@@ -106,10 +106,9 @@ const ResizeHandleForAnnotations: React.FC = () => {
 };
 
 export const FieldLayerAnnotation: React.FC<AnnotationProps> = (props) => {
-  const [tool, selectedAnnotations] = useSelector((state) => [
-    state.tool,
-    state.selectedAnnotations,
-  ]);
+  const tool = useSelector((state) => state.tool);
+  const selectedAnnotations = useSelector((state) => state.selectedAnnotations);
+
   const annotationRef = React.useRef<HTMLDivElement | null>(null);
   const dispatch = useDispatch();
   const { id, type, children, ...cssProps } = props;
@@ -131,7 +130,7 @@ export const FieldLayerAnnotation: React.FC<AnnotationProps> = (props) => {
           }}>
           <span
             style={{
-              color: color.black,
+              color: color.black.medium,
               fontWeight: "bold",
               fontFamily: "Times New Roman",
               paddingLeft: "4px",
@@ -152,13 +151,11 @@ export const FieldLayerAnnotation: React.FC<AnnotationProps> = (props) => {
           css={{
             ...css,
             position: "absolute",
-            backgroundColor: color.orange.transparent,
+            backgroundColor: cssProps.backgroundColor,
             // Here zIndex is used to fix the issue where – the action menu (which is a child of selected annotation)
             // gets overlapped by previous section's grey area.
             zIndex: isSelected ? 100 : 0,
-            border: isSelected
-              ? "3px solid black"
-              : `4px solid ${color.orange.dark}`,
+            border: isSelected ? "4px solid black" : cssProps.border,
           }}
           enableResizing={isSelected}
           resizeHandleComponent={{
@@ -238,7 +235,7 @@ export const FieldLayerAnnotation: React.FC<AnnotationProps> = (props) => {
           )}
           <span
             style={{
-              color: color.black,
+              color: color.black.medium,
               fontWeight: "bold",
               fontFamily: "Times New Roman",
               paddingLeft: "4px",
@@ -253,12 +250,15 @@ export const FieldLayerAnnotation: React.FC<AnnotationProps> = (props) => {
 
 const FieldLayer: React.FC<LayerControllerProps> = (props) => {
   const { pdf, container } = props;
-  const annotations = useSelector((state) => {
-    return Object.values(state.annotations).filter((annotation) =>
-      ["CHECKBOX", "TEXTBOX", "RADIOBOX"].includes(annotation.type)
-    );
-  });
+  const allAnnotations = useSelector((state) => state.annotations);
+  const annotations = Object.values(allAnnotations).filter((annotation) =>
+    fieldTypes.includes(annotation.type)
+  );
   const layer = useFieldLayer(container);
+  const dispatch = useDispatch();
+  useHotkeys("s", () => dispatch({ type: "CHANGE_TOOL", payload: "SELECT" }));
+  useHotkeys("c", () => dispatch({ type: "CHANGE_TOOL", payload: "CREATE" }));
+
   return (
     <HandlerLayer
       pdf={pdf}

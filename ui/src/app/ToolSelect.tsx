@@ -11,6 +11,7 @@ import color from "../components/color";
 import NearMeIcon from "@mui/icons-material/NearMe";
 import FormatShapesIcon from "@mui/icons-material/FormatShapes";
 import PlaylistRemoveIcon from "@mui/icons-material/PlaylistRemove";
+import UndoAndRedo from "../components/UndoAndRedo";
 
 const CursorIcon = () => <NearMeIcon sx={{ transform: "scaleX(-1)" }} />;
 
@@ -25,7 +26,7 @@ const ToolButton: React.FC<ToolButtonProps> = (props) => {
   const { toolName, activeTool, tooltip, children } = props;
   const dispatch = useDispatch();
   const isActiveColor =
-    toolName === activeTool ? color.blue.medium : color.black;
+    toolName === activeTool ? color.blue.medium : color.black.medium;
   return (
     <Tooltip title={tooltip} placement="right">
       <IconButton
@@ -73,10 +74,8 @@ const ResetButton = () => {
 };
 
 const ToolSelect: React.FC<BoxProps> = (props) => {
-  const [activeTool, activeStep] = useSelector((state) => [
-    state.tool,
-    state.step,
-  ]);
+  const activeTool = useSelector((state) => state.tool);
+  const activeStep = useSelector((state) => state.step);
   let tools = <></>;
   switch (activeStep) {
     case "FIELD_LAYER": {
@@ -85,13 +84,13 @@ const ToolSelect: React.FC<BoxProps> = (props) => {
           <ToolButton
             activeTool={activeTool}
             toolName="SELECT"
-            tooltip="Select">
+            tooltip="Select (S)">
             <CursorIcon />
           </ToolButton>
           <ToolButton
             activeTool={activeTool}
             toolName="CREATE"
-            tooltip="Create">
+            tooltip="Create (C)">
             <FormatShapesIcon />
           </ToolButton>
           <ResetButton />
@@ -117,21 +116,29 @@ const ToolSelect: React.FC<BoxProps> = (props) => {
   return (
     <Box
       sx={{
-        position: "fixed",
-        left: 24,
-        top: "25%",
-        backgroundColor: "white",
+        position: "absolute",
+        left: 0,
+        top: 0,
+        height: "100vh",
+        backgroundColor: color.gray.light,
+        borderRight: `2px solid ${color.gray.line}`,
+        width: "3.5rem",
+        paddingTop: "9rem",
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between",
-        alignItems: "center",
-        padding: "8px",
-        zIndex: 100,
-        borderRadius: "8px",
-        boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-      }}
-      {...props}>
-      {tools}
+      }}>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "flex-start",
+          alignItems: "center",
+        }}
+        {...props}>
+        {tools}
+      </Box>
+      <UndoAndRedo />
     </Box>
   );
 };

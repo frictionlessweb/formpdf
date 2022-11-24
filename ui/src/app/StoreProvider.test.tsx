@@ -62,10 +62,6 @@ describe("Our form reducer", () => {
     const res = reduce(init, { type: "CHANGE_TOOL", payload: "SELECT" });
     expect(res.tool).toEqual("SELECT");
   });
-  test("We can change the current page", () => {
-    const res = reduce(init, { type: "CHANGE_PAGE", payload: 2 });
-    expect(res.page).toEqual(2);
-  });
   test("We can add an annotation", () => {
     const payload = {
       id: "1",
@@ -369,6 +365,7 @@ describe("Our form reducer", () => {
       pdfHeight: 2200,
       pdfWidth: 1700,
       currentSection: 0,
+      previewTooltips: true,
       sections: [{ y: 0 }] as Section[],
     } as const;
     const res = reduce(init, { type: "HYDRATE_STORE", payload });
@@ -402,19 +399,6 @@ describe("Our form reducer", () => {
     });
     expect(changed.annotations["1"].type).toBe("CHECKBOX");
     expect(changed.annotations["1"].corrected).toBe(true);
-  });
-  test("We can set step of the process and when we do it tool automatically gets changed to select", () => {
-    const changedTool = reduce(init, {
-      type: "CHANGE_TOOL",
-      payload: "CREATE",
-    });
-    const changedStep = reduce(changedTool, {
-      type: "SET_STEP",
-      payload: "SECTION_LAYER",
-    });
-
-    expect(changedStep.step).toBe("SECTION_LAYER");
-    expect(changedStep.tool).toBe("SELECT");
   });
   test("We can create label relation", () => {
     const to = {
@@ -568,13 +552,6 @@ describe("Our form reducer", () => {
     expect(res.sections[res.currentSection].y).toEqual(32);
     expect(res.showResizeModal).toBe(true);
   });
-  test("We can create new section", () => {
-    const res = reduce(init, {
-      type: "CREATE_NEW_SECTION",
-    });
-    expect(res.currentSection).toBe(1);
-    expect(res.sections).toEqual([{ y: 300 }, { y: 600 }]);
-  });
   test("We can update existing sections", () => {});
   test("We can jump back to the field layer", () => {
     const res = reduce(
@@ -590,133 +567,12 @@ describe("Our form reducer", () => {
     const res = reduce(init, { type: "SHOW_LOADING_SCREEN" });
     expect(res.showLoadingScreen).toBe(true);
   });
-  test("When we change the step and annotations, we set loading to false", () => {
-    const res = reduce(
-      { ...init, showLoadingScreen: true },
-      {
-        type: "INCREMENT_STEP_AND_GET_ANNOTATIONS",
-        payload: {
-          annotations: [],
-          labelRelations: {},
-          groupRelations: {},
-        },
-      }
-    );
-    expect(res.showLoadingScreen).toBe(false);
-  });
-  test("When we change the step and annotations, the step changes as well", () => {
-    const res = reduce(
-      { ...init, showLoadingScreen: true, step: "LABEL_LAYER" },
-      {
-        type: "INCREMENT_STEP_AND_GET_ANNOTATIONS",
-        payload: {
-          annotations: [],
-          labelRelations: {},
-          groupRelations: {},
-        },
-      }
-    );
-    expect(res.step).toBe("GROUP_LAYER");
-  });
-  test("We set the annotations appropriately when we get new ones from the API", () => {
-    const res = reduce(
-      { ...init, showLoadingScreen: true },
-      {
-        type: "INCREMENT_STEP_AND_GET_ANNOTATIONS",
-        payload: {
-          annotations: [
-            [
-              {
-                type: "TEXTBOX",
-                height: 200,
-                id: "1234",
-                left: 10,
-                top: 20,
-                width: 234,
-              },
-            ],
-          ],
-          labelRelations: {},
-          groupRelations: {},
-        },
-      }
-    );
-    expect(Object.keys(res.annotations)).toHaveLength(1);
-    expect(res.annotations["1234"].width).toEqual(234);
-    expect(res.annotations["1234"].border).toEqual(ANNOTATION_BORDER);
-  });
-  test("Changing the step and the annotations also changes the tool", () => {
-    const res = reduce(
-      { ...init, tool: "CREATE" },
-      {
-        type: "INCREMENT_STEP_AND_GET_ANNOTATIONS",
-        payload: {
-          annotations: [
-            [
-              {
-                type: "TEXTBOX",
-                height: 200,
-                id: "1234",
-                left: 10,
-                top: 20,
-                width: 234,
-              },
-            ],
-          ],
-          labelRelations: {},
-          groupRelations: {},
-        },
-      }
-    );
-    expect(res.tool).toEqual("SELECT");
-  });
-  test("Changing the step and annotation also changes the relations", () => {
-    const labelRelations = { a: "b" };
-    const groupRelations = { c: ["d", "e", "f"] };
-    const res = reduce(
-      { ...init, tool: "CREATE" },
-      {
-        type: "INCREMENT_STEP_AND_GET_ANNOTATIONS",
-        payload: {
-          annotations: [
-            [
-              {
-                type: "TEXTBOX",
-                height: 200,
-                id: "1234",
-                left: 10,
-                top: 20,
-                width: 234,
-              },
-            ],
-          ],
-          labelRelations,
-          groupRelations,
-        },
-      }
-    );
-    expect(res.tool).toEqual("SELECT");
-    expect(res.labelRelations).toEqual(labelRelations);
-    expect(res.groupRelations).toEqual(groupRelations);
-  });
   test("We can goto the next step", () => {
     const res = reduce(init, { type: "GOTO_NEXT_STEP" });
     expect(res.step).toEqual("FIELD_LAYER");
   });
   test("We can goto a previous step", () => {
-    const next = reduce(init, { type: "GOTO_NEXT_STEP" });
-    const prev = reduce(next, {
-      type: "GOTO_PREVIOUS_STEP",
-      payload: "SECTION_LAYER",
-    });
+    const prev = reduce(init, { type: "GOTO_PREVIOUS_STEP" });
     expect(prev.step).toEqual("SECTION_LAYER");
-  });
-  test("We can't skip ahead with goto previous step", () => {
-    const next = reduce(init, { type: "GOTO_NEXT_STEP" });
-    const prev = reduce(next, {
-      type: "GOTO_PREVIOUS_STEP",
-      payload: "GROUP_LAYER",
-    });
-    expect(prev.step).toEqual("FIELD_LAYER");
   });
 });

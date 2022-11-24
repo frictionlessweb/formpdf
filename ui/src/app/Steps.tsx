@@ -22,16 +22,16 @@ const Connector = styled(StepConnector)(() => ({
   },
   [`&.${stepConnectorClasses.active}`]: {
     [`& .${stepConnectorClasses.line}`]: {
-      borderColor: "#1473E6",
+      borderColor: color.green.medium,
     },
   },
   [`&.${stepConnectorClasses.completed}`]: {
     [`& .${stepConnectorClasses.line}`]: {
-      borderColor: "#1473E6",
+      borderColor: color.green.medium,
     },
   },
   [`& .${stepConnectorClasses.line}`]: {
-    borderColor: color.gray.light,
+    borderColor: color.gray.dark,
     borderTopWidth: 2,
     borderRadius: 0.5,
   },
@@ -39,15 +39,15 @@ const Connector = styled(StepConnector)(() => ({
 
 const StepIconRoot = styled("div")<{ ownerState: { active?: boolean } }>(
   ({ theme, ownerState }) => ({
-    color: color.gray.light,
+    color: color.gray.dark,
     display: "flex",
     height: 22,
     alignItems: "center",
     ...(ownerState.active && {
-      color: "#1473E6",
+      color: color.green.medium,
     }),
     "& .StepIcon-completedIcon": {
-      color: "#1473E6",
+      color: color.green.medium,
       zIndex: 1,
       fontSize: 18,
     },
@@ -76,66 +76,43 @@ function StepIcon(props: StepIconProps) {
 
 // FIXME: Why is `onStepChange` a prop? I think we can just dispatch in the render
 // method.
-const Steps: React.FC<
-  BoxProps & {
-    activeStep: StepType;
-    onStepChange: (step: StepType) => void;
-    activeTool: ToolType;
-  }
-> = (props) => {
-  const { activeStep, activeTool, onStepChange, ...boxProps } = props;
-  const stepIndex = STEPS.findIndex((step) => step.id === activeStep);
+const Steps: React.FC<{
+  onStepChange: (step: StepType) => void;
+  stepIndex: number;
+}> = (props) => {
+  const { onStepChange, stepIndex } = props;
   //BUG: is not boxProps inline style ?
   return (
-    <Box
-      display="flex"
-      flexDirection="column"
-      alignItems="center"
-      width="100%"
-      {...boxProps}>
-      <Stepper
-        css={{ width: "600px" }}
-        alternativeLabel
-        activeStep={stepIndex}
-        connector={<Connector />}>
-        {STEPS.map((step) => (
-          <Step key={step.title}>
-            <StepLabel
-              sx={{
-                "& .MuiStepLabel-labelContainer .MuiStepLabel-label": {
-                  marginTop: 0.4,
+    <Stepper
+      css={{ width: "30%", maxWidth: "30rem" }}
+      alternativeLabel
+      activeStep={stepIndex}
+      connector={<Connector />}>
+      {STEPS.map((step, index) => (
+        <Step key={step.title}>
+          <StepLabel
+            sx={{
+              "& .MuiStepLabel-labelContainer .MuiStepLabel-label": {
+                marginTop: 0.4,
+              },
+            }}
+            StepIconComponent={StepIcon}>
+            <span
+              css={{
+                cursor: "pointer",
+                "&:hover": {
+                  fontWeight: "bold",
                 },
+                fontWeight: stepIndex === index ? "bold" : "normal",
+                fontSize: 12,
               }}
-              StepIconComponent={StepIcon}>
-              <span
-                css={{
-                  cursor: "pointer",
-                  "&:hover": {
-                    fontWeight: "bold",
-                  },
-                  fontSize: 12,
-                }}
-                onClick={() => onStepChange(step.id)}>
-                {step.title}
-              </span>
-            </StepLabel>
-          </Step>
-        ))}
-      </Stepper>
-      <div
-        css={{
-          marginTop: 14,
-          fontWeight: "bold",
-          textAlign: "center",
-          fontSize: 14,
-          width: "80%",
-          color: color.black,
-        }}>
-        {/* If a step has tool specific description then show that, if not, show default step description. */}
-        {STEPS[stepIndex].toolDescription[activeTool] ??
-          STEPS[stepIndex].description}
-      </div>
-    </Box>
+              onClick={() => onStepChange(step.id)}>
+              {step.title}
+            </span>
+          </StepLabel>
+        </Step>
+      ))}
+    </Stepper>
   );
 };
 export default Steps;

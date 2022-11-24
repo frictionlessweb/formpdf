@@ -4,7 +4,7 @@ import React from "react";
 import color from "./color";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
-import { ANNOTATION_TYPE } from "../app/StoreProvider";
+import { ANNOTATION_TYPE, fieldTypes } from "../app/StoreProvider";
 import { CSSObject } from "@emotion/react";
 import TextField from "@mui/material/TextField";
 
@@ -55,11 +55,12 @@ export const FieldLayerActionMenu: React.FC<FieldLayerActionMenuProps> = (
         value={value}
         onChange={(e) => onFieldTypeChange(e.target.value as ANNOTATION_TYPE)}
         css={{ height: "40px" }}>
-        <MenuItem value={"TEXTBOX" as ANNOTATION_TYPE}>Textbox</MenuItem>
-        <MenuItem value={"RADIOBOX" as ANNOTATION_TYPE}>Radiobox</MenuItem>
-        <MenuItem value={"CHECKBOX" as ANNOTATION_TYPE}>Checkbox</MenuItem>
+        {fieldTypes.map((fieldType) => (
+          <MenuItem key={fieldType} value={fieldType as ANNOTATION_TYPE}>
+            {fieldType}
+          </MenuItem>
+        ))}
       </Select>
-      <ActionMenuItem>Duplicate</ActionMenuItem>
       <ActionMenuItem
         // We have to prevent the default behaviour for
         // the pdf canvas here, in order to be able to capture
@@ -168,17 +169,11 @@ interface GroupLayerActionMenuProps {
   onDelete: () => void;
   onCreateNewGroup: () => void;
   type: string;
-  groupOptions: { label: string; value: string }[];
-  onGroupChange: (value: string) => void;
-  currentGroup: string;
 }
 
 export const GroupLayerActionMenu: React.FC<GroupLayerActionMenuProps> = ({
   onDelete,
   onCreateNewGroup,
-  groupOptions,
-  onGroupChange,
-  currentGroup,
   type,
 }) => {
   return (
@@ -196,18 +191,6 @@ export const GroupLayerActionMenu: React.FC<GroupLayerActionMenuProps> = ({
           Create New Group
         </ActionMenuItem>
       )}
-      <Select
-        label="Move to Group"
-        value={currentGroup}
-        onChange={(e) => onGroupChange(e.target.value as ANNOTATION_TYPE)}
-        css={{ height: "40px" }}>
-        <MenuItem value={"None"}>{"Move To Group..."}</MenuItem>
-        {groupOptions.map((groupOption) => (
-          <MenuItem key={groupOption.value} value={groupOption.value}>
-            {groupOption.label}
-          </MenuItem>
-        ))}
-      </Select>
 
       {["CHECKBOX", "RADIOBOX"].includes(type) && (
         <ActionMenuItem

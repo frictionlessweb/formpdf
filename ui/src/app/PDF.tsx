@@ -88,9 +88,7 @@ const useFetchPDFUI = (config: FetchPDFConfig): FetchingPdf => {
   const { pdfDocument, page } = config;
 
   // Extract some metadata from the Redux store.
-  const { zoom } = useSelector((state) => ({
-    zoom: state.zoom,
-  }));
+  const zoom = useSelector((state) => state.zoom);
 
   // Step 1: Set the page.
   const [pageProxy, setPageProxy] = React.useState<PDFPageProxy | null>(null);
@@ -246,12 +244,11 @@ const PDFCanvas: React.FC<PDFCanvasProps> = (props) => {
 const PDFUI: React.FC<PDFUIProps> = (props) => {
   const { url, children } = props;
   const pdfDocument = usePDFDocumentProxy(url);
-  const { pages, zoom, pdfWidth, pdfHeight } = useSelector((state) => ({
-    pages: state.tokens.length,
-    zoom: state.zoom,
-    pdfWidth: state.pdfWidth,
-    pdfHeight: state.pdfHeight,
-  }));
+  const pages = useSelector((state) => state.tokens.length);
+  const zoom = useSelector((state) => state.zoom);
+  const pdfWidth = useSelector((state) => state.pdfWidth);
+  const pdfHeight = useSelector((state) => state.pdfHeight);
+
   const container = React.useRef<HTMLDivElement | null>(null);
   return (
     <div
@@ -261,8 +258,8 @@ const PDFUI: React.FC<PDFUIProps> = (props) => {
         overflow: "auto",
         display: "flex",
         flexDirection: "column",
-        width: "calc(100vw - 120px - 120px + 16px)",
-        height: "calc(100vh - 160px)",
+        width: "calc(100vw - 8rem)",
+        height: "calc(100vh - 8.5rem)",
         position: "relative",
       }}>
       <>

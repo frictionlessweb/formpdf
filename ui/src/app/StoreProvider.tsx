@@ -51,9 +51,19 @@ export type ANNOTATION_TYPE =
   | "TEXTBOX"
   | "RADIOBOX"
   | "CHECKBOX"
+  | "SIGNATURE"
+  | "DATE"
   | "LABEL"
   | "GROUP"
   | "GROUP_LABEL";
+
+export const fieldTypes = [
+  "TEXTBOX",
+  "RADIOBOX",
+  "CHECKBOX",
+  "SIGNATURE",
+  "DATE",
+];
 
 export type AnnotationUIState = {
   // What is the ID of the annotation -- how do we uniquely identify it?
@@ -114,21 +124,21 @@ export const STEPS: Array<StepDescription> = [
     toolDescription: {},
   },
   {
-    id: "LABEL_LAYER",
-    title: "Labels",
-    description:
-      "Ensure that all form fields have correct labels. If a label is missing or incorrect, select the field and Create/Update label.",
-    toolDescription: {
-      CREATE: "Click and drag with the mouse to select text for the label.",
-    },
-  },
-  {
     id: "GROUP_LAYER",
     title: "Groups",
     description:
       "Ensure that all checkboxes and radioboxes are properly grouped, and each group has an appropriate label. If not, use Shift + Click to select multiple field and use the Create New Group option.",
     toolDescription: {
       CREATE: "Click and drag with the mouse to select text for the label",
+    },
+  },
+  {
+    id: "LABEL_LAYER",
+    title: "Labels",
+    description:
+      "Ensure that all form fields have correct labels. If a label is missing or incorrect, select the field and Create/Update label.",
+    toolDescription: {
+      CREATE: "Click and drag with the mouse to select text for the label.",
     },
   },
 ];
@@ -213,27 +223,33 @@ export interface AccessibleForm {
   showResizeModal: boolean;
   // Should we display a generic screen instead of the pdf?
   showLoadingScreen: boolean;
+  // Should we preview tooltips in label layer?
+  previewTooltips: boolean;
 }
 
 export const ANNOTATION_COLOR = color.orange.transparent;
 
 export const ANNOTATION_BORDER = `4px solid ${color.orange.dark}`;
 
-const Borders: Record<ANNOTATION_TYPE, string> = {
-  TEXTBOX: `4px solid ${color.orange.dark}`,
-  CHECKBOX: `4px solid ${color.orange.dark}`,
-  RADIOBOX: `4px solid ${color.orange.dark}`,
+export const Borders: Record<ANNOTATION_TYPE, string> = {
+  TEXTBOX: `4px solid ${color.orange.medium}`,
+  CHECKBOX: `4px solid ${color.yellow.medium}`,
+  RADIOBOX: `4px solid ${color.purple.medium}`,
+  SIGNATURE: `4px solid ${color.pink.medium}`,
+  DATE: `4px solid ${color.green.medium}`,
   LABEL: `4px solid ${color.teal.medium}`,
-  GROUP: `4px solid ${color.teal.medium}`,
+  GROUP: `4px solid ${color.brown.medium}`,
   GROUP_LABEL: `4px solid ${color.teal.medium}`,
 };
 
-const BackgroundColors: Record<ANNOTATION_TYPE, string> = {
+export const BackgroundColors: Record<ANNOTATION_TYPE, string> = {
   TEXTBOX: color.orange.transparent,
-  CHECKBOX: color.orange.transparent,
-  RADIOBOX: color.orange.transparent,
+  CHECKBOX: color.yellow.transparent,
+  RADIOBOX: color.purple.transparent,
+  SIGNATURE: color.pink.transparent,
+  DATE: color.green.transparent,
   LABEL: color.teal.transparent,
-  GROUP: color.teal.transparent,
+  GROUP: color.brown.transparent,
   GROUP_LABEL: color.teal.transparent,
 };
 
@@ -288,6 +304,7 @@ export const DEFAULT_ACCESSIBLE_FORM: AccessibleForm = {
   groupRelations: {},
   haveScaled: false,
   showLoadingScreen: false,
+  previewTooltips: true,
 };
 
 // AccessibleFormAction describes every important possible action that a user
@@ -302,10 +319,11 @@ export type AccessibleFormAction =
       };
     }
   | { type: "SET_CURRENT_SECTION"; payload: number }
+  | { type: "TOGGLE_PREVIEW_TOOLTIPS" }
   | { type: "GOTO_NEXT_STEP" }
-  | { type: "GOTO_PREVIOUS_STEP"; payload: Step }
+  | { type: "GOTO_PREVIOUS_STEP" }
+  | { type: "GOTO_STEP"; payload: Step }
   | { type: "CHANGE_ZOOM"; payload: number }
-  | { type: "CHANGE_PAGE"; payload: number }
   | { type: "CHANGE_TOOL"; payload: TOOL }
   | { type: "CREATE_ANNOTATION"; payload: Annotation }
   | { type: "DELETE_ANNOTATION"; payload: Array<AnnotationId> }
@@ -351,22 +369,10 @@ export type AccessibleFormAction =
       payload: { ids: Array<AnnotationId>; type: ANNOTATION_TYPE };
     }
   | {
-      type: "SET_STEP";
-      payload: Step;
-    }
-  | {
-      type: "INCREMENT_STEP_AND_GET_ANNOTATIONS";
-      payload: {
-        annotations: Array<Array<ApiAnnotation>>;
-        groupRelations: Record<AnnotationId, AnnotationId[]>;
-        labelRelations: Record<AnnotationId, AnnotationId>;
-      };
-    }
-  | {
       type: "CREATE_LABEL";
       payload: {
         to: {
-          ui: AnnotationUIState;
+          ui: Omit<AnnotationUIState, "customTooltip">;
           tokens: Bounds[];
         };
         from: Array<AnnotationId>;
@@ -390,17 +396,6 @@ export type AccessibleFormAction =
   | {
       type: "REMOVE_FROM_GROUP";
       payload: Array<AnnotationId>;
-    }
-  | {
-      type: "CHANGE_GROUP";
-      payload: { annotationIds: Array<AnnotationId>; groupId: AnnotationId };
-    }
-  | {
-      type: "UPDATE_SECTION";
-      payload: Section;
-    }
-  | {
-      type: "CREATE_NEW_SECTION";
     }
   | {
       type: "UNDO";
@@ -429,7 +424,14 @@ const produceWithUndo = (previous: AccessibleForm, producer: Producer) => {
     previous,
     producer
   );
+
   return produce(nextState, (draft) => {
+    // Sometimes an action is dispatched however it doesn't modify the state, example user moved
+    // an annotation and in the same move they put it back in the same place. Or a user just clicks,
+    // on a section slider. This would dispatch a MOVE_SLIDER action however, it doesn't change the
+    // state. In such case, there is no need for undo or redo to log the 0 change. Or else when
+    // user tries undo or redo they won't see any change.
+    if (patches.length === 0) return;
     draft.canRedo = false;
     draft.canUndo = true;
     draft.currentVersion += 1;
@@ -448,27 +450,66 @@ export const reduceAccessibleForm = (
 ): AccessibleForm => {
   if (previous === undefined) return DEFAULT_ACCESSIBLE_FORM;
   switch (action.type) {
+    case "TOGGLE_PREVIEW_TOOLTIPS": {
+      return produceWithUndo(previous, (draft) => {
+        draft.previewTooltips = !draft.previewTooltips;
+      });
+    }
+    case "GOTO_STEP": {
+      return produceWithUndo(previous, (draft) => {
+        draft.tool = "SELECT";
+        draft.step = action.payload;
+      });
+    }
     case "GOTO_PREVIOUS_STEP": {
       return produceWithUndo(previous, (draft) => {
-        const currentStep = STEPS.findIndex((aStep) => aStep.id === draft.step);
-        if (currentStep === -1) return;
-        const previousStep = STEPS.findIndex(
-          (aStep) => aStep.id === action.payload
-        );
-        if (previousStep === -1) return;
-        if (previousStep < currentStep) {
-          draft.step = action.payload;
+        draft.tool = "SELECT";
+        const idx = STEPS.findIndex((aStep) => aStep.id === draft.step);
+
+        const isFirstStep = idx === 0;
+
+        if (isFirstStep && draft.currentSection === 0) return;
+
+        // when on first step
+        if (isFirstStep && draft.currentSection > 0) {
+          draft.currentSection -= 1;
+          draft.step = STEPS[STEPS.length - 1].id;
         }
+
+        //normal case
+        const prevStep = STEPS[idx - 1]?.id;
+        if (prevStep === undefined) return;
+        draft.step = prevStep;
       });
     }
     case "GOTO_NEXT_STEP": {
       return produceWithUndo(previous, (draft) => {
+        draft.tool = "SELECT";
         const idx = STEPS.findIndex((aStep) => aStep.id === draft.step);
-        if (idx === -1) return;
+
+        const isLastStep = idx === STEPS.length - 1;
+        // when on last step and section exists
+        if (isLastStep && draft.currentSection < draft.sections.length - 1) {
+          draft.currentSection += 1;
+          draft.step = STEPS[0].id;
+          return;
+        }
+
+        // when on last step and section needs to be created
+        if (isLastStep && draft.currentSection === draft.sections.length - 1) {
+          const currentSection = draft.currentSection;
+          draft.sections.push({
+            y: draft.sections[currentSection].y + 300,
+          });
+          draft.currentSection = currentSection + 1;
+          draft.step = STEPS[0].id;
+          return;
+        }
+
+        // normal case
         const nextStep = STEPS[idx + 1]?.id;
         if (nextStep === undefined) return;
         draft.step = nextStep;
-        draft.tool = "SELECT";
       });
     }
     case "SHOW_LOADING_SCREEN": {
@@ -537,80 +578,11 @@ export const reduceAccessibleForm = (
         }
       });
     }
-    case "CHANGE_PAGE": {
-      return produce(previous, (draft) => {
-        draft.page = action.payload;
-        return;
-      });
-    }
     case "CREATE_ANNOTATION": {
       return produceWithUndo(previous, (draft) => {
         draft.annotations[action.payload.id] = action.payload;
+        draft.tool = "SELECT";
         return;
-      });
-    }
-    case "CHANGE_GROUP": {
-      return produceWithUndo(previous, (draft) => {
-        // We need to remove the annotation from the group it was previously in.
-        action.payload.annotationIds.forEach((fieldId) => {
-          Object.keys(draft.groupRelations).forEach((groupId) => {
-            // 1. Remove from existing groupRelation
-            const group = draft.groupRelations[groupId];
-            if (group.includes(fieldId)) {
-              draft.groupRelations[groupId] = draft.groupRelations[
-                groupId
-              ].filter((id) => id !== fieldId);
-              // we also need to resize the annotation considering a field from it was removed.
-              draft.annotations[groupId] = {
-                ...draft.annotations[groupId],
-                ...boxContaining(
-                  draft.groupRelations[groupId].map((id) => {
-                    return {
-                      top: draft.annotations[id].top,
-                      left: draft.annotations[id].left,
-                      width: draft.annotations[id].width,
-                      height: draft.annotations[id].height,
-                    };
-                  }),
-                  6
-                ),
-              };
-            }
-            // 2. Edgecase: if that group is now empty - delete groupRelation, delete groupAnnotation, delete groupLabel, delete labelRelation
-            if (draft.groupRelations[groupId].length === 0) {
-              delete draft.groupRelations[groupId];
-              delete draft.annotations[groupId];
-
-              const labelAnnotationId = draft.labelRelations[groupId];
-              delete draft.annotations[labelAnnotationId];
-
-              delete draft.labelRelations[groupId];
-            }
-          });
-        });
-
-        draft.groupRelations[action.payload.groupId] = [
-          ...draft.groupRelations[action.payload.groupId],
-          ...action.payload.annotationIds,
-        ];
-
-        // we also need to resize the annotation considering a field is added to it.
-        draft.annotations[action.payload.groupId] = {
-          ...draft.annotations[action.payload.groupId],
-          ...boxContaining(
-            draft.groupRelations[action.payload.groupId].map((id) => {
-              return {
-                top: draft.annotations[id].top,
-                left: draft.annotations[id].left,
-                width: draft.annotations[id].width,
-                height: draft.annotations[id].height,
-              };
-            }),
-            6
-          ),
-        };
-
-        draft.selectedAnnotations = {};
       });
     }
     case "REMOVE_FROM_GROUP": {
@@ -761,57 +733,11 @@ export const reduceAccessibleForm = (
         action.payload.ids.forEach((id) => {
           const annotation = draft.annotations[id];
           annotation.type = action.payload.type;
+          annotation.backgroundColor = BackgroundColors[action.payload.type];
+          annotation.border = Borders[action.payload.type];
           annotation.corrected = true;
         });
         return;
-      });
-    }
-    case "SET_STEP": {
-      // TODO: When step changes we might want to clean undo and redo. So, that
-      // users don't accidently undo or redo steps out of their view.
-      return produce(previous, (draft) => {
-        draft.step = action.payload;
-        // When user moves to a new page we want "SELECT" tool to be selected as
-        // it is the default tool which is present on all pages.
-        draft.tool = "SELECT";
-      });
-    }
-    // This case was used originally to get annotation values from server. This is obselete now.
-    case "INCREMENT_STEP_AND_GET_ANNOTATIONS": {
-      return produce(previous, (draft) => {
-        const newAnnotations: Record<AnnotationId, Annotation> = {};
-        // All incoming annotations from file are at a scale of 1. So, we need to scale them to the
-        // current scale in UI or the store. If we don't do this, then annotations will be shown in
-        // 100% zoom level, irrespective of zoom level of the UI.
-        const scale = draft.zoom;
-        for (let i = 0; i < action.payload.annotations.length; ++i) {
-          const page = action.payload.annotations[i];
-          for (const annotation of page) {
-            newAnnotations[annotation.id as AnnotationId] = {
-              id: annotation.id,
-              type: annotation.type,
-              width: annotation.width * scale,
-              height: annotation.height * scale,
-              top: annotation.top * scale,
-              left: annotation.left * scale,
-              border: Borders[annotation.type],
-              backgroundColor: BackgroundColors[annotation.type],
-              page: i + 1,
-              corrected: false,
-              customTooltip: "",
-            };
-          }
-        }
-        draft.showLoadingScreen = false;
-        draft.annotations = newAnnotations;
-        draft.tool = "SELECT";
-        const idx = STEPS.findIndex((aStep) => aStep.id === draft.step);
-        if (idx === -1) return;
-        const nextStep = STEPS[idx + 1]?.id;
-        if (nextStep === undefined) return;
-        draft.step = nextStep;
-        draft.labelRelations = action.payload.labelRelations;
-        draft.groupRelations = action.payload.groupRelations;
       });
     }
     // payloed: from – An array of annotations, to – an label annotation.
@@ -932,8 +858,6 @@ export const reduceAccessibleForm = (
         draft.groupRelations[action.payload.from.ui.id] = action.payload.to;
         // 3. Set group annotation as first element in the selected fields.
         draft.selectedAnnotations = { [action.payload.from.ui.id]: true };
-
-        draft.tool = "CREATE";
         return;
       });
     }
@@ -942,26 +866,6 @@ export const reduceAccessibleForm = (
         draft.currentSection = action.payload;
         draft.step = "SECTION_LAYER";
         draft.tool = "SELECT";
-        return;
-      });
-    }
-    case "CREATE_NEW_SECTION": {
-      return produceWithUndo(previous, (draft) => {
-        const currentSection = draft.currentSection;
-        draft.sections.push({
-          y: draft.sections[currentSection].y + 300,
-        });
-        draft.currentSection = currentSection + 1;
-        draft.step = "SECTION_LAYER";
-        draft.tool = "SELECT";
-        return;
-      });
-    }
-    // This is not being used right now.
-    case "UPDATE_SECTION": {
-      return produceWithUndo(previous, (draft) => {
-        const currentSection = draft.currentSection;
-        draft.sections[currentSection] = action.payload;
         return;
       });
     }
