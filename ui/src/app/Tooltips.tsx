@@ -87,7 +87,7 @@ const CustomTooltip: React.FC = () => {
             paddingTop: "0.2rem",
             paddingBottom: "1rem",
           }}>
-          Add data format (. DDMMYYY, .Capital), conditions (. Required) or
+          Add data format (. DDMMYYY, . Capital), conditions (. Required) or
           additional instructions such as table row number (. 1) for fields.
           <b> As you type, the text automatically gets added to the tooltip.</b>
         </div>
@@ -97,7 +97,7 @@ const CustomTooltip: React.FC = () => {
           }}
           fullWidth
           size="small"
-          placeholder="Ex. DDMMYYY"
+          placeholder=". DDMMYYY, . Required or . 1"
           margin="none"
           onClick={(e) => {
             e.stopPropagation();
