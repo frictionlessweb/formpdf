@@ -10,11 +10,16 @@ import PDF from "./app/PDF";
 import { Zoom } from "./app/Zoom";
 import ToolSelect from "./app/ToolSelect";
 import ResizeDialog from "./app/ResizeModal";
-import { useSaveState, getPdfUrl } from "./app/utils";
+import { getPdfUrl, useSaveState } from "./app/utils";
 import color from "./components/color";
 
-const App = () => {
+// We didn't add this to app, or else it will re-render the whole App.
+const SaveState = () => {
   useSaveState();
+  return null;
+};
+
+const App = () => {
   const pdfUrl = getPdfUrl();
   return (
     <Box
@@ -38,6 +43,7 @@ const App = () => {
       <PreviewTooltipCheckbox />
       <FormSelect />
       <ResizeDialog />
+      <SaveState />
     </Box>
   );
 };

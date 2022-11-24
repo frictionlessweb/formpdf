@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import React from "react";
 import Steps from "./Steps";
-import Box, { BoxProps } from "@mui/material/Box";
+import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import { useSelector, useDispatch, Step, STEPS } from "./StoreProvider";
 import color from "../components/color";
@@ -13,20 +13,6 @@ import { Checkbox, FormControl, FormControlLabel } from "@mui/material";
 import Fab from "@mui/material/Fab";
 import ClearIcon from "@mui/icons-material/Clear";
 import { FloatingDiv } from "./Zoom";
-
-const useStepsNav = () => {
-  const { activeStep, activeTool } = useSelector((state) => {
-    return {
-      activeStep: state.step,
-      activeTool: state.tool,
-    };
-  });
-  const dispatch = useDispatch();
-  const goToStep = async (step: Step) => {
-    dispatch({ type: "GOTO_STEP", payload: step });
-  };
-  return { activeStep, goToStep, activeTool };
-};
 
 const NextStepButton: React.FC = () => {
   const dispatch = useDispatch();
@@ -152,8 +138,13 @@ const Progress = () => {
   );
 };
 
-const Header: React.FC<BoxProps> = (props) => {
-  const { activeStep, goToStep, activeTool } = useStepsNav();
+const Header: React.FC = () => {
+  const activeStep = useSelector((state) => state.step);
+  const activeTool = useSelector((state) => state.tool);
+  const dispatch = useDispatch();
+  const goToStep = async (step: Step) => {
+    dispatch({ type: "GOTO_STEP", payload: step });
+  };
   const stepIndex = STEPS.findIndex((step) => step.id === activeStep);
   return (
     <Box
@@ -270,11 +261,9 @@ const ExitButtonForCreateTool: React.FC = () => {
 };
 
 const PreviewTooltipCheckbox: React.FC = () => {
-  const [step, tool, previewTooltips] = useSelector((state) => [
-    state.step,
-    state.tool,
-    state.previewTooltips,
-  ]);
+  const step = useSelector((state) => state.step);
+  const tool = useSelector((state) => state.tool);
+  const previewTooltips = useSelector((state) => state.previewTooltips);
   const dispatch = useDispatch();
   const handlePrevewTooltipsChange = () => {
     dispatch({ type: "TOGGLE_PREVIEW_TOOLTIPS" });
