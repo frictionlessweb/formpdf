@@ -73,36 +73,13 @@ const GroupLayerSelectAnnotation: React.FC<AnnotationStatic> = (
     );
   }
   return (
-    <TranslucentBox
-      id={id}
-      css={{
-        cursor: "pointer",
-        ...css,
-        position: "absolute",
-        zIndex: isSelected ? 100 : 0,
-        border: isSelected ? "3px solid black" : css.border,
-      }}
-      onClick={(e: React.MouseEvent<HTMLElement>) => {
-        e.stopPropagation();
-        const shiftNotPressed = !e.shiftKey;
-        if (shiftNotPressed) {
-          dispatch({ type: "DESELECT_ALL_ANNOTATION" });
-        }
-        if (isSelected) {
-          dispatch({
-            type: "DESELECT_ANNOTATION",
-            payload: annotationProps.id,
-          });
-        } else {
-          dispatch({
-            type: "SELECT_ANNOTATION",
-            payload: annotationProps.id,
-          });
-        }
-      }}>
+    <>
       {isFirstSelection && (
         <GroupLayerActionMenu
-          type={type}
+          position={{
+            left: css.left,
+            top: css.top,
+          }}
           onDelete={() => {
             if (type === "RADIOBOX" || "CHECKBOX") {
               dispatch({
@@ -140,7 +117,35 @@ const GroupLayerSelectAnnotation: React.FC<AnnotationStatic> = (
           }}
         />
       )}
-    </TranslucentBox>
+      <TranslucentBox
+        id={id}
+        css={{
+          cursor: "pointer",
+          ...css,
+          position: "absolute",
+          zIndex: isSelected ? 100 : 0,
+          border: isSelected ? "3px solid black" : css.border,
+        }}
+        onClick={(e: React.MouseEvent<HTMLElement>) => {
+          e.stopPropagation();
+          const shiftNotPressed = !e.shiftKey;
+          if (shiftNotPressed) {
+            dispatch({ type: "DESELECT_ALL_ANNOTATION" });
+          }
+          if (isSelected) {
+            dispatch({
+              type: "DESELECT_ANNOTATION",
+              payload: annotationProps.id,
+            });
+          } else {
+            dispatch({
+              type: "SELECT_ANNOTATION",
+              payload: annotationProps.id,
+            });
+          }
+        }}
+      />
+    </>
   );
 };
 

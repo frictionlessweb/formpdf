@@ -147,74 +147,13 @@ export const FieldLayerAnnotation: React.FC<AnnotationProps> = (props) => {
       const isFirstSelection =
         Object.keys(selectedAnnotations)[0] === annotationProps.id;
       return (
-        <Rnd
-          css={{
-            ...css,
-            position: "absolute",
-            backgroundColor: cssProps.backgroundColor,
-            // Here zIndex is used to fix the issue where – the action menu (which is a child of selected annotation)
-            // gets overlapped by previous section's grey area.
-            zIndex: isSelected ? 100 : 0,
-            border: isSelected ? "4px solid black" : cssProps.border,
-          }}
-          enableResizing={isSelected}
-          resizeHandleComponent={{
-            topRight: <ResizeHandleForAnnotations />,
-            bottomRight: <ResizeHandleForAnnotations />,
-            bottomLeft: <ResizeHandleForAnnotations />,
-            topLeft: <ResizeHandleForAnnotations />,
-          }}
-          allowAnyClick
-          position={{
-            x: annotationProps.left,
-            y: annotationProps.top,
-          }}
-          size={{
-            height: annotationProps.height,
-            width: annotationProps.width,
-          }}
-          onClick={(e: React.MouseEvent<HTMLElement>) => {
-            e.stopPropagation();
-            const shiftNotPressed = !e.shiftKey;
-            if (shiftNotPressed) {
-              dispatch({ type: "DESELECT_ALL_ANNOTATION" });
-            }
-            if (isSelected) {
-              dispatch({
-                type: "DESELECT_ANNOTATION",
-                payload: annotationProps.id,
-              });
-            } else {
-              dispatch({
-                type: "SELECT_ANNOTATION",
-                payload: annotationProps.id,
-              });
-            }
-          }}
-          onDragStop={(_, delta) => {
-            dispatch({
-              type: "MOVE_ANNOTATION",
-              payload: {
-                id: annotationProps.id,
-                x: delta.x,
-                y: delta.y,
-              },
-            });
-          }}
-          onResize={(_, __, ref, ___, el) => {
-            dispatch({
-              type: "RESIZE_ANNOTATION",
-              payload: {
-                id: annotationProps.id,
-                width: ref.offsetWidth,
-                height: ref.offsetHeight,
-                x: el.x,
-                y: el.y,
-              },
-            });
-          }}>
+        <>
           {isFirstSelection && (
             <FieldLayerActionMenu
+              position={{
+                left: annotationProps.left,
+                top: annotationProps.top,
+              }}
               value={annotationProps.type}
               onDelete={() => {
                 dispatch({
@@ -233,16 +172,83 @@ export const FieldLayerAnnotation: React.FC<AnnotationProps> = (props) => {
               }}
             />
           )}
-          <span
-            style={{
-              color: color.black.medium,
-              fontWeight: "bold",
-              fontFamily: "Times New Roman",
-              paddingLeft: "4px",
+          <Rnd
+            css={{
+              ...css,
+              position: "absolute",
+              backgroundColor: cssProps.backgroundColor,
+              // Here zIndex is used to fix the issue where – the action menu (which is a child of selected annotation)
+              // gets overlapped by previous section's grey area.
+              zIndex: isSelected ? 100 : 0,
+              border: isSelected ? "4px solid black" : cssProps.border,
+            }}
+            enableResizing={isSelected}
+            resizeHandleComponent={{
+              topRight: <ResizeHandleForAnnotations />,
+              bottomRight: <ResizeHandleForAnnotations />,
+              bottomLeft: <ResizeHandleForAnnotations />,
+              topLeft: <ResizeHandleForAnnotations />,
+            }}
+            allowAnyClick
+            position={{
+              x: annotationProps.left,
+              y: annotationProps.top,
+            }}
+            size={{
+              height: annotationProps.height,
+              width: annotationProps.width,
+            }}
+            onClick={(e: React.MouseEvent<HTMLElement>) => {
+              e.stopPropagation();
+              const shiftNotPressed = !e.shiftKey;
+              if (shiftNotPressed) {
+                dispatch({ type: "DESELECT_ALL_ANNOTATION" });
+              }
+              if (isSelected) {
+                dispatch({
+                  type: "DESELECT_ANNOTATION",
+                  payload: annotationProps.id,
+                });
+              } else {
+                dispatch({
+                  type: "SELECT_ANNOTATION",
+                  payload: annotationProps.id,
+                });
+              }
+            }}
+            onDragStop={(_, delta) => {
+              dispatch({
+                type: "MOVE_ANNOTATION",
+                payload: {
+                  id: annotationProps.id,
+                  x: delta.x,
+                  y: delta.y,
+                },
+              });
+            }}
+            onResize={(_, __, ref, ___, el) => {
+              dispatch({
+                type: "RESIZE_ANNOTATION",
+                payload: {
+                  id: annotationProps.id,
+                  width: ref.offsetWidth,
+                  height: ref.offsetHeight,
+                  x: el.x,
+                  y: el.y,
+                },
+              });
             }}>
-            {typeLabel}
-          </span>
-        </Rnd>
+            <span
+              style={{
+                color: color.black.medium,
+                fontWeight: "bold",
+                fontFamily: "Times New Roman",
+                paddingLeft: "4px",
+              }}>
+              {typeLabel}
+            </span>
+          </Rnd>
+        </>
       );
     }
   }

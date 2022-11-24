@@ -296,54 +296,55 @@ const GroupAndField: React.FC<AnnotationStatic> = (props) => {
 
   if (type === "GROUP") {
     return (
-      <TranslucentBox
-        id={id}
-        css={{
-          ...css,
-          pointerEvents: "none",
-          border: isSelected ? "3px solid black" : css.border,
-          zIndex: isSelected ? 100 : 0,
-        }}>
-        <div
-          style={{
-            // we have to give pointerEvents auto here because we have pointerEvents none on parent.
-            pointerEvents: "auto",
-            position: "absolute",
-            top: "-10px",
-            left: "-10px",
-            cursor: "pointer",
-            width: "20px",
-            height: "20px",
-            backgroundColor: "brown",
-          }}
-          onClick={(e) => {
-            e.stopPropagation();
-            dispatch({ type: "DESELECT_ALL_ANNOTATION" });
-            dispatch({
-              type: "SELECT_ANNOTATION",
-              payload: id,
-            });
-          }}
-        />
-        {isSelected && (
+      <>
+        <TranslucentBox
+          id={id}
+          css={{
+            ...css,
+            pointerEvents: "none",
+            border: isSelected ? "3px solid black" : css.border,
+            zIndex: isSelected ? 100 : 0,
+          }}>
           <div
             style={{
+              // we have to give pointerEvents auto here because we have pointerEvents none on parent.
               pointerEvents: "auto",
-            }}>
-            <LabelLayerActionMenu
-              showDelete={showDelete}
-              showCreateOrUpdateLabel={showCreateOrUpdateLabel}
-              createOrUpdateLabelText={createOrUpdateLabelText}
-              // We don't shown customtooltip option for group.
-              showAdditionalTooltip={false}
-              customTooltip={customTooltip}
-              onCustomTooltipChange={() => {}}
-              onDelete={handleDelete}
-              onUpdateLabel={handleUpdateLabel}
-            />
-          </div>
+              position: "absolute",
+              top: "-10px",
+              left: "-10px",
+              cursor: "pointer",
+              width: "20px",
+              height: "20px",
+              backgroundColor: "brown",
+            }}
+            onClick={(e) => {
+              e.stopPropagation();
+              dispatch({ type: "DESELECT_ALL_ANNOTATION" });
+              dispatch({
+                type: "SELECT_ANNOTATION",
+                payload: id,
+              });
+            }}
+          />
+        </TranslucentBox>
+        {isSelected && (
+          <LabelLayerActionMenu
+            position={{
+              top: css.top,
+              left: css.left,
+            }}
+            showDelete={showDelete}
+            showCreateOrUpdateLabel={showCreateOrUpdateLabel}
+            createOrUpdateLabelText={createOrUpdateLabelText}
+            // We don't shown customtooltip option for group.
+            showAdditionalTooltip={false}
+            customTooltip={customTooltip}
+            onCustomTooltipChange={() => {}}
+            onDelete={handleDelete}
+            onUpdateLabel={handleUpdateLabel}
+          />
         )}
-      </TranslucentBox>
+      </>
     );
   }
 
@@ -371,23 +372,6 @@ const GroupAndField: React.FC<AnnotationStatic> = (props) => {
 
   return (
     <>
-      {previewTooltips && tooltipPreview !== "" && (
-        <span
-          style={{
-            position: "absolute",
-            top: css.top,
-            left: css.left,
-            fontSize: `${0.8 * zoom}rem`,
-            backgroundColor: color.blue.dark,
-            color: "white",
-            borderRadius: "0.4rem",
-            padding: "0.2rem",
-            whiteSpace: "nowrap",
-            zIndex: 200,
-          }}>
-          {tooltipPreview}
-        </span>
-      )}
       <TranslucentBox
         id={id}
         css={{
@@ -413,21 +397,43 @@ const GroupAndField: React.FC<AnnotationStatic> = (props) => {
               payload: id,
             });
           }
-        }}>
-        {isFirstSelection && (
-          <LabelLayerActionMenu
-            showDelete={showDelete}
-            showCreateOrUpdateLabel={showCreateOrUpdateLabel}
-            createOrUpdateLabelText={createOrUpdateLabelText}
-            // Only shown for single selection.
-            showAdditionalTooltip={showAdditionalTooltip}
-            customTooltip={customTooltip}
-            onCustomTooltipChange={handleCustomTooltipChange}
-            onDelete={handleDelete}
-            onUpdateLabel={handleUpdateLabel}
-          />
-        )}
-      </TranslucentBox>
+        }}
+      />
+      {previewTooltips && tooltipPreview !== "" && (
+        <span
+          style={{
+            pointerEvents: "none",
+            position: "absolute",
+            top: css.top,
+            left: css.left,
+            fontSize: `${0.8 * zoom}rem`,
+            backgroundColor: color.blue.dark,
+            color: "white",
+            borderRadius: "0.4rem",
+            padding: "0.2rem",
+            whiteSpace: "nowrap",
+            zIndex: 200,
+          }}>
+          {tooltipPreview}
+        </span>
+      )}
+      {isFirstSelection && (
+        <LabelLayerActionMenu
+          position={{
+            top: css.top,
+            left: css.left,
+          }}
+          showDelete={showDelete}
+          showCreateOrUpdateLabel={showCreateOrUpdateLabel}
+          createOrUpdateLabelText={createOrUpdateLabelText}
+          // Only shown for single selection.
+          showAdditionalTooltip={showAdditionalTooltip}
+          customTooltip={customTooltip}
+          onCustomTooltipChange={handleCustomTooltipChange}
+          onDelete={handleDelete}
+          onUpdateLabel={handleUpdateLabel}
+        />
+      )}
     </>
   );
 };
