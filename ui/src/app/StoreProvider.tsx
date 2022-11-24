@@ -374,14 +374,6 @@ export type AccessibleFormAction =
       payload: Step;
     }
   | {
-      type: "INCREMENT_STEP_AND_GET_ANNOTATIONS";
-      payload: {
-        annotations: Array<Array<ApiAnnotation>>;
-        groupRelations: Record<AnnotationId, AnnotationId[]>;
-        labelRelations: Record<AnnotationId, AnnotationId>;
-      };
-    }
-  | {
       type: "CREATE_LABEL";
       payload: {
         to: {
@@ -842,44 +834,6 @@ export const reduceAccessibleForm = (
         // When user moves to a new page we want "SELECT" tool to be selected as
         // it is the default tool which is present on all pages.
         draft.tool = "SELECT";
-      });
-    }
-    // This case was used originally to get annotation values from server. This is obselete now.
-    case "INCREMENT_STEP_AND_GET_ANNOTATIONS": {
-      return produce(previous, (draft) => {
-        const newAnnotations: Record<AnnotationId, Annotation> = {};
-        // All incoming annotations from file are at a scale of 1. So, we need to scale them to the
-        // current scale in UI or the store. If we don't do this, then annotations will be shown in
-        // 100% zoom level, irrespective of zoom level of the UI.
-        const scale = draft.zoom;
-        for (let i = 0; i < action.payload.annotations.length; ++i) {
-          const page = action.payload.annotations[i];
-          for (const annotation of page) {
-            newAnnotations[annotation.id as AnnotationId] = {
-              id: annotation.id,
-              type: annotation.type,
-              width: annotation.width * scale,
-              height: annotation.height * scale,
-              top: annotation.top * scale,
-              left: annotation.left * scale,
-              border: Borders[annotation.type],
-              backgroundColor: BackgroundColors[annotation.type],
-              page: i + 1,
-              corrected: false,
-              customTooltip: "",
-            };
-          }
-        }
-        draft.showLoadingScreen = false;
-        draft.annotations = newAnnotations;
-        draft.tool = "SELECT";
-        const idx = STEPS.findIndex((aStep) => aStep.id === draft.step);
-        if (idx === -1) return;
-        const nextStep = STEPS[idx + 1]?.id;
-        if (nextStep === undefined) return;
-        draft.step = nextStep;
-        draft.labelRelations = action.payload.labelRelations;
-        draft.groupRelations = action.payload.groupRelations;
       });
     }
     // payloed: from – An array of annotations, to – an label annotation.
