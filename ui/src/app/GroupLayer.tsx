@@ -1,13 +1,7 @@
 /** @jsxImportSource @emotion/react */
 
 import { GroupLayerActionMenu } from "../components/ActionMenu";
-import {
-  CreationState,
-  TranslucentBox,
-  HandlerLayer,
-  useCreateAnnotation,
-  ResizeHandle,
-} from "./Annotation";
+import { TranslucentBox, HandlerLayer, ResizeHandle } from "./Annotation";
 import { NO_OP } from "./PDF";
 import {
   useSelector,
@@ -20,14 +14,9 @@ import {
 import React from "react";
 
 const useGroupLayer = (div: React.MutableRefObject<HTMLDivElement | null>) => {
-  const attr = useCreateAnnotation(div);
-  const { div: container, creationState } = attr;
   const dispatch = useDispatch();
-
   return {
     cursor: "auto",
-    creationState,
-    container,
     onMouseMove: NO_OP,
     onMouseUp: NO_OP,
     onMouseDown: NO_OP,
@@ -37,10 +26,6 @@ const useGroupLayer = (div: React.MutableRefObject<HTMLDivElement | null>) => {
     },
   };
 };
-
-interface HasCreationState {
-  creationState: CreationState | null;
-}
 
 const GroupLayerSelectAnnotation: React.FC<AnnotationStatic> = (
   annotationProps
@@ -171,21 +156,14 @@ const GroupLayerSelections = () => {
   );
 };
 
-const GroupLayerGateway: React.FC<HasCreationState> = (props) => {
+const GroupLayerGateway: React.FC = (props) => {
   return <GroupLayerSelections />;
 };
 
 const GroupLayer: React.FC<LayerControllerProps> = (props) => {
   const { pdf, container } = props;
-  const {
-    creationState,
-    onMouseDown,
-    onMouseLeave,
-    onMouseMove,
-    onMouseUp,
-    cursor,
-    onClick,
-  } = useGroupLayer(container);
+  const { onMouseDown, onMouseLeave, onMouseMove, onMouseUp, cursor, onClick } =
+    useGroupLayer(container);
   return (
     <HandlerLayer
       pdf={pdf}
@@ -196,7 +174,7 @@ const GroupLayer: React.FC<LayerControllerProps> = (props) => {
       onMouseMove={onMouseMove}
       onMouseUp={onMouseUp}>
       <ResizeHandle container={container} pdf={pdf} />
-      <GroupLayerGateway creationState={creationState} />
+      <GroupLayerGateway />
     </HandlerLayer>
   );
 };
