@@ -262,7 +262,7 @@ describe("Our form reducer", () => {
     });
     const selected = reduce(created, {
       type: "SELECT_ANNOTATION",
-      payload: "1",
+      payload: ["1"],
     });
     expect(selected.selectedAnnotations).toEqual({ "1": true });
   });
@@ -286,7 +286,7 @@ describe("Our form reducer", () => {
     });
     const selected = reduce(created, {
       type: "SELECT_ANNOTATION",
-      payload: "1",
+      payload: ["1"],
     });
     const deSelected = reduce(selected, {
       type: "DESELECT_ANNOTATION",
@@ -331,11 +331,11 @@ describe("Our form reducer", () => {
     });
     const selectedFirst = reduce(createdSecond, {
       type: "SELECT_ANNOTATION",
-      payload: "1",
+      payload: ["1"],
     });
     const selectedSecond = reduce(selectedFirst, {
       type: "SELECT_ANNOTATION",
-      payload: "1",
+      payload: ["1"],
     });
     const deSelectedAll = reduce(selectedSecond, {
       type: "DESELECT_ALL_ANNOTATION",

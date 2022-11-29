@@ -313,7 +313,7 @@ const GroupAndField: React.FC<AnnotationStatic> = (props) => {
               dispatch({ type: "DESELECT_ALL_ANNOTATION" });
               dispatch({
                 type: "SELECT_ANNOTATION",
-                payload: id,
+                payload: [id],
               });
             }}
           />
@@ -381,7 +381,7 @@ const GroupAndField: React.FC<AnnotationStatic> = (props) => {
           } else {
             dispatch({
               type: "SELECT_ANNOTATION",
-              payload: id,
+              payload: [id],
             });
           }
         }}

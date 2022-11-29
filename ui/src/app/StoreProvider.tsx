@@ -351,7 +351,7 @@ export type AccessibleFormAction =
     }
   | {
       type: "SELECT_ANNOTATION";
-      payload: AnnotationId;
+      payload: Array<AnnotationId>;
     }
   | {
       type: "DESELECT_ANNOTATION";
@@ -683,7 +683,9 @@ export const reduceAccessibleForm = (
     }
     case "SELECT_ANNOTATION": {
       return produce(previous, (draft) => {
-        draft.selectedAnnotations[action.payload] = true;
+        action.payload.forEach((id) => {
+          draft.selectedAnnotations[id] = true;
+        });
         return;
       });
     }

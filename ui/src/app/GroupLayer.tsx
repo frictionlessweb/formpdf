@@ -124,7 +124,7 @@ const GroupLayerSelectAnnotation: React.FC<AnnotationStatic> = (
           } else {
             dispatch({
               type: "SELECT_ANNOTATION",
-              payload: annotationProps.id,
+              payload: [annotationProps.id],
             });
           }
         }}

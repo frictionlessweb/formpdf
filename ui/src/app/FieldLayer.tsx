@@ -7,6 +7,8 @@ import {
   useCreateAnnotation,
   HandlerLayer,
   ResizeHandle,
+  useSelectAnnotation,
+  AnnotationBeingSelected,
 } from "./Annotation";
 import { FieldLayerActionMenu } from "../components/ActionMenu";
 import { AnnotationProps, TranslucentBox } from "./Annotation";
@@ -25,23 +27,32 @@ import { useHotkeys } from "react-hotkeys-hook";
 export const useFieldLayer = (
   div: React.MutableRefObject<HTMLDivElement | null>
 ) => {
-  const attr = useCreateAnnotation(div);
-  const dispatch = useDispatch();
-  const tool = useSelector((state) => state.tool);
-  const page = useSelector((state) => state.page);
   const {
-    div: container,
+    div: createContainer,
     creationState,
     newCreationBounds,
     resetCreationState,
     updateCreationState,
-  } = attr;
+  } = useCreateAnnotation(div);
+
+  const {
+    div: selectContainer,
+    selectionState,
+    newSelectionBounds,
+    resetSelectionState,
+    updateSelectionState,
+  } = useSelectAnnotation(div);
+
+  const dispatch = useDispatch();
+  const tool = useSelector((state) => state.tool);
+  const page = useSelector((state) => state.page);
+
   switch (tool) {
     case "CREATE": {
       return {
         cursor: "crosshair",
         creationState,
-        container,
+        container: createContainer,
         onClick: NO_OP,
         onMouseDown: newCreationBounds,
         onMouseMove: updateCreationState,
@@ -68,14 +79,24 @@ export const useFieldLayer = (
     case "SELECT": {
       return {
         cursor: "auto",
-        creationState,
-        container,
-        onMouseMove: NO_OP,
-        onMouseUp: NO_OP,
-        onMouseDown: NO_OP,
-        onMouseLeave: NO_OP,
-        onClick: () => {
-          dispatch({ type: "DESELECT_ALL_ANNOTATION" });
+        selectionState,
+        container: selectContainer,
+        onMouseDown: newSelectionBounds,
+        onMouseMove: updateSelectionState,
+        onMouseUp: () => {
+          if (!selectionState) return;
+          // if no selection is inside the bound created by user, then deselect all.
+          if (selectionState.annotations.length === 0) {
+            dispatch({
+              type: "DESELECT_ALL_ANNOTATION",
+            });
+          } else {
+            dispatch({
+              type: "SELECT_ANNOTATION",
+              payload: selectionState.annotations.map((a) => a.id),
+            });
+          }
+          resetSelectionState();
         },
       };
     }
@@ -192,6 +213,10 @@ export const FieldLayerAnnotation: React.FC<AnnotationProps> = (props) => {
               height: annotationProps.height,
               width: annotationProps.width,
             }}
+            onMouseDown={(e) => {
+              // We stop propagation with the goal of preventing annotation being selected.
+              e.stopPropagation();
+            }}
             onClick={(e: React.MouseEvent<HTMLElement>) => {
               e.stopPropagation();
               const shiftNotPressed = !e.shiftKey;
@@ -206,7 +231,7 @@ export const FieldLayerAnnotation: React.FC<AnnotationProps> = (props) => {
               } else {
                 dispatch({
                   type: "SELECT_ANNOTATION",
-                  payload: annotationProps.id,
+                  payload: [annotationProps.id],
                 });
               }
             }}
@@ -268,13 +293,25 @@ const FieldLayer: React.FC<LayerControllerProps> = (props) => {
       onMouseUp={layer.onMouseUp}
       onClick={layer.onClick}>
       <ResizeHandle pdf={pdf} container={container} />
-      <AnnotationBeingCreated
-        creationState={layer.creationState}
-        showTokens={false}
-        onMouseUp={NO_OP}
-        onMouseDown={NO_OP}
-        onMouseMove={NO_OP}
-      />
+      {/* If there is creationState it means that CREATE tool is being used */}
+      {layer.creationState && (
+        <AnnotationBeingCreated
+          creationState={layer.creationState}
+          showTokens={false}
+          onMouseUp={NO_OP}
+          onMouseDown={NO_OP}
+          onMouseMove={NO_OP}
+        />
+      )}
+      {layer.selectionState && (
+        <AnnotationBeingSelected
+          selectionState={layer.selectionState}
+          onMouseUp={NO_OP}
+          onMouseDown={NO_OP}
+          onMouseMove={NO_OP}
+        />
+      )}
+
       {annotations.map((annotation) => {
         return <FieldLayerAnnotation key={annotation.id} {...annotation} />;
       })}

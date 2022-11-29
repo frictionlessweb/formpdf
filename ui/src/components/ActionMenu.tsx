@@ -20,6 +20,10 @@ interface ContainerProps {
 export const Container: React.FC<ContainerProps> = ({ children, position }) => {
   return (
     <div
+      onMouseDown={(e) => {
+        // We stop propagation with the goal of preventing annotation being selected.
+        e.stopPropagation();
+      }}
       css={{
         transform: "translateY(calc(-100% - 12px))",
         position: "absolute",

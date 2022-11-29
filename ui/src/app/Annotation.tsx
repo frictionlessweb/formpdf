@@ -7,6 +7,7 @@ import {
   Annotation as AnnotationStatic,
   useSelector,
   useDispatch,
+  Annotation,
 } from "./StoreProvider";
 import Chip from "@mui/material/Chip";
 import { Rnd } from "react-rnd";
@@ -389,4 +390,109 @@ export const AnnotationBeingCreated: React.FC<AnnotationBeingCreatedProps> = (
 
 export type AnnotationProps = AnnotationStatic & {
   css?: CSSObject;
+};
+
+// SELECTION
+
+export interface SelectionState {
+  // What are the bounds associated with this annotation?
+  bounds: CreationBounds;
+  // What annotations are related to those bounds?
+  annotations: Annotation[];
+}
+
+export const useSelectAnnotation = (
+  div: React.MutableRefObject<HTMLDivElement | null>
+) => {
+  // We need to know the container so that we can figure out where relative
+  // in the page we should position the bounds.
+  const annotationsMap = useSelector((state) => state.annotations);
+  const allAnnotations = Object.values(annotationsMap);
+
+  const [selectionState, setState] = React.useState<SelectionState | null>(
+    null
+  );
+
+  const resetSelectionState = () => {
+    setState(null);
+  };
+
+  const getMovedPositions = (e: React.MouseEvent<Element, MouseEvent>) => {
+    if (!div.current) return { movedTop: 0, movedLeft: 0 };
+    const movedTop = e.pageY - div.current.offsetTop + div.current.scrollTop;
+    const movedLeft = e.pageX - div.current.offsetLeft + div.current.scrollLeft;
+    return { movedTop, movedLeft } as const;
+  };
+
+  const updateSelectionState: React.MouseEventHandler = (e) => {
+    setState((prevBounds) => {
+      if (prevBounds === null) return null;
+      const moved = getMovedPositions(e);
+      const newBounds = {
+        top: prevBounds.bounds.top,
+        left: prevBounds.bounds.left,
+        movedTop: moved.movedTop,
+        movedLeft: moved.movedLeft,
+      };
+      const finalBounds = mapCreationBoundsToFinalBounds(newBounds);
+
+      const filteredAnnotations =
+        allAnnotations?.filter((annotation) =>
+          doOverlap(annotation, finalBounds)
+        ) || [];
+
+      return {
+        bounds: newBounds,
+        annotations: filteredAnnotations,
+      };
+    });
+  };
+
+  const newSelectionBounds: React.MouseEventHandler = (e) => {
+    const { movedTop, movedLeft } = getMovedPositions(e);
+    setState({
+      bounds: { top: movedTop, left: movedLeft, movedTop, movedLeft },
+      annotations: [],
+    });
+  };
+
+  return {
+    div,
+    selectionState,
+    resetSelectionState,
+    updateSelectionState,
+    newSelectionBounds,
+  } as const;
+};
+
+interface AnnotationSelectedProps {
+  selectionState: SelectionState | null;
+  // What should we do when we press the mouse down?
+  onMouseDown: React.MouseEventHandler;
+  // What should we do when we unpress the mouse (release a click)?
+  onMouseUp: React.MouseEventHandler;
+  // What should we do when we move the mouse?
+  onMouseMove: React.MouseEventHandler;
+}
+
+export const AnnotationBeingSelected: React.FC<AnnotationSelectedProps> = (
+  props
+) => {
+  const { selectionState, ...handlers } = props;
+  if (!selectionState) return null;
+  const { bounds: selectionBounds } = selectionState;
+  return (
+    <>
+      <TranslucentBox
+        id="annotation-being-selected"
+        css={{
+          position: "absolute",
+          backgroundColor: color.blue.transparent,
+          border: `3px solid ${color.blue.medium}`,
+          ...mapCreationBoundsToCss(selectionBounds),
+        }}
+        {...handlers}
+      />
+    </>
+  );
 };
