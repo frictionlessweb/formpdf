@@ -75,7 +75,7 @@ const CustomTooltip: React.FC = () => {
           onClick={() => {
             setExpanded(!expanded);
           }}>
-          {expanded ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+          {expanded ? <ExpandMoreIcon /> : <ExpandLessIcon />}
         </IconButton>
       </div>
     );
