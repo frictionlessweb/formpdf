@@ -118,7 +118,7 @@ export const ResizeHandle: React.FC<ResizeHandleProps> = (props) => {
             backgroundColor: beforeCurrentSection
               ? color.gray.lineTransparent
               : "transparent",
-            zIndex: 100,
+            zIndex: 300,
           }}>
           <Chip
             sx={{
@@ -335,12 +335,6 @@ export const useCreateAnnotation = (
 interface AnnotationBeingCreatedProps {
   // What is our current creationState?
   creationState: CreationState | null;
-  // What should we do when we press the mouse down?
-  onMouseDown: React.MouseEventHandler;
-  // What should we do when we unpress the mouse (release a click)?
-  onMouseUp: React.MouseEventHandler;
-  // What should we do when we move the mouse?
-  onMouseMove: React.MouseEventHandler;
   // should tokens be shown while annotation is being created ?
   showTokens: boolean;
 }
@@ -471,12 +465,6 @@ export const useSelectAnnotation = (
 
 interface AnnotationSelectedProps {
   selectionState: SelectionState | null;
-  // What should we do when we press the mouse down?
-  onMouseDown: React.MouseEventHandler;
-  // What should we do when we unpress the mouse (release a click)?
-  onMouseUp: React.MouseEventHandler;
-  // What should we do when we move the mouse?
-  onMouseMove: React.MouseEventHandler;
 }
 
 export const AnnotationBeingSelected: React.FC<AnnotationSelectedProps> = (

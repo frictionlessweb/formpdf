@@ -278,6 +278,7 @@ const FieldLayer: React.FC<LayerControllerProps> = (props) => {
   const annotations = Object.values(allAnnotations).filter((annotation) =>
     fieldTypes.includes(annotation.type)
   );
+  const tool = useSelector((state) => state.tool);
   const layer = useFieldLayer(container);
   const dispatch = useDispatch();
   useHotkeys("s", () => dispatch({ type: "CHANGE_TOOL", payload: "SELECT" }));
@@ -292,25 +293,17 @@ const FieldLayer: React.FC<LayerControllerProps> = (props) => {
       onMouseUp={layer.onMouseUp}
       onClick={layer.onClick}>
       <ResizeHandle pdf={pdf} container={container} />
-      {/* If there is creationState it means that CREATE tool is being used */}
-      {layer.creationState && (
+      {/* Layer 1 */}
+      {tool === "CREATE" && layer.creationState && (
         <AnnotationBeingCreated
           creationState={layer.creationState}
           showTokens={false}
-          onMouseUp={NO_OP}
-          onMouseDown={NO_OP}
-          onMouseMove={NO_OP}
         />
       )}
-      {layer.selectionState && (
-        <AnnotationBeingSelected
-          selectionState={layer.selectionState}
-          onMouseUp={NO_OP}
-          onMouseDown={NO_OP}
-          onMouseMove={NO_OP}
-        />
+      {tool === "SELECT" && layer.selectionState && (
+        <AnnotationBeingSelected selectionState={layer.selectionState} />
       )}
-
+      {/* Layer 2 */}
       {annotations.map((annotation) => {
         return <FieldLayerAnnotation key={annotation.id} {...annotation} />;
       })}

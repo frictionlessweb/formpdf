@@ -524,43 +524,30 @@ const LabelLayer: React.FC<LayerControllerProps> = (props) => {
   const layer = useFieldLayer(container);
   const tool = useSelector((state) => state.tool);
 
-  const LabelLayerAnnotations: React.FC = () => {
-    switch (tool) {
-      case "CREATE": {
-        return (
-          <>
-            {layer.creationState && (
-              <AnnotationBeingCreated
-                creationState={layer.creationState}
-                showTokens={false}
-                onMouseUp={NO_OP}
-                onMouseDown={NO_OP}
-                onMouseMove={NO_OP}
-              />
-            )}
-            <AllTokens />
-          </>
-        );
-      }
-      case "SELECT": {
-        return (
-          <>
-            {layer.selectionState && (
-              <AnnotationBeingSelected
-                selectionState={layer.selectionState}
-                onMouseUp={NO_OP}
-                onMouseDown={NO_OP}
-                onMouseMove={NO_OP}
-              />
-            )}
-            <SelectAnnotation />
-          </>
-        );
-      }
-      default:
-        return null;
-    }
-  };
+  let LabelLayerAnnotations = <></>;
+  if (tool === "CREATE") {
+    LabelLayerAnnotations = (
+      <>
+        {layer.creationState && (
+          <AnnotationBeingCreated
+            creationState={layer.creationState}
+            showTokens={false}
+          />
+        )}
+        <AllTokens />
+      </>
+    );
+  }
+  if (tool === "SELECT") {
+    LabelLayerAnnotations = (
+      <>
+        {layer.selectionState && (
+          <AnnotationBeingSelected selectionState={layer.selectionState} />
+        )}
+        <SelectAnnotation />
+      </>
+    );
+  }
 
   return (
     <HandlerLayer
@@ -575,7 +562,7 @@ const LabelLayer: React.FC<LayerControllerProps> = (props) => {
         container={container}
         rootCss={{ cursor: layer.cursor }}
       />
-      <LabelLayerAnnotations />
+      {LabelLayerAnnotations}
     </HandlerLayer>
   );
 };
