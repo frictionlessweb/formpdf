@@ -7,6 +7,8 @@ import {
   useCreateAnnotation,
   HandlerLayer,
   ResizeHandle,
+  useSelectAnnotation,
+  AnnotationBeingSelected,
 } from "./Annotation";
 import { FieldLayerActionMenu } from "../components/ActionMenu";
 import { AnnotationProps, TranslucentBox } from "./Annotation";
@@ -25,23 +27,32 @@ import { useHotkeys } from "react-hotkeys-hook";
 export const useFieldLayer = (
   div: React.MutableRefObject<HTMLDivElement | null>
 ) => {
-  const attr = useCreateAnnotation(div);
-  const dispatch = useDispatch();
-  const tool = useSelector((state) => state.tool);
-  const page = useSelector((state) => state.page);
   const {
-    div: container,
+    div: createContainer,
     creationState,
     newCreationBounds,
     resetCreationState,
     updateCreationState,
-  } = attr;
+  } = useCreateAnnotation(div);
+
+  const {
+    div: selectContainer,
+    selectionState,
+    newSelectionBounds,
+    resetSelectionState,
+    updateSelectionState,
+  } = useSelectAnnotation(div, ["GROUP", "GROUP_LABEL", "LABEL"]);
+
+  const dispatch = useDispatch();
+  const tool = useSelector((state) => state.tool);
+  const page = useSelector((state) => state.page);
+
   switch (tool) {
     case "CREATE": {
       return {
         cursor: "crosshair",
         creationState,
-        container,
+        container: createContainer,
         onClick: NO_OP,
         onMouseDown: newCreationBounds,
         onMouseMove: updateCreationState,
@@ -68,14 +79,23 @@ export const useFieldLayer = (
     case "SELECT": {
       return {
         cursor: "auto",
-        creationState,
-        container,
-        onMouseMove: NO_OP,
-        onMouseUp: NO_OP,
-        onMouseDown: NO_OP,
-        onMouseLeave: NO_OP,
-        onClick: () => {
-          dispatch({ type: "DESELECT_ALL_ANNOTATION" });
+        selectionState,
+        container: selectContainer,
+        onMouseDown: (e: React.MouseEvent<Element, MouseEvent>) => {
+          // we clear already selected annotations when users starts a new selection.
+          dispatch({
+            type: "DESELECT_ALL_ANNOTATION",
+          });
+          newSelectionBounds(e);
+        },
+        onMouseMove: updateSelectionState,
+        onMouseUp: () => {
+          if (!selectionState) return;
+          dispatch({
+            type: "SELECT_ANNOTATION",
+            payload: selectionState.annotations.map((a) => a.id),
+          });
+          resetSelectionState();
         },
       };
     }
@@ -97,6 +117,7 @@ const ResizeHandleForAnnotations: React.FC = () => {
         style={{
           height: "90%",
           width: "90%",
+          borderRadius: "4px",
           border: "3px solid black",
           backgroundColor: "white",
         }}
@@ -109,23 +130,18 @@ export const FieldLayerAnnotation: React.FC<AnnotationProps> = (props) => {
   const tool = useSelector((state) => state.tool);
   const selectedAnnotations = useSelector((state) => state.selectedAnnotations);
 
-  const annotationRef = React.useRef<HTMLDivElement | null>(null);
   const dispatch = useDispatch();
-  const { id, type, children, ...cssProps } = props;
+  const { id, type, children, ...css } = props;
   const annotationProps = props;
-  const css = {
-    ...cssProps,
-    position: "absolute" as const,
-  };
   const typeLabel = type.slice(0, 1);
   switch (tool) {
     case "CREATE": {
       return (
         <TranslucentBox
           id={id}
-          nodeRef={annotationRef}
           css={{
             cursor: "inherit",
+            position: "absolute",
             ...css,
           }}>
           <span
@@ -147,74 +163,13 @@ export const FieldLayerAnnotation: React.FC<AnnotationProps> = (props) => {
       const isFirstSelection =
         Object.keys(selectedAnnotations)[0] === annotationProps.id;
       return (
-        <Rnd
-          css={{
-            ...css,
-            position: "absolute",
-            backgroundColor: cssProps.backgroundColor,
-            // Here zIndex is used to fix the issue where – the action menu (which is a child of selected annotation)
-            // gets overlapped by previous section's grey area.
-            zIndex: isSelected ? 100 : 0,
-            border: isSelected ? "4px solid black" : cssProps.border,
-          }}
-          enableResizing={isSelected}
-          resizeHandleComponent={{
-            topRight: <ResizeHandleForAnnotations />,
-            bottomRight: <ResizeHandleForAnnotations />,
-            bottomLeft: <ResizeHandleForAnnotations />,
-            topLeft: <ResizeHandleForAnnotations />,
-          }}
-          allowAnyClick
-          position={{
-            x: annotationProps.left,
-            y: annotationProps.top,
-          }}
-          size={{
-            height: annotationProps.height,
-            width: annotationProps.width,
-          }}
-          onClick={(e: React.MouseEvent<HTMLElement>) => {
-            e.stopPropagation();
-            const shiftNotPressed = !e.shiftKey;
-            if (shiftNotPressed) {
-              dispatch({ type: "DESELECT_ALL_ANNOTATION" });
-            }
-            if (isSelected) {
-              dispatch({
-                type: "DESELECT_ANNOTATION",
-                payload: annotationProps.id,
-              });
-            } else {
-              dispatch({
-                type: "SELECT_ANNOTATION",
-                payload: annotationProps.id,
-              });
-            }
-          }}
-          onDragStop={(_, delta) => {
-            dispatch({
-              type: "MOVE_ANNOTATION",
-              payload: {
-                id: annotationProps.id,
-                x: delta.x,
-                y: delta.y,
-              },
-            });
-          }}
-          onResize={(_, __, ref, ___, el) => {
-            dispatch({
-              type: "RESIZE_ANNOTATION",
-              payload: {
-                id: annotationProps.id,
-                width: ref.offsetWidth,
-                height: ref.offsetHeight,
-                x: el.x,
-                y: el.y,
-              },
-            });
-          }}>
+        <>
           {isFirstSelection && (
             <FieldLayerActionMenu
+              position={{
+                left: annotationProps.left,
+                top: annotationProps.top,
+              }}
               value={annotationProps.type}
               onDelete={() => {
                 dispatch({
@@ -233,16 +188,86 @@ export const FieldLayerAnnotation: React.FC<AnnotationProps> = (props) => {
               }}
             />
           )}
-          <span
-            style={{
-              color: color.black.medium,
-              fontWeight: "bold",
-              fontFamily: "Times New Roman",
-              paddingLeft: "4px",
+          <Rnd
+            css={{
+              ...css,
+              position: "absolute",
+              // Here zIndex is used to fix the issue where – the action menu (which is a child of selected annotation)
+              // gets overlapped by previous section's grey area.
+              zIndex: isSelected ? 100 : 0,
+              border: isSelected ? "3px solid black" : css.border,
+            }}
+            enableResizing={isSelected}
+            resizeHandleComponent={{
+              topRight: <ResizeHandleForAnnotations />,
+              bottomRight: <ResizeHandleForAnnotations />,
+              bottomLeft: <ResizeHandleForAnnotations />,
+              topLeft: <ResizeHandleForAnnotations />,
+            }}
+            allowAnyClick
+            position={{
+              x: annotationProps.left,
+              y: annotationProps.top,
+            }}
+            size={{
+              height: annotationProps.height,
+              width: annotationProps.width,
+            }}
+            onMouseDown={(e) => {
+              // We stop propagation with the goal of preventing annotation being selected.
+              e.stopPropagation();
+            }}
+            onClick={(e: React.MouseEvent<HTMLElement>) => {
+              e.stopPropagation();
+              const shiftNotPressed = !e.shiftKey;
+              if (shiftNotPressed) {
+                dispatch({ type: "DESELECT_ALL_ANNOTATION" });
+              }
+              if (isSelected) {
+                dispatch({
+                  type: "DESELECT_ANNOTATION",
+                  payload: annotationProps.id,
+                });
+              } else {
+                dispatch({
+                  type: "SELECT_ANNOTATION",
+                  payload: [annotationProps.id],
+                });
+              }
+            }}
+            onDragStop={(_, delta) => {
+              dispatch({
+                type: "MOVE_ANNOTATION",
+                payload: {
+                  id: annotationProps.id,
+                  x: delta.x,
+                  y: delta.y,
+                },
+              });
+            }}
+            onResize={(_, __, ref, ___, el) => {
+              dispatch({
+                type: "RESIZE_ANNOTATION",
+                payload: {
+                  id: annotationProps.id,
+                  width: ref.offsetWidth,
+                  height: ref.offsetHeight,
+                  x: el.x,
+                  y: el.y,
+                },
+              });
             }}>
-            {typeLabel}
-          </span>
-        </Rnd>
+            <span
+              style={{
+                color: color.black.medium,
+                fontWeight: "bold",
+                fontFamily: "Times New Roman",
+                paddingLeft: "4px",
+              }}>
+              {typeLabel}
+            </span>
+          </Rnd>
+        </>
       );
     }
   }
@@ -254,6 +279,7 @@ const FieldLayer: React.FC<LayerControllerProps> = (props) => {
   const annotations = Object.values(allAnnotations).filter((annotation) =>
     fieldTypes.includes(annotation.type)
   );
+  const tool = useSelector((state) => state.tool);
   const layer = useFieldLayer(container);
   const dispatch = useDispatch();
   useHotkeys("s", () => dispatch({ type: "CHANGE_TOOL", payload: "SELECT" }));
@@ -268,13 +294,17 @@ const FieldLayer: React.FC<LayerControllerProps> = (props) => {
       onMouseUp={layer.onMouseUp}
       onClick={layer.onClick}>
       <ResizeHandle pdf={pdf} container={container} />
-      <AnnotationBeingCreated
-        creationState={layer.creationState}
-        showTokens={false}
-        onMouseUp={NO_OP}
-        onMouseDown={NO_OP}
-        onMouseMove={NO_OP}
-      />
+      {/* Layer 1 */}
+      {tool === "CREATE" && layer.creationState && (
+        <AnnotationBeingCreated
+          creationState={layer.creationState}
+          showTokens={false}
+        />
+      )}
+      {tool === "SELECT" && layer.selectionState && (
+        <AnnotationBeingSelected selectionState={layer.selectionState} />
+      )}
+      {/* Layer 2 */}
       {annotations.map((annotation) => {
         return <FieldLayerAnnotation key={annotation.id} {...annotation} />;
       })}

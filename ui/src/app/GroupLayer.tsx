@@ -2,13 +2,12 @@
 
 import { GroupLayerActionMenu } from "../components/ActionMenu";
 import {
-  CreationState,
   TranslucentBox,
   HandlerLayer,
-  useCreateAnnotation,
   ResizeHandle,
+  useSelectAnnotation,
+  AnnotationBeingSelected,
 } from "./Annotation";
-import { NO_OP } from "./PDF";
 import {
   useSelector,
   useDispatch,
@@ -20,27 +19,38 @@ import {
 import React from "react";
 
 const useGroupLayer = (div: React.MutableRefObject<HTMLDivElement | null>) => {
-  const attr = useCreateAnnotation(div);
-  const { div: container, creationState } = attr;
   const dispatch = useDispatch();
+
+  const {
+    div: selectContainer,
+    selectionState,
+    newSelectionBounds,
+    resetSelectionState,
+    updateSelectionState,
+  } = useSelectAnnotation(div, ["GROUP", "GROUP_LABEL", "LABEL"]);
 
   return {
     cursor: "auto",
-    creationState,
-    container,
-    onMouseMove: NO_OP,
-    onMouseUp: NO_OP,
-    onMouseDown: NO_OP,
-    onMouseLeave: NO_OP,
-    onClick: () => {
-      dispatch({ type: "DESELECT_ALL_ANNOTATION" });
+    selectionState,
+    container: selectContainer,
+    onMouseDown: (e: React.MouseEvent<Element, MouseEvent>) => {
+      // we clear already selected annotations when users starts a new selection.
+      dispatch({
+        type: "DESELECT_ALL_ANNOTATION",
+      });
+      newSelectionBounds(e);
+    },
+    onMouseMove: updateSelectionState,
+    onMouseUp: () => {
+      if (!selectionState) return;
+      dispatch({
+        type: "SELECT_ANNOTATION",
+        payload: selectionState.annotations.map((a) => a.id),
+      });
+      resetSelectionState();
     },
   };
 };
-
-interface HasCreationState {
-  creationState: CreationState | null;
-}
 
 const GroupLayerSelectAnnotation: React.FC<AnnotationStatic> = (
   annotationProps
@@ -58,7 +68,7 @@ const GroupLayerSelectAnnotation: React.FC<AnnotationStatic> = (
   const isFirstSelection =
     Object.keys(selectedAnnotations)[0] === annotationProps.id;
 
-  if (type === "GROUP_LABEL" || type === "GROUP") {
+  if (type === "GROUP") {
     // Render just a normal div that doesn't have interactions.
     return (
       <TranslucentBox
@@ -73,36 +83,13 @@ const GroupLayerSelectAnnotation: React.FC<AnnotationStatic> = (
     );
   }
   return (
-    <TranslucentBox
-      id={id}
-      css={{
-        cursor: "pointer",
-        ...css,
-        position: "absolute",
-        zIndex: isSelected ? 100 : 0,
-        border: isSelected ? "3px solid black" : css.border,
-      }}
-      onClick={(e: React.MouseEvent<HTMLElement>) => {
-        e.stopPropagation();
-        const shiftNotPressed = !e.shiftKey;
-        if (shiftNotPressed) {
-          dispatch({ type: "DESELECT_ALL_ANNOTATION" });
-        }
-        if (isSelected) {
-          dispatch({
-            type: "DESELECT_ANNOTATION",
-            payload: annotationProps.id,
-          });
-        } else {
-          dispatch({
-            type: "SELECT_ANNOTATION",
-            payload: annotationProps.id,
-          });
-        }
-      }}>
+    <>
       {isFirstSelection && (
         <GroupLayerActionMenu
-          type={type}
+          position={{
+            left: css.left,
+            top: css.top,
+          }}
           onDelete={() => {
             if (type === "RADIOBOX" || "CHECKBOX") {
               dispatch({
@@ -140,7 +127,34 @@ const GroupLayerSelectAnnotation: React.FC<AnnotationStatic> = (
           }}
         />
       )}
-    </TranslucentBox>
+      <TranslucentBox
+        id={id}
+        css={{
+          cursor: "pointer",
+          ...css,
+          zIndex: isSelected ? 100 : 0,
+          border: isSelected ? "3px solid black" : css.border,
+        }}
+        onClick={(e: React.MouseEvent<HTMLElement>) => {
+          e.stopPropagation();
+          const shiftNotPressed = !e.shiftKey;
+          if (shiftNotPressed) {
+            dispatch({ type: "DESELECT_ALL_ANNOTATION" });
+          }
+          if (isSelected) {
+            dispatch({
+              type: "DESELECT_ANNOTATION",
+              payload: annotationProps.id,
+            });
+          } else {
+            dispatch({
+              type: "SELECT_ANNOTATION",
+              payload: [annotationProps.id],
+            });
+          }
+        }}
+      />
+    </>
   );
 };
 
@@ -166,33 +180,23 @@ const GroupLayerSelections = () => {
     </>
   );
 };
-
-const GroupLayerGateway: React.FC<HasCreationState> = (props) => {
-  return <GroupLayerSelections />;
-};
-
 const GroupLayer: React.FC<LayerControllerProps> = (props) => {
   const { pdf, container } = props;
-  const {
-    creationState,
-    onMouseDown,
-    onMouseLeave,
-    onMouseMove,
-    onMouseUp,
-    cursor,
-    onClick,
-  } = useGroupLayer(container);
+  const layer = useGroupLayer(container);
   return (
     <HandlerLayer
       pdf={pdf}
-      rootCss={{ cursor }}
-      onClick={onClick}
-      onMouseDown={onMouseDown}
-      onMouseLeave={onMouseLeave}
-      onMouseMove={onMouseMove}
-      onMouseUp={onMouseUp}>
+      rootCss={{ cursor: layer.cursor }}
+      onMouseDown={layer.onMouseDown}
+      onMouseMove={layer.onMouseMove}
+      onMouseUp={layer.onMouseUp}>
       <ResizeHandle container={container} pdf={pdf} />
-      <GroupLayerGateway creationState={creationState} />
+      {/* Layer 1 */}
+      {layer.selectionState && (
+        <AnnotationBeingSelected selectionState={layer.selectionState} />
+      )}
+      {/* Layer 2 */}
+      <GroupLayerSelections />
     </HandlerLayer>
   );
 };

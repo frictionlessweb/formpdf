@@ -3,11 +3,12 @@
 import { LabelLayerActionMenu } from "../components/ActionMenu";
 import {
   AnnotationBeingCreated,
-  CreationState,
   TranslucentBox,
   HandlerLayer,
   useCreateAnnotation,
   ResizeHandle,
+  useSelectAnnotation,
+  AnnotationBeingSelected,
 } from "./Annotation";
 import { NO_OP } from "./PDF";
 import {
@@ -20,10 +21,12 @@ import {
   BackgroundColors,
   Borders,
   Annotation,
+  AnnotationId,
 } from "./StoreProvider";
 import color from "../components/color";
 import Xarrow, { useXarrow, Xwrapper } from "react-xarrows";
 import React from "react";
+import { CSSObject } from "@emotion/react";
 
 // Render all of the tokens on the current page. We wrap this in React.memo for a
 // substantial performance boost.
@@ -58,14 +61,22 @@ export const AllTokens: React.FC = React.memo(() => {
 export const useFieldLayer = (
   div: React.MutableRefObject<HTMLDivElement | null>
 ) => {
-  const attr = useCreateAnnotation(div);
   const {
-    div: container,
+    div: createContainer,
     creationState,
     newCreationBounds,
     resetCreationState,
     updateCreationState,
-  } = attr;
+  } = useCreateAnnotation(div);
+
+  const {
+    div: selectContainer,
+    selectionState,
+    newSelectionBounds,
+    resetSelectionState,
+    updateSelectionState,
+  } = useSelectAnnotation(div, ["LABEL", "GROUP_LABEL"]);
+
   const tool = useSelector((state) => state.tool);
   const selectedAnnotations = useSelector((state) => state.selectedAnnotations);
   const page = useSelector((state) => state.page);
@@ -77,7 +88,7 @@ export const useFieldLayer = (
       return {
         cursor: "crosshair",
         creationState,
-        container,
+        container: createContainer,
         onClick: NO_OP,
         onMouseDown: newCreationBounds,
         onMouseMove: updateCreationState,
@@ -140,38 +151,27 @@ export const useFieldLayer = (
     case "SELECT": {
       return {
         cursor: "auto",
-        creationState,
-        container,
-        onMouseMove: NO_OP,
-        onMouseUp: NO_OP,
-        onMouseDown: NO_OP,
-        onMouseLeave: NO_OP,
-        onClick: () => {
-          dispatch({ type: "DESELECT_ALL_ANNOTATION" });
+        selectionState,
+        container: selectContainer,
+        onMouseDown: (e: React.MouseEvent<Element, MouseEvent>) => {
+          // we clear already selected annotations when users starts a new selection.
+          dispatch({
+            type: "DESELECT_ALL_ANNOTATION",
+          });
+          newSelectionBounds(e);
+        },
+        onMouseMove: updateSelectionState,
+        onMouseUp: () => {
+          if (!selectionState) return;
+          dispatch({
+            type: "SELECT_ANNOTATION",
+            payload: selectionState.annotations.map((a) => a.id),
+          });
+          resetSelectionState();
         },
       };
     }
   }
-};
-
-interface CreationProps {
-  creationState: CreationState | null;
-}
-
-const CreateLink: React.FC<CreationProps> = (props) => {
-  const { creationState } = props;
-  return (
-    <>
-      <AnnotationBeingCreated
-        creationState={creationState}
-        showTokens
-        onMouseDown={NO_OP}
-        onMouseMove={NO_OP}
-        onMouseUp={NO_OP}
-      />
-      <AllTokens />
-    </>
-  );
 };
 
 const Label: React.FC<AnnotationStatic> = (props) => {
@@ -207,7 +207,6 @@ const GroupAndField: React.FC<AnnotationStatic> = (props) => {
   const annotations = useSelector((state) => state.annotations);
   const groupRelations = useSelector((state) => state.groupRelations);
   const previewTooltips = useSelector((state) => state.previewTooltips);
-  const zoom = useSelector((state) => state.zoom);
 
   const dispatch = useDispatch();
   const { id, type, children, customTooltip, ...cssProps } = props;
@@ -227,7 +226,6 @@ const GroupAndField: React.FC<AnnotationStatic> = (props) => {
   let showCreateOrUpdateLabel = true;
   let createOrUpdateLabelText = hasRelation ? "Update Label" : "Create Label";
   let showDelete = hasRelation ? true : false;
-  let showAdditionalTooltip = totalSelections === 1 ? true : false;
 
   // Multiple Selections
   if (totalSelections > 1) {
@@ -270,16 +268,7 @@ const GroupAndField: React.FC<AnnotationStatic> = (props) => {
     }
   }
 
-  const [handleCustomTooltipChange, handleDelete, handleUpdateLabel] = [
-    (value: string) => {
-      dispatch({
-        type: "CHANGE_CUSTOM_TOOLTIP",
-        payload: {
-          id,
-          customTooltip: value,
-        },
-      });
-    },
+  const [handleDelete, handleUpdateLabel] = [
     () => {
       dispatch({
         type: "DELETE_LABEL",
@@ -296,54 +285,55 @@ const GroupAndField: React.FC<AnnotationStatic> = (props) => {
 
   if (type === "GROUP") {
     return (
-      <TranslucentBox
-        id={id}
-        css={{
-          ...css,
-          pointerEvents: "none",
-          border: isSelected ? "3px solid black" : css.border,
-          zIndex: isSelected ? 100 : 0,
-        }}>
-        <div
-          style={{
-            // we have to give pointerEvents auto here because we have pointerEvents none on parent.
-            pointerEvents: "auto",
-            position: "absolute",
-            top: "-10px",
-            left: "-10px",
-            cursor: "pointer",
-            width: "20px",
-            height: "20px",
-            backgroundColor: "brown",
-          }}
-          onClick={(e) => {
-            e.stopPropagation();
-            dispatch({ type: "DESELECT_ALL_ANNOTATION" });
-            dispatch({
-              type: "SELECT_ANNOTATION",
-              payload: id,
-            });
-          }}
-        />
-        {isSelected && (
+      <>
+        <TranslucentBox
+          id={id}
+          css={{
+            ...css,
+            pointerEvents: "none",
+            border: isSelected ? "3px solid black" : css.border,
+            zIndex: isSelected ? 100 : 0,
+          }}>
           <div
             style={{
+              // we have to give pointerEvents auto here because we have pointerEvents none on parent.
               pointerEvents: "auto",
-            }}>
-            <LabelLayerActionMenu
-              showDelete={showDelete}
-              showCreateOrUpdateLabel={showCreateOrUpdateLabel}
-              createOrUpdateLabelText={createOrUpdateLabelText}
-              // We don't shown customtooltip option for group.
-              showAdditionalTooltip={false}
-              customTooltip={customTooltip}
-              onCustomTooltipChange={() => {}}
-              onDelete={handleDelete}
-              onUpdateLabel={handleUpdateLabel}
-            />
-          </div>
+              position: "absolute",
+              top: "-10px",
+              left: "-10px",
+              cursor: "pointer",
+              width: "20px",
+              height: "20px",
+              backgroundColor: "brown",
+            }}
+            onMouseDown={(e) => {
+              // We stop propagation with the goal of preventing annotation being selected.
+              e.stopPropagation();
+            }}
+            onClick={(e) => {
+              e.stopPropagation();
+              dispatch({ type: "DESELECT_ALL_ANNOTATION" });
+              dispatch({
+                type: "SELECT_ANNOTATION",
+                payload: [id],
+              });
+            }}
+          />
+        </TranslucentBox>
+        {isSelected && (
+          <LabelLayerActionMenu
+            position={{
+              top: css.top,
+              left: css.left,
+            }}
+            showDelete={showDelete}
+            showCreateOrUpdateLabel={showCreateOrUpdateLabel}
+            createOrUpdateLabelText={createOrUpdateLabelText}
+            onDelete={handleDelete}
+            onUpdateLabel={handleUpdateLabel}
+          />
         )}
-      </TranslucentBox>
+      </>
     );
   }
 
@@ -371,23 +361,6 @@ const GroupAndField: React.FC<AnnotationStatic> = (props) => {
 
   return (
     <>
-      {previewTooltips && tooltipPreview !== "" && (
-        <span
-          style={{
-            position: "absolute",
-            top: css.top,
-            left: css.left,
-            fontSize: `${0.8 * zoom}rem`,
-            backgroundColor: color.blue.dark,
-            color: "white",
-            borderRadius: "0.4rem",
-            padding: "0.2rem",
-            whiteSpace: "nowrap",
-            zIndex: 200,
-          }}>
-          {tooltipPreview}
-        </span>
-      )}
       <TranslucentBox
         id={id}
         css={{
@@ -395,6 +368,10 @@ const GroupAndField: React.FC<AnnotationStatic> = (props) => {
           ...css,
           border: isSelected ? "3px solid black" : css.border,
           zIndex: isSelected ? 100 : 0,
+        }}
+        onMouseDown={(e) => {
+          // We stop propagation with the goal of preventing annotation being selected.
+          e.stopPropagation();
         }}
         onClick={(e: React.MouseEvent<HTMLElement>) => {
           e.stopPropagation();
@@ -410,25 +387,87 @@ const GroupAndField: React.FC<AnnotationStatic> = (props) => {
           } else {
             dispatch({
               type: "SELECT_ANNOTATION",
-              payload: id,
+              payload: [id],
             });
           }
-        }}>
-        {isFirstSelection && (
-          <LabelLayerActionMenu
-            showDelete={showDelete}
-            showCreateOrUpdateLabel={showCreateOrUpdateLabel}
-            createOrUpdateLabelText={createOrUpdateLabelText}
-            // Only shown for single selection.
-            showAdditionalTooltip={showAdditionalTooltip}
-            customTooltip={customTooltip}
-            onCustomTooltipChange={handleCustomTooltipChange}
-            onDelete={handleDelete}
-            onUpdateLabel={handleUpdateLabel}
-          />
-        )}
-      </TranslucentBox>
+        }}
+      />
+      {previewTooltips && tooltipPreview !== "" && (
+        <TooltipPreview forId={id} tooltip={tooltipPreview} />
+      )}
+      {isFirstSelection && (
+        <LabelLayerActionMenu
+          position={{
+            top: css.top,
+            left: css.left,
+          }}
+          showDelete={showDelete}
+          showCreateOrUpdateLabel={showCreateOrUpdateLabel}
+          createOrUpdateLabelText={createOrUpdateLabelText}
+          onDelete={handleDelete}
+          onUpdateLabel={handleUpdateLabel}
+        />
+      )}
     </>
+  );
+};
+
+const TooltipPreview: React.FC<{
+  forId: AnnotationId;
+  tooltip: string;
+}> = ({ forId, tooltip }) => {
+  const zoom = useSelector((state) => state.zoom);
+  const annotations = useSelector((state) => state.annotations);
+  const annotation = annotations[forId];
+
+  // we found out this ASPECT_RATIO for Robot manually.
+  const ROBOTO_FONT_AVG_HEIGHT_TO_WIDTH_RATIO = 0.55;
+  const fontSize = 14 * zoom;
+  const tooltipWidth =
+    fontSize * ROBOTO_FONT_AVG_HEIGHT_TO_WIDTH_RATIO * tooltip.length;
+
+  const baseTooltipStyle: CSSObject = {
+    position: "absolute",
+    top: annotation.top,
+    left: annotation.left,
+    padding: "0.2rem",
+    borderRadius: "0.4rem",
+    backgroundColor: color.blue.dark,
+    color: "white",
+    zIndex: 200,
+
+    fontSize: `${fontSize}px`,
+    whiteSpace: "nowrap",
+    textOverflow: "ellipsis",
+    overflow: "hidden",
+    border: `2px solid ${color.blue.dark}`,
+
+    transition: "all 0.2s ease-in-out",
+  };
+
+  const minimisedTooltipStyle: CSSObject = {
+    ...baseTooltipStyle,
+    // In minimised state, we want to show only 4/5 of
+    // the tooltip or 24px if its really small.
+    width: (annotation.width * 4) / 5,
+    minWidth: "24px",
+    "&:hover": {
+      width: "auto",
+      // this is important or the hovered tooltip will be hidden by other tooltips.
+      zIndex: 210,
+      border: `2px solid ${color.white.medium}`,
+    },
+  };
+
+  return (
+    <div
+      css={
+        tooltipWidth > annotation.width
+          ? minimisedTooltipStyle
+          : baseTooltipStyle
+      }>
+      {tooltip}
+    </div>
   );
 };
 
@@ -480,40 +519,50 @@ const SelectAnnotation: React.FC = () => {
   );
 };
 
-const CreateLabelFlow: React.FC<CreationProps> = (props) => {
-  const { creationState } = props;
-  const tool = useSelector((state) => state.tool);
-  switch (tool) {
-    case "CREATE": {
-      return <CreateLink creationState={creationState} />;
-    }
-    case "SELECT": {
-      return <SelectAnnotation />;
-    }
-  }
-};
-
 const LabelLayer: React.FC<LayerControllerProps> = (props) => {
   const { pdf, container } = props;
-  const {
-    creationState,
-    cursor,
-    onClick,
-    onMouseDown,
-    onMouseLeave,
-    onMouseMove,
-    onMouseUp,
-  } = useFieldLayer(container);
+  const layer = useFieldLayer(container);
+  const tool = useSelector((state) => state.tool);
+
+  let LabelLayerAnnotations = <></>;
+  if (tool === "CREATE") {
+    LabelLayerAnnotations = (
+      <>
+        {layer.creationState && (
+          <AnnotationBeingCreated
+            creationState={layer.creationState}
+            showTokens={false}
+          />
+        )}
+        <AllTokens />
+      </>
+    );
+  }
+  if (tool === "SELECT") {
+    LabelLayerAnnotations = (
+      <>
+        {layer.selectionState && (
+          <AnnotationBeingSelected selectionState={layer.selectionState} />
+        )}
+        <SelectAnnotation />
+      </>
+    );
+  }
+
   return (
     <HandlerLayer
       pdf={pdf}
-      onClick={onClick}
-      onMouseDown={onMouseDown}
-      onMouseLeave={onMouseLeave}
-      onMouseMove={onMouseMove}
-      onMouseUp={onMouseUp}>
-      <ResizeHandle pdf={pdf} container={container} rootCss={{ cursor }} />
-      <CreateLabelFlow creationState={creationState} />
+      onClick={layer.onClick}
+      onMouseDown={layer.onMouseDown}
+      onMouseLeave={layer.onMouseLeave}
+      onMouseMove={layer.onMouseMove}
+      onMouseUp={layer.onMouseUp}>
+      <ResizeHandle
+        pdf={pdf}
+        container={container}
+        rootCss={{ cursor: layer.cursor }}
+      />
+      {LabelLayerAnnotations}
     </HandlerLayer>
   );
 };

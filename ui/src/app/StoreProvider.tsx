@@ -232,14 +232,14 @@ export const ANNOTATION_COLOR = color.orange.transparent;
 export const ANNOTATION_BORDER = `4px solid ${color.orange.dark}`;
 
 export const Borders: Record<ANNOTATION_TYPE, string> = {
-  TEXTBOX: `4px solid ${color.orange.medium}`,
-  CHECKBOX: `4px solid ${color.yellow.medium}`,
-  RADIOBOX: `4px solid ${color.purple.medium}`,
-  SIGNATURE: `4px solid ${color.pink.medium}`,
-  DATE: `4px solid ${color.green.medium}`,
-  LABEL: `4px solid ${color.teal.medium}`,
-  GROUP: `4px solid ${color.brown.medium}`,
-  GROUP_LABEL: `4px solid ${color.teal.medium}`,
+  TEXTBOX: `3px solid ${color.orange.medium}`,
+  CHECKBOX: `3px solid ${color.yellow.medium}`,
+  RADIOBOX: `3px solid ${color.purple.medium}`,
+  SIGNATURE: `3px solid ${color.pink.medium}`,
+  DATE: `3px solid ${color.green.medium}`,
+  LABEL: `3px solid ${color.teal.medium}`,
+  GROUP: `3px solid ${color.brown.medium}`,
+  GROUP_LABEL: `3px solid ${color.teal.medium}`,
 };
 
 export const BackgroundColors: Record<ANNOTATION_TYPE, string> = {
@@ -351,7 +351,7 @@ export type AccessibleFormAction =
     }
   | {
       type: "SELECT_ANNOTATION";
-      payload: AnnotationId;
+      payload: Array<AnnotationId>;
     }
   | {
       type: "DESELECT_ANNOTATION";
@@ -683,7 +683,9 @@ export const reduceAccessibleForm = (
     }
     case "SELECT_ANNOTATION": {
       return produce(previous, (draft) => {
-        draft.selectedAnnotations[action.payload] = true;
+        action.payload.forEach((id) => {
+          draft.selectedAnnotations[id] = true;
+        });
         return;
       });
     }

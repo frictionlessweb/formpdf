@@ -121,7 +121,7 @@ const ToolSelect: React.FC<BoxProps> = (props) => {
         top: 0,
         height: "100vh",
         backgroundColor: color.gray.light,
-        borderRight: `2px solid ${color.gray.line}`,
+        borderRight: `0.5px solid ${color.gray.line}`,
         width: "3.5rem",
         paddingTop: "9rem",
         display: "flex",
