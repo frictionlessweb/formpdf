@@ -171,7 +171,7 @@ const Header: React.FC = () => {
         <PrevStepButton />
         <Steps onStepChange={goToStep} stepIndex={stepIndex} />
         <NextStepButton />
-        {/* <div
+        <div
           style={{
             width: "15rem",
             position: "absolute",
@@ -179,7 +179,7 @@ const Header: React.FC = () => {
             top: "1.2rem",
           }}>
           <Progress />
-        </div> */}
+        </div>
       </div>
 
       <div
