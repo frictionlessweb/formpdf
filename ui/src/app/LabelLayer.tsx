@@ -3,11 +3,12 @@
 import { LabelLayerActionMenu } from "../components/ActionMenu";
 import {
   AnnotationBeingCreated,
-  CreationState,
   TranslucentBox,
   HandlerLayer,
   useCreateAnnotation,
   ResizeHandle,
+  useSelectAnnotation,
+  AnnotationBeingSelected,
 } from "./Annotation";
 import { NO_OP } from "./PDF";
 import {
@@ -60,14 +61,22 @@ export const AllTokens: React.FC = React.memo(() => {
 export const useFieldLayer = (
   div: React.MutableRefObject<HTMLDivElement | null>
 ) => {
-  const attr = useCreateAnnotation(div);
   const {
-    div: container,
+    div: createContainer,
     creationState,
     newCreationBounds,
     resetCreationState,
     updateCreationState,
-  } = attr;
+  } = useCreateAnnotation(div);
+
+  const {
+    div: selectContainer,
+    selectionState,
+    newSelectionBounds,
+    resetSelectionState,
+    updateSelectionState,
+  } = useSelectAnnotation(div, ["LABEL", "GROUP_LABEL"]);
+
   const tool = useSelector((state) => state.tool);
   const selectedAnnotations = useSelector((state) => state.selectedAnnotations);
   const page = useSelector((state) => state.page);
@@ -79,7 +88,7 @@ export const useFieldLayer = (
       return {
         cursor: "crosshair",
         creationState,
-        container,
+        container: createContainer,
         onClick: NO_OP,
         onMouseDown: newCreationBounds,
         onMouseMove: updateCreationState,
@@ -142,38 +151,27 @@ export const useFieldLayer = (
     case "SELECT": {
       return {
         cursor: "auto",
-        creationState,
-        container,
-        onMouseMove: NO_OP,
-        onMouseUp: NO_OP,
-        onMouseDown: NO_OP,
-        onMouseLeave: NO_OP,
-        onClick: () => {
-          dispatch({ type: "DESELECT_ALL_ANNOTATION" });
+        selectionState,
+        container: selectContainer,
+        onMouseDown: (e: React.MouseEvent<Element, MouseEvent>) => {
+          // we clear already selected annotations when users starts a new selection.
+          dispatch({
+            type: "DESELECT_ALL_ANNOTATION",
+          });
+          newSelectionBounds(e);
+        },
+        onMouseMove: updateSelectionState,
+        onMouseUp: () => {
+          if (!selectionState) return;
+          dispatch({
+            type: "SELECT_ANNOTATION",
+            payload: selectionState.annotations.map((a) => a.id),
+          });
+          resetSelectionState();
         },
       };
     }
   }
-};
-
-interface CreationProps {
-  creationState: CreationState | null;
-}
-
-const CreateLink: React.FC<CreationProps> = (props) => {
-  const { creationState } = props;
-  return (
-    <>
-      <AnnotationBeingCreated
-        creationState={creationState}
-        showTokens
-        onMouseDown={NO_OP}
-        onMouseMove={NO_OP}
-        onMouseUp={NO_OP}
-      />
-      <AllTokens />
-    </>
-  );
 };
 
 const Label: React.FC<AnnotationStatic> = (props) => {
@@ -308,6 +306,10 @@ const GroupAndField: React.FC<AnnotationStatic> = (props) => {
               height: "20px",
               backgroundColor: "brown",
             }}
+            onMouseDown={(e) => {
+              // We stop propagation with the goal of preventing annotation being selected.
+              e.stopPropagation();
+            }}
             onClick={(e) => {
               e.stopPropagation();
               dispatch({ type: "DESELECT_ALL_ANNOTATION" });
@@ -366,6 +368,10 @@ const GroupAndField: React.FC<AnnotationStatic> = (props) => {
           ...css,
           border: isSelected ? "3px solid black" : css.border,
           zIndex: isSelected ? 100 : 0,
+        }}
+        onMouseDown={(e) => {
+          // We stop propagation with the goal of preventing annotation being selected.
+          e.stopPropagation();
         }}
         onClick={(e: React.MouseEvent<HTMLElement>) => {
           e.stopPropagation();
@@ -513,40 +519,63 @@ const SelectAnnotation: React.FC = () => {
   );
 };
 
-const CreateLabelFlow: React.FC<CreationProps> = (props) => {
-  const { creationState } = props;
-  const tool = useSelector((state) => state.tool);
-  switch (tool) {
-    case "CREATE": {
-      return <CreateLink creationState={creationState} />;
-    }
-    case "SELECT": {
-      return <SelectAnnotation />;
-    }
-  }
-};
-
 const LabelLayer: React.FC<LayerControllerProps> = (props) => {
   const { pdf, container } = props;
-  const {
-    creationState,
-    cursor,
-    onClick,
-    onMouseDown,
-    onMouseLeave,
-    onMouseMove,
-    onMouseUp,
-  } = useFieldLayer(container);
+  const layer = useFieldLayer(container);
+  const tool = useSelector((state) => state.tool);
+
+  const LabelLayerAnnotations: React.FC = () => {
+    switch (tool) {
+      case "CREATE": {
+        return (
+          <>
+            {layer.creationState && (
+              <AnnotationBeingCreated
+                creationState={layer.creationState}
+                showTokens={false}
+                onMouseUp={NO_OP}
+                onMouseDown={NO_OP}
+                onMouseMove={NO_OP}
+              />
+            )}
+            <AllTokens />
+          </>
+        );
+      }
+      case "SELECT": {
+        return (
+          <>
+            {layer.selectionState && (
+              <AnnotationBeingSelected
+                selectionState={layer.selectionState}
+                onMouseUp={NO_OP}
+                onMouseDown={NO_OP}
+                onMouseMove={NO_OP}
+              />
+            )}
+            <SelectAnnotation />
+          </>
+        );
+      }
+      default:
+        return null;
+    }
+  };
+
   return (
     <HandlerLayer
       pdf={pdf}
-      onClick={onClick}
-      onMouseDown={onMouseDown}
-      onMouseLeave={onMouseLeave}
-      onMouseMove={onMouseMove}
-      onMouseUp={onMouseUp}>
-      <ResizeHandle pdf={pdf} container={container} rootCss={{ cursor }} />
-      <CreateLabelFlow creationState={creationState} />
+      onClick={layer.onClick}
+      onMouseDown={layer.onMouseDown}
+      onMouseLeave={layer.onMouseLeave}
+      onMouseMove={layer.onMouseMove}
+      onMouseUp={layer.onMouseUp}>
+      <ResizeHandle
+        pdf={pdf}
+        container={container}
+        rootCss={{ cursor: layer.cursor }}
+      />
+      <LabelLayerAnnotations />
     </HandlerLayer>
   );
 };

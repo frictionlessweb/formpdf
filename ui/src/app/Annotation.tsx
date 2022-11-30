@@ -8,6 +8,7 @@ import {
   useSelector,
   useDispatch,
   Annotation,
+  ANNOTATION_TYPE,
 } from "./StoreProvider";
 import Chip from "@mui/material/Chip";
 import { Rnd } from "react-rnd";
@@ -402,12 +403,15 @@ export interface SelectionState {
 }
 
 export const useSelectAnnotation = (
-  div: React.MutableRefObject<HTMLDivElement | null>
+  div: React.MutableRefObject<HTMLDivElement | null>,
+  excludeTypes: ANNOTATION_TYPE[]
 ) => {
   // We need to know the container so that we can figure out where relative
   // in the page we should position the bounds.
   const annotationsMap = useSelector((state) => state.annotations);
-  const allAnnotations = Object.values(annotationsMap);
+  const allAnnotations = Object.values(annotationsMap).filter(
+    (a) => !excludeTypes.includes(a.type)
+  );
 
   const [selectionState, setState] = React.useState<SelectionState | null>(
     null

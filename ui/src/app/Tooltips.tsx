@@ -50,11 +50,15 @@ const CustomTooltip: React.FC = () => {
   const annotations = useSelector((state) => state.annotations);
   const selectedAnnotations = useSelector((state) => state.selectedAnnotations);
   const step = useSelector((state) => state.step);
+  const tool = useSelector((state) => state.tool);
   const dispatch = useDispatch();
   const allSelectedAnnotation = Object.keys(selectedAnnotations);
   const totalSelections = allSelectedAnnotation.length;
 
-  if (step === "LABEL_LAYER" && totalSelections === 1) {
+  const showCustomTooltip =
+    step === "LABEL_LAYER" && tool === "SELECT" && totalSelections === 1;
+
+  if (showCustomTooltip) {
     const selectedAnnotationId = allSelectedAnnotation[0];
     const selectedAnnotation = annotations[selectedAnnotationId];
 

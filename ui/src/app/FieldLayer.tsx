@@ -41,7 +41,7 @@ export const useFieldLayer = (
     newSelectionBounds,
     resetSelectionState,
     updateSelectionState,
-  } = useSelectAnnotation(div);
+  } = useSelectAnnotation(div, ["GROUP", "GROUP_LABEL", "LABEL"]);
 
   const dispatch = useDispatch();
   const tool = useSelector((state) => state.tool);
