@@ -6,12 +6,15 @@ import Button from "@mui/material/Button";
 import { useSelector, useDispatch, Step, STEPS } from "./StoreProvider";
 import color from "../components/color";
 import { useHotkeys } from "react-hotkeys-hook";
-import LinearProgress from "@mui/material/LinearProgress";
+import { styled } from "@mui/material/styles";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import { FormControl } from "@mui/material";
 import Fab from "@mui/material/Fab";
 import ClearIcon from "@mui/icons-material/Clear";
+import LinearProgress, {
+  linearProgressClasses,
+} from "@mui/material/LinearProgress";
 
 const NextStepButton: React.FC = () => {
   const dispatch = useDispatch();
@@ -76,6 +79,19 @@ const PrevStepButton: React.FC = () => {
   );
 };
 
+const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
+  height: 6,
+  borderRadius: 5,
+  marginBottom: "0.4rem",
+  [`&.${linearProgressClasses.colorPrimary}`]: {
+    backgroundColor: color.gray.line,
+  },
+  [`& .${linearProgressClasses.bar}`]: {
+    borderRadius: 5,
+    backgroundColor: color.green.medium,
+  },
+}));
+
 const Progress = () => {
   const sections = useSelector((state) => state.sections);
   const currentSection = useSelector((state) => state.currentSection);
@@ -98,38 +114,27 @@ const Progress = () => {
         ((currentStepIdx + 1) / STEPS.length)) *
     100;
   return (
-    <div
-      style={{
-        fontSize: "0.9rem",
-      }}>
+    <>
       <div
         style={{
           display: "flex",
           justifyContent: "space-between",
+          paddingBottom: "0.2rem",
         }}>
         <span>Progress</span>
         <span>{Math.round(progressValue)}%</span>
       </div>
       <div>
-        <LinearProgress
-          variant="determinate"
-          color="success"
-          sx={{
-            backgroundColor: color.white.medium,
-            marginTop: "0.3rem",
-            marginBottom: "0.3rem",
-          }}
-          value={progressValue}
-        />
+        <BorderLinearProgress variant="determinate" value={progressValue} />
       </div>
       <div
         style={{
           color: color.black.medium,
-          opacity: 0.8,
+          fontSize: "0.75rem",
         }}>
         You are working in section {currentSection + 1}
       </div>
-    </div>
+    </>
   );
 };
 
@@ -148,8 +153,8 @@ const Header: React.FC = () => {
         flexDirection: "column",
         justifyContent: "space-between",
         width: "100%",
-        backgroundColor: color.gray.medium,
-        borderBottom: `2px solid ${color.gray.line}`,
+        backgroundColor: color.white.medium,
+        borderBottom: `0.5px solid ${color.gray.line}`,
         zIndex: 100,
       }}>
       <div
@@ -159,15 +164,14 @@ const Header: React.FC = () => {
           justifyContent: "center",
           alignItems: "center",
           width: "100%",
-          borderBottom: `2px solid ${color.gray.line}`,
-          paddingTop: "1.5rem",
+          borderBottom: `0.5px solid ${color.gray.line}`,
+          paddingTop: "1rem",
           paddingBottom: "1rem",
         }}>
         <PrevStepButton />
         <Steps onStepChange={goToStep} stepIndex={stepIndex} />
         <NextStepButton />
-
-        <div
+        {/* <div
           style={{
             width: "15rem",
             position: "absolute",
@@ -175,18 +179,16 @@ const Header: React.FC = () => {
             top: "1.2rem",
           }}>
           <Progress />
-        </div>
+        </div> */}
       </div>
 
       <div
         css={{
           textAlign: "center",
-          fontSize: "0.8rem",
           width: "100%",
-          paddingTop: "0.5rem",
-          paddingBottom: "0.5rem",
+          padding: "0.4rem 0 0.4rem 0",
           fontWeight: "medium",
-          backgroundColor: color.gray.light,
+          backgroundColor: color.gray.medium,
         }}>
         {/* If a step has tool specific description then show that, if not, show default step description. */}
         {STEPS[stepIndex].toolDescription[activeTool] ??

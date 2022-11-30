@@ -422,7 +422,7 @@ const TooltipPreview: React.FC<{
 
   // we found out this ASPECT_RATIO for Robot manually.
   const ROBOTO_FONT_AVG_HEIGHT_TO_WIDTH_RATIO = 0.55;
-  const fontSize = 13.5 * zoom;
+  const fontSize = 14 * zoom;
   const tooltipWidth =
     fontSize * ROBOTO_FONT_AVG_HEIGHT_TO_WIDTH_RATIO * tooltip.length;
 

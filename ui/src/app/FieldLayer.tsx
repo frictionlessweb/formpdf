@@ -117,6 +117,7 @@ const ResizeHandleForAnnotations: React.FC = () => {
         style={{
           height: "90%",
           width: "90%",
+          borderRadius: "4px",
           border: "3px solid black",
           backgroundColor: "white",
         }}
@@ -194,7 +195,7 @@ export const FieldLayerAnnotation: React.FC<AnnotationProps> = (props) => {
               // Here zIndex is used to fix the issue where – the action menu (which is a child of selected annotation)
               // gets overlapped by previous section's grey area.
               zIndex: isSelected ? 100 : 0,
-              border: isSelected ? "4px solid black" : css.border,
+              border: isSelected ? "3px solid black" : css.border,
             }}
             enableResizing={isSelected}
             resizeHandleComponent={{

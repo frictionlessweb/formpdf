@@ -1,16 +1,16 @@
 /** @jsxImportSource @emotion/react */
 import { styled } from "@mui/material/styles";
-import Box, { BoxProps } from "@mui/material/Box";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
-import Check from "@mui/icons-material/Check";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import CircleOutlinedIcon from "@mui/icons-material/CircleOutlined";
 import color from "../components/color";
 import StepConnector, {
   stepConnectorClasses,
 } from "@mui/material/StepConnector";
 import { StepIconProps } from "@mui/material/StepIcon";
-import { Step as StepType, STEPS, TOOL as ToolType } from "./StoreProvider";
+import { Step as StepType, STEPS } from "./StoreProvider";
 
 // styled is a part of mui and is a recommendation for reusable style overrides.
 // Ref: https://mui.com/customization/how-to-customize/#2-reusable-style-overrides
@@ -47,15 +47,13 @@ const StepIconRoot = styled("div")<{ ownerState: { active?: boolean } }>(
       color: color.green.medium,
     }),
     "& .StepIcon-completedIcon": {
+      width: "1rem",
       color: color.green.medium,
       zIndex: 1,
-      fontSize: 18,
     },
     "& .StepIcon-circle": {
-      width: 6,
-      height: 6,
-      borderRadius: "50%",
-      backgroundColor: "currentColor",
+      width: "1rem",
+      color: "currentColor",
     },
   })
 );
@@ -66,9 +64,9 @@ function StepIcon(props: StepIconProps) {
   return (
     <StepIconRoot ownerState={{ active }} className={className}>
       {completed ? (
-        <Check className="StepIcon-completedIcon" />
+        <CheckCircleIcon className="StepIcon-completedIcon" />
       ) : (
-        <div className="StepIcon-circle" />
+        <CircleOutlinedIcon className="StepIcon-circle" />
       )}
     </StepIconRoot>
   );
@@ -84,7 +82,7 @@ const Steps: React.FC<{
   //BUG: is not boxProps inline style ?
   return (
     <Stepper
-      css={{ width: "30%", maxWidth: "30rem" }}
+      css={{ width: "30%", maxWidth: "30rem", paddingTop: "0.5rem" }}
       alternativeLabel
       activeStep={stepIndex}
       connector={<Connector />}>
@@ -104,7 +102,7 @@ const Steps: React.FC<{
                   fontWeight: "bold",
                 },
                 fontWeight: stepIndex === index ? "bold" : "normal",
-                fontSize: 12,
+                fontSize: "0.8rem",
               }}
               onClick={() => onStepChange(step.id)}>
               {step.title}

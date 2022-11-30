@@ -90,7 +90,6 @@ const ActionMenuItem: React.FC<ActionMenuItemProps> = (props) => {
         gap: "0.2rem",
         fontFamily: "Roboto Medium",
         fontWeight: 100,
-        fontSize: "0.9rem",
         img: {
           width: "100%",
           height: "100%",

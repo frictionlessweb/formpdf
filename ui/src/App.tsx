@@ -24,7 +24,11 @@ const App = () => {
       display="flex"
       flexDirection="column"
       alignItems="center"
-      sx={{ backgroundColor: color.gray.dark, userSelect: "none" }}>
+      sx={{
+        backgroundColor: color.gray.dark,
+        userSelect: "none",
+        fontSize: "0.88rem",
+      }}>
       <Header />
       <ToolSelect />
       <Box
