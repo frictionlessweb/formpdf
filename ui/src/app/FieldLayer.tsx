@@ -81,21 +81,20 @@ export const useFieldLayer = (
         cursor: "auto",
         selectionState,
         container: selectContainer,
-        onMouseDown: newSelectionBounds,
+        onMouseDown: (e: React.MouseEvent<Element, MouseEvent>) => {
+          // we clear already selected annotations when users starts a new selection.
+          dispatch({
+            type: "DESELECT_ALL_ANNOTATION",
+          });
+          newSelectionBounds(e);
+        },
         onMouseMove: updateSelectionState,
         onMouseUp: () => {
           if (!selectionState) return;
-          // if no selection is inside the bound created by user, then deselect all.
-          if (selectionState.annotations.length === 0) {
-            dispatch({
-              type: "DESELECT_ALL_ANNOTATION",
-            });
-          } else {
-            dispatch({
-              type: "SELECT_ANNOTATION",
-              payload: selectionState.annotations.map((a) => a.id),
-            });
-          }
+          dispatch({
+            type: "SELECT_ANNOTATION",
+            payload: selectionState.annotations.map((a) => a.id),
+          });
           resetSelectionState();
         },
       };
