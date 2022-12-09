@@ -28,6 +28,7 @@ const App = () => {
         backgroundColor: color.gray.dark,
         userSelect: "none",
         fontSize: "0.88rem",
+        fontFamily: "Inter, sans-serif",
       }}>
       <Header />
       <ToolSelect />
