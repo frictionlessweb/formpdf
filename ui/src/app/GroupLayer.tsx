@@ -27,7 +27,14 @@ const useGroupLayer = (div: React.MutableRefObject<HTMLDivElement | null>) => {
     newSelectionBounds,
     resetSelectionState,
     updateSelectionState,
-  } = useSelectAnnotation(div, ["GROUP", "GROUP_LABEL", "LABEL"]);
+  } = useSelectAnnotation(div, [
+    "GROUP",
+    "GROUP_LABEL",
+    "LABEL",
+    "TEXTBOX",
+    "SIGNATURE",
+    "DATE",
+  ]);
 
   return {
     cursor: "auto",
