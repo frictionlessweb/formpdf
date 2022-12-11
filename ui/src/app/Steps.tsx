@@ -102,7 +102,7 @@ const Steps: React.FC<{
                   fontWeight: "bold",
                 },
                 fontWeight: stepIndex === index ? "bold" : "normal",
-                fontSize: "0.8rem",
+                fontSize: "12px",
               }}
               onClick={() => onStepChange(step.id)}>
               {step.title}

@@ -27,7 +27,7 @@ const App = () => {
       sx={{
         backgroundColor: color.gray.dark,
         userSelect: "none",
-        fontSize: "0.88rem",
+        fontSize: "14px",
         fontFamily: "Inter, sans-serif",
       }}>
       <Header />
