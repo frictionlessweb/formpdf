@@ -7,6 +7,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import Switch from "@mui/material/Switch";
 import { styled } from "@mui/material/styles";
+import tutorialImage from "./assets/images/tooltip_tutorial_image.png";
 
 const AntSwitch = styled(Switch)(({ theme }) => ({
   width: 28,
@@ -186,4 +187,61 @@ const CustomTooltip: React.FC = () => {
   return null;
 };
 
-export { CustomTooltip, PreviewTooltipCheckbox };
+const TooltipHelp: React.FC = () => {
+  const [expanded, setExpanded] = React.useState(true);
+  const step = useSelector((state) => state.step);
+  const tool = useSelector((state) => state.tool);
+  const showTooltipHelp = step === "LABEL_LAYER" && tool === "CREATE";
+
+  if (!showTooltipHelp) {
+    return null;
+  }
+
+  const AccordianTitle = (
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "space-between",
+        flexDirection: "row",
+        alignItems: "center",
+      }}>
+      <div style={{ fontWeight: "bold" }}>Create Label (Help)</div>
+      <IconButton
+        onClick={() => {
+          setExpanded(!expanded);
+        }}>
+        {expanded ? <ExpandMoreIcon /> : <ExpandLessIcon />}
+      </IconButton>
+    </div>
+  );
+  const AccordianBody = (
+    <div
+      style={{
+        paddingTop: "0.2rem",
+        paddingBottom: "0.3rem",
+      }}>
+      <img width="320px" src={tutorialImage} alt="" />
+      Drag and Select the words that you want to set as label for the field.
+    </div>
+  );
+
+  return (
+    <FloatingDiv
+      position={{
+        left: "4.5rem",
+        bottom: "24px",
+      }}>
+      <div
+        style={{
+          width: "39ch",
+          paddingLeft: "0.4rem",
+          paddingRight: "0.4rem",
+        }}>
+        {AccordianTitle}
+        {expanded && AccordianBody}
+      </div>
+    </FloatingDiv>
+  );
+};
+
+export { CustomTooltip, PreviewTooltipCheckbox, TooltipHelp };

@@ -7,7 +7,11 @@ import ToolSelect from "./app/ToolSelect";
 import ResizeDialog from "./app/ResizeModal";
 import { getPdfUrl, useSaveState } from "./app/utils";
 import color from "./components/color";
-import { PreviewTooltipCheckbox, CustomTooltip } from "./app/Tooltips";
+import {
+  PreviewTooltipCheckbox,
+  CustomTooltip,
+  TooltipHelp,
+} from "./app/Tooltips";
 
 // We didn't add this to app, or else it will re-render the whole App.
 const SaveState = () => {
@@ -46,6 +50,7 @@ const App = () => {
       <ResizeDialog />
       <SaveState />
       <CustomTooltip />
+      <TooltipHelp />
     </Box>
   );
 };
