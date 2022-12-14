@@ -255,8 +255,6 @@ const PDFUI: React.FC<PDFUIProps> = (props) => {
       css={{
         display: "flex",
         flexDirection: "column",
-        width: "calc(100vw - 8rem)",
-        height: "calc(100vh - 4.5rem)",
         position: "relative",
       }}>
       <>

@@ -37,11 +37,18 @@ const App = () => {
       <Header />
       <ToolSelect />
       <Box
+        // change these properties to change the positioning of the canvas
+        // don't go into PDF component and change thing or else it will break.
+        // we give marginLeft 4.2 here because left toolbar is positioned absolute
+        // as positions are calculated based on PDF component. We give marginTop 0.2 here
+        // because top toolbar is not positioned absolute
         display="flex"
-        justifyContent="flex-start"
-        marginTop="0.4rem"
-        overflow="auto"
-        marginLeft="7rem">
+        justifyContent="center"
+        marginLeft="4.2rem"
+        marginTop="0.2rem"
+        width="calc(100vw - 4.2rem)"
+        height="calc(100vh - 4.2rem)"
+        overflow="auto">
         <PDF url={pdfUrl} />
       </Box>
       <ExitButtonForCreateTool />
