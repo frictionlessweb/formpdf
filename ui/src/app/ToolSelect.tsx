@@ -120,23 +120,13 @@ const ToolSelect: React.FC<BoxProps> = (props) => {
         top: 0,
         height: "100vh",
         backgroundColor: color.gray.light,
-        borderRight: `0.5px solid ${color.gray.line}`,
-        width: "3.5rem",
-        paddingTop: "9rem",
+        borderRight: `1px solid ${color.gray.line}`,
+        width: "64px",
+        paddingTop: "88px",
         display: "flex",
         flexDirection: "column",
-        justifyContent: "space-between",
       }}>
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "flex-start",
-          alignItems: "center",
-        }}
-        {...props}>
-        {tools}
-      </Box>
+      {tools}
     </Box>
   );
 };
