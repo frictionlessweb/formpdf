@@ -220,8 +220,6 @@ const PDFCanvas: React.FC<PDFCanvasProps> = (props) => {
     <>
       <img
         style={{
-          borderBottom: "2px solid grey",
-          borderTop: "2px solid grey",
           width: `${pdfWidth}px`,
           height: `${pdfHeight}px`,
         }}
@@ -255,11 +253,10 @@ const PDFUI: React.FC<PDFUIProps> = (props) => {
       id="pdf-container"
       ref={container}
       css={{
-        overflow: "auto",
         display: "flex",
         flexDirection: "column",
         width: "calc(100vw - 8rem)",
-        height: "calc(100vh - 8.5rem)",
+        height: "calc(100vh - 4.5rem)",
         position: "relative",
       }}>
       <>

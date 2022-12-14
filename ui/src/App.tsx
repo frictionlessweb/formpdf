@@ -1,8 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import Box from "@mui/material/Box";
-import { FormSelect, ExitButtonForCreateTool, Header } from "./app/Header";
+import { ExitButtonForCreateTool, Header } from "./app/Header";
 import PDF from "./app/PDF";
-import { Zoom } from "./app/Zoom";
 import ToolSelect from "./app/ToolSelect";
 import ResizeDialog from "./app/ResizeModal";
 import { getPdfUrl, useSaveState } from "./app/utils";
@@ -32,6 +31,7 @@ const App = () => {
         backgroundColor: color.gray.dark,
         userSelect: "none",
         fontSize: "14px",
+        color: color.gray.dark,
         fontFamily: "Inter, sans-serif",
       }}>
       <Header />
@@ -40,13 +40,12 @@ const App = () => {
         display="flex"
         justifyContent="flex-start"
         marginTop="0.4rem"
-        marginLeft="8rem">
+        overflow="auto"
+        marginLeft="7rem">
         <PDF url={pdfUrl} />
       </Box>
       <ExitButtonForCreateTool />
-      <Zoom />
       <PreviewTooltipCheckbox />
-      <FormSelect />
       <ResizeDialog />
       <SaveState />
       <CustomTooltip />

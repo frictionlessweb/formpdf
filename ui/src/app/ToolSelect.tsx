@@ -11,7 +11,6 @@ import color from "../components/color";
 import NearMeIcon from "@mui/icons-material/NearMe";
 import FormatShapesIcon from "@mui/icons-material/FormatShapes";
 import PlaylistRemoveIcon from "@mui/icons-material/PlaylistRemove";
-import UndoAndRedo from "../components/UndoAndRedo";
 
 const CursorIcon = () => <NearMeIcon sx={{ transform: "scaleX(-1)" }} />;
 
@@ -138,7 +137,6 @@ const ToolSelect: React.FC<BoxProps> = (props) => {
         {...props}>
         {tools}
       </Box>
-      <UndoAndRedo />
     </Box>
   );
 };

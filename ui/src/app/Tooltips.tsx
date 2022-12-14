@@ -2,7 +2,7 @@
 import { TextField, IconButton } from "@mui/material";
 import React from "react";
 import { useDispatch, useSelector } from "./StoreProvider";
-import { FloatingDiv } from "./Zoom";
+import { FloatingDiv } from "./Header";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import Switch from "@mui/material/Switch";
