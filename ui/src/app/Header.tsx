@@ -263,38 +263,34 @@ const UndoAndRedo: React.FC<BoxProps> = (props) => {
       }}>
       <Tooltip title={"Undo (U)"} placement="bottom">
         {/* Span around IconButton is a workaround for https://mui.com/material-ui/react-tooltip/#disabled-elements */}
-        <span>
-          <IconButton
-            sx={{
-              "&:hover": {
-                color: color.blue.medium,
-                backgroundColor: color.blue.transparent,
-                borderRadius: "12px",
-              },
-              color: color.black.medium,
-            }}
-            onClick={onUndo}
-            disabled={!canUndo}>
-            <img src={UndoIcon} alt="Undo" />
-          </IconButton>
-        </span>
+        <IconButton
+          sx={{
+            "&:hover": {
+              backgroundColor: color.gray.line,
+              borderRadius: "12px",
+            },
+            color: color.black.medium,
+            opacity: canUndo ? 1 : 0.4,
+          }}
+          disabled={!canUndo}
+          onClick={onUndo}>
+          <img src={UndoIcon} alt="Undo" />
+        </IconButton>
       </Tooltip>
       <Tooltip title={"Redo (R)"} placement="bottom">
-        <span>
-          <IconButton
-            sx={{
-              "&:hover": {
-                color: color.blue.medium,
-                backgroundColor: color.blue.transparent,
-                borderRadius: "12px",
-              },
-              color: color.black.medium,
-            }}
-            onClick={onRedo}
-            disabled={!canRedo}>
-            <img src={RedoIcon} alt="Redo" />
-          </IconButton>
-        </span>
+        <IconButton
+          sx={{
+            "&:hover": {
+              backgroundColor: color.gray.line,
+              borderRadius: "12px",
+            },
+            color: color.black.medium,
+            opacity: canRedo ? 1 : 0.4,
+          }}
+          disabled={!canRedo}
+          onClick={onRedo}>
+          <img src={RedoIcon} alt="Redo" />
+        </IconButton>
       </Tooltip>
     </Box>
   );
@@ -338,11 +334,11 @@ const Zoom: React.FC = () => {
         <IconButton
           sx={{
             "&:hover": {
-              color: color.blue.medium,
-              backgroundColor: color.blue.transparent,
+              backgroundColor: color.gray.line,
               borderRadius: "12px",
             },
             color: color.black.medium,
+            opacity: zoom <= MIN_ZOOM ? 0.4 : 1,
           }}
           disabled={zoom <= MIN_ZOOM}
           onClick={onDecrease}>
@@ -353,11 +349,11 @@ const Zoom: React.FC = () => {
         <IconButton
           sx={{
             "&:hover": {
-              color: color.blue.medium,
-              backgroundColor: color.blue.transparent,
+              backgroundColor: color.gray.line,
               borderRadius: "12px",
             },
             color: color.black.medium,
+            opacity: zoom >= MAX_ZOOM ? 0.4 : 1,
           }}
           disabled={zoom >= MAX_ZOOM}
           onClick={onIncrease}>
@@ -376,8 +372,7 @@ const Help = () => {
           <IconButton
             sx={{
               "&:hover": {
-                color: color.blue.medium,
-                backgroundColor: color.blue.transparent,
+                backgroundColor: color.gray.line,
                 borderRadius: "12px",
               },
               color: color.black.medium,

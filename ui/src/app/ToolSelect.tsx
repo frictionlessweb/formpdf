@@ -24,19 +24,20 @@ interface ToolButtonProps {
 const ToolButton: React.FC<ToolButtonProps> = (props) => {
   const { toolName, activeTool, tooltip, children } = props;
   const dispatch = useDispatch();
-  const isActiveColor =
-    toolName === activeTool ? color.blue.medium : color.black.medium;
+  const isActive = toolName === activeTool;
   return (
     <Tooltip title={tooltip} placement="right">
       <IconButton
         onClick={() => dispatch({ type: "CHANGE_TOOL", payload: toolName })}
         sx={{
+          backgroundColor: isActive ? color.blue.medium : color.white.medium,
+          width: "34px",
+          height: "34px",
+          borderRadius: "8px",
           "&:hover": {
-            color: color.blue.medium,
-            backgroundColor: color.blue.transparent,
-            borderRadius: "12px",
+            backgroundColor: isActive ? color.blue.medium : color.gray.line,
           },
-          color: isActiveColor,
+          color: isActive ? color.white.medium : color.gray.dark,
           marginBottom: "8px",
         }}>
         {children}
@@ -60,10 +61,11 @@ const ResetButton = () => {
         dispatch({ type: "HYDRATE_STORE", payload: DEFAULT_ACCESSIBLE_FORM });
       }}
       sx={{
+        width: "40px",
         "&:hover": {
           color: color.red.medium,
-          backgroundColor: color.red.transparent,
-          borderRadius: "12px",
+          backgroundColor: color.gray.line,
+          borderRadius: "8px",
         },
         color: color.red.medium,
       }}>
@@ -125,6 +127,7 @@ const ToolSelect: React.FC<BoxProps> = (props) => {
         paddingTop: "88px",
         display: "flex",
         flexDirection: "column",
+        alignItems: "center",
       }}>
       {tools}
     </Box>

@@ -18,6 +18,19 @@ const SaveState = () => {
   return null;
 };
 
+const scrollBarStyles = {
+  "&::-webkit-scrollbar": {
+    width: "10px",
+    height: "10px",
+  },
+  "&::-webkit-scrollbar-track": {},
+  "&::-webkit-scrollbar-thumb": {
+    backgroundColor: color.gray.lineTransparent,
+    outline: "1px solid slategrey",
+    borderRadius: "16px",
+  },
+};
+
 const App = () => {
   const pdfUrl = getPdfUrl();
   return (
@@ -48,7 +61,8 @@ const App = () => {
         marginTop="0.2rem"
         width="calc(100vw - 4.2rem)"
         height="calc(100vh - 4.2rem)"
-        overflow="auto">
+        overflow="auto"
+        css={scrollBarStyles}>
         <PDF url={pdfUrl} />
       </Box>
       <ExitButtonForCreateTool />
