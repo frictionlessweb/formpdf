@@ -25,7 +25,6 @@ const ResizeModal: React.FC<ResizeModalProps> = () => {
   const open = useSelector((state) => state.showResizeModal);
   const dispatch = useDispatch();
 
-  // FIXME: This is not a good description for dialog. Update it.
   return (
     <Dialog
       open={open}
@@ -36,8 +35,8 @@ const ResizeModal: React.FC<ResizeModalProps> = () => {
       <DialogTitle>Resize Section?</DialogTitle>
       <DialogContent>
         <DialogContentText id="alert-dialog-slide-description">
-          Resize adds new fields to the section. To review them, you will be
-          taken to the fields step of the process.
+          Resize adds new fields to the section. To review these fields, you
+          will be taken to the "Fields" step of the process.
         </DialogContentText>
       </DialogContent>
       <DialogActions>
