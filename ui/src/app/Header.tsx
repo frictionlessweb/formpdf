@@ -213,20 +213,26 @@ const ExitButtonForCreateTool: React.FC = () => {
   return (
     <>
       {showCancelButton && (
-        <Fab
+        <IconButton
           sx={{
+            border: `1.5px solid ${color.gray.line}`,
+            boxShadow: "0px 3px 16px 0px rgba(100, 100, 111, 0.2)",
             position: "absolute",
-            top: "8rem",
+            top: "80px",
             left: "50%",
+            zIndex: 300,
+            backgroundColor: color.white.medium,
+            borderRadius: "12px",
+            "&:hover": {
+              backgroundColor: color.gray.line,
+            },
+            color: color.black.medium,
           }}
-          size="medium"
-          color="primary"
-          aria-label="cancel"
           onClick={() => {
             dispatch({ type: "CHANGE_TOOL", payload: "SELECT" });
           }}>
           <ClearIcon />
-        </Fab>
+        </IconButton>
       )}
     </>
   );
@@ -426,10 +432,11 @@ const FloatingDiv: React.FC<{
         display: "flex",
         justifyContent: "space-between",
         alignItems: "center",
-        padding: "8px",
+        padding: "4px",
         zIndex: 500,
         borderRadius: "8px",
-        boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
+        border: `1.5px solid ${color.gray.line}`,
+        boxShadow: "0px 3px 6px 0px rgba(100, 100, 111, 0.2)",
       }}>
       {children}
     </Box>

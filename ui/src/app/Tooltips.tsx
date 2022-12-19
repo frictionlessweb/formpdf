@@ -135,10 +135,12 @@ const CustomTooltip: React.FC = () => {
           style={{
             paddingTop: "0.2rem",
             paddingBottom: "1rem",
+            fontSize: "14px",
           }}>
-          Add data format (. DDMMYYY, . Capital), conditions (. Required) or
-          additional instructions such as table row number (. 1) for fields.
-          <b> As you type, the text automatically gets added to the tooltip.</b>
+          Add data format (e.g. DDMMYYY, capital letters), conditions (e.g.
+          required) or additional instructions (e.g. table row number) for
+          fields. As you type, the text will automatically be added to the
+          tooltip.
         </div>
         <TextField
           sx={{
@@ -168,8 +170,8 @@ const CustomTooltip: React.FC = () => {
     return (
       <FloatingDiv
         position={{
-          left: "4.5rem",
-          bottom: "24px",
+          left: "74px",
+          bottom: "8px",
         }}>
         <div
           style={{
@@ -228,8 +230,8 @@ const TooltipHelp: React.FC = () => {
   return (
     <FloatingDiv
       position={{
-        left: "4.5rem",
-        bottom: "24px",
+        left: "74px",
+        bottom: "8px",
       }}>
       <div
         style={{
