@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import React from "react";
+import React, { ReactNode, useState } from "react";
 import Steps from "./Steps";
 import Button from "@mui/material/Button";
 import { useSelector, useDispatch, Step, STEPS } from "./StoreProvider";
@@ -11,9 +11,6 @@ import Select from "@mui/material/Select";
 import { FormControl } from "@mui/material";
 import Fab from "@mui/material/Fab";
 import ClearIcon from "@mui/icons-material/Clear";
-import LinearProgress, {
-  linearProgressClasses,
-} from "@mui/material/LinearProgress";
 import DividerIcon from "./assets/images/divider.svg";
 import Box, { BoxProps } from "@mui/material/Box";
 import { IconButton, Tooltip } from "@mui/material";
@@ -22,6 +19,11 @@ import UndoIcon from "./assets/images/undo.svg";
 import ZoomInIcon from "./assets/images/zoom_in.svg";
 import ZoomOutIcon from "./assets/images/zoom_out.svg";
 import HelpIcon from "./assets/images/help.svg";
+import tutorialImage from "./assets/images/tooltip_tutorial_image.png";
+
+const getStepIndex = (activeStep: string) => {
+  return STEPS.findIndex((step) => step.id === activeStep);
+};
 
 const Header: React.FC = () => {
   const activeStep = useSelector((state) => state.step);
@@ -29,8 +31,7 @@ const Header: React.FC = () => {
   const goToStep = async (step: Step) => {
     dispatch({ type: "GOTO_STEP", payload: step });
   };
-  const stepIndex = STEPS.findIndex((step) => step.id === activeStep);
-
+  const stepIndex = getStepIndex(activeStep);
   const StepsAndButtons = (
     <>
       <div
@@ -377,24 +378,93 @@ const Zoom: React.FC = () => {
   );
 };
 
-const Help = () => {
+const Help: React.FC = () => {
+  const [show, setShow] = useState(false);
+  const activeTool = useSelector((state) => state.tool);
+  const activeStep = useSelector((state) => state.step);
+
+  const stepIndex = getStepIndex(activeStep);
+  // If a step has tool specific description then show that, if not, show default step description.
+  let helpBody = (
+    <>
+      {STEPS[stepIndex].toolDescription[activeTool] ??
+        STEPS[stepIndex].description}
+    </>
+  );
+
+  const isLabelStepAndCreateTool =
+    activeStep === "LABEL_LAYER" && activeTool === "CREATE";
+
+  if (isLabelStepAndCreateTool) {
+    helpBody = (
+      <>
+        <img width="248px" src={tutorialImage} alt="" />
+        Drag and Select the words that you want to set as label for the field.
+      </>
+    );
+  }
+
+  const HelpDialog = (
+    <>
+      {show && (
+        <FloatingDiv position={{ right: 16, top: 72 }}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              width: "32ch",
+            }}>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                flexDirection: "row",
+                alignItems: "center",
+              }}>
+              <div style={{ padding: "0px 8px 0px 8px", fontWeight: "bold" }}>
+                Help
+              </div>
+              <IconButton
+                sx={{
+                  width: "34px",
+                  height: "34px",
+                  borderRadius: "8px",
+                  color: color.gray.dark,
+                  "&:hover": {
+                    backgroundColor: color.gray.line,
+                  },
+                  marginBottom: "2px",
+                }}
+                onClick={() => {
+                  setShow(!show);
+                }}>
+                <ClearIcon sx={{ transform: "scale(0.8,0.8)" }} />
+              </IconButton>
+            </div>
+            <div style={{ padding: "0px 8px 8px 8px" }}>{helpBody}</div>
+          </div>
+        </FloatingDiv>
+      )}
+    </>
+  );
   return (
     <>
       <Tooltip title={"Help"} placement="bottom">
-        <span>
-          <IconButton
-            sx={{
-              "&:hover": {
-                backgroundColor: color.gray.line,
-                borderRadius: "12px",
-              },
-              color: color.black.medium,
-            }}
-            onClick={() => {}}>
-            <img src={HelpIcon} alt="Help" />
-          </IconButton>
-        </span>
+        <IconButton
+          sx={{
+            "&:hover": {
+              backgroundColor: color.gray.line,
+              borderRadius: "12px",
+            },
+            color: color.black.medium,
+          }}
+          onClick={() => {
+            setShow(!show);
+          }}>
+          <img src={HelpIcon} alt="Help" />
+        </IconButton>
       </Tooltip>
+      {HelpDialog}
     </>
   );
 };
@@ -443,67 +513,4 @@ const FloatingDiv: React.FC<{
   );
 };
 
-const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
-  height: 6,
-  borderRadius: 5,
-  marginBottom: "0.4rem",
-  [`&.${linearProgressClasses.colorPrimary}`]: {
-    backgroundColor: color.gray.line,
-  },
-  [`& .${linearProgressClasses.bar}`]: {
-    borderRadius: 5,
-    backgroundColor: color.green.medium,
-  },
-}));
-
-const Progress = () => {
-  const sections = useSelector((state) => state.sections);
-  const currentSection = useSelector((state) => state.currentSection);
-  const currentStep = useSelector((state) => state.step);
-  const pdfHeight = useSelector((state) => state.pdfHeight);
-  const numPages = useSelector((state) => state.tokens.length);
-
-  const prevSectionY =
-    currentSection === 0 ? 0 : sections[currentSection - 1].y;
-
-  const totalHeight = pdfHeight * numPages;
-
-  const currentSectionHeight = sections[currentSection].y - prevSectionY;
-
-  const currentStepIdx = STEPS.findIndex((aStep) => aStep.id === currentStep);
-
-  const progressValue =
-    (prevSectionY / totalHeight +
-      (currentSectionHeight / totalHeight) *
-        ((currentStepIdx + 1) / STEPS.length)) *
-    100;
-  return (
-    <>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          paddingBottom: "0.2rem",
-        }}>
-        <span>Progress</span>
-        <span>{Math.round(progressValue)}%</span>
-      </div>
-      <div>
-        <BorderLinearProgress variant="determinate" value={progressValue} />
-      </div>
-      <div
-        style={{
-          color: color.black.medium,
-          fontSize: "0.75rem",
-        }}>
-        You are working in section {currentSection + 1}
-      </div>
-    </>
-  );
-};
-
 export { Header, ExitButtonForCreateTool, FloatingDiv };
-
-//  {/* If a step has tool specific description then show that, if not, show default step description. */}
-// {STEPS[stepIndex].toolDescription[activeTool] ??
-//   STEPS[stepIndex].description}

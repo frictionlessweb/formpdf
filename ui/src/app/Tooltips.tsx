@@ -69,7 +69,7 @@ const PreviewTooltipCheckbox: React.FC = () => {
         <FloatingDiv
           position={{
             right: 16,
-            top: 80,
+            bottom: 16,
           }}>
           <div
             style={{
@@ -133,18 +133,18 @@ const CustomTooltip: React.FC = () => {
       <>
         <div
           style={{
-            paddingTop: "0.2rem",
-            paddingBottom: "1rem",
-            fontSize: "14px",
+            paddingBottom: "8px",
+            fontSize: "13px",
           }}>
-          Add data format (e.g. DDMMYYY, capital letters), conditions (e.g.
-          required) or additional instructions (e.g. table row number) for
-          fields. As you type, the text will automatically be added to the
-          tooltip.
+          Add data format (e.g. DDMMYYY), conditions (e.g. Required) or
+          additional instructions (e.g. row number) for tables.{" "}
+          <b>
+            As you type, the text will automatically be added to the tooltip.
+          </b>
         </div>
         <TextField
           sx={{
-            paddingBottom: "0.3rem",
+            paddingBottom: "8px",
           }}
           fullWidth
           size="small"
@@ -170,14 +170,13 @@ const CustomTooltip: React.FC = () => {
     return (
       <FloatingDiv
         position={{
-          left: "74px",
-          bottom: "8px",
+          left: "80px",
+          bottom: "16px",
         }}>
         <div
           style={{
-            width: "39ch",
-            paddingLeft: "0.4rem",
-            paddingRight: "0.4rem",
+            width: "32ch",
+            padding: "0px 8px 0px 8px",
           }}>
           {AccordianTitle}
           {expanded && AccordianBody}
@@ -222,7 +221,7 @@ const TooltipHelp: React.FC = () => {
         paddingTop: "0.2rem",
         paddingBottom: "0.3rem",
       }}>
-      <img width="320px" src={tutorialImage} alt="" />
+      <img width="248px" src={tutorialImage} alt="" />
       Drag and Select the words that you want to set as label for the field.
     </div>
   );
@@ -230,14 +229,13 @@ const TooltipHelp: React.FC = () => {
   return (
     <FloatingDiv
       position={{
-        left: "74px",
-        bottom: "8px",
+        left: "80px",
+        bottom: "16px",
       }}>
       <div
         style={{
-          width: "39ch",
-          paddingLeft: "0.4rem",
-          paddingRight: "0.4rem",
+          width: "32ch",
+          padding: "0px 8px 0px 8px",
         }}>
         {AccordianTitle}
         {expanded && AccordianBody}
