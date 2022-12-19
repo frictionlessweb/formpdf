@@ -179,11 +179,18 @@ const PrevStepButton: React.FC = () => {
     <Button
       sx={{
         borderRadius: "50px",
-        border: `1.5px solid ${color.gray.dark}`,
+        border: `2px solid ${color.gray.dark}`,
         color: color.gray.dark,
         textTransform: "none",
         fontWeight: "600",
         width: "6.5rem",
+        "&:hover": {
+          border: `2px solid ${color.blue.medium}`,
+          color: color.blue.medium,
+        },
+        "&:disabled": {
+          border: "2px solid",
+        },
       }}
       size="small"
       disableElevation

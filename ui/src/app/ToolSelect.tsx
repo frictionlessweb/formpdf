@@ -12,7 +12,7 @@ import NearMeIcon from "@mui/icons-material/NearMe";
 import FormatShapesIcon from "@mui/icons-material/FormatShapes";
 import PlaylistRemoveIcon from "@mui/icons-material/PlaylistRemove";
 
-const CursorIcon = () => <NearMeIcon sx={{ transform: "scaleX(-1)" }} />;
+const CursorIcon = () => <NearMeIcon sx={{ transform: "scale(-0.8, 0.8)" }} />;
 
 interface ToolButtonProps {
   toolName: TOOL;
@@ -61,7 +61,8 @@ const ResetButton = () => {
         dispatch({ type: "HYDRATE_STORE", payload: DEFAULT_ACCESSIBLE_FORM });
       }}
       sx={{
-        width: "40px",
+        width: "34px",
+        height: "34px",
         "&:hover": {
           color: color.red.medium,
           backgroundColor: color.gray.line,
