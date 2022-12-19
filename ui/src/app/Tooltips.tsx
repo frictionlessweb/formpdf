@@ -68,8 +68,8 @@ const PreviewTooltipCheckbox: React.FC = () => {
       {showPreviewTooltipCheckbox && (
         <FloatingDiv
           position={{
-            right: 24,
-            top: 144,
+            right: 16,
+            top: 80,
           }}>
           <div
             style={{
