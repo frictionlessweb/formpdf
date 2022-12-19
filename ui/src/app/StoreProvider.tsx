@@ -306,7 +306,6 @@ export const DEFAULT_ACCESSIBLE_FORM: AccessibleForm = {
 // AccessibleFormAction describes every important possible action that a user
 // could take while editing the PDF UI.
 export type AccessibleFormAction =
-  | { type: "CHANGE_CURRENT_STEP"; payload: Step }
   | {
       type: "CHANGE_CUSTOM_TOOLTIP";
       payload: {
@@ -455,6 +454,7 @@ export const reduceAccessibleForm = (
       return produceWithUndo(previous, (draft) => {
         draft.tool = "SELECT";
         draft.step = action.payload;
+        draft.selectedAnnotations = {};
       });
     }
     case "GOTO_PREVIOUS_STEP": {
@@ -476,6 +476,7 @@ export const reduceAccessibleForm = (
         const prevStep = STEPS[idx - 1]?.id;
         if (prevStep === undefined) return;
         draft.step = prevStep;
+        draft.selectedAnnotations = {};
       });
     }
     case "GOTO_NEXT_STEP": {
@@ -506,6 +507,7 @@ export const reduceAccessibleForm = (
         const nextStep = STEPS[idx + 1]?.id;
         if (nextStep === undefined) return;
         draft.step = nextStep;
+        draft.selectedAnnotations = {};
       });
     }
     case "SHOW_LOADING_SCREEN": {
@@ -513,15 +515,11 @@ export const reduceAccessibleForm = (
         draft.showLoadingScreen = true;
       });
     }
-    case "CHANGE_CURRENT_STEP": {
-      return produce(previous, (draft) => {
-        draft.step = action.payload;
-      });
-    }
     case "JUMP_BACK_TO_FIELD_LAYER": {
       return produce(previous, (draft) => {
         draft.step = "FIELD_LAYER";
         draft.showResizeModal = false;
+        draft.selectedAnnotations = {};
       });
     }
     case "CHANGE_ZOOM": {
@@ -864,6 +862,7 @@ export const reduceAccessibleForm = (
         draft.currentSection = action.payload;
         draft.step = "SECTION_LAYER";
         draft.tool = "SELECT";
+        draft.selectedAnnotations = {};
         return;
       });
     }
