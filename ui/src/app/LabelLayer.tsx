@@ -422,7 +422,7 @@ const TooltipPreview: React.FC<{
 
   // we found out this ASPECT_RATIO for Robot manually.
   const ROBOTO_FONT_AVG_HEIGHT_TO_WIDTH_RATIO = 0.55;
-  const fontSize = 14 * zoom;
+  const fontSize = 18 * zoom;
   const tooltipWidth =
     fontSize * ROBOTO_FONT_AVG_HEIGHT_TO_WIDTH_RATIO * tooltip.length;
 
@@ -440,7 +440,7 @@ const TooltipPreview: React.FC<{
     whiteSpace: "nowrap",
     textOverflow: "ellipsis",
     overflow: "hidden",
-    border: `2px solid ${color.blue.dark}`,
+    border: `1px solid ${color.white.medium}`,
 
     transition: "all 0.2s ease-in-out",
   };
@@ -455,7 +455,6 @@ const TooltipPreview: React.FC<{
       width: "auto",
       // this is important or the hovered tooltip will be hidden by other tooltips.
       zIndex: 210,
-      border: `2px solid ${color.white.medium}`,
     },
   };
 

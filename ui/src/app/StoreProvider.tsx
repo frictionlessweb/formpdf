@@ -113,33 +113,29 @@ export const STEPS: Array<StepDescription> = [
     id: "SECTION_LAYER",
     title: "Section",
     description:
-      "Select area or part of the form you want to fix at once using the Handle, it may contain one or more number of field row. Ensure the section doesn't cut off fields or groups in half.",
+      "Use the Handle to select an area or part of the form that you want to fix. This may include one or more rows of fields. Make sure that the selected section does not cut off fields or groups in half",
     toolDescription: {},
   },
   {
     id: "FIELD_LAYER",
     title: "Fields",
     description:
-      "Ensure that each form field has a box around it and is associated with an appropriate field type. If it does not, use the Create Tool to create one.",
+      "Ensure that each form field has a box around it and is associated with the appropriate field type. If a field does not exist, use the Create Tool to add a box and assign the correct field type",
     toolDescription: {},
   },
   {
     id: "GROUP_LAYER",
     title: "Groups",
     description:
-      "Ensure that all checkboxes and radioboxes are properly grouped, and each group has an appropriate label. If not, use Shift + Click to select multiple field and use the Create New Group option.",
-    toolDescription: {
-      CREATE: "Click and drag with the mouse to select text for the label",
-    },
+      'Ensure that all checkboxes and radio buttons are properly grouped, and each group has an appropriate label. If they are not, you can select multiple fields by dragging the mouse, and use the "Create New Group" option to group them together.',
+    toolDescription: {},
   },
   {
     id: "LABEL_LAYER",
-    title: "Labels",
+    title: "Tooltips",
     description:
-      "Ensure that all form fields have correct labels. If a label is missing or incorrect, select the field and Create/Update label.",
-    toolDescription: {
-      CREATE: "Click and drag with the mouse to select text for the label.",
-    },
+      'Ensure that all form fields have correct labels. If a label is missing or incorrect, select the field and use the "Create/Update Label" option to add or correct the label.',
+    toolDescription: {},
   },
 ];
 
@@ -310,7 +306,6 @@ export const DEFAULT_ACCESSIBLE_FORM: AccessibleForm = {
 // AccessibleFormAction describes every important possible action that a user
 // could take while editing the PDF UI.
 export type AccessibleFormAction =
-  | { type: "CHANGE_CURRENT_STEP"; payload: Step }
   | {
       type: "CHANGE_CUSTOM_TOOLTIP";
       payload: {
@@ -459,6 +454,7 @@ export const reduceAccessibleForm = (
       return produceWithUndo(previous, (draft) => {
         draft.tool = "SELECT";
         draft.step = action.payload;
+        draft.selectedAnnotations = {};
       });
     }
     case "GOTO_PREVIOUS_STEP": {
@@ -480,6 +476,7 @@ export const reduceAccessibleForm = (
         const prevStep = STEPS[idx - 1]?.id;
         if (prevStep === undefined) return;
         draft.step = prevStep;
+        draft.selectedAnnotations = {};
       });
     }
     case "GOTO_NEXT_STEP": {
@@ -510,6 +507,7 @@ export const reduceAccessibleForm = (
         const nextStep = STEPS[idx + 1]?.id;
         if (nextStep === undefined) return;
         draft.step = nextStep;
+        draft.selectedAnnotations = {};
       });
     }
     case "SHOW_LOADING_SCREEN": {
@@ -517,15 +515,11 @@ export const reduceAccessibleForm = (
         draft.showLoadingScreen = true;
       });
     }
-    case "CHANGE_CURRENT_STEP": {
-      return produce(previous, (draft) => {
-        draft.step = action.payload;
-      });
-    }
     case "JUMP_BACK_TO_FIELD_LAYER": {
       return produce(previous, (draft) => {
         draft.step = "FIELD_LAYER";
         draft.showResizeModal = false;
+        draft.selectedAnnotations = {};
       });
     }
     case "CHANGE_ZOOM": {
@@ -868,6 +862,7 @@ export const reduceAccessibleForm = (
         draft.currentSection = action.payload;
         draft.step = "SECTION_LAYER";
         draft.tool = "SELECT";
+        draft.selectedAnnotations = {};
         return;
       });
     }

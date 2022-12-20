@@ -2,11 +2,12 @@
 import { TextField, IconButton } from "@mui/material";
 import React from "react";
 import { useDispatch, useSelector } from "./StoreProvider";
-import { FloatingDiv } from "./Zoom";
+import { FloatingDiv } from "./Header";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import Switch from "@mui/material/Switch";
 import { styled } from "@mui/material/styles";
+import tutorialImage from "./assets/images/tooltip_tutorial_image.png";
 
 const AntSwitch = styled(Switch)(({ theme }) => ({
   width: 28,
@@ -67,8 +68,8 @@ const PreviewTooltipCheckbox: React.FC = () => {
       {showPreviewTooltipCheckbox && (
         <FloatingDiv
           position={{
-            right: 24,
-            top: 144,
+            right: 16,
+            bottom: 16,
           }}>
           <div
             style={{
@@ -132,16 +133,18 @@ const CustomTooltip: React.FC = () => {
       <>
         <div
           style={{
-            paddingTop: "0.2rem",
-            paddingBottom: "1rem",
+            paddingBottom: "8px",
+            fontSize: "13px",
           }}>
-          Add data format (. DDMMYYY, . Capital), conditions (. Required) or
-          additional instructions such as table row number (. 1) for fields.
-          <b> As you type, the text automatically gets added to the tooltip.</b>
+          Add data format (e.g. DDMMYYY), conditions (e.g. Required) or
+          additional instructions (e.g. row number) for tables.{" "}
+          <b>
+            As you type, the text will automatically be added to the tooltip.
+          </b>
         </div>
         <TextField
           sx={{
-            paddingBottom: "0.3rem",
+            paddingBottom: "8px",
           }}
           fullWidth
           size="small"
@@ -167,14 +170,13 @@ const CustomTooltip: React.FC = () => {
     return (
       <FloatingDiv
         position={{
-          left: "4.5rem",
-          bottom: "24px",
+          left: "80px",
+          bottom: "16px",
         }}>
         <div
           style={{
-            width: "39ch",
-            paddingLeft: "0.4rem",
-            paddingRight: "0.4rem",
+            width: "32ch",
+            padding: "0px 8px 0px 8px",
           }}>
           {AccordianTitle}
           {expanded && AccordianBody}
@@ -186,4 +188,60 @@ const CustomTooltip: React.FC = () => {
   return null;
 };
 
-export { CustomTooltip, PreviewTooltipCheckbox };
+const TooltipHelp: React.FC = () => {
+  const [expanded, setExpanded] = React.useState(true);
+  const step = useSelector((state) => state.step);
+  const tool = useSelector((state) => state.tool);
+  const showTooltipHelp = step === "LABEL_LAYER" && tool === "CREATE";
+
+  if (!showTooltipHelp) {
+    return null;
+  }
+
+  const AccordianTitle = (
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "space-between",
+        flexDirection: "row",
+        alignItems: "center",
+      }}>
+      <div style={{ fontWeight: "bold" }}>Create Label (Help)</div>
+      <IconButton
+        onClick={() => {
+          setExpanded(!expanded);
+        }}>
+        {expanded ? <ExpandMoreIcon /> : <ExpandLessIcon />}
+      </IconButton>
+    </div>
+  );
+  const AccordianBody = (
+    <div
+      style={{
+        paddingTop: "0.2rem",
+        paddingBottom: "0.3rem",
+      }}>
+      <img width="248px" src={tutorialImage} alt="" />
+      Drag and Select the words that you want to set as label for the field.
+    </div>
+  );
+
+  return (
+    <FloatingDiv
+      position={{
+        left: "80px",
+        bottom: "16px",
+      }}>
+      <div
+        style={{
+          width: "32ch",
+          padding: "0px 8px 0px 8px",
+        }}>
+        {AccordianTitle}
+        {expanded && AccordianBody}
+      </div>
+    </FloatingDiv>
+  );
+};
+
+export { CustomTooltip, PreviewTooltipCheckbox, TooltipHelp };

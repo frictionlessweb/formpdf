@@ -3,25 +3,10 @@ import {
   DEFAULT_ACCESSIBLE_FORM as init,
   Bounds,
   ANNOTATION_TYPE,
-  ANNOTATION_BORDER,
   Section,
 } from "./StoreProvider";
 
 describe("Our form reducer", () => {
-  test("Returns the default initial state if it didn't previously exist", () => {
-    const res = reduce(undefined, {
-      type: "CHANGE_CURRENT_STEP",
-      payload: "SECTION_LAYER",
-    });
-    expect(res).toEqual(init);
-  });
-  test("Works with changing the current step", () => {
-    const res = reduce(init, {
-      type: "CHANGE_CURRENT_STEP",
-      payload: "SECTION_LAYER",
-    });
-    expect(res.step).toEqual("SECTION_LAYER");
-  });
   test("Works with changing the zoom level", () => {
     const res = reduce(init, { type: "CHANGE_ZOOM", payload: 0.2 });
     expect(res.zoom).toEqual(0.2);

@@ -11,9 +11,8 @@ import color from "../components/color";
 import NearMeIcon from "@mui/icons-material/NearMe";
 import FormatShapesIcon from "@mui/icons-material/FormatShapes";
 import PlaylistRemoveIcon from "@mui/icons-material/PlaylistRemove";
-import UndoAndRedo from "../components/UndoAndRedo";
 
-const CursorIcon = () => <NearMeIcon sx={{ transform: "scaleX(-1)" }} />;
+const CursorIcon = () => <NearMeIcon sx={{ transform: "scale(-0.8, 0.8)" }} />;
 
 interface ToolButtonProps {
   toolName: TOOL;
@@ -25,19 +24,20 @@ interface ToolButtonProps {
 const ToolButton: React.FC<ToolButtonProps> = (props) => {
   const { toolName, activeTool, tooltip, children } = props;
   const dispatch = useDispatch();
-  const isActiveColor =
-    toolName === activeTool ? color.blue.medium : color.black.medium;
+  const isActive = toolName === activeTool;
   return (
     <Tooltip title={tooltip} placement="right">
       <IconButton
         onClick={() => dispatch({ type: "CHANGE_TOOL", payload: toolName })}
         sx={{
+          backgroundColor: isActive ? color.blue.medium : color.white.medium,
+          width: "34px",
+          height: "34px",
+          borderRadius: "8px",
           "&:hover": {
-            color: color.blue.medium,
-            backgroundColor: color.blue.transparent,
-            borderRadius: "12px",
+            backgroundColor: isActive ? color.blue.medium : color.gray.line,
           },
-          color: isActiveColor,
+          color: isActive ? color.white.medium : color.gray.dark,
           marginBottom: "8px",
         }}>
         {children}
@@ -61,10 +61,12 @@ const ResetButton = () => {
         dispatch({ type: "HYDRATE_STORE", payload: DEFAULT_ACCESSIBLE_FORM });
       }}
       sx={{
+        width: "34px",
+        height: "34px",
         "&:hover": {
           color: color.red.medium,
-          backgroundColor: color.red.transparent,
-          borderRadius: "12px",
+          backgroundColor: color.gray.line,
+          borderRadius: "8px",
         },
         color: color.red.medium,
       }}>
@@ -121,24 +123,14 @@ const ToolSelect: React.FC<BoxProps> = (props) => {
         top: 0,
         height: "100vh",
         backgroundColor: color.gray.light,
-        borderRight: `0.5px solid ${color.gray.line}`,
-        width: "3.5rem",
-        paddingTop: "9rem",
+        borderRight: `1px solid ${color.gray.line}`,
+        width: "64px",
+        paddingTop: "88px",
         display: "flex",
         flexDirection: "column",
-        justifyContent: "space-between",
+        alignItems: "center",
       }}>
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "flex-start",
-          alignItems: "center",
-        }}
-        {...props}>
-        {tools}
-      </Box>
-      <UndoAndRedo />
+      {tools}
     </Box>
   );
 };

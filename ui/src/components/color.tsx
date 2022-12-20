@@ -45,10 +45,10 @@ const color = {
     medium: "#2F2F2F",
   },
   gray: {
-    line: "#CBCBCB",
+    line: "#EAEAEA",
     light: "#FBFBFB",
-    medium: "#EAEAEA",
-    dark: "#999999",
+    medium: "#B5B5B5",
+    dark: "#4B4B4B",
     darker: "#37352F",
     lineTransparent: "rgba(203, 203, 203, 0.8)",
   },

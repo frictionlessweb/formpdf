@@ -25,6 +25,7 @@ import FieldLayer from "./FieldLayer";
 import LabelLayer from "./LabelLayer";
 import GroupLayer from "./GroupLayer";
 import SectionLayer from "./SectionLayer";
+import color from "../components/color";
 
 //  _____    _       _     ____     _  __
 // |  ___|__| |_ ___| |__ |  _ \ __| |/ _|
@@ -220,8 +221,7 @@ const PDFCanvas: React.FC<PDFCanvasProps> = (props) => {
     <>
       <img
         style={{
-          borderBottom: "2px solid grey",
-          borderTop: "2px solid grey",
+          borderBottom: `2px solid ${color.gray.dark}`,
           width: `${pdfWidth}px`,
           height: `${pdfHeight}px`,
         }}
@@ -258,9 +258,20 @@ const PDFUI: React.FC<PDFUIProps> = (props) => {
         overflow: "auto",
         display: "flex",
         flexDirection: "column",
-        width: "calc(100vw - 8rem)",
-        height: "calc(100vh - 8.5rem)",
+        width: "calc(100vw - 8.4rem)",
+        height: "calc(100vh - 4.5rem)",
         position: "relative",
+        // Scrollbar styling
+        "&::-webkit-scrollbar": {
+          width: "10px",
+          height: "10px",
+        },
+        "&::-webkit-scrollbar-track": {},
+        "&::-webkit-scrollbar-thumb": {
+          backgroundColor: color.gray.lineTransparent,
+          outline: "1px solid slategrey",
+          borderRadius: "16px",
+        },
       }}>
       <>
         {Array.from({ length: pages }).map((_, i) => {

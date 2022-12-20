@@ -1,13 +1,16 @@
 /** @jsxImportSource @emotion/react */
 import Box from "@mui/material/Box";
-import { FormSelect, ExitButtonForCreateTool, Header } from "./app/Header";
+import { ExitButtonForCreateTool, Header } from "./app/Header";
 import PDF from "./app/PDF";
-import { Zoom } from "./app/Zoom";
 import ToolSelect from "./app/ToolSelect";
 import ResizeDialog from "./app/ResizeModal";
 import { getPdfUrl, useSaveState } from "./app/utils";
 import color from "./components/color";
-import { PreviewTooltipCheckbox, CustomTooltip } from "./app/Tooltips";
+import {
+  PreviewTooltipCheckbox,
+  CustomTooltip,
+  TooltipHelp,
+} from "./app/Tooltips";
 
 // We didn't add this to app, or else it will re-render the whole App.
 const SaveState = () => {
@@ -27,24 +30,25 @@ const App = () => {
       sx={{
         backgroundColor: color.gray.dark,
         userSelect: "none",
-        fontSize: "0.88rem",
+        fontSize: "14px",
+        color: color.gray.dark,
+        fontFamily: "Inter, sans-serif",
       }}>
       <Header />
       <ToolSelect />
       <Box
         display="flex"
         justifyContent="flex-start"
-        marginTop="0.4rem"
-        marginLeft="8rem">
+        marginLeft="8rem"
+        marginTop="0.2rem">
         <PDF url={pdfUrl} />
       </Box>
       <ExitButtonForCreateTool />
-      <Zoom />
       <PreviewTooltipCheckbox />
-      <FormSelect />
       <ResizeDialog />
       <SaveState />
       <CustomTooltip />
+      <TooltipHelp />
     </Box>
   );
 };
