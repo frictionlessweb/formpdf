@@ -1,5101 +1,2733 @@
 [
     [
         {
-            "top": 96,
-            "left": 286,
-            "width": 198,
-            "height": 35,
-            "text": "Application",
-            "class": "text"
-        },
-        {
-            "top": 96,
-            "left": 505,
-            "width": 46,
-            "height": 29,
-            "text": "for",
-            "class": "text"
-        },
-        {
-            "top": 96,
-            "left": 569,
-            "width": 143,
-            "height": 31,
-            "text": "Disabled",
-            "class": "text"
-        },
-        {
-            "top": 98,
-            "left": 730,
-            "width": 158,
-            "height": 27,
-            "text": "Veteran’s",
-            "class": "text"
-        },
-        {
-            "top": 109,
-            "left": 904,
-            "width": 32,
-            "height": 14,
-            "text": "or",
-            "class": "text"
-        },
-        {
-            "top": 99,
-            "left": 953,
-            "width": 167,
-            "height": 28,
-            "text": "Survivor’s",
-            "class": "text"
-        },
-        {
-            "top": 101,
-            "left": 1140,
-            "width": 176,
-            "height": 30,
-            "text": "Exemption",
-            "class": "text"
-        },
-        {
-            "top": 200,
-            "left": 93,
-            "width": 63,
-            "height": 18,
-            "text": "STEP",
-            "class": "text"
-        },
-        {
-            "top": 200,
-            "left": 165,
-            "width": 19,
-            "height": 18,
-            "text": "2:",
-            "class": "text"
-        },
-        {
-            "top": 200,
-            "left": 194,
-            "width": 100,
-            "height": 23,
-            "text": "Property",
-            "class": "text"
-        },
-        {
-            "top": 200,
-            "left": 304,
-            "width": 132,
-            "height": 18,
-            "text": "Information",
-            "class": "text"
-        },
-        {
-            "top": 316,
-            "left": 80,
-            "width": 74,
-            "height": 17,
-            "text": "Address,",
-            "class": "text"
-        },
-        {
-            "top": 316,
-            "left": 163,
-            "width": 35,
-            "height": 18,
-            "text": "Cily,",
-            "class": "text"
-        },
-        {
-            "top": 316,
-            "left": 206,
+            "top": 118,
+            "left": 100,
             "width": 47,
-            "height": 17,
-            "text": "State,",
-            "class": "text"
-        },
-        {
-            "top": 316,
-            "left": 261,
-            "width": 29,
-            "height": 14,
-            "text": "ZIP",
-            "class": "text"
-        },
-        {
-            "top": 316,
-            "left": 298,
-            "width": 44,
-            "height": 14,
-            "text": "Code",
-            "class": "text"
-        },
-        {
-            "top": 401,
-            "left": 81,
-            "width": 45,
-            "height": 18,
-            "text": "Legal",
-            "class": "text"
-        },
-        {
-            "top": 401,
-            "left": 135,
-            "width": 95,
-            "height": 18,
-            "text": "Description",
-            "class": "text"
-        },
-        {
-            "top": 401,
-            "left": 238,
-            "width": 15,
-            "height": 18,
-            "text": "(if",
-            "class": "text"
-        },
-        {
-            "top": 401,
-            "left": 259,
-            "width": 62,
-            "height": 18,
-            "text": "known)",
-            "class": "text"
-        },
-        {
-            "top": 401,
-            "left": 1177,
-            "width": 80,
-            "height": 19,
-            "text": "Appraisal",
-            "class": "text"
-        },
-        {
-            "top": 401,
-            "left": 1266,
-            "width": 57,
             "height": 15,
-            "text": "District",
+            "text": "Form",
             "class": "text"
         },
         {
-            "top": 401,
-            "left": 1329,
-            "width": 69,
+            "top": 118,
+            "left": 154,
+            "width": 60,
             "height": 15,
-            "text": "Account",
+            "text": "2400A",
             "class": "text"
         },
         {
-            "top": 401,
-            "left": 1406,
-            "width": 67,
-            "height": 15,
-            "text": "Number",
+            "top": 117,
+            "left": 220,
+            "width": 64,
+            "height": 20,
+            "text": "(12/15)",
             "class": "text"
         },
         {
-            "top": 401,
-            "left": 1481,
-            "width": 15,
-            "height": 18,
-            "text": "(if",
-            "class": "text"
-        },
-        {
-            "top": 401,
-            "left": 1502,
-            "width": 62,
-            "height": 18,
-            "text": "known)",
-            "class": "text"
-        },
-        {
-            "top": 486,
-            "left": 81,
-            "width": 116,
-            "height": 15,
-            "text": "Manufactured",
-            "class": "text"
-        },
-        {
-            "top": 486,
-            "left": 205,
-            "width": 50,
-            "height": 15,
-            "text": "Home",
-            "class": "text"
-        },
-        {
-            "top": 486,
-            "left": 262,
-            "width": 56,
-            "height": 18,
-            "text": "(make,",
-            "class": "text"
-        },
-        {
-            "top": 486,
-            "left": 324,
-            "width": 55,
-            "height": 15,
-            "text": "model",
-            "class": "text"
-        },
-        {
-            "top": 486,
-            "left": 384,
-            "width": 33,
-            "height": 15,
-            "text": "and",
-            "class": "text"
-        },
-        {
-            "top": 486,
-            "left": 423,
-            "width": 109,
-            "height": 15,
-            "text": "identification",
-            "class": "text"
-        },
-        {
-            "top": 486,
-            "left": 539,
-            "width": 72,
-            "height": 18,
-            "text": "number)",
-            "class": "text"
-        },
-        {
-            "top": 530,
-            "left": 93,
+            "top": 205,
+            "left": 1043,
             "width": 63,
             "height": 18,
-            "text": "STEP",
-            "class": "text"
-        },
-        {
-            "top": 530,
-            "left": 165,
-            "width": 19,
-            "height": 18,
-            "text": "3:",
-            "class": "text"
-        },
-        {
-            "top": 530,
-            "left": 191,
-            "width": 55,
-            "height": 23,
-            "text": "Type",
-            "class": "text"
-        },
-        {
-            "top": 530,
-            "left": 255,
-            "width": 21,
-            "height": 18,
-            "text": "of",
-            "class": "text"
-        },
-        {
-            "top": 530,
-            "left": 286,
-            "width": 124,
-            "height": 23,
-            "text": "Exemption",
-            "class": "text"
-        },
-        {
-            "top": 530,
-            "left": 420,
-            "width": 42,
-            "height": 18,
-            "text": "and",
-            "class": "text"
-        },
-        {
-            "top": 530,
-            "left": 471,
-            "width": 164,
-            "height": 19,
-            "text": "Qualifications",
-            "class": "text"
-        },
-        {
-            "top": 585,
-            "left": 81,
-            "width": 61,
-            "height": 17,
             "text": "Check",
             "class": "text"
         },
         {
-            "top": 585,
-            "left": 149,
-            "width": 30,
-            "height": 17,
-            "text": "the",
+            "top": 211,
+            "left": 1114,
+            "width": 39,
+            "height": 12,
+            "text": "one.",
             "class": "text"
         },
         {
-            "top": 585,
-            "left": 188,
-            "width": 99,
+            "top": 236,
+            "left": 1100,
+            "width": 137,
             "height": 22,
-            "text": "exemption",
+            "text": "Presumption",
             "class": "text"
         },
         {
-            "top": 585,
-            "left": 295,
-            "width": 26,
+            "top": 236,
+            "left": 1244,
+            "width": 22,
             "height": 17,
-            "text": "for",
+            "text": "of",
             "class": "text"
         },
         {
-            "top": 585,
-            "left": 328,
-            "width": 55,
+            "top": 236,
+            "left": 1271,
+            "width": 70,
             "height": 17,
+            "text": "Undue",
+            "class": "text"
+        },
+        {
+            "top": 236,
+            "left": 1348,
+            "width": 100,
+            "height": 22,
+            "text": "Hardship",
+            "class": "text"
+        },
+        {
+            "top": 265,
+            "left": 1098,
+            "width": 32,
+            "height": 17,
+            "text": "No",
+            "class": "text"
+        },
+        {
+            "top": 265,
+            "left": 1137,
+            "width": 137,
+            "height": 22,
+            "text": "Presumption",
+            "class": "text"
+        },
+        {
+            "top": 265,
+            "left": 1281,
+            "width": 22,
+            "height": 17,
+            "text": "of",
+            "class": "text"
+        },
+        {
+            "top": 265,
+            "left": 1308,
+            "width": 70,
+            "height": 17,
+            "text": "Undue",
+            "class": "text"
+        },
+        {
+            "top": 265,
+            "left": 1384,
+            "width": 101,
+            "height": 22,
+            "text": "Hardship",
+            "class": "text"
+        },
+        {
+            "top": 294,
+            "left": 1042,
+            "width": 34,
+            "height": 17,
+            "text": "See",
+            "class": "text"
+        },
+        {
+            "top": 293,
+            "left": 1082,
+            "width": 91,
+            "height": 18,
+            "text": "Debtor’s",
+            "class": "text"
+        },
+        {
+            "top": 294,
+            "left": 1179,
+            "width": 100,
+            "height": 17,
+            "text": "Statement",
+            "class": "text"
+        },
+        {
+            "top": 296,
+            "left": 1285,
+            "width": 18,
+            "height": 15,
+            "text": "in",
+            "class": "text"
+        },
+        {
+            "top": 294,
+            "left": 1310,
+            "width": 80,
+            "height": 22,
+            "text": "Support",
+            "class": "text"
+        },
+        {
+            "top": 293,
+            "left": 1396,
+            "width": 20,
+            "height": 23,
+            "text": "of",
+            "class": "text"
+        },
+        {
+            "top": 293,
+            "left": 1419,
+            "width": 144,
+            "height": 23,
+            "text": "Reaffirmation,",
+            "class": "text"
+        },
+        {
+            "top": 323,
+            "left": 1040,
+            "width": 48,
+            "height": 17,
+            "text": "Part",
+            "class": "text"
+        },
+        {
+            "top": 323,
+            "left": 1093,
+            "width": 18,
+            "height": 17,
+            "text": "II",
+            "class": "text"
+        },
+        {
+            "top": 322,
+            "left": 1116,
+            "width": 63,
+            "height": 22,
+            "text": "below,",
+            "class": "text"
+        },
+        {
+            "top": 326,
+            "left": 1190,
+            "width": 18,
+            "height": 14,
+            "text": "to",
+            "class": "text"
+        },
+        {
+            "top": 322,
+            "left": 1216,
+            "width": 98,
+            "height": 18,
+            "text": "determine",
+            "class": "text"
+        },
+        {
+            "top": 322,
+            "left": 1321,
+            "width": 60,
+            "height": 18,
             "text": "which",
             "class": "text"
         },
         {
-            "top": 589,
-            "left": 391,
-            "width": 34,
-            "height": 18,
-            "text": "you",
-            "class": "text"
-        },
-        {
-            "top": 589,
-            "left": 434,
-            "width": 29,
-            "height": 13,
-            "text": "are",
-            "class": "text"
-        },
-        {
-            "top": 585,
-            "left": 472,
-            "width": 85,
-            "height": 22,
-            "text": "applying.",
-            "class": "text"
-        },
-        {
-            "top": 625,
-            "left": 129,
-            "width": 40,
-            "height": 40,
-            "text": "|",
-            "class": "text"
-        },
-        {
-            "top": 637,
-            "left": 183,
-            "width": 89,
-            "height": 17,
-            "text": "Disabled",
-            "class": "text"
-        },
-        {
-            "top": 637,
-            "left": 278,
-            "width": 95,
-            "height": 17,
-            "text": "Veteran’s",
-            "class": "text"
-        },
-        {
-            "top": 637,
-            "left": 383,
-            "width": 110,
-            "height": 22,
-            "text": "Exemption",
-            "class": "text"
-        },
-        {
-            "top": 677,
-            "left": 129,
-            "width": 40,
-            "height": 40,
-            "text": "|",
-            "class": "text"
-        },
-        {
-            "top": 689,
-            "left": 182,
-            "width": 99,
-            "height": 22,
-            "text": "Surviving",
-            "class": "text"
-        },
-        {
-            "top": 689,
-            "left": 290,
-            "width": 79,
-            "height": 22,
-            "text": "Spouse",
-            "class": "text"
-        },
-        {
-            "top": 693,
-            "left": 377,
-            "width": 21,
-            "height": 13,
-            "text": "or",
-            "class": "text"
-        },
-        {
-            "top": 689,
-            "left": 406,
-            "width": 53,
-            "height": 17,
-            "text": "Child",
-            "class": "text"
-        },
-        {
-            "top": 689,
-            "left": 468,
-            "width": 20,
-            "height": 17,
-            "text": "of",
-            "class": "text"
-        },
-        {
-            "top": 693,
-            "left": 503,
-            "width": 4,
-            "height": 13,
-            "text": "a",
-            "class": "text"
-        },
-        {
-            "top": 689,
-            "left": 516,
-            "width": 101,
-            "height": 17,
-            "text": "Deceased",
-            "class": "text"
-        },
-        {
-            "top": 689,
-            "left": 627,
-            "width": 89,
-            "height": 17,
-            "text": "Disabled",
-            "class": "text"
-        },
-        {
-            "top": 689,
-            "left": 722,
-            "width": 78,
-            "height": 17,
-            "text": "Veteran",
-            "class": "text"
-        },
-        {
-            "top": 729,
-            "left": 129,
-            "width": 40,
-            "height": 40,
-            "text": "|",
-            "class": "text"
-        },
-        {
-            "top": 741,
-            "left": 182,
-            "width": 99,
-            "height": 22,
-            "text": "Surviving",
-            "class": "text"
-        },
-        {
-            "top": 741,
-            "left": 290,
-            "width": 79,
-            "height": 22,
-            "text": "Spouse",
-            "class": "text"
-        },
-        {
-            "top": 745,
-            "left": 377,
-            "width": 21,
-            "height": 13,
-            "text": "or",
-            "class": "text"
-        },
-        {
-            "top": 741,
-            "left": 406,
-            "width": 53,
-            "height": 17,
-            "text": "Child",
-            "class": "text"
-        },
-        {
-            "top": 741,
-            "left": 468,
-            "width": 20,
-            "height": 17,
-            "text": "of",
-            "class": "text"
-        },
-        {
-            "top": 741,
-            "left": 495,
-            "width": 68,
-            "height": 17,
-            "text": "Armed",
-            "class": "text"
-        },
-        {
-            "top": 741,
-            "left": 572,
-            "width": 78,
-            "height": 17,
-            "text": "Service",
-            "class": "text"
-        },
-        {
-            "top": 741,
-            "left": 659,
-            "width": 83,
-            "height": 17,
-            "text": "Member",
-            "class": "text"
-        },
-        {
-            "top": 741,
-            "left": 749,
-            "width": 44,
-            "height": 17,
-            "text": "who",
-            "class": "text"
-        },
-        {
-            "top": 741,
-            "left": 801,
-            "width": 43,
-            "height": 17,
-            "text": "died",
-            "class": "text"
-        },
-        {
-            "top": 745,
-            "left": 854,
-            "width": 24,
-            "height": 13,
-            "text": "on",
-            "class": "text"
-        },
-        {
-            "top": 741,
-            "left": 887,
-            "width": 64,
-            "height": 17,
-            "text": "Active",
-            "class": "text"
-        },
-        {
-            "top": 741,
-            "left": 960,
-            "width": 47,
-            "height": 22,
-            "text": "Duty",
-            "class": "text"
-        },
-        {
-            "top": 792,
-            "left": 82,
-            "width": 65,
-            "height": 17,
-            "text": "Please",
-            "class": "text"
-        },
-        {
-            "top": 792,
-            "left": 156,
-            "width": 69,
-            "height": 22,
-            "text": "provide",
-            "class": "text"
-        },
-        {
-            "top": 792,
-            "left": 234,
-            "width": 29,
-            "height": 17,
-            "text": "the",
-            "class": "text"
-        },
-        {
-            "top": 792,
-            "left": 271,
-            "width": 84,
-            "height": 22,
-            "text": "following",
-            "class": "text"
-        },
-        {
-            "top": 792,
-            "left": 365,
-            "width": 107,
-            "height": 17,
-            "text": "information",
-            "class": "text"
-        },
-        {
-            "top": 792,
-            "left": 481,
-            "width": 35,
-            "height": 17,
-            "text": "and",
-            "class": "text"
-        },
-        {
-            "top": 792,
-            "left": 525,
-            "width": 57,
-            "height": 17,
-            "text": "attach",
-            "class": "text"
-        },
-        {
-            "top": 792,
-            "left": 591,
-            "width": 143,
-            "height": 17,
-            "text": "documentation",
-            "class": "text"
-        },
-        {
-            "top": 792,
-            "left": 743,
-            "width": 42,
-            "height": 17,
-            "text": "from",
-            "class": "text"
-        },
-        {
-            "top": 792,
-            "left": 793,
-            "width": 30,
-            "height": 17,
-            "text": "the",
-            "class": "text"
-        },
-        {
-            "top": 792,
-            "left": 830,
-            "width": 37,
-            "height": 17,
-            "text": "V.A.",
-            "class": "text"
-        },
-        {
-            "top": 796,
-            "left": 876,
-            "width": 19,
-            "height": 13,
-            "text": "or",
-            "class": "text"
-        },
-        {
-            "top": 792,
-            "left": 902,
-            "width": 69,
-            "height": 17,
-            "text": "service",
-            "class": "text"
-        },
-        {
-            "top": 792,
-            "left": 980,
-            "width": 65,
-            "height": 17,
-            "text": "branch",
-            "class": "text"
-        },
-        {
-            "top": 792,
-            "left": 1055,
-            "width": 97,
-            "height": 22,
-            "text": "identifying",
-            "class": "text"
-        },
-        {
-            "top": 792,
-            "left": 1160,
-            "width": 30,
-            "height": 17,
-            "text": "the",
-            "class": "text"
-        },
-        {
-            "top": 793,
-            "left": 1199,
-            "width": 47,
-            "height": 16,
-            "text": "most",
-            "class": "text"
-        },
-        {
-            "top": 793,
-            "left": 1255,
-            "width": 59,
-            "height": 16,
-            "text": "recent",
-            "class": "text"
-        },
-        {
-            "top": 792,
-            "left": 1322,
-            "width": 85,
-            "height": 22,
-            "text": "disability",
-            "class": "text"
-        },
-        {
-            "top": 792,
-            "left": 1416,
-            "width": 57,
-            "height": 22,
-            "text": "rating.",
-            "class": "text"
-        },
-        {
-            "top": 892,
-            "left": 127,
-            "width": 77,
-            "height": 15,
-            "text": "Veteran's",
-            "class": "text"
-        },
-        {
-            "top": 892,
-            "left": 212,
-            "width": 50,
-            "height": 15,
-            "text": "Name",
-            "class": "text"
-        },
-        {
-            "top": 968,
-            "left": 1597,
-            "width": 11,
-            "height": 2,
-            "text": "i",
-            "class": "text"
-        },
-        {
-            "top": 968,
-            "left": 127,
-            "width": 61,
-            "height": 24,
-            "text": "Branch",
-            "class": "text"
-        },
-        {
-            "top": 977,
-            "left": 196,
-            "width": 15,
-            "height": 15,
-            "text": "of",
-            "class": "text"
-        },
-        {
-            "top": 968,
-            "left": 218,
-            "width": 68,
-            "height": 24,
-            "text": "Service",
-            "class": "text"
-        },
-        {
-            "top": 968,
-            "left": 453,
-            "width": 2,
-            "height": 2,
-            "text": ":",
-            "class": "text"
-        },
-        {
-            "top": 964,
-            "left": 518,
-            "width": 8,
-            "height": 36,
-            "text": "7:",
-            "class": "text"
-        },
-        {
-            "top": 968,
-            "left": 585,
-            "width": 2,
-            "height": 2,
-            "text": ":",
-            "class": "text"
-        },
-        {
-            "top": 968,
-            "left": 714,
-            "width": 77,
-            "height": 28,
-            "text": "Disability",
-            "class": "text"
-        },
-        {
-            "top": 968,
-            "left": 799,
-            "width": 54,
-            "height": 28,
-            "text": "Rating",
-            "class": "text"
-        },
-        {
-            "top": 968,
-            "left": 1033,
-            "width": 2,
-            "height": 2,
-            "text": ":",
-            "class": "text"
-        },
-        {
-            "top": 977,
-            "left": 1116,
-            "width": 33,
-            "height": 19,
-            "text": "Age",
-            "class": "text"
-        },
-        {
-            "top": 977,
-            "left": 1287,
-            "width": 47,
-            "height": 15,
-            "text": "Serial",
-            "class": "text"
-        },
-        {
-            "top": 968,
-            "left": 1342,
-            "width": 80,
-            "height": 24,
-            "text": "Number",
-            "class": "text"
-        },
-        {
-            "top": 1044,
-            "left": 80,
-            "width": 7,
-            "height": 8,
-            "text": "+",
-            "class": "text"
-        },
-        {
-            "top": 1039,
-            "left": 104,
-            "width": 49,
-            "height": 17,
-            "text": "Does",
-            "class": "text"
-        },
-        {
-            "top": 1039,
-            "left": 161,
-            "width": 29,
-            "height": 17,
-            "text": "the",
-            "class": "text"
-        },
-        {
-            "top": 1039,
-            "left": 200,
-            "width": 68,
-            "height": 17,
-            "text": "service",
-            "class": "text"
-        },
-        {
-            "top": 1039,
-            "left": 277,
-            "width": 100,
-            "height": 17,
-            "text": "connected",
-            "class": "text"
-        },
-        {
-            "top": 1039,
-            "left": 386,
-            "width": 85,
-            "height": 22,
-            "text": "disability",
-            "class": "text"
-        },
-        {
-            "top": 1039,
-            "left": 479,
-            "width": 73,
-            "height": 17,
-            "text": "include:",
-            "class": "text"
-        },
-        {
-            "top": 1053,
-            "left": 570,
-            "width": 76,
-            "height": 3,
-            "text": ".......",
-            "class": "text"
-        },
-        {
-            "top": 1025,
-            "left": 664,
-            "width": 44,
-            "height": 47,
-            "text": "[|",
-            "class": "text"
-        },
-        {
-            "top": 1039,
-            "left": 721,
-            "width": 44,
-            "height": 17,
-            "text": "Loss",
-            "class": "text"
-        },
-        {
-            "top": 1039,
-            "left": 774,
-            "width": 17,
-            "height": 17,
-            "text": "of",
-            "class": "text"
-        },
-        {
-            "top": 1043,
-            "left": 799,
-            "width": 35,
-            "height": 13,
-            "text": "one",
-            "class": "text"
-        },
-        {
-            "top": 1043,
-            "left": 843,
-            "width": 20,
-            "height": 13,
-            "text": "or",
-            "class": "text"
-        },
-        {
-            "top": 1043,
-            "left": 870,
-            "width": 48,
-            "height": 13,
-            "text": "more",
-            "class": "text"
-        },
-        {
-            "top": 1039,
-            "left": 927,
-            "width": 50,
-            "height": 17,
-            "text": "limbs",
-            "class": "text"
-        },
-        {
-            "top": 1025,
-            "left": 1013,
-            "width": 44,
-            "height": 47,
-            "text": "[|",
-            "class": "text"
-        },
-        {
-            "top": 1039,
-            "left": 1070,
-            "width": 93,
-            "height": 17,
-            "text": "Blindness",
-            "class": "text"
-        },
-        {
-            "top": 1039,
-            "left": 1172,
-            "width": 15,
-            "height": 17,
-            "text": "in",
-            "class": "text"
-        },
-        {
-            "top": 1043,
-            "left": 1196,
-            "width": 35,
-            "height": 13,
-            "text": "one",
-            "class": "text"
-        },
-        {
-            "top": 1043,
-            "left": 1240,
-            "width": 19,
-            "height": 13,
-            "text": "or",
-            "class": "text"
-        },
-        {
-            "top": 1039,
-            "left": 1267,
-            "width": 40,
-            "height": 17,
-            "text": "both",
-            "class": "text"
-        },
-        {
-            "top": 1043,
-            "left": 1317,
-            "width": 44,
-            "height": 18,
-            "text": "eyes",
-            "class": "text"
-        },
-        {
-            "top": 1109,
-            "left": 80,
-            "width": 7,
-            "height": 8,
-            "text": "©",
-            "class": "text"
-        },
-        {
-            "top": 1104,
-            "left": 102,
-            "width": 33,
-            "height": 17,
-            "text": "APS",
-            "class": "text"
-        },
-        {
-            "top": 1104,
-            "left": 143,
-            "width": 72,
-            "height": 22,
-            "text": "YOU'S",
-            "class": "text"
-        },
-        {
-            "top": 1104,
-            "left": 224,
-            "width": 86,
-            "height": 22,
-            "text": "SUMING",
-            "class": "text"
-        },
-        {
-            "top": 1104,
-            "left": 319,
-            "width": 82,
-            "height": 22,
-            "text": "SPOUSE?",
-            "class": "text"
-        },
-        {
-            "top": 1118,
-            "left": 423,
-            "width": 25,
-            "height": 3,
-            "text": "a.",
-            "class": "text"
-        },
-        {
-            "top": 1100,
-            "left": 456,
-            "width": 17,
-            "height": 30,
-            "text": "sess",
-            "class": "text"
-        },
-        {
-            "top": 1118,
-            "left": 498,
-            "width": 12,
-            "height": 3,
-            "text": "ux",
-            "class": "text"
-        },
-        {
-            "top": 1100,
-            "left": 521,
-            "width": 14,
-            "height": 30,
-            "text": "aoe",
-            "class": "text"
-        },
-        {
-            "top": 1100,
-            "left": 546,
-            "width": 14,
-            "height": 30,
-            "text": "aoe",
-            "class": "text"
-        },
-        {
-            "top": 1118,
-            "left": 570,
-            "width": 14,
-            "height": 3,
-            "text": "ay",
-            "class": "text"
-        },
-        {
-            "top": 1118,
-            "left": 595,
-            "width": 26,
-            "height": 3,
-            "text": "wei",
-            "class": "text"
-        },
-        {
-            "top": 1100,
-            "left": 633,
-            "width": 13,
-            "height": 30,
-            "text": "say",
-            "class": "text"
-        },
-        {
-            "top": 1100,
-            "left": 657,
-            "width": 14,
-            "height": 30,
-            "text": "vee",
-            "class": "text"
-        },
-        {
-            "top": 1100,
-            "left": 681,
-            "width": 13,
-            "height": 30,
-            "text": "ee",
-            "class": "text"
-        },
-        {
-            "top": 1100,
-            "left": 706,
-            "width": 13,
-            "height": 30,
-            "text": "SI",
-            "class": "text"
-        },
-        {
-            "top": 1100,
-            "left": 731,
-            "width": 26,
-            "height": 30,
-            "text": "OREM",
-            "class": "text"
-        },
-        {
-            "top": 1118,
-            "left": 768,
-            "width": 14,
-            "height": 3,
-            "text": "Se",
-            "class": "text"
-        },
-        {
-            "top": 1100,
-            "left": 793,
-            "width": 14,
-            "height": 30,
-            "text": "Sed",
-            "class": "text"
-        },
-        {
-            "top": 1100,
-            "left": 818,
-            "width": 13,
-            "height": 30,
-            "text": "OK",
-            "class": "text"
-        },
-        {
-            "top": 1100,
-            "left": 841,
-            "width": 15,
-            "height": 30,
-            "text": "SME",
-            "class": "text"
-        },
-        {
-            "top": 1100,
-            "left": 867,
-            "width": 24,
-            "height": 30,
-            "text": "WORE",
-            "class": "text"
-        },
-        {
-            "top": 1100,
-            "left": 903,
-            "width": 15,
-            "height": 30,
-            "text": "Sua",
-            "class": "text"
-        },
-        {
-            "top": 1100,
-            "left": 928,
-            "width": 15,
-            "height": 30,
-            "text": "lek",
-            "class": "text"
-        },
-        {
-            "top": 1100,
-            "left": 953,
-            "width": 14,
-            "height": 30,
-            "text": "HEN",
-            "class": "text"
-        },
-        {
-            "top": 1100,
-            "left": 978,
-            "width": 13,
-            "height": 30,
-            "text": "GIR",
-            "class": "text"
-        },
-        {
-            "top": 1100,
-            "left": 1001,
-            "width": 28,
-            "height": 30,
-            "text": "SINR",
-            "class": "text"
-        },
-        {
-            "top": 1118,
-            "left": 1041,
-            "width": 13,
-            "height": 3,
-            "text": "Sy",
-            "class": "text"
-        },
-        {
-            "top": 1100,
-            "left": 1064,
-            "width": 12,
-            "height": 30,
-            "text": "Sh",
-            "class": "text"
-        },
-        {
-            "top": 1100,
-            "left": 1088,
-            "width": 15,
-            "height": 30,
-            "text": "AEE",
-            "class": "text"
-        },
-        {
-            "top": 1100,
-            "left": 1114,
-            "width": 12,
-            "height": 30,
-            "text": "AI",
-            "class": "text"
-        },
-        {
-            "top": 1118,
-            "left": 1138,
-            "width": 52,
-            "height": 3,
-            "text": "URRY",
-            "class": "text"
-        },
-        {
-            "top": 1100,
-            "left": 1201,
-            "width": 14,
-            "height": 30,
-            "text": "See",
-            "class": "text"
-        },
-        {
-            "top": 1100,
-            "left": 1226,
-            "width": 26,
-            "height": 30,
-            "text": "BUG",
-            "class": "text"
-        },
-        {
-            "top": 1100,
-            "left": 1276,
-            "width": 48,
-            "height": 30,
-            "text": "PRL",
-            "class": "text"
-        },
-        {
-            "top": 1118,
-            "left": 1336,
-            "width": 14,
-            "height": 3,
-            "text": "SY",
-            "class": "text"
-        },
-        {
-            "top": 1089,
-            "left": 1403,
-            "width": 44,
-            "height": 47,
-            "text": "[|",
-            "class": "text"
-        },
-        {
-            "top": 1104,
-            "left": 1457,
-            "width": 34,
-            "height": 17,
-            "text": "Yes",
-            "class": "text"
-        },
-        {
-            "top": 1089,
-            "left": 1527,
-            "width": 44,
-            "height": 47,
-            "text": "[|",
-            "class": "text"
-        },
-        {
-            "top": 1104,
-            "left": 1584,
-            "width": 26,
-            "height": 17,
-            "text": "No",
-            "class": "text"
-        },
-        {
-            "top": 1168,
-            "left": 129,
-            "width": 55,
-            "height": 22,
-            "text": "YOR)",
-            "class": "text"
-        },
-        {
-            "top": 1168,
-            "left": 194,
-            "width": 45,
-            "height": 17,
-            "text": "FEMS",
-            "class": "text"
-        },
-        {
-            "top": 1168,
-            "left": 247,
-            "width": 148,
-            "height": 22,
-            "text": "YOUNIS",
-            "class": "text"
-        },
-        {
-            "top": 1164,
-            "left": 409,
-            "width": 15,
-            "height": 30,
-            "text": "ov.",
-            "class": "text"
-        },
-        {
-            "top": 1182,
-            "left": 437,
-            "width": 11,
-            "height": 3,
-            "text": "x",
-            "class": "text"
-        },
-        {
-            "top": 1182,
-            "left": 459,
-            "width": 27,
-            "height": 3,
-            "text": "sme",
-            "class": "text"
-        },
-        {
-            "top": 1164,
-            "left": 497,
-            "width": 13,
-            "height": 30,
-            "text": "ser",
-            "class": "text"
-        },
-        {
-            "top": 1164,
-            "left": 521,
-            "width": 14,
-            "height": 30,
-            "text": "ven",
-            "class": "text"
-        },
-        {
-            "top": 1164,
-            "left": 545,
-            "width": 15,
-            "height": 30,
-            "text": "aoe",
-            "class": "text"
-        },
-        {
-            "top": 1164,
-            "left": 570,
-            "width": 10,
-            "height": 30,
-            "text": "ai",
-            "class": "text"
-        },
-        {
-            "top": 1164,
-            "left": 592,
-            "width": 29,
-            "height": 30,
-            "text": "wort:",
-            "class": "text"
-        },
-        {
-            "top": 1182,
-            "left": 632,
-            "width": 14,
-            "height": 3,
-            "text": "se",
-            "class": "text"
-        },
-        {
-            "top": 1164,
-            "left": 657,
-            "width": 11,
-            "height": 30,
-            "text": "we",
-            "class": "text"
-        },
-        {
-            "top": 1164,
-            "left": 682,
-            "width": 13,
-            "height": 30,
-            "text": "ON",
-            "class": "text"
-        },
-        {
-            "top": 1164,
-            "left": 705,
-            "width": 15,
-            "height": 30,
-            "text": "SHE",
-            "class": "text"
-        },
-        {
-            "top": 1164,
-            "left": 731,
-            "width": 24,
-            "height": 30,
-            "text": "WORE",
-            "class": "text"
-        },
-        {
-            "top": 1164,
-            "left": 767,
-            "width": 13,
-            "height": 30,
-            "text": "Si",
-            "class": "text"
-        },
-        {
-            "top": 1164,
-            "left": 792,
-            "width": 15,
-            "height": 30,
-            "text": "See",
-            "class": "text"
-        },
-        {
-            "top": 1164,
-            "left": 817,
-            "width": 15,
-            "height": 30,
-            "text": "BOR",
-            "class": "text"
-        },
-        {
-            "top": 1164,
-            "left": 842,
-            "width": 13,
-            "height": 30,
-            "text": "TIN",
-            "class": "text"
-        },
-        {
-            "top": 1182,
-            "left": 865,
-            "width": 28,
-            "height": 3,
-            "text": "RL",
-            "class": "text"
-        },
-        {
-            "top": 1182,
-            "left": 905,
-            "width": 13,
-            "height": 3,
-            "text": "Sy",
-            "class": "text"
-        },
-        {
-            "top": 1182,
-            "left": 928,
-            "width": 15,
-            "height": 3,
-            "text": "SS",
-            "class": "text"
-        },
-        {
-            "top": 1164,
-            "left": 953,
-            "width": 14,
-            "height": 30,
-            "text": "ANE",
-            "class": "text"
-        },
-        {
-            "top": 1164,
-            "left": 978,
-            "width": 12,
-            "height": 30,
-            "text": "SI",
-            "class": "text"
-        },
-        {
-            "top": 1164,
-            "left": 1005,
-            "width": 24,
-            "height": 30,
-            "text": "REE",
-            "class": "text"
-        },
-        {
-            "top": 1182,
-            "left": 1040,
-            "width": 14,
-            "height": 3,
-            "text": "SY",
-            "class": "text"
-        },
-        {
-            "top": 1164,
-            "left": 1065,
-            "width": 14,
-            "height": 30,
-            "text": "SCH",
-            "class": "text"
-        },
-        {
-            "top": 1182,
-            "left": 1090,
-            "width": 38,
-            "height": 3,
-            "text": "LR",
-            "class": "text"
-        },
-        {
-            "top": 1182,
-            "left": 1138,
-            "width": 39,
-            "height": 3,
-            "text": "SIR",
-            "class": "text"
-        },
-        {
-            "top": 1182,
-            "left": 1200,
-            "width": 15,
-            "height": 3,
-            "text": "Se",
-            "class": "text"
-        },
-        {
-            "top": 1182,
-            "left": 1225,
-            "width": 14,
-            "height": 3,
-            "text": "OE",
-            "class": "text"
-        },
-        {
-            "top": 1164,
-            "left": 1250,
-            "width": 14,
-            "height": 30,
-            "text": "SIR",
-            "class": "text"
-        },
-        {
-            "top": 1182,
-            "left": 1285,
-            "width": 53,
-            "height": 3,
-            "text": "WRENS",
-            "class": "text"
-        },
-        {
-            "top": 1153,
-            "left": 1403,
-            "width": 44,
-            "height": 47,
-            "text": "[|",
-            "class": "text"
-        },
-        {
-            "top": 1168,
-            "left": 1457,
-            "width": 34,
-            "height": 17,
-            "text": "Yes",
-            "class": "text"
-        },
-        {
-            "top": 1153,
-            "left": 1527,
-            "width": 44,
-            "height": 47,
-            "text": "[|",
-            "class": "text"
-        },
-        {
-            "top": 1168,
-            "left": 1584,
-            "width": 26,
-            "height": 17,
-            "text": "No",
-            "class": "text"
-        },
-        {
-            "top": 1237,
-            "left": 80,
-            "width": 7,
-            "height": 8,
-            "text": "©",
-            "class": "text"
-        },
-        {
-            "top": 1232,
-            "left": 102,
-            "width": 33,
-            "height": 17,
-            "text": "APS",
-            "class": "text"
-        },
-        {
-            "top": 1236,
-            "left": 143,
-            "width": 54,
-            "height": 18,
-            "text": "YOU'S",
-            "class": "text"
-        },
-        {
-            "top": 1232,
-            "left": 205,
-            "width": 86,
-            "height": 22,
-            "text": "URVIVIAG",
-            "class": "text"
-        },
-        {
-            "top": 1232,
-            "left": 301,
-            "width": 55,
-            "height": 17,
-            "text": "LOHR",
-            "class": "text"
-        },
-        {
-            "top": 1228,
-            "left": 366,
-            "width": 8,
-            "height": 30,
-            "text": "we",
-            "class": "text"
-        },
-        {
-            "top": 1228,
-            "left": 385,
-            "width": 14,
-            "height": 30,
-            "text": "sus",
-            "class": "text"
-        },
-        {
-            "top": 1228,
-            "left": 409,
-            "width": 15,
-            "height": 30,
-            "text": "aon",
-            "class": "text"
-        },
-        {
-            "top": 1228,
-            "left": 434,
-            "width": 14,
-            "height": 30,
-            "text": "wee",
-            "class": "text"
-        },
-        {
-            "top": 1228,
-            "left": 456,
-            "width": 30,
-            "height": 30,
-            "text": "sesmeer",
-            "class": "text"
-        },
-        {
-            "top": 1228,
-            "left": 496,
-            "width": 14,
-            "height": 30,
-            "text": "our",
-            "class": "text"
-        },
-        {
-            "top": 1228,
-            "left": 521,
-            "width": 14,
-            "height": 30,
-            "text": "aoe",
-            "class": "text"
-        },
-        {
-            "top": 1228,
-            "left": 546,
-            "width": 14,
-            "height": 30,
-            "text": "aoe",
-            "class": "text"
-        },
-        {
-            "top": 1246,
-            "left": 571,
-            "width": 13,
-            "height": 3,
-            "text": "ey",
-            "class": "text"
-        },
-        {
-            "top": 1246,
-            "left": 603,
-            "width": 18,
-            "height": 3,
-            "text": "ne",
-            "class": "text"
-        },
-        {
-            "top": 1228,
-            "left": 633,
-            "width": 13,
-            "height": 30,
-            "text": "sey",
-            "class": "text"
-        },
-        {
-            "top": 1228,
-            "left": 657,
-            "width": 14,
-            "height": 30,
-            "text": "RUE",
-            "class": "text"
-        },
-        {
-            "top": 1246,
-            "left": 681,
-            "width": 15,
-            "height": 3,
-            "text": "ee",
-            "class": "text"
-        },
-        {
-            "top": 1228,
-            "left": 706,
-            "width": 13,
-            "height": 30,
-            "text": "SI",
-            "class": "text"
-        },
-        {
-            "top": 1228,
-            "left": 731,
-            "width": 26,
-            "height": 30,
-            "text": "OREN",
-            "class": "text"
-        },
-        {
-            "top": 1246,
-            "left": 768,
-            "width": 14,
-            "height": 3,
-            "text": "Se",
-            "class": "text"
-        },
-        {
-            "top": 1246,
-            "left": 792,
-            "width": 15,
-            "height": 3,
-            "text": "Sd",
-            "class": "text"
-        },
-        {
-            "top": 1246,
-            "left": 818,
-            "width": 14,
-            "height": 3,
-            "text": "OR",
-            "class": "text"
-        },
-        {
-            "top": 1246,
-            "left": 843,
-            "width": 13,
-            "height": 3,
-            "text": "IR",
-            "class": "text"
-        },
-        {
-            "top": 1228,
-            "left": 867,
-            "width": 24,
-            "height": 30,
-            "text": "WORE",
-            "class": "text"
-        },
-        {
-            "top": 1246,
-            "left": 903,
-            "width": 15,
-            "height": 3,
-            "text": "Se",
-            "class": "text"
-        },
-        {
-            "top": 1228,
-            "left": 928,
-            "width": 15,
-            "height": 30,
-            "text": "Sed",
-            "class": "text"
-        },
-        {
-            "top": 1228,
-            "left": 953,
-            "width": 14,
-            "height": 30,
-            "text": "BEN",
-            "class": "text"
-        },
-        {
-            "top": 1228,
-            "left": 978,
-            "width": 13,
-            "height": 30,
-            "text": "SIR",
-            "class": "text"
-        },
-        {
-            "top": 1228,
-            "left": 1001,
-            "width": 16,
-            "height": 30,
-            "text": "SINE",
-            "class": "text"
-        },
-        {
-            "top": 1228,
-            "left": 1041,
-            "width": 13,
-            "height": 30,
-            "text": "Ste",
-            "class": "text"
-        },
-        {
-            "top": 1246,
-            "left": 1078,
-            "width": 25,
-            "height": 3,
-            "text": "UE",
-            "class": "text"
-        },
-        {
-            "top": 1246,
-            "left": 1114,
-            "width": 14,
-            "height": 3,
-            "text": "I",
-            "class": "text"
-        },
-        {
-            "top": 1228,
-            "left": 1138,
-            "width": 52,
-            "height": 30,
-            "text": "UIRERHY",
-            "class": "text"
-        },
-        {
-            "top": 1228,
-            "left": 1201,
-            "width": 14,
-            "height": 30,
-            "text": "See",
-            "class": "text"
-        },
-        {
-            "top": 1228,
-            "left": 1226,
-            "width": 13,
-            "height": 30,
-            "text": "RUG",
-            "class": "text"
-        },
-        {
-            "top": 1246,
-            "left": 1251,
-            "width": 13,
-            "height": 3,
-            "text": "TR",
-            "class": "text"
-        },
-        {
-            "top": 1228,
-            "left": 1283,
-            "width": 30,
-            "height": 30,
-            "text": "INR",
-            "class": "text"
-        },
-        {
-            "top": 1246,
-            "left": 1336,
-            "width": 14,
-            "height": 3,
-            "text": "SY",
-            "class": "text"
-        },
-        {
-            "top": 1246,
-            "left": 1361,
-            "width": 2,
-            "height": 3,
-            "text": "8",
-            "class": "text"
-        },
-        {
-            "top": 1218,
-            "left": 1403,
-            "width": 44,
-            "height": 48,
-            "text": "{a}",
-            "class": "text"
-        },
-        {
-            "top": 1232,
-            "left": 1457,
-            "width": 34,
-            "height": 17,
-            "text": "Yes",
-            "class": "text"
-        },
-        {
-            "top": 1217,
-            "left": 1527,
-            "width": 44,
-            "height": 49,
-            "text": "L]",
-            "class": "text"
-        },
-        {
-            "top": 1232,
-            "left": 1584,
-            "width": 26,
-            "height": 17,
-            "text": "No",
-            "class": "text"
-        },
-        {
-            "top": 1297,
-            "left": 129,
-            "width": 55,
-            "height": 22,
-            "text": "Ves;",
-            "class": "text"
-        },
-        {
-            "top": 1301,
-            "left": 194,
-            "width": 29,
-            "height": 13,
-            "text": "ate",
-            "class": "text"
-        },
-        {
-            "top": 1301,
-            "left": 232,
-            "width": 39,
-            "height": 18,
-            "text": "yOu!",
-            "class": "text"
-        },
-        {
-            "top": 1297,
-            "left": 293,
-            "width": 59,
-            "height": 17,
-            "text": "Wider",
-            "class": "text"
-        },
-        {
-            "top": 1297,
-            "left": 360,
-            "width": 108,
-            "height": 22,
-            "text": "TByears:Of",
-            "class": "text"
-        },
-        {
-            "top": 1297,
-            "left": 476,
-            "width": 47,
-            "height": 22,
-            "text": "ASPs:",
-            "class": "text"
-        },
-        {
-            "top": 1293,
-            "left": 542,
-            "width": 18,
-            "height": 30,
-            "text": "ccs",
-            "class": "text"
-        },
-        {
-            "top": 1311,
-            "left": 570,
-            "width": 14,
-            "height": 3,
-            "text": "cs",
-            "class": "text"
-        },
-        {
-            "top": 1293,
-            "left": 595,
-            "width": 30,
-            "height": 30,
-            "text": "weans:",
-            "class": "text"
-        },
-        {
-            "top": 1293,
-            "left": 632,
-            "width": 14,
-            "height": 30,
-            "text": "sig",
-            "class": "text"
-        },
-        {
-            "top": 1293,
-            "left": 657,
-            "width": 14,
-            "height": 30,
-            "text": "soe",
-            "class": "text"
-        },
-        {
-            "top": 1293,
-            "left": 681,
-            "width": 14,
-            "height": 30,
-            "text": "sca",
-            "class": "text"
-        },
-        {
-            "top": 1311,
-            "left": 705,
-            "width": 15,
-            "height": 3,
-            "text": "sie",
-            "class": "text"
-        },
-        {
-            "top": 1293,
-            "left": 731,
-            "width": 26,
-            "height": 30,
-            "text": "Same",
-            "class": "text"
-        },
-        {
-            "top": 1311,
-            "left": 770,
-            "width": 1,
-            "height": 3,
-            "text": "A",
-            "class": "text"
-        },
-        {
-            "top": 1293,
-            "left": 792,
-            "width": 15,
-            "height": 30,
-            "text": "ATE",
-            "class": "text"
-        },
-        {
-            "top": 1293,
-            "left": 817,
-            "width": 27,
-            "height": 30,
-            "text": "AGRA",
-            "class": "text"
-        },
-        {
-            "top": 1311,
-            "left": 865,
-            "width": 28,
-            "height": 3,
-            "text": "ROY",
-            "class": "text"
-        },
-        {
-            "top": 1311,
-            "left": 905,
-            "width": 13,
-            "height": 3,
-            "text": "HE",
-            "class": "text"
-        },
-        {
-            "top": 1293,
-            "left": 928,
-            "width": 15,
-            "height": 30,
-            "text": "AOE",
-            "class": "text"
-        },
-        {
-            "top": 1293,
-            "left": 953,
-            "width": 14,
-            "height": 30,
-            "text": "SOE",
-            "class": "text"
-        },
-        {
-            "top": 1311,
-            "left": 980,
-            "width": 12,
-            "height": 3,
-            "text": "ie",
-            "class": "text"
-        },
-        {
-            "top": 1311,
-            "left": 1002,
-            "width": 27,
-            "height": 3,
-            "text": "DRY",
-            "class": "text"
-        },
-        {
-            "top": 1311,
-            "left": 1040,
-            "width": 14,
-            "height": 3,
-            "text": "AG",
-            "class": "text"
-        },
-        {
-            "top": 1311,
-            "left": 1065,
-            "width": 14,
-            "height": 3,
-            "text": "HE",
-            "class": "text"
-        },
-        {
-            "top": 1293,
-            "left": 1089,
-            "width": 14,
-            "height": 30,
-            "text": "WOE",
-            "class": "text"
-        },
-        {
-            "top": 1311,
-            "left": 1114,
-            "width": 14,
-            "height": 3,
-            "text": "DE",
-            "class": "text"
-        },
-        {
-            "top": 1293,
-            "left": 1138,
-            "width": 50,
-            "height": 30,
-            "text": "SIRI",
-            "class": "text"
-        },
-        {
-            "top": 1311,
-            "left": 1200,
-            "width": 2,
-            "height": 3,
-            "text": "A",
-            "class": "text"
-        },
-        {
-            "top": 1293,
-            "left": 1225,
-            "width": 13,
-            "height": 30,
-            "text": "MO",
-            "class": "text"
-        },
-        {
-            "top": 1293,
-            "left": 1250,
-            "width": 13,
-            "height": 30,
-            "text": "OR",
-            "class": "text"
-        },
-        {
-            "top": 1311,
-            "left": 1272,
-            "width": 29,
-            "height": 3,
-            "text": "wi",
-            "class": "text"
-        },
-        {
-            "top": 1311,
-            "left": 1335,
-            "width": 3,
-            "height": 3,
-            "text": "a",
-            "class": "text"
-        },
-        {
-            "top": 1282,
-            "left": 1403,
-            "width": 44,
-            "height": 48,
-            "text": "{oc",
-            "class": "text"
-        },
-        {
-            "top": 1297,
-            "left": 1457,
-            "width": 34,
-            "height": 17,
-            "text": "Yes",
-            "class": "text"
-        },
-        {
-            "top": 1282,
-            "left": 1527,
-            "width": 44,
-            "height": 48,
-            "text": "L]",
-            "class": "text"
-        },
-        {
-            "top": 1297,
-            "left": 1584,
-            "width": 26,
-            "height": 17,
-            "text": "No",
-            "class": "text"
-        },
-        {
-            "top": 1361,
-            "left": 293,
-            "width": 113,
-            "height": 17,
-            "text": "CUCU",
-            "class": "text"
-        },
-        {
-            "top": 1375,
-            "left": 459,
-            "width": 39,
-            "height": 3,
-            "text": "ot",
-            "class": "text"
-        },
-        {
-            "top": 1375,
-            "left": 513,
-            "width": 59,
-            "height": 3,
-            "text": "fort",
-            "class": "text"
-        },
-        {
-            "top": 1375,
-            "left": 586,
-            "width": 35,
-            "height": 3,
-            "text": "ff",
-            "class": "text"
-        },
-        {
-            "top": 1375,
-            "left": 648,
-            "width": 48,
-            "height": 3,
-            "text": "fon.",
-            "class": "text"
-        },
-        {
-            "top": 1375,
-            "left": 723,
-            "width": 47,
-            "height": 3,
-            "text": "toh",
-            "class": "text"
-        },
-        {
-            "top": 1375,
-            "left": 785,
-            "width": 59,
-            "height": 3,
-            "text": "eee",
-            "class": "text"
-        },
-        {
-            "top": 1375,
-            "left": 857,
-            "width": 49,
-            "height": 3,
-            "text": "Sor",
-            "class": "text"
-        },
-        {
-            "top": 1375,
-            "left": 924,
-            "width": 56,
-            "height": 3,
-            "text": "roe",
-            "class": "text"
-        },
-        {
-            "top": 1375,
-            "left": 994,
-            "width": 23,
-            "height": 3,
-            "text": "eo",
-            "class": "text"
-        },
-        {
-            "top": 1375,
-            "left": 1033,
-            "width": 33,
-            "height": 3,
-            "text": "re",
-            "class": "text"
-        },
-        {
-            "top": 1375,
-            "left": 1082,
-            "width": 34,
-            "height": 3,
-            "text": "kor",
-            "class": "text"
-        },
-        {
-            "top": 1375,
-            "left": 1131,
-            "width": 22,
-            "height": 3,
-            "text": "eo",
-            "class": "text"
-        },
-        {
-            "top": 1375,
-            "left": 1172,
-            "width": 18,
-            "height": 3,
-            "text": "oe",
-            "class": "text"
-        },
-        {
-            "top": 1357,
-            "left": 1216,
-            "width": 35,
-            "height": 31,
-            "text": "non",
-            "class": "text"
-        },
-        {
-            "top": 1375,
-            "left": 1270,
-            "width": 43,
-            "height": 3,
-            "text": "roo",
-            "class": "text"
-        },
-        {
-            "top": 1375,
-            "left": 1327,
+            "top": 322,
+            "left": 1387,
             "width": 36,
-            "height": 3,
-            "text": "ere",
-            "class": "text"
-        },
-        {
-            "top": 1346,
-            "left": 1403,
-            "width": 44,
-            "height": 48,
-            "text": "(a)",
-            "class": "text"
-        },
-        {
-            "top": 1361,
-            "left": 1457,
-            "width": 34,
-            "height": 17,
-            "text": "Yes",
-            "class": "text"
-        },
-        {
-            "top": 1346,
-            "left": 1527,
-            "width": 44,
-            "height": 48,
-            "text": "L]",
-            "class": "text"
-        },
-        {
-            "top": 1361,
-            "left": 1584,
-            "width": 26,
-            "height": 17,
-            "text": "No",
-            "class": "text"
-        },
-        {
-            "top": 1425,
-            "left": 132,
-            "width": 78,
-            "height": 17,
-            "text": "Number",
-            "class": "text"
-        },
-        {
-            "top": 1425,
-            "left": 217,
-            "width": 17,
-            "height": 17,
-            "text": "of",
-            "class": "text"
-        },
-        {
-            "top": 1425,
-            "left": 242,
-            "width": 92,
-            "height": 22,
-            "text": "qualifying",
-            "class": "text"
-        },
-        {
-            "top": 1425,
-            "left": 343,
-            "width": 75,
-            "height": 22,
-            "text": "parent’s",
-            "class": "text"
-        },
-        {
-            "top": 1425,
-            "left": 427,
-            "width": 75,
-            "height": 17,
-            "text": "children",
-            "class": "text"
-        },
-        {
-            "top": 1425,
-            "left": 511,
-            "width": 40,
-            "height": 17,
-            "text": "who",
-            "class": "text"
-        },
-        {
-            "top": 1429,
-            "left": 559,
-            "width": 29,
-            "height": 13,
-            "text": "are",
-            "class": "text"
-        },
-        {
-            "top": 1425,
-            "left": 597,
-            "width": 57,
-            "height": 17,
-            "text": "under",
-            "class": "text"
-        },
-        {
-            "top": 1425,
-            "left": 662,
-            "width": 20,
-            "height": 17,
-            "text": "18",
-            "class": "text"
-        },
-        {
-            "top": 1425,
-            "left": 692,
-            "width": 34,
-            "height": 17,
-            "text": "and",
-            "class": "text"
-        },
-        {
-            "top": 1425,
-            "left": 735,
-            "width": 98,
-            "height": 17,
-            "text": "unmarried",
-            "class": "text"
-        },
-        {
-            "top": 1421,
-            "left": 854,
-            "width": 113,
-            "height": 30,
-            "text": "2.0...",
-            "class": "text"
-        },
-        {
-            "top": 1439,
-            "left": 978,
-            "width": 385,
-            "height": 3,
-            "text": "eee",
-            "class": "text"
-        },
-        {
-            "top": 1421,
-            "left": 1273,
-            "width": 93,
-            "height": 30,
-            "text": "eens",
-            "class": "text"
-        },
-        {
-            "top": 1484,
-            "left": 93,
-            "width": 63,
             "height": 18,
-            "text": "STEP",
-            "class": "text"
-        },
-        {
-            "top": 1484,
-            "left": 164,
-            "width": 20,
-            "height": 18,
-            "text": "4:",
-            "class": "text"
-        },
-        {
-            "top": 1484,
-            "left": 194,
-            "width": 49,
-            "height": 18,
-            "text": "Late",
-            "class": "text"
-        },
-        {
-            "top": 1484,
-            "left": 252,
-            "width": 131,
-            "height": 23,
-            "text": "Application",
-            "class": "text"
-        },
-        {
-            "top": 1539,
-            "left": 82,
-            "width": 10,
-            "height": 17,
-            "text": "If",
-            "class": "text"
-        },
-        {
-            "top": 1543,
-            "left": 99,
-            "width": 34,
-            "height": 18,
-            "text": "you",
-            "class": "text"
-        },
-        {
-            "top": 1543,
-            "left": 142,
-            "width": 45,
-            "height": 13,
-            "text": "were",
-            "class": "text"
-        },
-        {
-            "top": 1539,
-            "left": 197,
-            "width": 66,
-            "height": 22,
-            "text": "eligible",
-            "class": "text"
-        },
-        {
-            "top": 1539,
-            "left": 271,
-            "width": 26,
-            "height": 17,
-            "text": "for",
-            "class": "text"
-        },
-        {
-            "top": 1539,
-            "left": 303,
-            "width": 34,
-            "height": 17,
-            "text": "this",
-            "class": "text"
-        },
-        {
-            "top": 1539,
-            "left": 346,
-            "width": 98,
-            "height": 22,
-            "text": "exemption",
-            "class": "text"
-        },
-        {
-            "top": 1539,
-            "left": 454,
-            "width": 33,
-            "height": 17,
-            "text": "last",
-            "class": "text"
-        },
-        {
-            "top": 1543,
-            "left": 494,
-            "width": 46,
-            "height": 18,
-            "text": "year,",
-            "class": "text"
-        },
-        {
-            "top": 1539,
-            "left": 550,
-            "width": 56,
-            "height": 17,
-            "text": "check",
-            "class": "text"
-        },
-        {
-            "top": 1539,
-            "left": 613,
-            "width": 33,
-            "height": 17,
-            "text": "this",
-            "class": "text"
-        },
-        {
-            "top": 1539,
-            "left": 655,
-            "width": 34,
-            "height": 17,
             "text": "box",
             "class": "text"
         },
         {
-            "top": 1539,
-            "left": 697,
-            "width": 35,
-            "height": 17,
-            "text": "and",
-            "class": "text"
-        },
-        {
-            "top": 1535,
-            "left": 741,
-            "width": 45,
-            "height": 30,
-            "text": "enter",
-            "class": "text"
-        },
-        {
-            "top": 1539,
-            "left": 795,
-            "width": 28,
-            "height": 17,
-            "text": "the",
-            "class": "text"
-        },
-        {
-            "top": 1539,
-            "left": 836,
-            "width": 44,
-            "height": 22,
-            "text": "prior",
-            "class": "text"
-        },
-        {
-            "top": 1540,
-            "left": 886,
-            "width": 30,
-            "height": 16,
-            "text": "tax",
-            "class": "text"
-        },
-        {
-            "top": 1543,
-            "left": 923,
-            "width": 45,
-            "height": 18,
-            "text": "year.",
-            "class": "text"
-        },
-        {
-            "top": 1539,
-            "left": 974,
-            "width": 35,
-            "height": 17,
-            "text": "You",
-            "class": "text"
-        },
-        {
-            "top": 1540,
-            "left": 1018,
-            "width": 47,
-            "height": 16,
-            "text": "must",
-            "class": "text"
-        },
-        {
-            "top": 1539,
-            "left": 1073,
-            "width": 45,
-            "height": 17,
-            "text": "have",
-            "class": "text"
-        },
-        {
-            "top": 1540,
-            "left": 1127,
-            "width": 36,
-            "height": 16,
-            "text": "met",
-            "class": "text"
-        },
-        {
-            "top": 1539,
-            "left": 1171,
-            "width": 19,
-            "height": 17,
-            "text": "all",
-            "class": "text"
-        },
-        {
-            "top": 1539,
-            "left": 1200,
-            "width": 17,
-            "height": 17,
-            "text": "of",
-            "class": "text"
-        },
-        {
-            "top": 1539,
-            "left": 1224,
-            "width": 30,
-            "height": 17,
-            "text": "the",
-            "class": "text"
-        },
-        {
-            "top": 1539,
-            "left": 1263,
-            "width": 126,
-            "height": 22,
-            "text": "qualifications",
-            "class": "text"
-        },
-        {
-            "top": 1539,
-            "left": 1398,
-            "width": 57,
-            "height": 17,
-            "text": "above",
-            "class": "text"
-        },
-        {
-            "top": 1543,
-            "left": 1464,
-            "width": 23,
-            "height": 13,
-            "text": "on",
-            "class": "text"
-        },
-        {
-            "top": 1539,
-            "left": 1495,
-            "width": 79,
-            "height": 22,
-            "text": "January",
-            "class": "text"
-        },
-        {
-            "top": 1539,
-            "left": 1583,
-            "width": 6,
-            "height": 17,
-            "text": "1",
-            "class": "text"
-        },
-        {
-            "top": 1566,
-            "left": 81,
-            "width": 17,
-            "height": 17,
-            "text": "of",
-            "class": "text"
-        },
-        {
-            "top": 1566,
-            "left": 105,
-            "width": 30,
-            "height": 17,
-            "text": "the",
-            "class": "text"
-        },
-        {
-            "top": 1566,
-            "left": 144,
-            "width": 44,
-            "height": 22,
-            "text": "prior",
-            "class": "text"
-        },
-        {
-            "top": 1567,
-            "left": 195,
-            "width": 29,
-            "height": 16,
-            "text": "tax",
-            "class": "text"
-        },
-        {
-            "top": 1570,
-            "left": 231,
-            "width": 43,
-            "height": 18,
-            "text": "year",
-            "class": "text"
-        },
-        {
-            "top": 1567,
-            "left": 280,
+            "top": 326,
+            "left": 1431,
             "width": 18,
-            "height": 16,
+            "height": 14,
             "text": "to",
             "class": "text"
         },
         {
-            "top": 1566,
-            "left": 307,
-            "width": 68,
-            "height": 17,
-            "text": "receive",
-            "class": "text"
-        },
-        {
-            "top": 1566,
-            "left": 383,
-            "width": 29,
-            "height": 17,
-            "text": "the",
-            "class": "text"
-        },
-        {
-            "top": 1566,
-            "left": 421,
-            "width": 99,
-            "height": 22,
-            "text": "exemption",
-            "class": "text"
-        },
-        {
-            "top": 1566,
-            "left": 528,
-            "width": 26,
-            "height": 17,
-            "text": "for",
-            "class": "text"
-        },
-        {
-            "top": 1566,
-            "left": 561,
-            "width": 34,
-            "height": 17,
-            "text": "last",
-            "class": "text"
-        },
-        {
-            "top": 1570,
-            "left": 602,
-            "width": 45,
-            "height": 18,
-            "text": "year.",
-            "class": "text"
-        },
-        {
-            "top": 1676,
-            "left": 93,
-            "width": 63,
-            "height": 18,
-            "text": "STEP",
-            "class": "text"
-        },
-        {
-            "top": 1676,
-            "left": 166,
-            "width": 18,
-            "height": 18,
-            "text": "5:",
-            "class": "text"
-        },
-        {
-            "top": 1676,
-            "left": 194,
-            "width": 142,
-            "height": 18,
-            "text": "Certification",
-            "class": "text"
-        },
-        {
-            "top": 1676,
-            "left": 347,
-            "width": 42,
-            "height": 18,
-            "text": "and",
-            "class": "text"
-        },
-        {
-            "top": 1676,
-            "left": 398,
-            "width": 112,
-            "height": 23,
-            "text": "Signature",
-            "class": "text"
-        },
-        {
-            "top": 1731,
-            "left": 82,
-            "width": 24,
-            "height": 22,
-            "text": "By",
-            "class": "text"
-        },
-        {
-            "top": 1731,
-            "left": 114,
-            "width": 68,
-            "height": 22,
-            "text": "signing",
-            "class": "text"
-        },
-        {
-            "top": 1731,
-            "left": 190,
-            "width": 33,
-            "height": 17,
-            "text": "this",
-            "class": "text"
-        },
-        {
-            "top": 1732,
-            "left": 232,
-            "width": 110,
-            "height": 21,
-            "text": "application,",
-            "class": "text"
-        },
-        {
-            "top": 1735,
-            "left": 351,
-            "width": 34,
-            "height": 18,
-            "text": "you",
-            "class": "text"
-        },
-        {
-            "top": 1731,
-            "left": 394,
+            "top": 322,
+            "left": 1457,
             "width": 59,
-            "height": 22,
-            "text": "certify",
+            "height": 18,
+            "text": "check.",
             "class": "text"
         },
         {
-            "top": 1731,
-            "left": 460,
-            "width": 37,
-            "height": 17,
-            "text": "that",
+            "top": 466,
+            "left": 430,
+            "width": 171,
+            "height": 37,
+            "text": "UNITED",
             "class": "text"
         },
         {
-            "top": 1732,
-            "left": 504,
-            "width": 29,
-            "height": 16,
-            "text": "the",
+            "top": 465,
+            "left": 617,
+            "width": 163,
+            "height": 38,
+            "text": "STATES",
             "class": "text"
         },
         {
-            "top": 1731,
-            "left": 542,
-            "width": 108,
-            "height": 17,
-            "text": "information",
+            "top": 466,
+            "left": 795,
+            "width": 305,
+            "height": 37,
+            "text": "BANKRUPTCY",
             "class": "text"
         },
         {
-            "top": 1731,
-            "left": 659,
-            "width": 82,
-            "height": 22,
-            "text": "provided",
-            "class": "text"
-        },
-        {
-            "top": 1731,
-            "left": 750,
-            "width": 15,
-            "height": 17,
-            "text": "in",
-            "class": "text"
-        },
-        {
-            "top": 1731,
-            "left": 773,
-            "width": 34,
-            "height": 17,
-            "text": "this",
-            "class": "text"
-        },
-        {
-            "top": 1732,
-            "left": 816,
-            "width": 103,
-            "height": 21,
-            "text": "application",
-            "class": "text"
-        },
-        {
-            "top": 1731,
-            "left": 929,
-            "width": 13,
-            "height": 17,
-            "text": "is",
-            "class": "text"
-        },
-        {
-            "top": 1732,
-            "left": 950,
-            "width": 38,
-            "height": 16,
-            "text": "true",
-            "class": "text"
-        },
-        {
-            "top": 1732,
-            "left": 997,
-            "width": 35,
-            "height": 16,
-            "text": "and",
-            "class": "text"
-        },
-        {
-            "top": 1733,
-            "left": 1041,
-            "width": 66,
-            "height": 15,
-            "text": "correct",
-            "class": "text"
-        },
-        {
-            "top": 1732,
+            "top": 465,
             "left": 1114,
-            "width": 18,
-            "height": 16,
-            "text": "to",
+            "width": 154,
+            "height": 38,
+            "text": "COURT",
             "class": "text"
         },
         {
-            "top": 1732,
-            "left": 1139,
-            "width": 29,
-            "height": 16,
-            "text": "the",
-            "class": "text"
-        },
-        {
-            "top": 1732,
-            "left": 1178,
-            "width": 40,
-            "height": 16,
-            "text": "best",
-            "class": "text"
-        },
-        {
-            "top": 1732,
-            "left": 1226,
-            "width": 18,
-            "height": 16,
-            "text": "of",
-            "class": "text"
-        },
-        {
-            "top": 1735,
-            "left": 1251,
-            "width": 43,
-            "height": 18,
-            "text": "your",
-            "class": "text"
-        },
-        {
-            "top": 1732,
-            "left": 1301,
-            "width": 104,
-            "height": 21,
-            "text": "knowledge",
-            "class": "text"
-        },
-        {
-            "top": 1731,
-            "left": 1414,
-            "width": 35,
-            "height": 17,
-            "text": "and",
-            "class": "text"
-        },
-        {
-            "top": 1731,
-            "left": 1458,
-            "width": 55,
-            "height": 17,
-            "text": "belief.",
-            "class": "text"
-        },
-        {
-            "top": 1603,
-            "left": 77,
-            "width": 44,
-            "height": 48,
-            "text": "L]",
-            "class": "text"
-        },
-        {
-            "top": 1617,
-            "left": 138,
-            "width": 107,
-            "height": 22,
-            "text": "Application",
-            "class": "text"
-        },
-        {
-            "top": 1617,
-            "left": 253,
+            "top": 637,
+            "left": 101,
             "width": 26,
-            "height": 17,
-            "text": "for",
-            "class": "text"
-        },
-        {
-            "top": 1617,
-            "left": 287,
-            "width": 98,
             "height": 22,
-            "text": "exemption",
+            "text": "In",
             "class": "text"
         },
         {
-            "top": 1617,
-            "left": 394,
-            "width": 25,
-            "height": 17,
-            "text": "for",
+            "top": 644,
+            "left": 136,
+            "width": 24,
+            "height": 15,
+            "text": "re",
             "class": "text"
         },
         {
-            "top": 1617,
-            "left": 427,
-            "width": 44,
+            "top": 637,
+            "left": 1201,
+            "width": 62,
             "height": 22,
-            "text": "prior",
+            "text": "Case",
             "class": "text"
         },
         {
-            "top": 1618,
-            "left": 477,
-            "width": 29,
-            "height": 16,
-            "text": "tax",
-            "class": "text"
-        },
-        {
-            "top": 1621,
-            "left": 513,
+            "top": 637,
+            "left": 1273,
             "width": 46,
-            "height": 18,
-            "text": "year,",
+            "height": 22,
+            "text": "No.",
             "class": "text"
         },
         {
-            "top": 1783,
-            "left": 81,
-            "width": 91,
-            "height": 50,
-            "text": "print,",
+            "top": 675,
+            "left": 390,
+            "width": 96,
+            "height": 23,
+            "text": "Debtor",
             "class": "text"
         },
         {
-            "top": 1814,
-            "left": 81,
-            "width": 64,
-            "height": 21,
-            "text": "here”",
+            "top": 714,
+            "left": 1201,
+            "width": 104,
+            "height": 30,
+            "text": "Chapter",
             "class": "text"
         },
         {
-            "top": 1835,
-            "left": 188,
-            "width": 15,
-            "height": 1,
-            "text": "_",
+            "top": 832,
+            "left": 573,
+            "width": 310,
+            "height": 24,
+            "text": "REAFFIRMATION",
             "class": "text"
         },
         {
-            "top": 1835,
-            "left": 1594,
-            "width": 15,
-            "height": 1,
-            "text": "=",
+            "top": 832,
+            "left": 894,
+            "width": 232,
+            "height": 24,
+            "text": "DOCUMENTS",
             "class": "text"
         },
         {
-            "top": 1844,
-            "left": 190,
-            "width": 37,
-            "height": 14,
-            "text": "Print",
-            "class": "text"
-        },
-        {
-            "top": 1844,
-            "left": 234,
-            "width": 51,
-            "height": 14,
+            "top": 913,
+            "left": 399,
+            "width": 81,
+            "height": 23,
             "text": "Name",
             "class": "text"
         },
         {
-            "top": 1844,
-            "left": 1055,
-            "width": 36,
-            "height": 14,
-            "text": "Title",
-            "class": "text"
-        },
-        {
-            "top": 1885,
-            "left": 80,
-            "width": 59,
-            "height": 26,
-            "text": "sign",
-            "class": "text"
-        },
-        {
-            "top": 1908,
-            "left": 81,
-            "width": 64,
-            "height": 37,
-            "text": "here",
-            "class": "text"
-        },
-        {
-            "top": 1896,
-            "left": 151,
-            "width": 21,
-            "height": 31,
-            "text": "»",
-            "class": "text"
-        },
-        {
-            "top": 1932,
-            "left": 1594,
-            "width": 15,
-            "height": 1,
-            "text": "7",
-            "class": "text"
-        },
-        {
-            "top": 1942,
-            "left": 188,
-            "width": 92,
-            "height": 14,
-            "text": "Authorized",
-            "class": "text"
-        },
-        {
-            "top": 1941,
-            "left": 288,
-            "width": 81,
-            "height": 19,
-            "text": "Signature",
-            "class": "text"
-        },
-        {
-            "top": 1942,
-            "left": 1057,
-            "width": 37,
-            "height": 14,
-            "text": "Date",
-            "class": "text"
-        },
-        {
-            "top": 1991,
-            "left": 82,
-            "width": 11,
-            "height": 16,
-            "text": "If",
-            "class": "text"
-        },
-        {
-            "top": 1995,
-            "left": 100,
-            "width": 38,
-            "height": 17,
-            "text": "you",
-            "class": "text"
-        },
-        {
-            "top": 1991,
-            "left": 147,
-            "width": 55,
-            "height": 16,
-            "text": "make",
-            "class": "text"
-        },
-        {
-            "top": 1995,
-            "left": 210,
-            "width": 11,
-            "height": 12,
-            "text": "a",
-            "class": "text"
-        },
-        {
-            "top": 1991,
-            "left": 228,
-            "width": 51,
-            "height": 16,
-            "text": "false",
-            "class": "text"
-        },
-        {
-            "top": 1992,
-            "left": 287,
-            "width": 103,
-            "height": 15,
-            "text": "statement",
-            "class": "text"
-        },
-        {
-            "top": 1995,
-            "left": 398,
-            "width": 25,
-            "height": 12,
-            "text": "on",
-            "class": "text"
-        },
-        {
-            "top": 1991,
-            "left": 431,
-            "width": 38,
-            "height": 16,
-            "text": "this",
-            "class": "text"
-        },
-        {
-            "top": 1991,
-            "left": 479,
-            "width": 121,
-            "height": 21,
-            "text": "application,",
-            "class": "text"
-        },
-        {
-            "top": 1995,
-            "left": 607,
-            "width": 37,
-            "height": 17,
-            "text": "you",
-            "class": "text"
-        },
-        {
-            "top": 1991,
-            "left": 654,
-            "width": 56,
-            "height": 16,
-            "text": "could",
-            "class": "text"
-        },
-        {
-            "top": 1991,
-            "left": 720,
-            "width": 24,
-            "height": 16,
-            "text": "be",
-            "class": "text"
-        },
-        {
-            "top": 1991,
-            "left": 752,
-            "width": 59,
-            "height": 16,
-            "text": "found",
-            "class": "text"
-        },
-        {
-            "top": 1991,
-            "left": 821,
-            "width": 58,
-            "height": 21,
-            "text": "guilty",
-            "class": "text"
-        },
-        {
-            "top": 1991,
-            "left": 887,
-            "width": 19,
-            "height": 16,
+            "top": 913,
+            "left": 490,
+            "width": 30,
+            "height": 23,
             "text": "of",
             "class": "text"
         },
         {
-            "top": 1995,
-            "left": 921,
-            "width": 4,
-            "height": 12,
+            "top": 913,
+            "left": 527,
+            "width": 131,
+            "height": 23,
+            "text": "Creditor:",
+            "class": "text"
+        },
+        {
+            "top": 965,
+            "left": 278,
+            "width": 20,
+            "height": 60,
+            "text": "L",
+            "class": "text"
+        },
+        {
+            "top": 969,
+            "left": 313,
+            "width": 18,
+            "height": 52,
+            "text": "|",
+            "class": "text"
+        },
+        {
+            "top": 990,
+            "left": 343,
+            "width": 85,
+            "height": 24,
+            "text": "Check",
+            "class": "text"
+        },
+        {
+            "top": 990,
+            "left": 435,
+            "width": 47,
+            "height": 24,
+            "text": "this",
+            "class": "text"
+        },
+        {
+            "top": 990,
+            "left": 492,
+            "width": 50,
+            "height": 24,
+            "text": "box",
+            "class": "text"
+        },
+        {
+            "top": 990,
+            "left": 552,
+            "width": 22,
+            "height": 24,
+            "text": "if",
+            "class": "text"
+        },
+        {
+            "top": 990,
+            "left": 580,
+            "width": 111,
+            "height": 24,
+            "text": "Creditor",
+            "class": "text"
+        },
+        {
+            "top": 990,
+            "left": 700,
+            "width": 19,
+            "height": 24,
+            "text": "is",
+            "class": "text"
+        },
+        {
+            "top": 998,
+            "left": 731,
+            "width": 14,
+            "height": 16,
             "text": "a",
             "class": "text"
         },
         {
-            "top": 1991,
-            "left": 934,
-            "width": 57,
-            "height": 16,
-            "text": "Class",
+            "top": 990,
+            "left": 754,
+            "width": 82,
+            "height": 24,
+            "text": "Credit",
             "class": "text"
         },
         {
-            "top": 1991,
-            "left": 999,
+            "top": 990,
+            "left": 845,
+            "width": 82,
+            "height": 24,
+            "text": "Union",
+            "class": "text"
+        },
+        {
+            "top": 1102,
+            "left": 101,
+            "width": 87,
+            "height": 23,
+            "text": "PART",
+            "class": "text"
+        },
+        {
+            "top": 1102,
+            "left": 200,
+            "width": 18,
+            "height": 23,
+            "text": "I.",
+            "class": "text"
+        },
+        {
+            "top": 1102,
+            "left": 238,
+            "width": 286,
+            "height": 23,
+            "text": "REAFFIRMATION",
+            "class": "text"
+        },
+        {
+            "top": 1102,
+            "left": 534,
+            "width": 216,
+            "height": 23,
+            "text": "AGREEMENT",
+            "class": "text"
+        },
+        {
+            "top": 1176,
+            "left": 101,
+            "width": 173,
+            "height": 30,
+            "text": "Reaffirming",
+            "class": "text"
+        },
+        {
+            "top": 1183,
+            "left": 284,
             "width": 15,
             "height": 16,
-            "text": "A",
+            "text": "a",
             "class": "text"
         },
         {
-            "top": 1991,
-            "left": 1021,
-            "width": 143,
+            "top": 1176,
+            "left": 309,
+            "width": 62,
+            "height": 23,
+            "text": "debt",
+            "class": "text"
+        },
+        {
+            "top": 1176,
+            "left": 379,
+            "width": 21,
+            "height": 23,
+            "text": "is",
+            "class": "text"
+        },
+        {
+            "top": 1183,
+            "left": 411,
+            "width": 15,
             "height": 16,
-            "text": "misdemeanor",
+            "text": "a",
             "class": "text"
         },
         {
-            "top": 1995,
-            "left": 1173,
-            "width": 20,
-            "height": 12,
+            "top": 1176,
+            "left": 436,
+            "width": 98,
+            "height": 23,
+            "text": "serious",
+            "class": "text"
+        },
+        {
+            "top": 1176,
+            "left": 544,
+            "width": 123,
+            "height": 23,
+            "text": "financial",
+            "class": "text"
+        },
+        {
+            "top": 1176,
+            "left": 677,
+            "width": 120,
+            "height": 23,
+            "text": "decision.",
+            "class": "text"
+        },
+        {
+            "top": 1176,
+            "left": 817,
+            "width": 93,
+            "height": 23,
+            "text": "Before",
+            "class": "text"
+        },
+        {
+            "top": 1176,
+            "left": 920,
+            "width": 117,
+            "height": 30,
+            "text": "entering",
+            "class": "text"
+        },
+        {
+            "top": 1176,
+            "left": 1046,
+            "width": 55,
+            "height": 23,
+            "text": "into",
+            "class": "text"
+        },
+        {
+            "top": 1176,
+            "left": 1110,
+            "width": 51,
+            "height": 23,
+            "text": "this",
+            "class": "text"
+        },
+        {
+            "top": 1176,
+            "left": 1171,
+            "width": 201,
+            "height": 23,
+            "text": "Reaffirmation",
+            "class": "text"
+        },
+        {
+            "top": 1215,
+            "left": 100,
+            "width": 165,
+            "height": 30,
+            "text": "Agreement,",
+            "class": "text"
+        },
+        {
+            "top": 1222,
+            "left": 274,
+            "width": 52,
+            "height": 23,
+            "text": "you",
+            "class": "text"
+        },
+        {
+            "top": 1217,
+            "left": 335,
+            "width": 70,
+            "height": 21,
+            "text": "must",
+            "class": "text"
+        },
+        {
+            "top": 1215,
+            "left": 414,
+            "width": 92,
+            "height": 23,
+            "text": "review",
+            "class": "text"
+        },
+        {
+            "top": 1215,
+            "left": 516,
+            "width": 44,
+            "height": 23,
+            "text": "the",
+            "class": "text"
+        },
+        {
+            "top": 1215,
+            "left": 569,
+            "width": 144,
+            "height": 30,
+            "text": "important",
+            "class": "text"
+        },
+        {
+            "top": 1215,
+            "left": 723,
+            "width": 161,
+            "height": 28,
+            "text": "disclosures,",
+            "class": "text"
+        },
+        {
+            "top": 1215,
+            "left": 894,
+            "width": 176,
+            "height": 28,
+            "text": "instructions,",
+            "class": "text"
+        },
+        {
+            "top": 1215,
+            "left": 1080,
+            "width": 52,
+            "height": 23,
+            "text": "and",
+            "class": "text"
+        },
+        {
+            "top": 1215,
+            "left": 1143,
+            "width": 148,
+            "height": 23,
+            "text": "definitions",
+            "class": "text"
+        },
+        {
+            "top": 1215,
+            "left": 1301,
+            "width": 81,
+            "height": 23,
+            "text": "found",
+            "class": "text"
+        },
+        {
+            "top": 1215,
+            "left": 1392,
+            "width": 27,
+            "height": 23,
+            "text": "in",
+            "class": "text"
+        },
+        {
+            "top": 1215,
+            "left": 1429,
+            "width": 62,
+            "height": 23,
+            "text": "Part",
+            "class": "text"
+        },
+        {
+            "top": 1215,
+            "left": 1499,
+            "width": 23,
+            "height": 23,
+            "text": "V",
+            "class": "text"
+        },
+        {
+            "top": 1215,
+            "left": 1533,
+            "width": 29,
+            "height": 23,
+            "text": "of",
+            "class": "text"
+        },
+        {
+            "top": 1254,
+            "left": 100,
+            "width": 51,
+            "height": 23,
+            "text": "this",
+            "class": "text"
+        },
+        {
+            "top": 1254,
+            "left": 161,
+            "width": 76,
+            "height": 23,
+            "text": "form.",
+            "class": "text"
+        },
+        {
+            "top": 1329,
+            "left": 101,
+            "width": 28,
+            "height": 22,
+            "text": "A.",
+            "class": "text"
+        },
+        {
+            "top": 1327,
+            "left": 150,
+            "width": 71,
+            "height": 24,
+            "text": "Brief",
+            "class": "text"
+        },
+        {
+            "top": 1327,
+            "left": 227,
+            "width": 147,
+            "height": 31,
+            "text": "description",
+            "class": "text"
+        },
+        {
+            "top": 1327,
+            "left": 384,
+            "width": 29,
+            "height": 24,
+            "text": "of",
+            "class": "text"
+        },
+        {
+            "top": 1328,
+            "left": 426,
+            "width": 40,
+            "height": 23,
+            "text": "the",
+            "class": "text"
+        },
+        {
+            "top": 1328,
+            "left": 477,
+            "width": 102,
+            "height": 30,
+            "text": "original",
+            "class": "text"
+        },
+        {
+            "top": 1331,
+            "left": 589,
+            "width": 138,
+            "height": 27,
+            "text": "agreement",
+            "class": "text"
+        },
+        {
+            "top": 1328,
+            "left": 735,
+            "width": 74,
+            "height": 30,
+            "text": "being",
+            "class": "text"
+        },
+        {
+            "top": 1327,
+            "left": 818,
+            "width": 146,
+            "height": 24,
+            "text": "reaffirmed:",
+            "class": "text"
+        },
+        {
+            "top": 1374,
+            "left": 1117,
+            "width": 37,
+            "height": 16,
+            "text": "For",
+            "class": "text"
+        },
+        {
+            "top": 1373,
+            "left": 1160,
+            "width": 84,
+            "height": 22,
+            "text": "example,",
+            "class": "text"
+        },
+        {
+            "top": 1376,
+            "left": 1253,
+            "width": 42,
+            "height": 14,
+            "text": "auto",
+            "class": "text"
+        },
+        {
+            "top": 1373,
+            "left": 1303,
+            "width": 43,
+            "height": 17,
+            "text": "loan",
+            "class": "text"
+        },
+        {
+            "top": 1446,
+            "left": 101,
+            "width": 26,
+            "height": 22,
+            "text": "B.",
+            "class": "text"
+        },
+        {
+            "top": 1445,
+            "left": 145,
+            "width": 148,
+            "height": 23,
+            "text": "AMOUNT",
+            "class": "text"
+        },
+        {
+            "top": 1445,
+            "left": 299,
+            "width": 228,
+            "height": 23,
+            "text": "REAFFIRMED:",
+            "class": "text"
+        },
+        {
+            "top": 1444,
+            "left": 602,
+            "width": 14,
+            "height": 26,
+            "text": "$",
+            "class": "text"
+        },
+        {
+            "top": 1522,
+            "left": 201,
+            "width": 49,
+            "height": 23,
+            "text": "The",
+            "class": "text"
+        },
+        {
+            "top": 1523,
+            "left": 261,
+            "width": 108,
+            "height": 22,
+            "text": "Amount",
+            "class": "text"
+        },
+        {
+            "top": 1522,
+            "left": 379,
+            "width": 150,
+            "height": 23,
+            "text": "Reaffirmed",
+            "class": "text"
+        },
+        {
+            "top": 1522,
+            "left": 539,
+            "width": 19,
+            "height": 23,
+            "text": "is",
+            "class": "text"
+        },
+        {
+            "top": 1522,
+            "left": 567,
+            "width": 40,
+            "height": 23,
+            "text": "the",
+            "class": "text"
+        },
+        {
+            "top": 1522,
+            "left": 618,
+            "width": 74,
+            "height": 23,
+            "text": "entire",
+            "class": "text"
+        },
+        {
+            "top": 1525,
+            "left": 703,
+            "width": 98,
+            "height": 20,
+            "text": "amount",
+            "class": "text"
+        },
+        {
+            "top": 1522,
+            "left": 809,
+            "width": 51,
+            "height": 23,
+            "text": "that",
+            "class": "text"
+        },
+        {
+            "top": 1530,
+            "left": 868,
+            "width": 50,
+            "height": 22,
+            "text": "you",
+            "class": "text"
+        },
+        {
+            "top": 1530,
+            "left": 928,
+            "width": 38,
+            "height": 15,
+            "text": "are",
+            "class": "text"
+        },
+        {
+            "top": 1522,
+            "left": 977,
+            "width": 113,
+            "height": 30,
+            "text": "agreeing",
+            "class": "text"
+        },
+        {
+            "top": 1525,
+            "left": 1098,
+            "width": 25,
+            "height": 20,
+            "text": "to",
+            "class": "text"
+        },
+        {
+            "top": 1530,
+            "left": 1133,
+            "width": 54,
+            "height": 22,
+            "text": "pay.",
+            "class": "text"
+        },
+        {
+            "top": 1522,
+            "left": 1208,
+            "width": 56,
+            "height": 23,
+            "text": "This",
+            "class": "text"
+        },
+        {
+            "top": 1530,
+            "left": 1274,
+            "width": 57,
+            "height": 22,
+            "text": "may",
+            "class": "text"
+        },
+        {
+            "top": 1522,
+            "left": 1341,
+            "width": 95,
+            "height": 23,
+            "text": "include",
+            "class": "text"
+        },
+        {
+            "top": 1561,
+            "left": 200,
+            "width": 90,
+            "height": 30,
+            "text": "unpaid",
+            "class": "text"
+        },
+        {
+            "top": 1561,
+            "left": 299,
+            "width": 125,
+            "height": 30,
+            "text": "principal,",
+            "class": "text"
+        },
+        {
+            "top": 1561,
+            "left": 436,
+            "width": 103,
+            "height": 28,
+            "text": "interest,",
+            "class": "text"
+        },
+        {
+            "top": 1561,
+            "left": 551,
+            "width": 46,
+            "height": 23,
+            "text": "and",
+            "class": "text"
+        },
+        {
+            "top": 1561,
+            "left": 606,
+            "width": 52,
+            "height": 23,
+            "text": "fees",
+            "class": "text"
+        },
+        {
+            "top": 1561,
+            "left": 669,
+            "width": 47,
+            "height": 23,
+            "text": "and",
+            "class": "text"
+        },
+        {
+            "top": 1564,
+            "left": 726,
+            "width": 64,
+            "height": 20,
+            "text": "costs",
+            "class": "text"
+        },
+        {
+            "top": 1561,
+            "left": 801,
+            "width": 33,
+            "height": 30,
+            "text": "(if",
+            "class": "text"
+        },
+        {
+            "top": 1562,
+            "left": 841,
+            "width": 57,
+            "height": 29,
+            "text": "any)",
+            "class": "text"
+        },
+        {
+            "top": 1561,
+            "left": 908,
+            "width": 90,
+            "height": 30,
+            "text": "arising",
+            "class": "text"
+        },
+        {
+            "top": 1569,
+            "left": 1008,
+            "width": 31,
+            "height": 15,
+            "text": "on",
+            "class": "text"
+        },
+        {
+            "top": 1569,
+            "left": 1049,
+            "width": 27,
+            "height": 15,
             "text": "or",
             "class": "text"
         },
         {
-            "top": 1987,
-            "left": 1196,
-            "width": 9,
-            "height": 29,
-            "text": "a",
+            "top": 1561,
+            "left": 1084,
+            "width": 84,
+            "height": 23,
+            "text": "before",
             "class": "text"
         },
         {
-            "top": 1992,
-            "left": 1221,
-            "width": 50,
-            "height": 15,
-            "text": "state",
+            "top": 1581,
+            "left": 1462,
+            "width": 5,
+            "height": 8,
+            "text": "‘1",
             "class": "text"
         },
         {
-            "top": 1991,
-            "left": 1279,
+            "top": 1600,
+            "left": 200,
+            "width": 81,
+            "height": 23,
+            "text": "which",
+            "class": "text"
+        },
+        {
+            "top": 1600,
+            "left": 291,
+            "width": 19,
+            "height": 23,
+            "text": "is",
+            "class": "text"
+        },
+        {
+            "top": 1600,
+            "left": 320,
+            "width": 40,
+            "height": 23,
+            "text": "the",
+            "class": "text"
+        },
+        {
+            "top": 1600,
+            "left": 371,
+            "width": 53,
+            "height": 23,
+            "text": "date",
+            "class": "text"
+        },
+        {
+            "top": 1600,
+            "left": 435,
             "width": 29,
-            "height": 21,
-            "text": "jail",
+            "height": 23,
+            "text": "of",
             "class": "text"
         },
         {
-            "top": 1991,
-            "left": 1316,
+            "top": 1600,
+            "left": 469,
+            "width": 40,
+            "height": 23,
+            "text": "the",
+            "class": "text"
+        },
+        {
+            "top": 1600,
+            "left": 520,
+            "width": 140,
+            "height": 23,
+            "text": "Disclosure",
+            "class": "text"
+        },
+        {
+            "top": 1601,
+            "left": 672,
+            "width": 131,
+            "height": 22,
+            "text": "Statement",
+            "class": "text"
+        },
+        {
+            "top": 1600,
+            "left": 812,
+            "width": 96,
+            "height": 30,
+            "text": "portion",
+            "class": "text"
+        },
+        {
+            "top": 1600,
+            "left": 918,
+            "width": 29,
+            "height": 23,
+            "text": "of",
+            "class": "text"
+        },
+        {
+            "top": 1600,
+            "left": 952,
+            "width": 47,
+            "height": 23,
+            "text": "this",
+            "class": "text"
+        },
+        {
+            "top": 1600,
+            "left": 1009,
             "width": 64,
-            "height": 21,
-            "text": "felony",
+            "height": 23,
+            "text": "form",
             "class": "text"
         },
         {
-            "top": 1991,
-            "left": 1390,
-            "width": 59,
-            "height": 16,
-            "text": "under",
+            "top": 1601,
+            "left": 1083,
+            "width": 64,
+            "height": 29,
+            "text": "(Part",
             "class": "text"
         },
         {
-            "top": 1991,
-            "left": 1458,
-            "width": 55,
-            "height": 16,
-            "text": "Penal",
+            "top": 1601,
+            "left": 1156,
+            "width": 40,
+            "height": 29,
+            "text": "V).",
             "class": "text"
         },
         {
-            "top": 1991,
-            "left": 1522,
-            "width": 55,
-            "height": 16,
-            "text": "Code",
+            "top": 1678,
+            "left": 208,
+            "width": 46,
+            "height": 23,
+            "text": "See",
             "class": "text"
         },
         {
-            "top": 2018,
-            "left": 81,
-            "width": 78,
-            "height": 16,
+            "top": 1678,
+            "left": 264,
+            "width": 39,
+            "height": 23,
+            "text": "the",
+            "class": "text"
+        },
+        {
+            "top": 1678,
+            "left": 313,
+            "width": 126,
+            "height": 30,
+            "text": "definition",
+            "class": "text"
+        },
+        {
+            "top": 1678,
+            "left": 449,
+            "width": 32,
+            "height": 30,
+            "text": "of",
+            "class": "text"
+        },
+        {
+            "top": 1674,
+            "left": 492,
+            "width": 111,
+            "height": 38,
+            "text": "“Amount",
+            "class": "text"
+        },
+        {
+            "top": 1674,
+            "left": 615,
+            "width": 157,
+            "height": 38,
+            "text": "Reaffirmed”",
+            "class": "text"
+        },
+        {
+            "top": 1681,
+            "left": 790,
+            "width": 24,
+            "height": 20,
+            "text": "in",
+            "class": "text"
+        },
+        {
+            "top": 1679,
+            "left": 821,
+            "width": 62,
+            "height": 22,
+            "text": "Part",
+            "class": "text"
+        },
+        {
+            "top": 1679,
+            "left": 894,
+            "width": 21,
+            "height": 26,
+            "text": "V,",
+            "class": "text"
+        },
+        {
+            "top": 1678,
+            "left": 928,
+            "width": 97,
+            "height": 23,
             "text": "Section",
             "class": "text"
         },
         {
-            "top": 2018,
-            "left": 168,
-            "width": 54,
-            "height": 16,
-            "text": "37.10.",
+            "top": 1678,
+            "left": 1035,
+            "width": 21,
+            "height": 23,
+            "text": "C",
             "class": "text"
         },
         {
-            "top": 2092,
-            "left": 809,
-            "width": 330,
+            "top": 1678,
+            "left": 1067,
+            "width": 81,
+            "height": 23,
+            "text": "below.",
+            "class": "text"
+        },
+        {
+            "top": 1756,
+            "left": 101,
+            "width": 26,
+            "height": 22,
+            "text": "C.",
+            "class": "text"
+        },
+        {
+            "top": 1755,
+            "left": 148,
+            "width": 49,
+            "height": 23,
+            "text": "The",
+            "class": "text"
+        },
+        {
+            "top": 1755,
+            "left": 205,
+            "width": 138,
+            "height": 23,
+            "text": "ANNUAL",
+            "class": "text"
+        },
+        {
+            "top": 1755,
+            "left": 351,
+            "width": 224,
+            "height": 23,
+            "text": "PERCENTAGE",
+            "class": "text"
+        },
+        {
+            "top": 1755,
+            "left": 581,
+            "width": 68,
+            "height": 23,
+            "text": "RATE",
+            "class": "text"
+        },
+        {
+            "top": 1755,
+            "left": 678,
+            "width": 135,
+            "height": 30,
+            "text": "applicable",
+            "class": "text"
+        },
+        {
+            "top": 1758,
+            "left": 822,
+            "width": 25,
             "height": 20,
-            "text": "www.window.state.tx.us/taxi",
+            "text": "to",
             "class": "text"
         },
         {
-            "top": 2137,
-            "left": 81,
-            "width": 33,
-            "height": 18,
-            "text": "Page",
+            "top": 1755,
+            "left": 856,
+            "width": 40,
+            "height": 23,
+            "text": "the",
             "class": "text"
         },
         {
-            "top": 2137,
-            "left": 121,
-            "width": 8,
-            "height": 13,
-            "text": "2",
+            "top": 1756,
+            "left": 907,
+            "width": 108,
+            "height": 22,
+            "text": "Amount",
             "class": "text"
         },
         {
-            "top": 2141,
-            "left": 136,
-            "width": 5,
-            "height": 5,
-            "text": "+",
+            "top": 1755,
+            "left": 1025,
+            "width": 150,
+            "height": 23,
+            "text": "Reaffirmed",
             "class": "text"
         },
         {
-            "top": 2137,
-            "left": 149,
-            "width": 53,
+            "top": 1755,
+            "left": 1185,
+            "width": 19,
+            "height": 23,
+            "text": "is",
+            "class": "text"
+        },
+        {
+            "top": 1756,
+            "left": 1366,
+            "width": 31,
+            "height": 22,
+            "text": "%.",
+            "class": "text"
+        },
+        {
+            "top": 1833,
+            "left": 200,
+            "width": 45,
+            "height": 23,
+            "text": "See",
+            "class": "text"
+        },
+        {
+            "top": 1833,
+            "left": 256,
+            "width": 126,
+            "height": 30,
+            "text": "definition",
+            "class": "text"
+        },
+        {
+            "top": 1833,
+            "left": 392,
+            "width": 32,
+            "height": 30,
+            "text": "of",
+            "class": "text"
+        },
+        {
+            "top": 1833,
+            "left": 431,
+            "width": 109,
+            "height": 23,
+            "text": "“Annual",
+            "class": "text"
+        },
+        {
+            "top": 1834,
+            "left": 546,
+            "width": 154,
+            "height": 29,
+            "text": "Percentage",
+            "class": "text"
+        },
+        {
+            "top": 1833,
+            "left": 707,
+            "width": 80,
+            "height": 23,
+            "text": "Rate”",
+            "class": "text"
+        },
+        {
+            "top": 1836,
+            "left": 798,
+            "width": 24,
+            "height": 20,
+            "text": "in",
+            "class": "text"
+        },
+        {
+            "top": 1834,
+            "left": 829,
+            "width": 62,
+            "height": 22,
+            "text": "Part",
+            "class": "text"
+        },
+        {
+            "top": 1834,
+            "left": 902,
+            "width": 21,
+            "height": 26,
+            "text": "V,",
+            "class": "text"
+        },
+        {
+            "top": 1833,
+            "left": 936,
+            "width": 97,
+            "height": 23,
+            "text": "Section",
+            "class": "text"
+        },
+        {
+            "top": 1833,
+            "left": 1043,
+            "width": 21,
+            "height": 23,
+            "text": "C",
+            "class": "text"
+        },
+        {
+            "top": 1833,
+            "left": 1075,
+            "width": 82,
+            "height": 23,
+            "text": "below.",
+            "class": "text"
+        },
+        {
+            "top": 1910,
+            "left": 201,
+            "width": 56,
+            "height": 23,
+            "text": "This",
+            "class": "text"
+        },
+        {
+            "top": 1910,
+            "left": 269,
+            "width": 19,
+            "height": 23,
+            "text": "is",
+            "class": "text"
+        },
+        {
+            "top": 1918,
+            "left": 299,
+            "width": 14,
             "height": 15,
-            "text": "50-135",
+            "text": "a",
             "class": "text"
         },
         {
-            "top": 2141,
-            "left": 210,
-            "width": 5,
-            "height": 5,
-            "text": "*",
+            "top": 1913,
+            "left": 323,
+            "width": 72,
+            "height": 26,
+            "text": "(check",
             "class": "text"
         },
         {
-            "top": 2136,
-            "left": 224,
-            "width": 69,
-            "height": 16,
-            "text": "12-13/12",
+            "top": 1913,
+            "left": 402,
+            "width": 46,
+            "height": 26,
+            "text": "one)",
+            "class": "text"
+        },
+        {
+            "top": 1890,
+            "left": 457,
+            "width": 54,
+            "height": 58,
+            "text": "[|",
+            "class": "text"
+        },
+        {
+            "top": 1910,
+            "left": 524,
+            "width": 75,
+            "height": 23,
+            "text": "Fixed",
+            "class": "text"
+        },
+        {
+            "top": 1913,
+            "left": 608,
+            "width": 48,
+            "height": 20,
+            "text": "rate",
+            "class": "text"
+        },
+        {
+            "top": 1891,
+            "left": 879,
+            "width": 54,
+            "height": 59,
+            "text": "[|",
+            "class": "text"
+        },
+        {
+            "top": 1910,
+            "left": 943,
+            "width": 112,
+            "height": 23,
+            "text": "Variable",
+            "class": "text"
+        },
+        {
+            "top": 1913,
+            "left": 1065,
+            "width": 49,
+            "height": 20,
+            "text": "rate",
+            "class": "text"
+        },
+        {
+            "top": 1988,
+            "left": 101,
+            "width": 24,
+            "height": 23,
+            "text": "If",
+            "class": "text"
+        },
+        {
+            "top": 1988,
+            "left": 130,
+            "width": 40,
+            "height": 23,
+            "text": "the",
+            "class": "text"
+        },
+        {
+            "top": 1988,
+            "left": 181,
+            "width": 56,
+            "height": 23,
+            "text": "loan",
+            "class": "text"
+        },
+        {
+            "top": 1988,
+            "left": 246,
+            "width": 42,
+            "height": 23,
+            "text": "has",
+            "class": "text"
+        },
+        {
+            "top": 1984,
+            "left": 293,
+            "width": 13,
+            "height": 38,
+            "text": "a",
+            "class": "text"
+        },
+        {
+            "top": 1988,
+            "left": 322,
+            "width": 105,
+            "height": 23,
+            "text": "variable",
+            "class": "text"
+        },
+        {
+            "top": 1991,
+            "left": 438,
+            "width": 56,
+            "height": 25,
+            "text": "rate,",
+            "class": "text"
+        },
+        {
+            "top": 1988,
+            "left": 503,
+            "width": 40,
+            "height": 23,
+            "text": "the",
+            "class": "text"
+        },
+        {
+            "top": 1988,
+            "left": 554,
+            "width": 77,
+            "height": 23,
+            "text": "future",
+            "class": "text"
+        },
+        {
+            "top": 1988,
+            "left": 643,
+            "width": 97,
+            "height": 23,
+            "text": "interest",
+            "class": "text"
+        },
+        {
+            "top": 1991,
+            "left": 748,
+            "width": 49,
+            "height": 20,
+            "text": "rate",
+            "class": "text"
+        },
+        {
+            "top": 1996,
+            "left": 807,
+            "width": 56,
+            "height": 22,
+            "text": "may",
+            "class": "text"
+        },
+        {
+            "top": 1988,
+            "left": 873,
+            "width": 107,
+            "height": 23,
+            "text": "increase",
+            "class": "text"
+        },
+        {
+            "top": 1996,
+            "left": 991,
+            "width": 27,
+            "height": 15,
+            "text": "or",
+            "class": "text"
+        },
+        {
+            "top": 1988,
+            "left": 1027,
+            "width": 112,
+            "height": 23,
+            "text": "decrease",
+            "class": "text"
+        },
+        {
+            "top": 1988,
+            "left": 1150,
+            "width": 63,
+            "height": 23,
+            "text": "from",
+            "class": "text"
+        },
+        {
+            "top": 1988,
+            "left": 1221,
+            "width": 40,
+            "height": 23,
+            "text": "the",
+            "class": "text"
+        },
+        {
+            "top": 1988,
+            "left": 1273,
+            "width": 96,
+            "height": 23,
+            "text": "Annual",
+            "class": "text"
+        },
+        {
+            "top": 1989,
+            "left": 1379,
+            "width": 144,
+            "height": 29,
+            "text": "Percentage",
+            "class": "text"
+        },
+        {
+            "top": 1989,
+            "left": 1534,
+            "width": 59,
+            "height": 22,
+            "text": "Rate",
+            "class": "text"
+        },
+        {
+            "top": 2027,
+            "left": 101,
+            "width": 123,
+            "height": 23,
+            "text": "disclosed",
+            "class": "text"
+        },
+        {
+            "top": 2027,
+            "left": 233,
+            "width": 62,
+            "height": 23,
+            "text": "here.",
             "class": "text"
         }
     ],
     [
         {
-            "top": 115,
-            "left": 115,
-            "width": 119,
+            "top": 171,
+            "left": 142,
+            "width": 56,
             "height": 14,
-            "text": "Pemtetae)",
+            "text": "Debtor",
             "class": "text"
         },
         {
-            "top": 98,
-            "left": 289,
-            "width": 130,
-            "height": 37,
-            "text": "Military",
+            "top": 171,
+            "left": 206,
+            "width": 5,
+            "height": 14,
+            "text": "1",
             "class": "text"
         },
         {
-            "top": 100,
-            "left": 433,
-            "width": 134,
-            "height": 36,
-            "text": "Property",
-            "class": "text"
-        },
-        {
-            "top": 100,
-            "left": 582,
-            "width": 126,
-            "height": 26,
-            "text": "Owner's",
-            "class": "text"
-        },
-        {
-            "top": 96,
-            "left": 722,
-            "width": 122,
-            "height": 35,
-            "text": "Request",
-            "class": "text"
-        },
-        {
-            "top": 98,
-            "left": 860,
+            "top": 171,
+            "left": 979,
             "width": 43,
+            "height": 14,
+            "text": "Case",
+            "class": "text"
+        },
+        {
+            "top": 171,
+            "left": 1030,
+            "width": 64,
+            "height": 14,
+            "text": "number",
+            "class": "text"
+        },
+        {
+            "top": 167,
+            "left": 1093,
+            "width": 20,
             "height": 25,
-            "text": "for",
+            "text": "(it",
             "class": "text"
         },
         {
-            "top": 97,
-            "left": 917,
-            "width": 107,
-            "height": 28,
-            "text": "Waiver",
-            "class": "text"
-        },
-        {
-            "top": 96,
-            "left": 1039,
-            "width": 30,
-            "height": 29,
-            "text": "of",
-            "class": "text"
-        },
-        {
-            "top": 99,
-            "left": 1070,
-            "width": 185,
-            "height": 32,
-            "text": "Delinquent",
-            "class": "text"
-        },
-        {
-            "top": 96,
-            "left": 1273,
-            "width": 114,
-            "height": 39,
-            "text": "Penalty",
-            "class": "text"
-        },
-        {
-            "top": 100,
-            "left": 1402,
-            "width": 53,
-            "height": 26,
-            "text": "and",
-            "class": "text"
-        },
-        {
-            "top": 101,
-            "left": 1472,
-            "width": 120,
-            "height": 25,
-            "text": "Interest",
-            "class": "text"
-        },
-        {
-            "top": 200,
-            "left": 93,
-            "width": 63,
-            "height": 18,
-            "text": "STEP",
-            "class": "text"
-        },
-        {
-            "top": 200,
-            "left": 165,
-            "width": 19,
-            "height": 18,
-            "text": "3:",
-            "class": "text"
-        },
-        {
-            "top": 200,
-            "left": 194,
-            "width": 85,
-            "height": 23,
-            "text": "Military",
-            "class": "text"
-        },
-        {
-            "top": 200,
-            "left": 289,
-            "width": 53,
-            "height": 23,
-            "text": "Duty",
-            "class": "text"
-        },
-        {
-            "top": 200,
-            "left": 352,
-            "width": 74,
-            "height": 18,
-            "text": "Return",
-            "class": "text"
-        },
-        {
-            "top": 293,
-            "left": 82,
-            "width": 67,
-            "height": 16,
-            "text": "Branch",
-            "class": "text"
-        },
-        {
-            "top": 293,
-            "left": 158,
-            "width": 17,
-            "height": 16,
-            "text": "of",
-            "class": "text"
-        },
-        {
-            "top": 293,
-            "left": 183,
-            "width": 78,
-            "height": 16,
-            "text": "Service:",
-            "class": "text"
-        },
-        {
-            "top": 357,
-            "left": 82,
-            "width": 65,
-            "height": 17,
-            "text": "Please",
-            "class": "text"
-        },
-        {
-            "top": 357,
-            "left": 156,
-            "width": 57,
-            "height": 17,
-            "text": "attach",
-            "class": "text"
-        },
-        {
-            "top": 361,
-            "left": 222,
-            "width": 11,
-            "height": 12,
-            "text": "a",
-            "class": "text"
-        },
-        {
-            "top": 361,
-            "left": 241,
-            "width": 45,
-            "height": 17,
-            "text": "copy",
-            "class": "text"
-        },
-        {
-            "top": 357,
-            "left": 294,
-            "width": 18,
-            "height": 16,
-            "text": "of",
-            "class": "text"
-        },
-        {
-            "top": 357,
-            "left": 320,
-            "width": 55,
-            "height": 17,
-            "text": "active",
-            "class": "text"
-        },
-        {
-            "top": 357,
-            "left": 384,
-            "width": 41,
-            "height": 21,
-            "text": "duty",
-            "class": "text"
-        },
-        {
-            "top": 357,
-            "left": 433,
-            "width": 69,
-            "height": 16,
-            "text": "service",
-            "class": "text"
-        },
-        {
-            "top": 357,
-            "left": 511,
-            "width": 35,
-            "height": 17,
-            "text": "and",
-            "class": "text"
-        },
-        {
-            "top": 357,
-            "left": 554,
-            "width": 75,
-            "height": 17,
-            "text": "transfer",
-            "class": "text"
-        },
-        {
-            "top": 357,
-            "left": 636,
-            "width": 53,
-            "height": 16,
-            "text": "order.",
-            "class": "text"
-        },
-        {
-            "top": 422,
-            "left": 82,
-            "width": 65,
-            "height": 17,
-            "text": "Please",
-            "class": "text"
-        },
-        {
-            "top": 422,
-            "left": 156,
-            "width": 69,
-            "height": 21,
-            "text": "provide",
-            "class": "text"
-        },
-        {
-            "top": 422,
-            "left": 234,
-            "width": 29,
-            "height": 17,
-            "text": "the",
-            "class": "text"
-        },
-        {
-            "top": 422,
-            "left": 271,
-            "width": 84,
-            "height": 22,
-            "text": "following",
-            "class": "text"
-        },
-        {
-            "top": 422,
-            "left": 365,
-            "width": 97,
-            "height": 21,
-            "text": "applicable",
-            "class": "text"
-        },
-        {
-            "top": 422,
-            "left": 471,
-            "width": 57,
-            "height": 17,
-            "text": "dates.",
-            "class": "text"
-        },
-        {
-            "top": 461,
-            "left": 188,
-            "width": 96,
-            "height": 22,
-            "text": "Discharge",
-            "class": "text"
-        },
-        {
-            "top": 461,
-            "left": 292,
-            "width": 42,
-            "height": 17,
-            "text": "from",
-            "class": "text"
-        },
-        {
-            "top": 461,
-            "left": 344,
-            "width": 55,
-            "height": 17,
-            "text": "active",
-            "class": "text"
-        },
-        {
-            "top": 461,
-            "left": 408,
-            "width": 70,
-            "height": 22,
-            "text": "military",
-            "class": "text"
-        },
-        {
-            "top": 461,
-            "left": 486,
-            "width": 74,
-            "height": 17,
-            "text": "service:",
-            "class": "text"
-        },
-        {
-            "top": 457,
-            "left": 687,
-            "width": 28,
-            "height": 32,
-            "text": "wa",
-            "class": "text"
-        },
-        {
-            "top": 461,
-            "left": 761,
-            "width": 11,
-            "height": 19,
-            "text": "A",
-            "class": "text"
-        },
-        {
-            "top": 457,
-            "left": 815,
+            "top": 175,
+            "left": 1117,
             "width": 43,
-            "height": 32,
-            "text": "fh",
-            "class": "text"
-        },
-        {
-            "top": 479,
-            "left": 879,
-            "width": 47,
-            "height": 1,
-            "text": "os",
-            "class": "text"
-        },
-        {
-            "top": 513,
-            "left": 188,
-            "width": 63,
-            "height": 17,
-            "text": "Return",
-            "class": "text"
-        },
-        {
-            "top": 514,
-            "left": 259,
-            "width": 18,
-            "height": 16,
-            "text": "to",
-            "class": "text"
-        },
-        {
-            "top": 513,
-            "left": 284,
-            "width": 30,
-            "height": 17,
-            "text": "the",
-            "class": "text"
-        },
-        {
-            "top": 514,
-            "left": 323,
-            "width": 50,
-            "height": 16,
-            "text": "state:",
-            "class": "text"
-        },
-        {
-            "top": 513,
-            "left": 691,
-            "width": 235,
-            "height": 19,
-            "text": "ae",
-            "class": "text"
-        },
-        {
-            "top": 509,
-            "left": 801,
-            "width": 46,
-            "height": 32,
-            "text": "er:",
-            "class": "text"
-        },
-        {
-            "top": 564,
-            "left": 188,
-            "width": 63,
-            "height": 17,
-            "text": "Return",
-            "class": "text"
-        },
-        {
-            "top": 565,
-            "left": 259,
-            "width": 18,
-            "height": 16,
-            "text": "to",
-            "class": "text"
-        },
-        {
-            "top": 564,
-            "left": 285,
-            "width": 100,
-            "height": 17,
-            "text": "non-active",
-            "class": "text"
-        },
-        {
-            "top": 564,
-            "left": 394,
-            "width": 41,
-            "height": 22,
-            "text": "duty",
-            "class": "text"
-        },
-        {
-            "top": 565,
-            "left": 443,
-            "width": 57,
-            "height": 16,
-            "text": "status",
-            "class": "text"
-        },
-        {
-            "top": 564,
-            "left": 509,
-            "width": 53,
-            "height": 17,
-            "text": "inthe",
-            "class": "text"
-        },
-        {
-            "top": 568,
-            "left": 572,
-            "width": 87,
             "height": 13,
-            "text": "reserves:",
+            "text": "known)",
             "class": "text"
         },
         {
-            "top": 564,
-            "left": 731,
-            "width": 41,
-            "height": 20,
-            "text": "J",
+            "top": 182,
+            "left": 279,
+            "width": 26,
+            "height": 30,
+            "text": "First",
             "class": "text"
         },
         {
-            "top": 564,
-            "left": 819,
-            "width": 34,
-            "height": 19,
-            "text": "J",
-            "class": "text"
-        },
-        {
-            "top": 616,
-            "left": 186,
-            "width": 40,
-            "height": 17,
-            "text": "War",
-            "class": "text"
-        },
-        {
-            "top": 620,
-            "left": 233,
-            "width": 20,
-            "height": 13,
-            "text": "or",
-            "class": "text"
-        },
-        {
-            "top": 616,
-            "left": 260,
-            "width": 75,
-            "height": 17,
-            "text": "national",
-            "class": "text"
-        },
-        {
-            "top": 620,
-            "left": 344,
-            "width": 109,
-            "height": 18,
-            "text": "emergency",
-            "class": "text"
-        },
-        {
-            "top": 616,
-            "left": 460,
-            "width": 35,
-            "height": 17,
-            "text": "end",
-            "class": "text"
-        },
-        {
-            "top": 616,
-            "left": 504,
-            "width": 46,
-            "height": 17,
-            "text": "date:",
-            "class": "text"
-        },
-        {
-            "top": 616,
-            "left": 691,
-            "width": 235,
-            "height": 19,
-            "text": "SS",
-            "class": "text"
-        },
-        {
-            "top": 674,
-            "left": 93,
-            "width": 63,
-            "height": 18,
-            "text": "STEP",
-            "class": "text"
-        },
-        {
-            "top": 674,
-            "left": 164,
-            "width": 20,
-            "height": 18,
-            "text": "4:",
-            "class": "text"
-        },
-        {
-            "top": 674,
-            "left": 194,
-            "width": 142,
-            "height": 18,
-            "text": "Certification",
-            "class": "text"
-        },
-        {
-            "top": 674,
-            "left": 347,
-            "width": 42,
-            "height": 18,
-            "text": "and",
-            "class": "text"
-        },
-        {
-            "top": 674,
-            "left": 398,
-            "width": 112,
-            "height": 23,
-            "text": "Signature",
-            "class": "text"
-        },
-        {
-            "top": 730,
-            "left": 82,
-            "width": 24,
-            "height": 22,
-            "text": "By",
-            "class": "text"
-        },
-        {
-            "top": 730,
-            "left": 113,
-            "width": 68,
-            "height": 22,
-            "text": "signing",
-            "class": "text"
-        },
-        {
-            "top": 730,
-            "left": 189,
-            "width": 33,
-            "height": 17,
-            "text": "this",
-            "class": "text"
-        },
-        {
-            "top": 731,
-            "left": 232,
-            "width": 74,
-            "height": 21,
-            "text": "request,",
-            "class": "text"
-        },
-        {
-            "top": 734,
+            "top": 192,
             "left": 315,
-            "width": 34,
-            "height": 18,
-            "text": "you",
+            "width": 30,
+            "height": 10,
+            "text": "Name",
             "class": "text"
         },
         {
-            "top": 730,
-            "left": 358,
-            "width": 58,
-            "height": 22,
-            "text": "certify",
+            "top": 192,
+            "left": 416,
+            "width": 40,
+            "height": 10,
+            "text": "Midale",
             "class": "text"
         },
         {
-            "top": 730,
-            "left": 423,
+            "top": 192,
+            "left": 464,
+            "width": 32,
+            "height": 10,
+            "text": "Name",
+            "class": "text"
+        },
+        {
+            "top": 182,
+            "left": 600,
             "width": 29,
-            "height": 17,
-            "text": "the",
+            "height": 30,
+            "text": "Last",
             "class": "text"
         },
         {
-            "top": 730,
-            "left": 461,
-            "width": 107,
-            "height": 17,
-            "text": "information",
+            "top": 192,
+            "left": 637,
+            "width": 32,
+            "height": 10,
+            "text": "Name",
             "class": "text"
         },
         {
-            "top": 730,
-            "left": 576,
-            "width": 15,
-            "height": 17,
-            "text": "in",
+            "top": 424,
+            "left": 165,
+            "width": 42,
+            "height": 18,
+            "text": "The",
             "class": "text"
         },
         {
-            "top": 730,
-            "left": 599,
-            "width": 33,
-            "height": 17,
+            "top": 429,
+            "left": 217,
+            "width": 73,
+            "height": 18,
+            "text": "person",
+            "class": "text"
+        },
+        {
+            "top": 424,
+            "left": 299,
+            "width": 118,
+            "height": 23,
+            "text": "completing",
+            "class": "text"
+        },
+        {
+            "top": 424,
+            "left": 426,
+            "width": 39,
+            "height": 18,
             "text": "this",
             "class": "text"
         },
         {
-            "top": 730,
-            "left": 641,
-            "width": 96,
-            "height": 17,
-            "text": "document",
-            "class": "text"
-        },
-        {
-            "top": 730,
-            "left": 744,
-            "width": 35,
-            "height": 17,
-            "text": "and",
-            "class": "text"
-        },
-        {
-            "top": 734,
-            "left": 788,
-            "width": 34,
+            "top": 424,
+            "left": 474,
+            "width": 68,
             "height": 18,
-            "text": "any",
+            "text": "Notice",
             "class": "text"
         },
         {
-            "top": 730,
-            "left": 830,
-            "width": 106,
+            "top": 425,
+            "left": 552,
+            "width": 52,
             "height": 17,
-            "text": "information",
+            "text": "must",
             "class": "text"
         },
         {
-            "top": 730,
-            "left": 945,
-            "width": 81,
-            "height": 17,
-            "text": "attached",
+            "top": 424,
+            "left": 612,
+            "width": 43,
+            "height": 23,
+            "text": "sign",
             "class": "text"
         },
         {
-            "top": 730,
-            "left": 1035,
-            "width": 14,
-            "height": 17,
-            "text": "is",
+            "top": 424,
+            "left": 665,
+            "width": 16,
+            "height": 18,
+            "text": "it.",
             "class": "text"
         },
         {
-            "top": 731,
-            "left": 1056,
-            "width": 37,
-            "height": 16,
-            "text": "true",
+            "top": 424,
+            "left": 692,
+            "width": 47,
+            "height": 23,
+            "text": "Sign",
             "class": "text"
         },
         {
-            "top": 730,
-            "left": 1102,
-            "width": 35,
-            "height": 17,
+            "top": 424,
+            "left": 748,
+            "width": 39,
+            "height": 18,
             "text": "and",
             "class": "text"
         },
         {
-            "top": 731,
-            "left": 1146,
-            "width": 65,
-            "height": 16,
-            "text": "correct",
+            "top": 424,
+            "left": 798,
+            "width": 47,
+            "height": 23,
+            "text": "print",
             "class": "text"
         },
         {
-            "top": 731,
-            "left": 1218,
-            "width": 18,
-            "height": 16,
-            "text": "to",
-            "class": "text"
-        },
-        {
-            "top": 730,
-            "left": 1243,
-            "width": 29,
-            "height": 17,
-            "text": "the",
-            "class": "text"
-        },
-        {
-            "top": 730,
-            "left": 1281,
-            "width": 40,
-            "height": 17,
-            "text": "best",
-            "class": "text"
-        },
-        {
-            "top": 730,
-            "left": 1329,
-            "width": 17,
-            "height": 17,
-            "text": "of",
-            "class": "text"
-        },
-        {
-            "top": 734,
-            "left": 1353,
-            "width": 43,
+            "top": 429,
+            "left": 852,
+            "width": 48,
             "height": 18,
             "text": "your",
             "class": "text"
         },
         {
-            "top": 730,
-            "left": 1403,
-            "width": 103,
-            "height": 22,
-            "text": "knowledge",
+            "top": 429,
+            "left": 909,
+            "width": 60,
+            "height": 13,
+            "text": "name",
             "class": "text"
         },
         {
-            "top": 730,
-            "left": 1515,
-            "width": 34,
-            "height": 17,
+            "top": 424,
+            "left": 978,
+            "width": 38,
+            "height": 18,
             "text": "and",
             "class": "text"
         },
         {
-            "top": 730,
-            "left": 1558,
-            "width": 55,
-            "height": 17,
-            "text": "belief.",
+            "top": 429,
+            "left": 1027,
+            "width": 47,
+            "height": 18,
+            "text": "your",
             "class": "text"
         },
         {
-            "top": 789,
-            "left": 81,
-            "width": 96,
-            "height": 57,
-            "text": "printy,",
+            "top": 424,
+            "left": 1081,
+            "width": 43,
+            "height": 22,
+            "text": "title,",
             "class": "text"
         },
         {
-            "top": 826,
-            "left": 99,
-            "width": 46,
-            "height": 17,
-            "text": "ere”",
-            "class": "text"
-        },
-        {
-            "top": 845,
-            "left": 189,
-            "width": 13,
-            "height": 2,
-            "text": "—",
-            "class": "text"
-        },
-        {
-            "top": 854,
-            "left": 190,
-            "width": 37,
-            "height": 15,
-            "text": "Print",
-            "class": "text"
-        },
-        {
-            "top": 854,
-            "left": 234,
-            "width": 51,
-            "height": 15,
-            "text": "Name",
-            "class": "text"
-        },
-        {
-            "top": 904,
-            "left": 80,
-            "width": 60,
-            "height": 27,
-            "text": "sign",
-            "class": "text"
-        },
-        {
-            "top": 927,
-            "left": 81,
-            "width": 64,
-            "height": 36,
-            "text": "here",
-            "class": "text"
-        },
-        {
-            "top": 955,
-            "left": 1598,
+            "top": 424,
+            "left": 1136,
             "width": 10,
-            "height": 1,
-            "text": "7",
-            "class": "text"
-        },
-        {
-            "top": 965,
-            "left": 188,
-            "width": 92,
-            "height": 15,
-            "text": "Authorized",
-            "class": "text"
-        },
-        {
-            "top": 965,
-            "left": 288,
-            "width": 81,
-            "height": 19,
-            "text": "Signature",
-            "class": "text"
-        },
-        {
-            "top": 965,
-            "left": 1193,
-            "width": 37,
-            "height": 15,
-            "text": "Date",
-            "class": "text"
-        },
-        {
-            "top": 1014,
-            "left": 82,
-            "width": 11,
-            "height": 17,
-            "text": "If",
-            "class": "text"
-        },
-        {
-            "top": 1018,
-            "left": 100,
-            "width": 38,
             "height": 18,
-            "text": "you",
+            "text": "if",
             "class": "text"
         },
         {
-            "top": 1014,
-            "left": 147,
-            "width": 55,
-            "height": 17,
-            "text": "make",
-            "class": "text"
-        },
-        {
-            "top": 1018,
-            "left": 210,
-            "width": 11,
-            "height": 13,
-            "text": "a",
-            "class": "text"
-        },
-        {
-            "top": 1014,
-            "left": 228,
-            "width": 51,
-            "height": 17,
-            "text": "false",
-            "class": "text"
-        },
-        {
-            "top": 1015,
-            "left": 287,
-            "width": 103,
-            "height": 16,
-            "text": "statement",
-            "class": "text"
-        },
-        {
-            "top": 1018,
-            "left": 398,
-            "width": 25,
-            "height": 13,
-            "text": "on",
-            "class": "text"
-        },
-        {
-            "top": 1014,
-            "left": 431,
-            "width": 38,
-            "height": 17,
-            "text": "this",
-            "class": "text"
-        },
-        {
-            "top": 1014,
-            "left": 479,
-            "width": 121,
-            "height": 22,
-            "text": "application,",
-            "class": "text"
-        },
-        {
-            "top": 1018,
-            "left": 607,
-            "width": 37,
+            "top": 429,
+            "left": 1154,
+            "width": 43,
             "height": 18,
-            "text": "you",
+            "text": "any,",
             "class": "text"
         },
         {
-            "top": 1014,
-            "left": 654,
-            "width": 56,
+            "top": 424,
+            "left": 1208,
+            "width": 39,
+            "height": 18,
+            "text": "and",
+            "class": "text"
+        },
+        {
+            "top": 425,
+            "left": 1257,
+            "width": 52,
             "height": 17,
-            "text": "could",
-            "class": "text"
-        },
-        {
-            "top": 1014,
-            "left": 720,
-            "width": 24,
-            "height": 17,
-            "text": "be",
-            "class": "text"
-        },
-        {
-            "top": 1014,
-            "left": 752,
-            "width": 59,
-            "height": 17,
-            "text": "found",
-            "class": "text"
-        },
-        {
-            "top": 1014,
-            "left": 821,
-            "width": 58,
-            "height": 22,
-            "text": "guilty",
-            "class": "text"
-        },
-        {
-            "top": 1014,
-            "left": 887,
-            "width": 19,
-            "height": 17,
-            "text": "of",
-            "class": "text"
-        },
-        {
-            "top": 1018,
-            "left": 920,
-            "width": 5,
-            "height": 13,
-            "text": "a",
-            "class": "text"
-        },
-        {
-            "top": 1014,
-            "left": 934,
-            "width": 57,
-            "height": 17,
-            "text": "Class",
-            "class": "text"
-        },
-        {
-            "top": 1014,
-            "left": 999,
-            "width": 15,
-            "height": 17,
-            "text": "A",
-            "class": "text"
-        },
-        {
-            "top": 1014,
-            "left": 1021,
-            "width": 143,
-            "height": 17,
-            "text": "misdemeanor",
-            "class": "text"
-        },
-        {
-            "top": 1018,
-            "left": 1173,
-            "width": 20,
-            "height": 13,
-            "text": "or",
-            "class": "text"
-        },
-        {
-            "top": 1010,
-            "left": 1195,
-            "width": 11,
-            "height": 30,
-            "text": "a",
-            "class": "text"
-        },
-        {
-            "top": 1015,
-            "left": 1221,
-            "width": 50,
-            "height": 16,
             "text": "state",
             "class": "text"
         },
         {
-            "top": 1014,
-            "left": 1279,
+            "top": 429,
+            "left": 1319,
+            "width": 47,
+            "height": 18,
+            "text": "your",
+            "class": "text"
+        },
+        {
+            "top": 424,
+            "left": 1374,
+            "width": 87,
+            "height": 18,
+            "text": "address",
+            "class": "text"
+        },
+        {
+            "top": 424,
+            "left": 1470,
+            "width": 38,
+            "height": 18,
+            "text": "and",
+            "class": "text"
+        },
+        {
+            "top": 458,
+            "left": 165,
+            "width": 109,
+            "height": 23,
+            "text": "telephone",
+            "class": "text"
+        },
+        {
+            "top": 458,
+            "left": 284,
+            "width": 87,
+            "height": 18,
+            "text": "number.",
+            "class": "text"
+        },
+        {
+            "top": 503,
+            "left": 167,
+            "width": 61,
+            "height": 16,
+            "text": "Check",
+            "class": "text"
+        },
+        {
+            "top": 503,
+            "left": 236,
             "width": 29,
-            "height": 22,
-            "text": "jail",
+            "height": 16,
+            "text": "the",
             "class": "text"
         },
         {
-            "top": 1014,
-            "left": 1316,
-            "width": 64,
-            "height": 22,
-            "text": "felony",
+            "top": 503,
+            "left": 273,
+            "width": 110,
+            "height": 20,
+            "text": "appropriate",
             "class": "text"
         },
         {
-            "top": 1014,
-            "left": 1390,
-            "width": 59,
+            "top": 503,
+            "left": 391,
+            "width": 39,
+            "height": 16,
+            "text": "box.",
+            "class": "text"
+        },
+        {
+            "top": 549,
+            "left": 168,
+            "width": 22,
+            "height": 22,
+            "text": "QO)",
+            "class": "text"
+        },
+        {
+            "top": 554,
+            "left": 205,
+            "width": 2,
             "height": 17,
+            "text": "|",
+            "class": "text"
+        },
+        {
+            "top": 558,
+            "left": 217,
+            "width": 30,
+            "height": 13,
+            "text": "am",
+            "class": "text"
+        },
+        {
+            "top": 554,
+            "left": 255,
+            "width": 32,
+            "height": 17,
+            "text": "the",
+            "class": "text"
+        },
+        {
+            "top": 554,
+            "left": 296,
+            "width": 81,
+            "height": 17,
+            "text": "creditor.",
+            "class": "text"
+        },
+        {
+            "top": 593,
+            "left": 168,
+            "width": 22,
+            "height": 22,
+            "text": "O)",
+            "class": "text"
+        },
+        {
+            "top": 598,
+            "left": 205,
+            "width": 2,
+            "height": 17,
+            "text": "|",
+            "class": "text"
+        },
+        {
+            "top": 602,
+            "left": 217,
+            "width": 30,
+            "height": 13,
+            "text": "am",
+            "class": "text"
+        },
+        {
+            "top": 598,
+            "left": 255,
+            "width": 32,
+            "height": 17,
+            "text": "the",
+            "class": "text"
+        },
+        {
+            "top": 598,
+            "left": 296,
+            "width": 94,
+            "height": 17,
+            "text": "creditor's",
+            "class": "text"
+        },
+        {
+            "top": 598,
+            "left": 398,
+            "width": 108,
+            "height": 17,
+            "text": "authorized",
+            "class": "text"
+        },
+        {
+            "top": 598,
+            "left": 514,
+            "width": 63,
+            "height": 22,
+            "text": "agent.",
+            "class": "text"
+        },
+        {
+            "top": 687,
+            "left": 167,
+            "width": 3,
+            "height": 18,
+            "text": "|",
+            "class": "text"
+        },
+        {
+            "top": 687,
+            "left": 180,
+            "width": 86,
+            "height": 18,
+            "text": "declare",
+            "class": "text"
+        },
+        {
+            "top": 687,
+            "left": 276,
+            "width": 67,
+            "height": 18,
             "text": "under",
             "class": "text"
         },
         {
-            "top": 1014,
-            "left": 1458,
-            "width": 55,
-            "height": 17,
-            "text": "Penal",
+            "top": 687,
+            "left": 352,
+            "width": 85,
+            "height": 23,
+            "text": "penalty",
             "class": "text"
         },
         {
-            "top": 1014,
-            "left": 1522,
-            "width": 55,
+            "top": 687,
+            "left": 445,
+            "width": 23,
+            "height": 18,
+            "text": "of",
+            "class": "text"
+        },
+        {
+            "top": 687,
+            "left": 476,
+            "width": 83,
+            "height": 23,
+            "text": "perjury",
+            "class": "text"
+        },
+        {
+            "top": 687,
+            "left": 566,
+            "width": 46,
+            "height": 18,
+            "text": "that",
+            "class": "text"
+        },
+        {
+            "top": 687,
+            "left": 619,
+            "width": 37,
+            "height": 18,
+            "text": "the",
+            "class": "text"
+        },
+        {
+            "top": 687,
+            "left": 666,
+            "width": 133,
+            "height": 18,
+            "text": "information",
+            "class": "text"
+        },
+        {
+            "top": 687,
+            "left": 810,
+            "width": 101,
+            "height": 23,
+            "text": "provided",
+            "class": "text"
+        },
+        {
+            "top": 687,
+            "left": 922,
+            "width": 18,
+            "height": 18,
+            "text": "in",
+            "class": "text"
+        },
+        {
+            "top": 687,
+            "left": 950,
+            "width": 43,
+            "height": 18,
+            "text": "this",
+            "class": "text"
+        },
+        {
+            "top": 687,
+            "left": 1002,
+            "width": 60,
+            "height": 18,
+            "text": "claim",
+            "class": "text"
+        },
+        {
+            "top": 687,
+            "left": 1074,
+            "width": 18,
+            "height": 18,
+            "text": "is",
+            "class": "text"
+        },
+        {
+            "top": 687,
+            "left": 1100,
+            "width": 46,
+            "height": 18,
+            "text": "true",
+            "class": "text"
+        },
+        {
+            "top": 687,
+            "left": 1155,
+            "width": 41,
+            "height": 18,
+            "text": "and",
+            "class": "text"
+        },
+        {
+            "top": 687,
+            "left": 1206,
+            "width": 84,
+            "height": 18,
+            "text": "correct",
+            "class": "text"
+        },
+        {
+            "top": 687,
+            "left": 1297,
+            "width": 22,
+            "height": 18,
+            "text": "to",
+            "class": "text"
+        },
+        {
+            "top": 687,
+            "left": 1327,
+            "width": 37,
+            "height": 18,
+            "text": "the",
+            "class": "text"
+        },
+        {
+            "top": 687,
+            "left": 1374,
+            "width": 49,
+            "height": 18,
+            "text": "best",
+            "class": "text"
+        },
+        {
+            "top": 716,
+            "left": 166,
+            "width": 23,
+            "height": 18,
+            "text": "of",
+            "class": "text"
+        },
+        {
+            "top": 720,
+            "left": 198,
+            "width": 33,
+            "height": 19,
+            "text": "my",
+            "class": "text"
+        },
+        {
+            "top": 716,
+            "left": 240,
+            "width": 133,
+            "height": 23,
+            "text": "knowledge,",
+            "class": "text"
+        },
+        {
+            "top": 716,
+            "left": 384,
+            "width": 140,
+            "height": 22,
+            "text": "information,",
+            "class": "text"
+        },
+        {
+            "top": 716,
+            "left": 534,
+            "width": 42,
+            "height": 18,
+            "text": "and",
+            "class": "text"
+        },
+        {
+            "top": 716,
+            "left": 587,
+            "width": 129,
+            "height": 18,
+            "text": "reasonable",
+            "class": "text"
+        },
+        {
+            "top": 716,
+            "left": 726,
+            "width": 68,
+            "height": 18,
+            "text": "belief.",
+            "class": "text"
+        },
+        {
+            "top": 822,
+            "left": 269,
+            "width": 43,
+            "height": 38,
+            "text": "x",
+            "class": "text"
+        },
+        {
+            "top": 858,
+            "left": 906,
+            "width": 12,
+            "height": 2,
+            "text": "_",
+            "class": "text"
+        },
+        {
+            "top": 838,
+            "left": 980,
+            "width": 38,
+            "height": 26,
+            "text": "Date",
+            "class": "text"
+        },
+        {
+            "top": 842,
+            "left": 1083,
+            "width": 6,
+            "height": 14,
+            "text": "/",
+            "class": "text"
+        },
+        {
+            "top": 842,
+            "left": 1143,
+            "width": 6,
+            "height": 14,
+            "text": "i",
+            "class": "text"
+        },
+        {
+            "top": 872,
+            "left": 304,
+            "width": 69,
+            "height": 15,
+            "text": "Signature",
+            "class": "text"
+        },
+        {
+            "top": 950,
+            "left": 157,
+            "width": 48,
+            "height": 36,
+            "text": "Print:",
+            "class": "text"
+        },
+        {
+            "top": 960,
+            "left": 979,
+            "width": 35,
+            "height": 15,
+            "text": "Title",
+            "class": "text"
+        },
+        {
+            "top": 979,
+            "left": 300,
+            "width": 35,
+            "height": 26,
+            "text": "First",
+            "class": "text"
+        },
+        {
+            "top": 983,
+            "left": 347,
+            "width": 36,
+            "height": 13,
+            "text": "Name",
+            "class": "text"
+        },
+        {
+            "top": 983,
+            "left": 541,
+            "width": 47,
+            "height": 13,
+            "text": "Middle",
+            "class": "text"
+        },
+        {
+            "top": 983,
+            "left": 595,
+            "width": 42,
+            "height": 13,
+            "text": "Name.",
+            "class": "text"
+        },
+        {
+            "top": 983,
+            "left": 729,
+            "width": 30,
+            "height": 13,
+            "text": "Last",
+            "class": "text"
+        },
+        {
+            "top": 983,
+            "left": 770,
+            "width": 37,
+            "height": 13,
+            "text": "Name",
+            "class": "text"
+        },
+        {
+            "top": 1062,
+            "left": 156,
+            "width": 94,
+            "height": 21,
+            "text": "Company",
+            "class": "text"
+        },
+        {
+            "top": 1148,
+            "left": 155,
+            "width": 81,
             "height": 17,
+            "text": "Address",
+            "class": "text"
+        },
+        {
+            "top": 1175,
+            "left": 304,
+            "width": 58,
+            "height": 13,
+            "text": "Number",
+            "class": "text"
+        },
+        {
+            "top": 1175,
+            "left": 496,
+            "width": 43,
+            "height": 13,
+            "text": "Street",
+            "class": "text"
+        },
+        {
+            "top": 1230,
+            "left": 304,
+            "width": 27,
+            "height": 16,
+            "text": "City",
+            "class": "text"
+        },
+        {
+            "top": 1230,
+            "left": 729,
+            "width": 36,
+            "height": 13,
+            "text": "State",
+            "class": "text"
+        },
+        {
+            "top": 1230,
+            "left": 853,
+            "width": 25,
+            "height": 13,
+            "text": "ZIP",
+            "class": "text"
+        },
+        {
+            "top": 1230,
+            "left": 884,
+            "width": 38,
+            "height": 13,
             "text": "Code",
             "class": "text"
         },
         {
-            "top": 1041,
-            "left": 81,
-            "width": 78,
-            "height": 17,
-            "text": "Section",
+            "top": 1319,
+            "left": 156,
+            "width": 65,
+            "height": 14,
+            "text": "Contact",
             "class": "text"
         },
         {
-            "top": 1041,
-            "left": 168,
-            "width": 54,
-            "height": 17,
-            "text": "37.10.",
-            "class": "text"
-        },
-        {
-            "top": 1840,
-            "left": 106,
-            "width": 60,
-            "height": 17,
-            "text": "Office",
-            "class": "text"
-        },
-        {
-            "top": 1840,
-            "left": 175,
-            "width": 39,
-            "height": 17,
-            "text": "Use",
-            "class": "text"
-        },
-        {
-            "top": 1840,
-            "left": 222,
-            "width": 53,
-            "height": 22,
-            "text": "Only:",
-            "class": "text"
-        },
-        {
-            "top": 1829,
-            "left": 360,
-            "width": 40,
-            "height": 40,
-            "text": "|",
-            "class": "text"
-        },
-        {
-            "top": 1840,
-            "left": 416,
-            "width": 68,
-            "height": 17,
-            "text": "Waiver",
-            "class": "text"
-        },
-        {
-            "top": 1840,
-            "left": 492,
-            "width": 89,
-            "height": 22,
-            "text": "approved",
-            "class": "text"
-        },
-        {
-            "top": 1841,
-            "left": 744,
-            "width": 162,
-            "height": 19,
-            "text": "fh",
-            "class": "text"
-        },
-        {
-            "top": 1829,
-            "left": 1060,
-            "width": 40,
-            "height": 40,
-            "text": "|",
-            "class": "text"
-        },
-        {
-            "top": 1840,
-            "left": 1116,
-            "width": 68,
-            "height": 17,
-            "text": "Waiver",
-            "class": "text"
-        },
-        {
-            "top": 1840,
-            "left": 1192,
-            "width": 64,
-            "height": 17,
-            "text": "denied",
-            "class": "text"
-        },
-        {
-            "top": 1858,
-            "left": 1281,
-            "width": 13,
-            "height": 2,
-            "text": "—",
-            "class": "text"
-        },
-        {
-            "top": 1841,
-            "left": 1296,
-            "width": 210,
-            "height": 19,
-            "text": "f/f",
-            "class": "text"
-        },
-        {
-            "top": 1889,
-            "left": 418,
-            "width": 82,
-            "height": 23,
-            "text": "Property",
-            "class": "text"
-        },
-        {
-            "top": 1893,
-            "left": 508,
-            "width": 59,
-            "height": 13,
-            "text": "owner",
-            "class": "text"
-        },
-        {
-            "top": 1889,
-            "left": 575,
-            "width": 74,
-            "height": 17,
-            "text": "notified:",
-            "class": "text"
-        },
-        {
-            "top": 1890,
-            "left": 744,
-            "width": 162,
-            "height": 19,
-            "text": "ft",
-            "class": "text"
-        },
-        {
-            "top": 1939,
-            "left": 417,
-            "width": 62,
-            "height": 22,
-            "text": "Taxing",
-            "class": "text"
-        },
-        {
-            "top": 1940,
-            "left": 488,
-            "width": 45,
-            "height": 16,
-            "text": "units",
-            "class": "text"
-        },
-        {
-            "top": 1939,
-            "left": 542,
-            "width": 74,
-            "height": 17,
-            "text": "notified:",
-            "class": "text"
-        },
-        {
-            "top": 1957,
-            "left": 744,
-            "width": 59,
-            "height": 2,
-            "text": "Se",
-            "class": "text"
-        },
-        {
-            "top": 1936,
-            "left": 835,
-            "width": 71,
-            "height": 30,
-            "text": "aaa",
-            "class": "text"
-        },
-        {
-            "top": 1988,
-            "left": 418,
-            "width": 104,
-            "height": 22,
-            "text": "Delinquent",
-            "class": "text"
-        },
-        {
-            "top": 1990,
-            "left": 529,
-            "width": 29,
-            "height": 15,
-            "text": "tax",
-            "class": "text"
-        },
-        {
-            "top": 1989,
-            "left": 566,
-            "width": 78,
-            "height": 22,
-            "text": "attorney",
-            "class": "text"
-        },
-        {
-            "top": 1988,
-            "left": 652,
-            "width": 74,
+            "top": 1319,
+            "left": 228,
+            "width": 52,
             "height": 18,
-            "text": "notified:",
+            "text": "phone",
             "class": "text"
         },
         {
-            "top": 2007,
-            "left": 755,
-            "width": 13,
-            "height": 1,
-            "text": "4",
+            "top": 1317,
+            "left": 304,
+            "width": 86,
+            "height": 20,
+            "text": "(_____)",
             "class": "text"
         },
         {
-            "top": 1989,
-            "left": 819,
-            "width": 7,
-            "height": 19,
-            "text": "/",
+            "top": 1326,
+            "left": 435,
+            "width": 67,
+            "height": 11,
+            "text": "_-_.",
             "class": "text"
         },
         {
-            "top": 1989,
-            "left": 872,
-            "width": 34,
-            "height": 19,
-            "text": "/",
+            "top": 1313,
+            "left": 577,
+            "width": 16,
+            "height": 29,
+            "text": "on",
             "class": "text"
         },
         {
-            "top": 2104,
-            "left": 798,
-            "width": 2,
-            "height": 8,
-            "text": ":",
+            "top": 1318,
+            "left": 980,
+            "width": 45,
+            "height": 15,
+            "text": "Email",
+            "class": "text"
+        },
+        {
+            "top": 2088,
+            "left": 141,
+            "width": 65,
+            "height": 16,
+            "text": "Official",
+            "class": "text"
+        },
+        {
+            "top": 2088,
+            "left": 216,
+            "width": 48,
+            "height": 16,
+            "text": "Form",
+            "class": "text"
+        },
+        {
+            "top": 2088,
+            "left": 273,
+            "width": 62,
+            "height": 16,
+            "text": "410S2",
+            "class": "text"
+        },
+        {
+            "top": 2088,
+            "left": 564,
+            "width": 65,
+            "height": 16,
+            "text": "Notice",
+            "class": "text"
+        },
+        {
+            "top": 2088,
+            "left": 638,
+            "width": 20,
+            "height": 16,
+            "text": "of",
+            "class": "text"
+        },
+        {
+            "top": 2088,
+            "left": 666,
+            "width": 125,
+            "height": 20,
+            "text": "Postpetition",
+            "class": "text"
+        },
+        {
+            "top": 2088,
+            "left": 799,
+            "width": 98,
+            "height": 20,
+            "text": "Mortgage",
+            "class": "text"
+        },
+        {
+            "top": 2088,
+            "left": 906,
+            "width": 53,
+            "height": 20,
+            "text": "Fees,",
+            "class": "text"
+        },
+        {
+            "top": 2088,
+            "left": 969,
+            "width": 106,
+            "height": 20,
+            "text": "Expenses,",
+            "class": "text"
+        },
+        {
+            "top": 2088,
+            "left": 1085,
+            "width": 36,
+            "height": 16,
+            "text": "and",
+            "class": "text"
+        },
+        {
+            "top": 2088,
+            "left": 1130,
+            "width": 87,
+            "height": 20,
+            "text": "Charges",
             "class": "text"
         },
         {
             "top": 2092,
-            "left": 809,
-            "width": 467,
-            "height": 25,
-            "text": "www.window.state.tx.us/taxinfo/proptax",
-            "class": "text"
-        },
-        {
-            "top": 2137,
-            "left": 81,
-            "width": 33,
-            "height": 18,
-            "text": "Page",
-            "class": "text"
-        },
-        {
-            "top": 2137,
-            "left": 121,
-            "width": 8,
-            "height": 13,
-            "text": "2",
-            "class": "text"
-        },
-        {
-            "top": 2141,
-            "left": 136,
-            "width": 5,
-            "height": 5,
-            "text": "+",
-            "class": "text"
-        },
-        {
-            "top": 2137,
-            "left": 149,
-            "width": 53,
-            "height": 15,
-            "text": "50-305",
-            "class": "text"
-        },
-        {
-            "top": 2141,
-            "left": 210,
-            "width": 5,
-            "height": 5,
-            "text": "+",
-            "class": "text"
-        },
-        {
-            "top": 2136,
-            "left": 224,
-            "width": 59,
+            "left": 1479,
+            "width": 47,
             "height": 16,
-            "text": "10-13/2",
+            "text": "page",
+            "class": "text"
+        },
+        {
+            "top": 2088,
+            "left": 1535,
+            "width": 10,
+            "height": 16,
+            "text": "2",
             "class": "text"
         }
     ]

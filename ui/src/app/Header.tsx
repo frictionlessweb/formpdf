@@ -1,15 +1,13 @@
 /** @jsxImportSource @emotion/react */
-import React, { ReactNode, useState } from "react";
+import React, { useState } from "react";
 import Steps from "./Steps";
 import Button from "@mui/material/Button";
 import { useSelector, useDispatch, Step, STEPS } from "./StoreProvider";
 import color from "../components/color";
 import { useHotkeys } from "react-hotkeys-hook";
-import { styled } from "@mui/material/styles";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import { FormControl } from "@mui/material";
-import Fab from "@mui/material/Fab";
 import ClearIcon from "@mui/icons-material/Clear";
 import DividerIcon from "./assets/images/divider.svg";
 import Box, { BoxProps } from "@mui/material/Box";
@@ -122,7 +120,6 @@ const LogoAndFormSelect: React.FC = () => {
           <MenuItem value={2}>Form 2</MenuItem>
           <MenuItem value={3}>Form 3</MenuItem>
           <MenuItem value={4}>Form 4</MenuItem>
-          <MenuItem value={5}>Form 5</MenuItem>
         </Select>
       </FormControl>
     </Box>

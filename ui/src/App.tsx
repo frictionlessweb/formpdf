@@ -18,19 +18,6 @@ const SaveState = () => {
   return null;
 };
 
-const scrollBarStyles = {
-  "&::-webkit-scrollbar": {
-    width: "10px",
-    height: "10px",
-  },
-  "&::-webkit-scrollbar-track": {},
-  "&::-webkit-scrollbar-thumb": {
-    backgroundColor: color.gray.lineTransparent,
-    outline: "1px solid slategrey",
-    borderRadius: "16px",
-  },
-};
-
 const App = () => {
   const pdfUrl = getPdfUrl();
   return (
@@ -50,19 +37,10 @@ const App = () => {
       <Header />
       <ToolSelect />
       <Box
-        // change these properties to change the positioning of the canvas
-        // don't go into PDF component and change thing or else it will break.
-        // we give marginLeft 4.2 here because left toolbar is positioned absolute
-        // as positions are calculated based on PDF component. We give marginTop 0.2 here
-        // because top toolbar is not positioned absolute
         display="flex"
-        justifyContent="center"
-        marginLeft="4.2rem"
-        marginTop="0.2rem"
-        width="calc(100vw - 4.2rem)"
-        height="calc(100vh - 4.2rem)"
-        overflow="auto"
-        css={scrollBarStyles}>
+        justifyContent="flex-start"
+        marginLeft="8rem"
+        marginTop="0.2rem">
         <PDF url={pdfUrl} />
       </Box>
       <ExitButtonForCreateTool />

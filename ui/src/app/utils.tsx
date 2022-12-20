@@ -10,12 +10,10 @@ import TOKENS_1 from "./tokens/tokens_1.json";
 import TOKENS_2 from "./tokens/tokens_2.json";
 import TOKENS_3 from "./tokens/tokens_3.json";
 import TOKENS_4 from "./tokens/tokens_4.json";
-import TOKENS_5 from "./tokens/tokens_5.json";
 import PREDICTIONS_1 from "./predictions/predictions_1.json";
 import PREDICTIONS_2 from "./predictions/predictions_2.json";
 import PREDICTIONS_3 from "./predictions/predictions_3.json";
 import PREDICTIONS_4 from "./predictions/predictions_4.json";
-import PREDICTIONS_5 from "./predictions/predictions_5.json";
 
 const LOCAL_STORAGE_KEY = "a11yform";
 const SAVE_INTERVAL = 1000;
@@ -80,8 +78,6 @@ export const getPredictionsAndTokens = () => {
       return [PREDICTIONS_3, TOKENS_3];
     case "#4":
       return [PREDICTIONS_4, TOKENS_4];
-    case "#5":
-      return [PREDICTIONS_5, TOKENS_5];
     default:
       return [PREDICTIONS_1, TOKENS_1];
   }
@@ -97,8 +93,6 @@ export const getPdfUrl = () => {
       return "form_3.pdf";
     case "#4":
       return "form_4.pdf";
-    case "#5":
-      return "form_5.pdf";
     default:
       return "form_1.pdf";
   }
