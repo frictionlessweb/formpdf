@@ -15,8 +15,7 @@ import PREDICTIONS_2 from "./predictions/predictions_2.json";
 import PREDICTIONS_3 from "./predictions/predictions_3.json";
 import PREDICTIONS_4 from "./predictions/predictions_4.json";
 
-const LOCAL_STORAGE_KEY = "a11yform";
-const SAVE_INTERVAL = 1000;
+export const LOCAL_STORAGE_KEY = "a11yform";
 
 const saveToLocalStorage = (state: AccessibleForm) => {
   window.localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(state));
@@ -32,17 +31,14 @@ export const useSaveState = () => {
   const state = useSelector((store) => store);
   const dispatch = useDispatch();
   React.useEffect(() => {
-    const interval = setInterval(() => {
-      saveToLocalStorage(state);
-    }, SAVE_INTERVAL);
-    return () => {
-      clearInterval(interval);
-    };
-  }, [state]);
-  React.useEffect(() => {
+    // this runs first when page reload happens
     const store = fetchFromLocalStorage();
     dispatch({ type: "HYDRATE_STORE", payload: store });
   }, [dispatch]);
+  React.useEffect(() => {
+    // this starts second when page reloads
+    saveToLocalStorage(state);
+  }, [state]);
 };
 
 // See https://github.com/allenai/pawls/blob/3cc57533248e7ca787b71cafcca5fb66e96b2166/ui/src/context/PDFStore.ts#L31
@@ -97,25 +93,3 @@ export const getPdfUrl = () => {
       return "form_1.pdf";
   }
 };
-
-// const fetchNewAnnotations = async (step: Step) => {
-//     dispatch({ type: "SHOW_LOADING_SCREEN" });
-//     const res = await window.fetch(
-//       `${process.env.REACT_APP_API_PATH || ""}/annotations`,
-//       {
-//         method: "POST",
-//         headers: {
-//           "Content-Type": "application/json",
-//         },
-//         body: JSON.stringify({ pages, width, height }),
-//       }
-//     );
-//     const { annotations } = await res.json();
-//     dispatch({
-//       type: "CHANGE_STEP_AND_ANNOTATIONS",
-//       payload: {
-//         step,
-//         annotations,
-//       },
-//     });
-//   };
