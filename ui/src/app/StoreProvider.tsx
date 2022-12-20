@@ -132,7 +132,7 @@ export const STEPS: Array<StepDescription> = [
   },
   {
     id: "LABEL_LAYER",
-    title: "Labels",
+    title: "Tooltips",
     description:
       'Ensure that all form fields have correct labels. If a label is missing or incorrect, select the field and use the "Create/Update Label" option to add or correct the label.',
     toolDescription: {},
