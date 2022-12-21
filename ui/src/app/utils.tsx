@@ -14,6 +14,11 @@ import PREDICTIONS_1 from "./predictions/predictions_1.json";
 import PREDICTIONS_2 from "./predictions/predictions_2.json";
 import PREDICTIONS_3 from "./predictions/predictions_3.json";
 import PREDICTIONS_4 from "./predictions/predictions_4.json";
+import SAVED_STATE_FORM_1 from "./savedStates/form_1.json";
+import SAVED_STATE_FORM_2 from "./savedStates/form_2.json";
+import SAVED_STATE_FORM_4 from "./savedStates/form_4.json";
+
+import { SelectChangeEvent } from "@mui/material";
 
 export const LOCAL_STORAGE_KEY = "a11yform";
 
@@ -92,4 +97,37 @@ export const getPdfUrl = () => {
     default:
       return "form_1.pdf";
   }
+};
+
+export const handleFormChange = (e: SelectChangeEvent<string>) => {
+  // we clear the current state present in local storage,
+  // window.localStorage.clear();
+  switch (Number(e.target.value)) {
+    case 1: {
+      window.localStorage.setItem(
+        LOCAL_STORAGE_KEY,
+        JSON.stringify(SAVED_STATE_FORM_1)
+      );
+      break;
+    }
+    case 2: {
+      window.localStorage.setItem(
+        LOCAL_STORAGE_KEY,
+        JSON.stringify(SAVED_STATE_FORM_2)
+      );
+      break;
+    }
+    case 4: {
+      window.localStorage.setItem(
+        LOCAL_STORAGE_KEY,
+        JSON.stringify(SAVED_STATE_FORM_4)
+      );
+      break;
+    }
+    default:
+      window.localStorage.clear();
+  }
+  // resetting href reloads page and new state is loaded automatically from the URL.
+  window.location.href = window.location.origin + "#" + e.target.value;
+  window.location.reload();
 };

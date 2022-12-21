@@ -1,0 +1,3749 @@
+{
+  "step": "SECTION_LAYER",
+  "tool": "CREATE",
+  "zoom": 0.8,
+  "page": 1,
+  "pdfHeight": 1760.0000000000002,
+  "pdfWidth": 1360.0000000000002,
+  "showResizeModal": false,
+  "currentSection": 0,
+  "sections": [{ "y": 300 }],
+  "annotations": {
+    "0a03f4c3-970a-47ba-8903-8411ce4cb672": {
+      "id": "0a03f4c3-970a-47ba-8903-8411ce4cb672",
+      "border": "3px solid #F87A1B",
+      "backgroundColor": "rgba(248,122,27,0.2)",
+      "type": "TEXTBOX",
+      "top": 486.1911111111111,
+      "left": 1058.257777777778,
+      "width": 219.04444444444457,
+      "height": 43.668888888888794,
+      "page": 1,
+      "corrected": false,
+      "customTooltip": ""
+    },
+    "420c5b91-806f-451b-b0ce-90bec87b8ca7": {
+      "id": "420c5b91-806f-451b-b0ce-90bec87b8ca7",
+      "border": "3px solid #F87A1B",
+      "backgroundColor": "rgba(248,122,27,0.2)",
+      "type": "TEXTBOX",
+      "top": 502.1333251953127,
+      "left": 132.74155555555558,
+      "width": 511.5006666666667,
+      "height": 26.23509811254206,
+      "page": 1,
+      "corrected": false,
+      "customTooltip": ""
+    },
+    "87630ca5-da56-4489-b8ff-72c5090ee9e8": {
+      "id": "87630ca5-da56-4489-b8ff-72c5090ee9e8",
+      "border": "3px solid #F87A1B",
+      "backgroundColor": "rgba(248,122,27,0.2)",
+      "type": "TEXTBOX",
+      "top": 545.0066666666669,
+      "left": 1059.946666666667,
+      "width": 213.60000000000008,
+      "height": 43.67111111111121,
+      "page": 1,
+      "corrected": false,
+      "customTooltip": ""
+    },
+    "cf3634f5-f3f6-45c7-846b-a0416e9b1474": {
+      "id": "cf3634f5-f3f6-45c7-846b-a0416e9b1474",
+      "border": "3px solid rgba(255,204,0,1)",
+      "backgroundColor": "rgba(255,204,0,0.2)",
+      "type": "CHECKBOX",
+      "top": 775.528888888889,
+      "left": 225.86000000000007,
+      "width": 38.87111111111114,
+      "height": 40.00000000000001,
+      "page": 1,
+      "corrected": true,
+      "customTooltip": ""
+    },
+    "5815ecbb-07c7-4514-b594-583d25cd8336": {
+      "id": "5815ecbb-07c7-4514-b594-583d25cd8336",
+      "border": "3px solid rgba(52,199,89,1)",
+      "backgroundColor": "rgba(52,199,89,0.2)",
+      "type": "DATE",
+      "top": 1243.3120814732144,
+      "left": 938.4980468750001,
+      "width": 232.00000000000003,
+      "height": 25.142857142857146,
+      "page": 1,
+      "corrected": true,
+      "customTooltip": ""
+    },
+    "5857a2ff-0260-45c0-adc8-f1396d17e977": {
+      "id": "5857a2ff-0260-45c0-adc8-f1396d17e977",
+      "border": "3px solid #F87A1B",
+      "backgroundColor": "rgba(248,122,27,0.2)",
+      "type": "TEXTBOX",
+      "top": 1133.7813197544644,
+      "left": 496.0609654017858,
+      "width": 360.00000000000006,
+      "height": 42.28571428571429,
+      "page": 1,
+      "corrected": true,
+      "customTooltip": ""
+    },
+    "31bc0b5c-d7bf-4074-b25a-dba2bca0c99e": {
+      "id": "31bc0b5c-d7bf-4074-b25a-dba2bca0c99e",
+      "border": "3px solid #F87A1B",
+      "backgroundColor": "rgba(248,122,27,0.2)",
+      "type": "TEXTBOX",
+      "top": 1396.9905133928573,
+      "left": 969.279994419643,
+      "width": 120.00000000000001,
+      "height": 26.28571428571429,
+      "page": 1,
+      "corrected": true,
+      "customTooltip": ""
+    },
+    "ea10a820-718e-40d1-8bed-0944526ee956": {
+      "id": "ea10a820-718e-40d1-8bed-0944526ee956",
+      "border": "3px solid rgba(175,82,222,1)",
+      "backgroundColor": "rgba(175,82,222,0.2)",
+      "type": "RADIOBOX",
+      "top": 1514.5600000000004,
+      "left": 368.90444444444444,
+      "width": 40.00000000000001,
+      "height": 40.00000000000001,
+      "page": 1,
+      "corrected": true,
+      "customTooltip": ""
+    },
+    "14ca7724-d114-44b2-b0b8-b5b7dccf0cd1": {
+      "id": "14ca7724-d114-44b2-b0b8-b5b7dccf0cd1",
+      "border": "3px solid rgba(175,82,222,1)",
+      "backgroundColor": "rgba(175,82,222,0.2)",
+      "type": "RADIOBOX",
+      "top": 1515.557777777778,
+      "left": 706.488888888889,
+      "width": 40.00000000000001,
+      "height": 40.00000000000001,
+      "page": 1,
+      "corrected": true,
+      "customTooltip": ""
+    },
+    "bd75d0df-87d1-4fd6-bf4c-cc6e5fc03172": {
+      "id": "bd75d0df-87d1-4fd6-bf4c-cc6e5fc03172",
+      "border": "3px solid #F87A1B",
+      "backgroundColor": "rgba(248,122,27,0.2)",
+      "type": "TEXTBOX",
+      "top": 1038.9622222222222,
+      "left": 776.6323809523813,
+      "width": 420.94545219397247,
+      "height": 43.67111111111109,
+      "page": 1,
+      "corrected": false,
+      "customTooltip": ". For example, auto loan"
+    },
+    "0b6a3ac2-e124-4673-bfe0-2a3b6b4c8f3c": {
+      "id": "0b6a3ac2-e124-4673-bfe0-2a3b6b4c8f3c",
+      "border": "3px solid rgba(255,204,0,1)",
+      "backgroundColor": "rgba(255,204,0,0.2)",
+      "type": "CHECKBOX",
+      "top": 178.8888888888889,
+      "left": 843.0666666666667,
+      "width": 27.584444444444472,
+      "height": 25.328888888888944,
+      "page": 1,
+      "corrected": true,
+      "customTooltip": ""
+    },
+    "df44878c-16ad-4785-a495-13f47dd57e8d": {
+      "id": "df44878c-16ad-4785-a495-13f47dd57e8d",
+      "border": "3px solid rgba(255,204,0,1)",
+      "backgroundColor": "rgba(255,204,0,0.2)",
+      "type": "CHECKBOX",
+      "top": 204.84888888888895,
+      "left": 843.0666666666667,
+      "width": 27.584444444444472,
+      "height": 25.326666666666526,
+      "page": 1,
+      "corrected": true,
+      "customTooltip": ""
+    },
+    "483dd0d1-a41c-44a4-8abf-e993ac06c972": {
+      "id": "483dd0d1-a41c-44a4-8abf-e993ac06c972",
+      "border": "3px solid #F87A1B",
+      "backgroundColor": "rgba(248,122,27,0.2)",
+      "type": "TEXTBOX",
+      "top": 1871.7332589285718,
+      "left": 216.8000139508929,
+      "width": 101.71428571428572,
+      "height": 36.57142857142858,
+      "page": 2,
+      "corrected": true,
+      "customTooltip": ""
+    },
+    "09ba9d28-2ae6-4bc7-86d6-12113ed2046e": {
+      "id": "09ba9d28-2ae6-4bc7-86d6-12113ed2046e",
+      "border": "3px solid #F87A1B",
+      "backgroundColor": "rgba(248,122,27,0.2)",
+      "type": "TEXTBOX",
+      "top": 1868.5333251953127,
+      "left": 934.4000000000003,
+      "width": 313.655583126551,
+      "height": 41.60000000000002,
+      "page": 2,
+      "corrected": false,
+      "customTooltip": ""
+    },
+    "3f1ce987-392d-4b5a-9322-704f3748db5a": {
+      "id": "3f1ce987-392d-4b5a-9322-704f3748db5a",
+      "border": "3px solid #F87A1B",
+      "backgroundColor": "rgba(248,122,27,0.2)",
+      "type": "TEXTBOX",
+      "top": 2585.3333496093765,
+      "left": 239.20000000000007,
+      "width": 500.00000000000006,
+      "height": 38.40000000000001,
+      "page": 2,
+      "corrected": false,
+      "customTooltip": ""
+    },
+    "395304fb-9a3d-4117-af8d-eac691003a45": {
+      "id": "395304fb-9a3d-4117-af8d-eac691003a45",
+      "border": "3px solid #F87A1B",
+      "backgroundColor": "rgba(248,122,27,0.2)",
+      "type": "TEXTBOX",
+      "top": 2793.3333496093765,
+      "left": 239.20000000000007,
+      "width": 227.20000000000005,
+      "height": 32.00000000000001,
+      "page": 2,
+      "corrected": false,
+      "customTooltip": ""
+    },
+    "e93433e7-e9ea-425c-98d7-71beac164ffd": {
+      "id": "e93433e7-e9ea-425c-98d7-71beac164ffd",
+      "border": "3px solid #F87A1B",
+      "backgroundColor": "rgba(248,122,27,0.2)",
+      "type": "TEXTBOX",
+      "top": 2507.2000558035716,
+      "left": 242.13333565848217,
+      "width": 179.42857142857144,
+      "height": 30.85714285714286,
+      "page": 2,
+      "corrected": true,
+      "customTooltip": ""
+    },
+    "babbdc1e-bb30-4b41-a6b4-e7b050e106da": {
+      "id": "babbdc1e-bb30-4b41-a6b4-e7b050e106da",
+      "border": "3px solid rgba(52,199,89,1)",
+      "backgroundColor": "rgba(52,199,89,0.2)",
+      "type": "DATE",
+      "top": 2412.5333343505868,
+      "left": 825.6000000000003,
+      "width": 159.20000000000007,
+      "height": 31.20000000000001,
+      "page": 2,
+      "corrected": true,
+      "customTooltip": ""
+    },
+    "7c055905-1437-4598-b5f3-db2cc2019053": {
+      "id": "7c055905-1437-4598-b5f3-db2cc2019053",
+      "border": "3px solid rgba(255,45,85,1)",
+      "backgroundColor": "rgba(255,45,85,0.2)",
+      "type": "SIGNATURE",
+      "top": 2406.133334350587,
+      "left": 245.60000000000008,
+      "width": 487.20000000000016,
+      "height": 40.80000000000001,
+      "page": 2,
+      "corrected": true,
+      "customTooltip": ""
+    },
+    "67476c63-f8aa-4e07-9575-fe81bf20b802": {
+      "id": "67476c63-f8aa-4e07-9575-fe81bf20b802",
+      "border": "3px solid #F87A1B",
+      "backgroundColor": "rgba(248,122,27,0.2)",
+      "type": "TEXTBOX",
+      "top": 2704.419084821429,
+      "left": 238.2857142857143,
+      "width": 333.7142857142858,
+      "height": 32.00000000000001,
+      "page": 2,
+      "corrected": true,
+      "customTooltip": ""
+    },
+    "c0674b19-f990-487c-8a86-b979250f4ff7": {
+      "id": "c0674b19-f990-487c-8a86-b979250f4ff7",
+      "border": "3px solid #F87A1B",
+      "backgroundColor": "rgba(248,122,27,0.2)",
+      "type": "TEXTBOX",
+      "top": 2652.5332031250005,
+      "left": 239.2000209263393,
+      "width": 149.71428571428572,
+      "height": 37.71428571428572,
+      "page": 2,
+      "corrected": true,
+      "customTooltip": ""
+    },
+    "f99528fb-888d-409e-9649-ff8eed5f7518": {
+      "id": "f99528fb-888d-409e-9649-ff8eed5f7518",
+      "border": "3px solid #F87A1B",
+      "backgroundColor": "rgba(248,122,27,0.2)",
+      "type": "TEXTBOX",
+      "top": 2505.3333374023446,
+      "left": 822.4000000000003,
+      "width": 242.40000000000003,
+      "height": 35.2,
+      "page": 2,
+      "corrected": false,
+      "customTooltip": ""
+    },
+    "d69e8d65-8bc6-4407-8190-c59e3f0b6b47": {
+      "id": "d69e8d65-8bc6-4407-8190-c59e3f0b6b47",
+      "border": "3px solid #F87A1B",
+      "backgroundColor": "rgba(248,122,27,0.2)",
+      "type": "TEXTBOX",
+      "top": 2789.3333496093765,
+      "left": 828.0000000000001,
+      "width": 234.40000000000003,
+      "height": 39.2,
+      "page": 2,
+      "corrected": false,
+      "customTooltip": ""
+    },
+    "dcceb380-b4ce-47c5-95b1-848cac77ec81": {
+      "id": "dcceb380-b4ce-47c5-95b1-848cac77ec81",
+      "border": "3px solid rgba(175,82,222,1)",
+      "backgroundColor": "rgba(175,82,222,0.2)",
+      "type": "RADIOBOX",
+      "top": 2198.1333343505867,
+      "left": 134.40000000000003,
+      "width": 18.40000000000001,
+      "height": 12.800000000000002,
+      "page": 2,
+      "corrected": true,
+      "customTooltip": ""
+    },
+    "52d6abe5-7a89-422b-a90f-a35ea12dd103": {
+      "id": "52d6abe5-7a89-422b-a90f-a35ea12dd103",
+      "border": "3px solid rgba(175,82,222,1)",
+      "backgroundColor": "rgba(175,82,222,0.2)",
+      "type": "RADIOBOX",
+      "top": 2233.3333343505865,
+      "left": 133.60000000000005,
+      "width": 19.200000000000006,
+      "height": 19.200000000000006,
+      "page": 2,
+      "corrected": true,
+      "customTooltip": ""
+    },
+    "457d22ed-15a6-4819-b0dd-40090ffd9e6a": {
+      "id": "457d22ed-15a6-4819-b0dd-40090ffd9e6a",
+      "border": "3px solid #F87A1B",
+      "backgroundColor": "rgba(248,122,27,0.2)",
+      "type": "TEXTBOX",
+      "top": 707.3244444444445,
+      "left": 533.8844444444445,
+      "width": 510.90770409480865,
+      "height": 43.66888888888892,
+      "page": 1,
+      "corrected": false,
+      "customTooltip": ""
+    },
+    "bb7edaed-23d4-4793-a680-350887c13049": {
+      "id": "bb7edaed-23d4-4793-a680-350887c13049",
+      "page": 1,
+      "corrected": true,
+      "customTooltip": "",
+      "backgroundColor": "rgba(248,122,27,0.2)",
+      "border": "3px solid #F87A1B",
+      "type": "TEXTBOX",
+      "top": 1872.0000000000002,
+      "left": 325.7142857142858,
+      "height": 36.57142857142858,
+      "width": 134.8571428571429
+    },
+    "4c347cb2-6b37-4ebe-a93b-b45faff8d841": {
+      "id": "4c347cb2-6b37-4ebe-a93b-b45faff8d841",
+      "page": 1,
+      "corrected": true,
+      "customTooltip": "",
+      "backgroundColor": "rgba(248,122,27,0.2)",
+      "border": "3px solid #F87A1B",
+      "type": "TEXTBOX",
+      "top": 1870.8571428571431,
+      "left": 472.00000000000006,
+      "height": 36.57142857142858,
+      "width": 233.14285714285717
+    },
+    "1f5cb478-e70b-4f3b-b0a2-b94b3992767c": {
+      "id": "1f5cb478-e70b-4f3b-b0a2-b94b3992767c",
+      "page": 1,
+      "corrected": true,
+      "customTooltip": "",
+      "backgroundColor": "rgba(248,122,27,0.2)",
+      "border": "3px solid #F87A1B",
+      "type": "TEXTBOX",
+      "top": 2504.0000000000005,
+      "left": 425.1428571428572,
+      "height": 35.42857142857143,
+      "width": 148.57142857142858
+    },
+    "4166edf1-631d-4e51-a475-d3edcab84247": {
+      "id": "4166edf1-631d-4e51-a475-d3edcab84247",
+      "page": 1,
+      "corrected": true,
+      "customTooltip": "",
+      "backgroundColor": "rgba(248,122,27,0.2)",
+      "border": "3px solid #F87A1B",
+      "type": "TEXTBOX",
+      "top": 2506.2857142857147,
+      "left": 578.2857142857143,
+      "height": 34.28571428571429,
+      "width": 155.42857142857144
+    },
+    "0de2eadf-2a14-4ca6-bb27-3e155553f3f6": {
+      "id": "0de2eadf-2a14-4ca6-bb27-3e155553f3f6",
+      "page": 1,
+      "corrected": true,
+      "customTooltip": "",
+      "backgroundColor": "rgba(248,122,27,0.2)",
+      "border": "3px solid #F87A1B",
+      "type": "TEXTBOX",
+      "top": 2652.571428571429,
+      "left": 394.28571428571433,
+      "height": 36.57142857142858,
+      "width": 341.7142857142858
+    },
+    "4ed6c278-3d96-4bd3-81a3-becb30ebd933": {
+      "id": "4ed6c278-3d96-4bd3-81a3-becb30ebd933",
+      "page": 1,
+      "corrected": true,
+      "customTooltip": "",
+      "backgroundColor": "rgba(248,122,27,0.2)",
+      "border": "3px solid #F87A1B",
+      "type": "TEXTBOX",
+      "top": 2701.7142857142862,
+      "left": 577.1428571428572,
+      "height": 36.57142857142858,
+      "width": 89.14285714285715
+    },
+    "94a6ba89-5799-4a30-b0a6-7b9a554d0c6f": {
+      "id": "94a6ba89-5799-4a30-b0a6-7b9a554d0c6f",
+      "page": 1,
+      "corrected": true,
+      "customTooltip": "",
+      "backgroundColor": "rgba(248,122,27,0.2)",
+      "border": "3px solid #F87A1B",
+      "type": "TEXTBOX",
+      "top": 2699.428571428572,
+      "left": 672.0000000000001,
+      "height": 38.85714285714286,
+      "width": 90.28571428571429
+    },
+    "0a639c00-8111-4fa3-8b97-124f1c8a7bc2": {
+      "id": "0a639c00-8111-4fa3-8b97-124f1c8a7bc2",
+      "backgroundColor": "rgba(162,132,94,0)",
+      "border": "3px solid rgba(162,132,94,1)",
+      "type": "GROUP",
+      "top": 172.03174603174605,
+      "left": 836.2095238095238,
+      "width": 41.29873015873013,
+      "height": 65.00095238095228,
+      "corrected": true,
+      "customTooltip": "",
+      "page": 1
+    },
+    "f895ac81-6993-4070-88c6-4b43e13902eb": {
+      "id": "f895ac81-6993-4070-88c6-4b43e13902eb",
+      "backgroundColor": "rgba(162,132,94,0)",
+      "border": "3px solid rgba(162,132,94,1)",
+      "type": "GROUP",
+      "top": 1507.7028571428575,
+      "left": 362.04730158730155,
+      "width": 391.29873015873034,
+      "height": 54.71206349206322,
+      "corrected": true,
+      "customTooltip": "",
+      "page": 1
+    },
+    "20aff05f-a1c4-40a7-8607-5cb1462b6f90": {
+      "id": "20aff05f-a1c4-40a7-8607-5cb1462b6f90",
+      "backgroundColor": "rgba(162,132,94,0)",
+      "border": "3px solid rgba(162,132,94,1)",
+      "type": "GROUP",
+      "top": 2191.2761914934435,
+      "left": 126.7428571428572,
+      "width": 32.91428571428573,
+      "height": 68.11428571428588,
+      "corrected": true,
+      "customTooltip": "",
+      "page": 1
+    },
+    "52c4608f-3f53-4630-a3f6-e3f5eb6e8663": {
+      "id": "52c4608f-3f53-4630-a3f6-e3f5eb6e8663",
+      "backgroundColor": "rgba(48,176,199,0.2)",
+      "border": "3px solid rgba(48,176,199,1)",
+      "borderRadius": 50,
+      "type": "LABEL",
+      "page": 1,
+      "corrected": true,
+      "top": 533.1428571428573,
+      "left": 305.14285714285717,
+      "width": 90.51428571428578,
+      "height": 32.11428571428574,
+      "customTooltip": " Debtor"
+    },
+    "47645bfb-0f87-477b-9ba7-a301273eec5b": {
+      "id": "47645bfb-0f87-477b-9ba7-a301273eec5b",
+      "backgroundColor": "rgba(48,176,199,0.2)",
+      "border": "3px solid rgba(48,176,199,1)",
+      "borderRadius": 50,
+      "type": "LABEL",
+      "page": 1,
+      "corrected": true,
+      "top": 502.7428571428573,
+      "left": 953.9428571428574,
+      "width": 108.11428571428576,
+      "height": 31.314285714285692,
+      "customTooltip": " Case No."
+    },
+    "811e3e2b-de84-4683-bd95-61796d05b6fa": {
+      "id": "811e3e2b-de84-4683-bd95-61796d05b6fa",
+      "backgroundColor": "rgba(48,176,199,0.2)",
+      "border": "3px solid rgba(48,176,199,1)",
+      "borderRadius": 50,
+      "type": "LABEL",
+      "page": 1,
+      "corrected": true,
+      "top": 564.3428571428573,
+      "left": 953.9428571428574,
+      "width": 96.91428571428581,
+      "height": 37.71428571428565,
+      "customTooltip": " Chapter"
+    },
+    "afa254ef-104a-442e-ae0d-e078582e1bd7": {
+      "id": "afa254ef-104a-442e-ae0d-e078582e1bd7",
+      "backgroundColor": "rgba(48,176,199,0.2)",
+      "border": "3px solid rgba(48,176,199,1)",
+      "borderRadius": 50,
+      "type": "LABEL",
+      "page": 1,
+      "corrected": true,
+      "top": 723.5428571428574,
+      "left": 312.34285714285727,
+      "width": 220.91428571428568,
+      "height": 32.11428571428574,
+      "customTooltip": " Name of Creditor:"
+    },
+    "533399d6-4621-49b4-bce0-618534404861": {
+      "id": "533399d6-4621-49b4-bce0-618534404861",
+      "backgroundColor": "rgba(48,176,199,0.2)",
+      "border": "3px solid rgba(48,176,199,1)",
+      "borderRadius": 50,
+      "type": "LABEL",
+      "page": 1,
+      "corrected": true,
+      "top": 785.1428571428572,
+      "left": 267.5428571428572,
+      "width": 480.9142857142857,
+      "height": 32.914285714285924,
+      "customTooltip": " Check this box if Creditor is a Credit Union"
+    },
+    "f5d19bf7-7cb6-4d74-8d0b-1307c2835fd4": {
+      "id": "f5d19bf7-7cb6-4d74-8d0b-1307c2835fd4",
+      "backgroundColor": "rgba(48,176,199,0.2)",
+      "border": "3px solid rgba(48,176,199,1)",
+      "borderRadius": 50,
+      "type": "LABEL",
+      "page": 1,
+      "corrected": true,
+      "top": 1149.1428571428573,
+      "left": 73.94285714285718,
+      "width": 354.5142857142858,
+      "height": 32.114285714286005,
+      "customTooltip": " B. AMOUNT REAFFIRMED:"
+    },
+    "1daa0122-2174-4d63-a8e9-c8d8c6fc2a1b": {
+      "id": "1daa0122-2174-4d63-a8e9-c8d8c6fc2a1b",
+      "backgroundColor": "rgba(48,176,199,0.2)",
+      "border": "3px solid rgba(48,176,199,1)",
+      "borderRadius": 50,
+      "type": "LABEL",
+      "page": 1,
+      "corrected": true,
+      "top": 1054.7428571428575,
+      "left": 73.94285714285718,
+      "width": 704.114285714286,
+      "height": 38.514285714285904,
+      "customTooltip": " A. Brief description of the original agreement being reaffirmed:"
+    },
+    "3f159590-4c3c-43fe-92a1-ccc59b450301": {
+      "id": "3f159590-4c3c-43fe-92a1-ccc59b450301",
+      "backgroundColor": "rgba(48,176,199,0.2)",
+      "border": "3px solid rgba(48,176,199,1)",
+      "borderRadius": 50,
+      "type": "LABEL",
+      "page": 1,
+      "corrected": true,
+      "top": 1273.1428571428573,
+      "left": 153.14285714285717,
+      "width": 810.514285714286,
+      "height": 37.71428571428598,
+      "customTooltip": " which is the date of the Disclosure Statement portion of this form (Part V)."
+    },
+    "95359474-e369-4b26-b79a-bef1ec4bc06b": {
+      "id": "95359474-e369-4b26-b79a-bef1ec4bc06b",
+      "backgroundColor": "rgba(48,176,199,0.2)",
+      "border": "3px solid rgba(48,176,199,1)",
+      "borderRadius": 50,
+      "type": "LABEL",
+      "page": 1,
+      "corrected": true,
+      "top": 1397.142857142857,
+      "left": 111.54285714285719,
+      "width": 858.5142857142857,
+      "height": 37.71428571428572,
+      "customTooltip": " The ANNUAL PERCENTAGE RATE applicable to the Amount Reaffirmed is"
+    },
+    "bdc62196-3d23-472c-ae3a-ee0a8c790644": {
+      "id": "bdc62196-3d23-472c-ae3a-ee0a8c790644",
+      "backgroundColor": "rgba(48,176,199,0.2)",
+      "border": "3px solid rgba(48,176,199,1)",
+      "borderRadius": 50,
+      "type": "GROUP_LABEL",
+      "page": 1,
+      "corrected": true,
+      "top": 1521.1428571428573,
+      "left": 153.94285714285715,
+      "width": 211.31428571428572,
+      "height": 36.914285714285924,
+      "customTooltip": " This is a (check one)"
+    },
+    "ecbae637-b712-4562-bd14-2985e4729e52": {
+      "id": "ecbae637-b712-4562-bd14-2985e4729e52",
+      "backgroundColor": "rgba(48,176,199,0.2)",
+      "border": "3px solid rgba(48,176,199,1)",
+      "borderRadius": 50,
+      "type": "LABEL",
+      "page": 1,
+      "corrected": true,
+      "top": 1521.1428571428573,
+      "left": 412.34285714285727,
+      "width": 119.31428571428577,
+      "height": 32.11428571428588,
+      "customTooltip": " Fixed rate"
+    },
+    "768c683d-1951-40b1-a32a-5fb423176d6d": {
+      "id": "768c683d-1951-40b1-a32a-5fb423176d6d",
+      "backgroundColor": "rgba(48,176,199,0.2)",
+      "border": "3px solid rgba(48,176,199,1)",
+      "borderRadius": 50,
+      "type": "LABEL",
+      "page": 1,
+      "corrected": true,
+      "top": 1521.1428571428573,
+      "left": 747.5428571428574,
+      "width": 150.51428571428553,
+      "height": 32.11428571428588,
+      "customTooltip": " Variable rate"
+    },
+    "40a6fe05-2f95-4d0c-89bb-2398f83505e5": {
+      "id": "40a6fe05-2f95-4d0c-89bb-2398f83505e5",
+      "backgroundColor": "rgba(48,176,199,0.2)",
+      "border": "3px solid rgba(48,176,199,1)",
+      "borderRadius": 50,
+      "type": "LABEL",
+      "page": 1,
+      "corrected": true,
+      "top": 1898.7428571428577,
+      "left": 216.34285714285718,
+      "width": 66.5142857142857,
+      "height": 37.71428571428572,
+      "customTooltip": " First Name"
+    },
+    "ffb14836-1303-48e4-8473-0845e463effb": {
+      "id": "ffb14836-1303-48e4-8473-0845e463effb",
+      "backgroundColor": "rgba(48,176,199,0.2)",
+      "border": "3px solid rgba(48,176,199,1)",
+      "borderRadius": 50,
+      "type": "LABEL",
+      "page": 1,
+      "corrected": true,
+      "top": 1906.7428571428577,
+      "left": 325.9428571428573,
+      "width": 77.71428571428567,
+      "height": 21.71428571428572,
+      "customTooltip": " Midale Name"
+    },
+    "14e55d68-780b-4e19-8b07-24de511a0cde": {
+      "id": "14e55d68-780b-4e19-8b07-24de511a0cde",
+      "backgroundColor": "rgba(48,176,199,0.2)",
+      "border": "3px solid rgba(48,176,199,1)",
+      "borderRadius": 50,
+      "type": "LABEL",
+      "page": 1,
+      "corrected": true,
+      "top": 1898.7428571428577,
+      "left": 473.1428571428572,
+      "width": 68.9142857142858,
+      "height": 37.71428571428572,
+      "customTooltip": " Last Name"
+    },
+    "553b928d-98d7-4cf6-8569-167a9decb9f4": {
+      "id": "553b928d-98d7-4cf6-8569-167a9decb9f4",
+      "backgroundColor": "rgba(48,176,199,0.2)",
+      "border": "3px solid rgba(48,176,199,1)",
+      "borderRadius": 50,
+      "type": "LABEL",
+      "page": 1,
+      "corrected": true,
+      "top": 1886.7428571428577,
+      "left": 776.3428571428574,
+      "width": 158.5142857142858,
+      "height": 33.71428571428572,
+      "customTooltip": " Case number (it known)"
+    },
+    "69c01fa2-c732-4d0e-aeb8-f9e231f19988": {
+      "id": "69c01fa2-c732-4d0e-aeb8-f9e231f19988",
+      "backgroundColor": "rgba(48,176,199,0.2)",
+      "border": "3px solid rgba(48,176,199,1)",
+      "borderRadius": 50,
+      "type": "GROUP_LABEL",
+      "page": 1,
+      "corrected": true,
+      "top": 2155.542857142858,
+      "left": 126.7428571428572,
+      "width": 224.11428571428584,
+      "height": 29.71428571428572,
+      "customTooltip": " Check the appropriate box."
+    },
+    "16cb9db5-e7e2-42e5-bdd6-c8b0a95c3f0b": {
+      "id": "16cb9db5-e7e2-42e5-bdd6-c8b0a95c3f0b",
+      "backgroundColor": "rgba(48,176,199,0.2)",
+      "border": "3px solid rgba(48,176,199,1)",
+      "borderRadius": 50,
+      "type": "LABEL",
+      "page": 1,
+      "corrected": true,
+      "top": 2197.2000000000007,
+      "left": 158.00000000000003,
+      "width": 149.6000000000001,
+      "height": 25.59999999999991,
+      "customTooltip": " | am the creditor."
+    },
+    "6bbb6774-1201-42db-bd55-1ba011a6cabb": {
+      "id": "6bbb6774-1201-42db-bd55-1ba011a6cabb",
+      "backgroundColor": "rgba(48,176,199,0.2)",
+      "border": "3px solid rgba(48,176,199,1)",
+      "borderRadius": 50,
+      "type": "LABEL",
+      "page": 1,
+      "corrected": true,
+      "top": 2232.4000000000005,
+      "left": 158.00000000000003,
+      "width": 309.60000000000014,
+      "height": 29.59999999999991,
+      "customTooltip": " | am the creditor's authorized agent."
+    },
+    "9bf5b968-cd83-4c83-bab0-cc2a6c41ac06": {
+      "id": "9bf5b968-cd83-4c83-bab0-cc2a6c41ac06",
+      "backgroundColor": "rgba(48,176,199,0.2)",
+      "border": "3px solid rgba(48,176,199,1)",
+      "borderRadius": 50,
+      "type": "LABEL",
+      "page": 1,
+      "corrected": true,
+      "top": 2451.600000000001,
+      "left": 237.20000000000007,
+      "width": 67.20000000000002,
+      "height": 24,
+      "customTooltip": " Signature"
+    },
+    "ab2a9497-e9ec-434b-8f07-50ef8ccb6d7d": {
+      "id": "ab2a9497-e9ec-434b-8f07-50ef8ccb6d7d",
+      "backgroundColor": "rgba(48,176,199,0.2)",
+      "border": "3px solid rgba(48,176,199,1)",
+      "borderRadius": 50,
+      "type": "LABEL",
+      "page": 1,
+      "corrected": true,
+      "top": 2424.4000000000015,
+      "left": 778.0000000000001,
+      "width": 42.39999999999998,
+      "height": 32.80000000000018,
+      "customTooltip": " Date"
+    },
+    "9fa81279-7fe3-4e1a-aa47-4645894d4d8f": {
+      "id": "9fa81279-7fe3-4e1a-aa47-4645894d4d8f",
+      "backgroundColor": "rgba(48,176,199,0.2)",
+      "border": "3px solid rgba(48,176,199,1)",
+      "borderRadius": 50,
+      "type": "LABEL",
+      "page": 1,
+      "corrected": true,
+      "top": 2522.0000000000005,
+      "left": 777.2000000000002,
+      "width": 40,
+      "height": 24,
+      "customTooltip": " Title"
+    },
+    "8bf2228e-34f7-4c6e-bd98-5e5f05e592b1": {
+      "id": "8bf2228e-34f7-4c6e-bd98-5e5f05e592b1",
+      "backgroundColor": "rgba(48,176,199,0.2)",
+      "border": "3px solid rgba(48,176,199,1)",
+      "borderRadius": 50,
+      "type": "LABEL",
+      "page": 1,
+      "corrected": true,
+      "top": 2540.4000000000015,
+      "left": 577.2,
+      "width": 74.40000000000009,
+      "height": 22.40000000000009,
+      "customTooltip": " Last Name"
+    },
+    "6d60f39d-274f-4133-95bf-36389e48a75f": {
+      "id": "6d60f39d-274f-4133-95bf-36389e48a75f",
+      "backgroundColor": "rgba(48,176,199,0.2)",
+      "border": "3px solid rgba(48,176,199,1)",
+      "borderRadius": 50,
+      "type": "LABEL",
+      "page": 1,
+      "corrected": true,
+      "top": 2540.4000000000015,
+      "left": 426.8000000000001,
+      "width": 88.79999999999995,
+      "height": 22.40000000000009,
+      "customTooltip": " Middle Name."
+    },
+    "9e35ed02-0cb4-4a92-9072-a00e4dcf72d3": {
+      "id": "9e35ed02-0cb4-4a92-9072-a00e4dcf72d3",
+      "backgroundColor": "rgba(48,176,199,0.2)",
+      "border": "3px solid rgba(48,176,199,1)",
+      "borderRadius": 50,
+      "type": "LABEL",
+      "page": 1,
+      "corrected": true,
+      "top": 2537.200000000001,
+      "left": 234.00000000000003,
+      "width": 78.4,
+      "height": 32.80000000000018,
+      "customTooltip": " First Name"
+    },
+    "9fa4dce0-97b1-4f15-bef6-448d7338bc6f": {
+      "id": "9fa4dce0-97b1-4f15-bef6-448d7338bc6f",
+      "backgroundColor": "rgba(48,176,199,0.2)",
+      "border": "3px solid rgba(48,176,199,1)",
+      "borderRadius": 50,
+      "type": "LABEL",
+      "page": 1,
+      "corrected": true,
+      "top": 2603.600000000001,
+      "left": 118.80000000000004,
+      "width": 87.20000000000005,
+      "height": 28.800000000000182,
+      "customTooltip": " Company"
+    },
+    "c0188159-ee16-4621-8c81-1284690ec0f3": {
+      "id": "c0188159-ee16-4621-8c81-1284690ec0f3",
+      "backgroundColor": "rgba(48,176,199,0.2)",
+      "border": "3px solid rgba(48,176,199,1)",
+      "borderRadius": 50,
+      "type": "LABEL",
+      "page": 1,
+      "corrected": true,
+      "top": 2694.0000000000005,
+      "left": 237.20000000000007,
+      "width": 58.400000000000006,
+      "height": 22.40000000000009,
+      "customTooltip": " Number"
+    },
+    "079a7624-91b0-402b-9d3a-3c4dde65f69d": {
+      "id": "079a7624-91b0-402b-9d3a-3c4dde65f69d",
+      "backgroundColor": "rgba(48,176,199,0.2)",
+      "border": "3px solid rgba(48,176,199,1)",
+      "borderRadius": 50,
+      "type": "LABEL",
+      "page": 1,
+      "corrected": true,
+      "top": 2694.0000000000005,
+      "left": 390.8000000000001,
+      "width": 46.400000000000034,
+      "height": 22.40000000000009,
+      "customTooltip": " Street"
+    },
+    "56bd49c8-c750-4d1a-96d9-2b6d74d5d110": {
+      "id": "56bd49c8-c750-4d1a-96d9-2b6d74d5d110",
+      "backgroundColor": "rgba(48,176,199,0.2)",
+      "border": "3px solid rgba(48,176,199,1)",
+      "borderRadius": 50,
+      "type": "LABEL",
+      "page": 1,
+      "corrected": true,
+      "top": 2738,
+      "left": 237.20000000000007,
+      "width": 33.599999999999994,
+      "height": 24.800000000000182,
+      "customTooltip": " City"
+    },
+    "fe51442e-170a-4527-bd8f-5eea06f4d413": {
+      "id": "fe51442e-170a-4527-bd8f-5eea06f4d413",
+      "backgroundColor": "rgba(48,176,199,0.2)",
+      "border": "3px solid rgba(48,176,199,1)",
+      "borderRadius": 50,
+      "type": "LABEL",
+      "page": 1,
+      "corrected": true,
+      "top": 2738,
+      "left": 577.2,
+      "width": 40.799999999999955,
+      "height": 22.40000000000009,
+      "customTooltip": " State"
+    },
+    "1e939fdf-b9f1-4372-89a0-e047362d39eb": {
+      "id": "1e939fdf-b9f1-4372-89a0-e047362d39eb",
+      "backgroundColor": "rgba(48,176,199,0.2)",
+      "border": "3px solid rgba(48,176,199,1)",
+      "borderRadius": 50,
+      "type": "LABEL",
+      "page": 1,
+      "corrected": true,
+      "top": 2738,
+      "left": 676.4000000000002,
+      "width": 67.19999999999993,
+      "height": 22.40000000000009,
+      "customTooltip": " ZIP Code"
+    },
+    "af0c14ab-6923-4d97-aa5c-319a5df1f6ce": {
+      "id": "af0c14ab-6923-4d97-aa5c-319a5df1f6ce",
+      "backgroundColor": "rgba(48,176,199,0.2)",
+      "border": "3px solid rgba(48,176,199,1)",
+      "borderRadius": 50,
+      "type": "LABEL",
+      "page": 1,
+      "corrected": true,
+      "top": 2808.4000000000015,
+      "left": 778.0000000000001,
+      "width": 48,
+      "height": 24,
+      "customTooltip": " Email"
+    },
+    "210733d4-99a6-49e8-9589-beeb271f72b2": {
+      "id": "210733d4-99a6-49e8-9589-beeb271f72b2",
+      "backgroundColor": "rgba(48,176,199,0.2)",
+      "border": "3px solid rgba(48,176,199,1)",
+      "borderRadius": 50,
+      "type": "LABEL",
+      "page": 1,
+      "corrected": true,
+      "top": 2809.2000000000007,
+      "left": 118.80000000000004,
+      "width": 111.20000000000007,
+      "height": 26.40000000000009,
+      "customTooltip": " Contact phone"
+    },
+    "c9a9c626-4df2-472a-ab19-bdcb273d7a22": {
+      "id": "c9a9c626-4df2-472a-ab19-bdcb273d7a22",
+      "backgroundColor": "rgba(48,176,199,0.2)",
+      "border": "3px solid rgba(48,176,199,1)",
+      "borderRadius": 50,
+      "type": "GROUP_LABEL",
+      "page": 1,
+      "corrected": true,
+      "top": 158.00000000000003,
+      "left": 828.4000000000003,
+      "width": 99.99999999999989,
+      "height": 26.400000000000006,
+      "customTooltip": " Check one."
+    }
+  },
+  "selectedAnnotations": {},
+  "canRedo": false,
+  "canUndo": false,
+  "currentVersion": -1,
+  "versions": {},
+  "tokens": [
+    [
+      {
+        "top": 94.40000000000002,
+        "left": 80.00000000000001,
+        "width": 37.60000000000002,
+        "height": 12.000000000000002,
+        "text": "Form",
+        "class": "text"
+      },
+      {
+        "top": 94.40000000000002,
+        "left": 123.20000000000002,
+        "width": 48.00000000000001,
+        "height": 12.000000000000002,
+        "text": "2400A",
+        "class": "text"
+      },
+      {
+        "top": 93.60000000000002,
+        "left": 176,
+        "width": 51.20000000000001,
+        "height": 16.000000000000004,
+        "text": "(12/15)",
+        "class": "text"
+      },
+      {
+        "top": 164.00000000000003,
+        "left": 834.4000000000003,
+        "width": 50.40000000000002,
+        "height": 14.400000000000002,
+        "text": "Check",
+        "class": "text"
+      },
+      {
+        "top": 168.8,
+        "left": 891.2000000000002,
+        "width": 31.20000000000001,
+        "height": 9.600000000000003,
+        "text": "one.",
+        "class": "text"
+      },
+      {
+        "top": 188.80000000000004,
+        "left": 880.0000000000001,
+        "width": 109.60000000000002,
+        "height": 17.6,
+        "text": "Presumption",
+        "class": "text"
+      },
+      {
+        "top": 188.80000000000004,
+        "left": 995.2000000000004,
+        "width": 17.6,
+        "height": 13.600000000000005,
+        "text": "of",
+        "class": "text"
+      },
+      {
+        "top": 188.80000000000004,
+        "left": 1016.8000000000003,
+        "width": 56.00000000000001,
+        "height": 13.600000000000005,
+        "text": "Undue",
+        "class": "text"
+      },
+      {
+        "top": 188.80000000000004,
+        "left": 1078.4,
+        "width": 80.00000000000001,
+        "height": 17.6,
+        "text": "Hardship",
+        "class": "text"
+      },
+      {
+        "top": 212.00000000000003,
+        "left": 878.4000000000003,
+        "width": 25.600000000000005,
+        "height": 13.600000000000005,
+        "text": "No",
+        "class": "text"
+      },
+      {
+        "top": 212.00000000000003,
+        "left": 909.6000000000003,
+        "width": 109.60000000000002,
+        "height": 17.6,
+        "text": "Presumption",
+        "class": "text"
+      },
+      {
+        "top": 212.00000000000003,
+        "left": 1024.8000000000004,
+        "width": 17.6,
+        "height": 13.600000000000005,
+        "text": "of",
+        "class": "text"
+      },
+      {
+        "top": 212.00000000000003,
+        "left": 1046.4,
+        "width": 56.00000000000001,
+        "height": 13.600000000000005,
+        "text": "Undue",
+        "class": "text"
+      },
+      {
+        "top": 212.00000000000003,
+        "left": 1107.2000000000003,
+        "width": 80.80000000000003,
+        "height": 17.6,
+        "text": "Hardship",
+        "class": "text"
+      },
+      {
+        "top": 235.20000000000007,
+        "left": 833.6000000000003,
+        "width": 27.20000000000001,
+        "height": 13.600000000000005,
+        "text": "See",
+        "class": "text"
+      },
+      {
+        "top": 234.40000000000003,
+        "left": 865.6000000000003,
+        "width": 72.80000000000003,
+        "height": 14.400000000000002,
+        "text": "Debtor’s",
+        "class": "text"
+      },
+      {
+        "top": 235.20000000000007,
+        "left": 943.2000000000004,
+        "width": 80.00000000000001,
+        "height": 13.600000000000005,
+        "text": "Statement",
+        "class": "text"
+      },
+      {
+        "top": 236.8000000000001,
+        "left": 1028.0000000000002,
+        "width": 14.400000000000002,
+        "height": 12.000000000000002,
+        "text": "in",
+        "class": "text"
+      },
+      {
+        "top": 235.20000000000007,
+        "left": 1048.0000000000002,
+        "width": 64.00000000000001,
+        "height": 17.6,
+        "text": "Support",
+        "class": "text"
+      },
+      {
+        "top": 234.40000000000003,
+        "left": 1116.8000000000004,
+        "width": 16.000000000000004,
+        "height": 18.40000000000001,
+        "text": "of",
+        "class": "text"
+      },
+      {
+        "top": 234.40000000000003,
+        "left": 1135.2000000000003,
+        "width": 115.20000000000002,
+        "height": 18.40000000000001,
+        "text": "Reaffirmation,",
+        "class": "text"
+      },
+      {
+        "top": 258.40000000000003,
+        "left": 832.0000000000001,
+        "width": 38.40000000000001,
+        "height": 13.600000000000005,
+        "text": "Part",
+        "class": "text"
+      },
+      {
+        "top": 258.40000000000003,
+        "left": 874.4000000000003,
+        "width": 14.400000000000002,
+        "height": 13.600000000000005,
+        "text": "II",
+        "class": "text"
+      },
+      {
+        "top": 257.6,
+        "left": 892.8000000000002,
+        "width": 50.40000000000002,
+        "height": 17.6,
+        "text": "below,",
+        "class": "text"
+      },
+      {
+        "top": 260.80000000000007,
+        "left": 952.0000000000001,
+        "width": 14.400000000000002,
+        "height": 11.200000000000003,
+        "text": "to",
+        "class": "text"
+      },
+      {
+        "top": 257.6,
+        "left": 972.8000000000003,
+        "width": 78.4,
+        "height": 14.400000000000002,
+        "text": "determine",
+        "class": "text"
+      },
+      {
+        "top": 257.6,
+        "left": 1056.8000000000004,
+        "width": 48.00000000000001,
+        "height": 14.400000000000002,
+        "text": "which",
+        "class": "text"
+      },
+      {
+        "top": 257.6,
+        "left": 1109.6000000000004,
+        "width": 28.800000000000004,
+        "height": 14.400000000000002,
+        "text": "box",
+        "class": "text"
+      },
+      {
+        "top": 260.80000000000007,
+        "left": 1144.8000000000004,
+        "width": 14.400000000000002,
+        "height": 11.200000000000003,
+        "text": "to",
+        "class": "text"
+      },
+      {
+        "top": 257.6,
+        "left": 1165.6000000000004,
+        "width": 47.20000000000001,
+        "height": 14.400000000000002,
+        "text": "check.",
+        "class": "text"
+      },
+      {
+        "top": 372.8000000000002,
+        "left": 344,
+        "width": 136.8,
+        "height": 29.600000000000012,
+        "text": "UNITED",
+        "class": "text"
+      },
+      {
+        "top": 372.00000000000006,
+        "left": 493.6000000000002,
+        "width": 130.40000000000003,
+        "height": 30.40000000000001,
+        "text": "STATES",
+        "class": "text"
+      },
+      {
+        "top": 372.8000000000002,
+        "left": 636.0000000000001,
+        "width": 244.00000000000003,
+        "height": 29.600000000000012,
+        "text": "BANKRUPTCY",
+        "class": "text"
+      },
+      {
+        "top": 372.00000000000006,
+        "left": 891.2000000000002,
+        "width": 123.20000000000002,
+        "height": 30.40000000000001,
+        "text": "COURT",
+        "class": "text"
+      },
+      {
+        "top": 509.6000000000002,
+        "left": 80.80000000000003,
+        "width": 20.80000000000001,
+        "height": 17.6,
+        "text": "In",
+        "class": "text"
+      },
+      {
+        "top": 515.2,
+        "left": 108.80000000000004,
+        "width": 19.200000000000006,
+        "height": 12.000000000000002,
+        "text": "re",
+        "class": "text"
+      },
+      {
+        "top": 509.6000000000002,
+        "left": 960.8000000000003,
+        "width": 49.600000000000016,
+        "height": 17.6,
+        "text": "Case",
+        "class": "text"
+      },
+      {
+        "top": 509.6000000000002,
+        "left": 1018.4000000000003,
+        "width": 36.80000000000002,
+        "height": 17.6,
+        "text": "No.",
+        "class": "text"
+      },
+      {
+        "top": 540.0000000000001,
+        "left": 312.00000000000006,
+        "width": 76.80000000000003,
+        "height": 18.40000000000001,
+        "text": "Debtor",
+        "class": "text"
+      },
+      {
+        "top": 571.2,
+        "left": 960.8000000000003,
+        "width": 83.20000000000005,
+        "height": 24.000000000000004,
+        "text": "Chapter",
+        "class": "text"
+      },
+      {
+        "top": 665.6000000000004,
+        "left": 458.40000000000015,
+        "width": 248.00000000000003,
+        "height": 19.200000000000006,
+        "text": "REAFFIRMATION",
+        "class": "text"
+      },
+      {
+        "top": 665.6000000000004,
+        "left": 715.2000000000002,
+        "width": 185.60000000000005,
+        "height": 19.200000000000006,
+        "text": "DOCUMENTS",
+        "class": "text"
+      },
+      {
+        "top": 730.4000000000002,
+        "left": 319.2000000000001,
+        "width": 64.80000000000003,
+        "height": 18.40000000000001,
+        "text": "Name",
+        "class": "text"
+      },
+      {
+        "top": 730.4000000000002,
+        "left": 392.00000000000006,
+        "width": 24.000000000000004,
+        "height": 18.40000000000001,
+        "text": "of",
+        "class": "text"
+      },
+      {
+        "top": 730.4000000000002,
+        "left": 421.6000000000001,
+        "width": 104.80000000000004,
+        "height": 18.40000000000001,
+        "text": "Creditor:",
+        "class": "text"
+      },
+      {
+        "top": 772.0000000000001,
+        "left": 222.40000000000006,
+        "width": 16.000000000000004,
+        "height": 48.00000000000001,
+        "text": "L",
+        "class": "text"
+      },
+      {
+        "top": 775.2000000000002,
+        "left": 250.40000000000003,
+        "width": 14.400000000000002,
+        "height": 41.60000000000002,
+        "text": "|",
+        "class": "text"
+      },
+      {
+        "top": 792.0000000000001,
+        "left": 274.4000000000001,
+        "width": 68.00000000000001,
+        "height": 19.200000000000006,
+        "text": "Check",
+        "class": "text"
+      },
+      {
+        "top": 792.0000000000001,
+        "left": 348,
+        "width": 37.60000000000002,
+        "height": 19.200000000000006,
+        "text": "this",
+        "class": "text"
+      },
+      {
+        "top": 792.0000000000001,
+        "left": 393.6000000000001,
+        "width": 40.00000000000001,
+        "height": 19.200000000000006,
+        "text": "box",
+        "class": "text"
+      },
+      {
+        "top": 792.0000000000001,
+        "left": 441.6000000000001,
+        "width": 17.6,
+        "height": 19.200000000000006,
+        "text": "if",
+        "class": "text"
+      },
+      {
+        "top": 792.0000000000001,
+        "left": 464.00000000000006,
+        "width": 88.80000000000003,
+        "height": 19.200000000000006,
+        "text": "Creditor",
+        "class": "text"
+      },
+      {
+        "top": 792.0000000000001,
+        "left": 560.0000000000001,
+        "width": 15.200000000000005,
+        "height": 19.200000000000006,
+        "text": "is",
+        "class": "text"
+      },
+      {
+        "top": 798.4000000000003,
+        "left": 584.8000000000002,
+        "width": 11.200000000000003,
+        "height": 12.800000000000002,
+        "text": "a",
+        "class": "text"
+      },
+      {
+        "top": 792.0000000000001,
+        "left": 603.2,
+        "width": 65.60000000000001,
+        "height": 19.200000000000006,
+        "text": "Credit",
+        "class": "text"
+      },
+      {
+        "top": 792.0000000000001,
+        "left": 676.0000000000001,
+        "width": 65.60000000000001,
+        "height": 19.200000000000006,
+        "text": "Union",
+        "class": "text"
+      },
+      {
+        "top": 881.6000000000003,
+        "left": 80.80000000000003,
+        "width": 69.60000000000002,
+        "height": 18.40000000000001,
+        "text": "PART",
+        "class": "text"
+      },
+      {
+        "top": 881.6000000000003,
+        "left": 160.00000000000003,
+        "width": 14.400000000000002,
+        "height": 18.40000000000001,
+        "text": "I.",
+        "class": "text"
+      },
+      {
+        "top": 881.6000000000003,
+        "left": 190.4000000000001,
+        "width": 228.8000000000001,
+        "height": 18.40000000000001,
+        "text": "REAFFIRMATION",
+        "class": "text"
+      },
+      {
+        "top": 881.6000000000003,
+        "left": 427.20000000000016,
+        "width": 172.80000000000004,
+        "height": 18.40000000000001,
+        "text": "AGREEMENT",
+        "class": "text"
+      },
+      {
+        "top": 940.8000000000003,
+        "left": 80.80000000000003,
+        "width": 138.40000000000003,
+        "height": 24.000000000000004,
+        "text": "Reaffirming",
+        "class": "text"
+      },
+      {
+        "top": 946.4000000000003,
+        "left": 227.20000000000005,
+        "width": 12.000000000000002,
+        "height": 12.800000000000002,
+        "text": "a",
+        "class": "text"
+      },
+      {
+        "top": 940.8000000000003,
+        "left": 247.20000000000007,
+        "width": 49.600000000000016,
+        "height": 18.40000000000001,
+        "text": "debt",
+        "class": "text"
+      },
+      {
+        "top": 940.8000000000003,
+        "left": 303.2000000000001,
+        "width": 16.800000000000004,
+        "height": 18.40000000000001,
+        "text": "is",
+        "class": "text"
+      },
+      {
+        "top": 946.4000000000003,
+        "left": 328.8000000000002,
+        "width": 12.000000000000002,
+        "height": 12.800000000000002,
+        "text": "a",
+        "class": "text"
+      },
+      {
+        "top": 940.8000000000003,
+        "left": 348.8000000000002,
+        "width": 78.4,
+        "height": 18.40000000000001,
+        "text": "serious",
+        "class": "text"
+      },
+      {
+        "top": 940.8000000000003,
+        "left": 435.20000000000016,
+        "width": 98.40000000000002,
+        "height": 18.40000000000001,
+        "text": "financial",
+        "class": "text"
+      },
+      {
+        "top": 940.8000000000003,
+        "left": 541.6000000000001,
+        "width": 96.00000000000001,
+        "height": 18.40000000000001,
+        "text": "decision.",
+        "class": "text"
+      },
+      {
+        "top": 940.8000000000003,
+        "left": 653.6000000000004,
+        "width": 74.4,
+        "height": 18.40000000000001,
+        "text": "Before",
+        "class": "text"
+      },
+      {
+        "top": 940.8000000000003,
+        "left": 736.0000000000001,
+        "width": 93.60000000000002,
+        "height": 24.000000000000004,
+        "text": "entering",
+        "class": "text"
+      },
+      {
+        "top": 940.8000000000003,
+        "left": 836.8000000000002,
+        "width": 44,
+        "height": 18.40000000000001,
+        "text": "into",
+        "class": "text"
+      },
+      {
+        "top": 940.8000000000003,
+        "left": 888.0000000000001,
+        "width": 40.80000000000001,
+        "height": 18.40000000000001,
+        "text": "this",
+        "class": "text"
+      },
+      {
+        "top": 940.8000000000003,
+        "left": 936.8000000000003,
+        "width": 160.8,
+        "height": 18.40000000000001,
+        "text": "Reaffirmation",
+        "class": "text"
+      },
+      {
+        "top": 972.0000000000001,
+        "left": 80.00000000000001,
+        "width": 132.00000000000003,
+        "height": 24.000000000000004,
+        "text": "Agreement,",
+        "class": "text"
+      },
+      {
+        "top": 977.6000000000001,
+        "left": 219.20000000000005,
+        "width": 41.60000000000002,
+        "height": 18.40000000000001,
+        "text": "you",
+        "class": "text"
+      },
+      {
+        "top": 973.6000000000001,
+        "left": 268.00000000000006,
+        "width": 56.00000000000001,
+        "height": 16.800000000000004,
+        "text": "must",
+        "class": "text"
+      },
+      {
+        "top": 972.0000000000001,
+        "left": 331.2000000000001,
+        "width": 73.60000000000004,
+        "height": 18.40000000000001,
+        "text": "review",
+        "class": "text"
+      },
+      {
+        "top": 972.0000000000001,
+        "left": 412.8000000000001,
+        "width": 35.2,
+        "height": 18.40000000000001,
+        "text": "the",
+        "class": "text"
+      },
+      {
+        "top": 972.0000000000001,
+        "left": 455.20000000000016,
+        "width": 115.20000000000002,
+        "height": 24.000000000000004,
+        "text": "important",
+        "class": "text"
+      },
+      {
+        "top": 972.0000000000001,
+        "left": 578.4000000000002,
+        "width": 128.8,
+        "height": 22.400000000000006,
+        "text": "disclosures,",
+        "class": "text"
+      },
+      {
+        "top": 972.0000000000001,
+        "left": 715.2000000000002,
+        "width": 140.8,
+        "height": 22.400000000000006,
+        "text": "instructions,",
+        "class": "text"
+      },
+      {
+        "top": 972.0000000000001,
+        "left": 864.0000000000001,
+        "width": 41.60000000000002,
+        "height": 18.40000000000001,
+        "text": "and",
+        "class": "text"
+      },
+      {
+        "top": 972.0000000000001,
+        "left": 914.4000000000003,
+        "width": 118.40000000000005,
+        "height": 18.40000000000001,
+        "text": "definitions",
+        "class": "text"
+      },
+      {
+        "top": 972.0000000000001,
+        "left": 1040.8000000000004,
+        "width": 64.80000000000003,
+        "height": 18.40000000000001,
+        "text": "found",
+        "class": "text"
+      },
+      {
+        "top": 972.0000000000001,
+        "left": 1113.6000000000004,
+        "width": 21.600000000000005,
+        "height": 18.40000000000001,
+        "text": "in",
+        "class": "text"
+      },
+      {
+        "top": 972.0000000000001,
+        "left": 1143.2000000000003,
+        "width": 49.600000000000016,
+        "height": 18.40000000000001,
+        "text": "Part",
+        "class": "text"
+      },
+      {
+        "top": 972.0000000000001,
+        "left": 1199.2000000000007,
+        "width": 18.40000000000001,
+        "height": 18.40000000000001,
+        "text": "V",
+        "class": "text"
+      },
+      {
+        "top": 972.0000000000001,
+        "left": 1226.4,
+        "width": 23.200000000000006,
+        "height": 18.40000000000001,
+        "text": "of",
+        "class": "text"
+      },
+      {
+        "top": 1003.2000000000004,
+        "left": 80.00000000000001,
+        "width": 40.80000000000001,
+        "height": 18.40000000000001,
+        "text": "this",
+        "class": "text"
+      },
+      {
+        "top": 1003.2000000000004,
+        "left": 128.8,
+        "width": 60.80000000000002,
+        "height": 18.40000000000001,
+        "text": "form.",
+        "class": "text"
+      },
+      {
+        "top": 1063.2000000000003,
+        "left": 80.80000000000003,
+        "width": 22.400000000000006,
+        "height": 17.6,
+        "text": "A.",
+        "class": "text"
+      },
+      {
+        "top": 1061.6000000000004,
+        "left": 120.00000000000001,
+        "width": 56.80000000000001,
+        "height": 19.200000000000006,
+        "text": "Brief",
+        "class": "text"
+      },
+      {
+        "top": 1061.6000000000004,
+        "left": 181.60000000000005,
+        "width": 117.60000000000004,
+        "height": 24.800000000000008,
+        "text": "description",
+        "class": "text"
+      },
+      {
+        "top": 1061.6000000000004,
+        "left": 307.2000000000001,
+        "width": 23.200000000000006,
+        "height": 19.200000000000006,
+        "text": "of",
+        "class": "text"
+      },
+      {
+        "top": 1062.4,
+        "left": 340.8000000000002,
+        "width": 32.00000000000001,
+        "height": 18.40000000000001,
+        "text": "the",
+        "class": "text"
+      },
+      {
+        "top": 1062.4,
+        "left": 381.6000000000001,
+        "width": 81.60000000000002,
+        "height": 24.000000000000004,
+        "text": "original",
+        "class": "text"
+      },
+      {
+        "top": 1064.8000000000004,
+        "left": 471.20000000000016,
+        "width": 110.40000000000002,
+        "height": 21.600000000000005,
+        "text": "agreement",
+        "class": "text"
+      },
+      {
+        "top": 1062.4,
+        "left": 588.0000000000001,
+        "width": 59.200000000000024,
+        "height": 24.000000000000004,
+        "text": "being",
+        "class": "text"
+      },
+      {
+        "top": 1061.6000000000004,
+        "left": 654.4000000000002,
+        "width": 116.80000000000004,
+        "height": 19.200000000000006,
+        "text": "reaffirmed:",
+        "class": "text"
+      },
+      {
+        "top": 1099.2000000000003,
+        "left": 893.6000000000003,
+        "width": 29.600000000000012,
+        "height": 12.800000000000002,
+        "text": "For",
+        "class": "text"
+      },
+      {
+        "top": 1098.4,
+        "left": 928.0000000000001,
+        "width": 67.20000000000002,
+        "height": 17.6,
+        "text": "example,",
+        "class": "text"
+      },
+      {
+        "top": 1100.8000000000004,
+        "left": 1002.4000000000003,
+        "width": 33.60000000000001,
+        "height": 11.200000000000003,
+        "text": "auto",
+        "class": "text"
+      },
+      {
+        "top": 1098.4,
+        "left": 1042.4,
+        "width": 34.40000000000001,
+        "height": 13.600000000000005,
+        "text": "loan",
+        "class": "text"
+      },
+      {
+        "top": 1156.8000000000004,
+        "left": 80.80000000000003,
+        "width": 20.80000000000001,
+        "height": 17.6,
+        "text": "B.",
+        "class": "text"
+      },
+      {
+        "top": 1156.0000000000002,
+        "left": 116.00000000000001,
+        "width": 118.40000000000005,
+        "height": 18.40000000000001,
+        "text": "AMOUNT",
+        "class": "text"
+      },
+      {
+        "top": 1156.0000000000002,
+        "left": 239.20000000000007,
+        "width": 182.4000000000001,
+        "height": 18.40000000000001,
+        "text": "REAFFIRMED:",
+        "class": "text"
+      },
+      {
+        "top": 1155.2000000000003,
+        "left": 481.6000000000002,
+        "width": 11.200000000000003,
+        "height": 20.80000000000001,
+        "text": "$",
+        "class": "text"
+      },
+      {
+        "top": 1217.6000000000006,
+        "left": 160.8,
+        "width": 39.2,
+        "height": 18.40000000000001,
+        "text": "The",
+        "class": "text"
+      },
+      {
+        "top": 1218.4,
+        "left": 208.80000000000004,
+        "width": 86.40000000000002,
+        "height": 17.6,
+        "text": "Amount",
+        "class": "text"
+      },
+      {
+        "top": 1217.6000000000006,
+        "left": 303.2000000000001,
+        "width": 120.00000000000001,
+        "height": 18.40000000000001,
+        "text": "Reaffirmed",
+        "class": "text"
+      },
+      {
+        "top": 1217.6000000000006,
+        "left": 431.20000000000016,
+        "width": 15.200000000000005,
+        "height": 18.40000000000001,
+        "text": "is",
+        "class": "text"
+      },
+      {
+        "top": 1217.6000000000006,
+        "left": 453.6000000000001,
+        "width": 32.00000000000001,
+        "height": 18.40000000000001,
+        "text": "the",
+        "class": "text"
+      },
+      {
+        "top": 1217.6000000000006,
+        "left": 494.40000000000015,
+        "width": 59.200000000000024,
+        "height": 18.40000000000001,
+        "text": "entire",
+        "class": "text"
+      },
+      {
+        "top": 1220.0000000000002,
+        "left": 562.4000000000002,
+        "width": 78.4,
+        "height": 16.000000000000004,
+        "text": "amount",
+        "class": "text"
+      },
+      {
+        "top": 1217.6000000000006,
+        "left": 647.2,
+        "width": 40.80000000000001,
+        "height": 18.40000000000001,
+        "text": "that",
+        "class": "text"
+      },
+      {
+        "top": 1224.0000000000002,
+        "left": 694.4000000000002,
+        "width": 40.00000000000001,
+        "height": 17.6,
+        "text": "you",
+        "class": "text"
+      },
+      {
+        "top": 1224.0000000000002,
+        "left": 742.4000000000002,
+        "width": 30.40000000000001,
+        "height": 12.000000000000002,
+        "text": "are",
+        "class": "text"
+      },
+      {
+        "top": 1217.6000000000006,
+        "left": 781.6000000000003,
+        "width": 90.40000000000002,
+        "height": 24.000000000000004,
+        "text": "agreeing",
+        "class": "text"
+      },
+      {
+        "top": 1220.0000000000002,
+        "left": 878.4000000000003,
+        "width": 20.000000000000004,
+        "height": 16.000000000000004,
+        "text": "to",
+        "class": "text"
+      },
+      {
+        "top": 1224.0000000000002,
+        "left": 906.4000000000003,
+        "width": 43.20000000000001,
+        "height": 17.6,
+        "text": "pay.",
+        "class": "text"
+      },
+      {
+        "top": 1217.6000000000006,
+        "left": 966.4000000000003,
+        "width": 44.80000000000001,
+        "height": 18.40000000000001,
+        "text": "This",
+        "class": "text"
+      },
+      {
+        "top": 1224.0000000000002,
+        "left": 1019.2000000000004,
+        "width": 45.60000000000002,
+        "height": 17.6,
+        "text": "may",
+        "class": "text"
+      },
+      {
+        "top": 1217.6000000000006,
+        "left": 1072.8000000000004,
+        "width": 76.00000000000001,
+        "height": 18.40000000000001,
+        "text": "include",
+        "class": "text"
+      },
+      {
+        "top": 1248.8000000000004,
+        "left": 160.00000000000003,
+        "width": 72.00000000000001,
+        "height": 24.000000000000004,
+        "text": "unpaid",
+        "class": "text"
+      },
+      {
+        "top": 1248.8000000000004,
+        "left": 239.20000000000007,
+        "width": 100.00000000000001,
+        "height": 24.000000000000004,
+        "text": "principal,",
+        "class": "text"
+      },
+      {
+        "top": 1248.8000000000004,
+        "left": 348.8000000000002,
+        "width": 82.4,
+        "height": 22.400000000000006,
+        "text": "interest,",
+        "class": "text"
+      },
+      {
+        "top": 1248.8000000000004,
+        "left": 440.8000000000001,
+        "width": 36.80000000000002,
+        "height": 18.40000000000001,
+        "text": "and",
+        "class": "text"
+      },
+      {
+        "top": 1248.8000000000004,
+        "left": 484.80000000000007,
+        "width": 41.60000000000002,
+        "height": 18.40000000000001,
+        "text": "fees",
+        "class": "text"
+      },
+      {
+        "top": 1248.8000000000004,
+        "left": 535.2,
+        "width": 37.60000000000002,
+        "height": 18.40000000000001,
+        "text": "and",
+        "class": "text"
+      },
+      {
+        "top": 1251.2000000000007,
+        "left": 580.8000000000002,
+        "width": 51.20000000000001,
+        "height": 16.000000000000004,
+        "text": "costs",
+        "class": "text"
+      },
+      {
+        "top": 1248.8000000000004,
+        "left": 640.8000000000002,
+        "width": 26.400000000000006,
+        "height": 24.000000000000004,
+        "text": "(if",
+        "class": "text"
+      },
+      {
+        "top": 1249.6000000000006,
+        "left": 672.8000000000002,
+        "width": 45.60000000000002,
+        "height": 23.200000000000006,
+        "text": "any)",
+        "class": "text"
+      },
+      {
+        "top": 1248.8000000000004,
+        "left": 726.4000000000002,
+        "width": 72.00000000000001,
+        "height": 24.000000000000004,
+        "text": "arising",
+        "class": "text"
+      },
+      {
+        "top": 1255.2000000000007,
+        "left": 806.4000000000003,
+        "width": 24.800000000000008,
+        "height": 12.000000000000002,
+        "text": "on",
+        "class": "text"
+      },
+      {
+        "top": 1255.2000000000007,
+        "left": 839.2000000000002,
+        "width": 21.600000000000005,
+        "height": 12.000000000000002,
+        "text": "or",
+        "class": "text"
+      },
+      {
+        "top": 1248.8000000000004,
+        "left": 867.2000000000002,
+        "width": 67.20000000000002,
+        "height": 18.40000000000001,
+        "text": "before",
+        "class": "text"
+      },
+      {
+        "top": 1264.8000000000004,
+        "left": 1169.6000000000004,
+        "width": 4.000000000000001,
+        "height": 6.400000000000001,
+        "text": "‘1",
+        "class": "text"
+      },
+      {
+        "top": 1280.0000000000002,
+        "left": 160.00000000000003,
+        "width": 64.80000000000003,
+        "height": 18.40000000000001,
+        "text": "which",
+        "class": "text"
+      },
+      {
+        "top": 1280.0000000000002,
+        "left": 232.8000000000001,
+        "width": 15.200000000000005,
+        "height": 18.40000000000001,
+        "text": "is",
+        "class": "text"
+      },
+      {
+        "top": 1280.0000000000002,
+        "left": 256.00000000000006,
+        "width": 32.00000000000001,
+        "height": 18.40000000000001,
+        "text": "the",
+        "class": "text"
+      },
+      {
+        "top": 1280.0000000000002,
+        "left": 296.8000000000002,
+        "width": 42.40000000000001,
+        "height": 18.40000000000001,
+        "text": "date",
+        "class": "text"
+      },
+      {
+        "top": 1280.0000000000002,
+        "left": 348,
+        "width": 23.200000000000006,
+        "height": 18.40000000000001,
+        "text": "of",
+        "class": "text"
+      },
+      {
+        "top": 1280.0000000000002,
+        "left": 375.2000000000001,
+        "width": 32.00000000000001,
+        "height": 18.40000000000001,
+        "text": "the",
+        "class": "text"
+      },
+      {
+        "top": 1280.0000000000002,
+        "left": 416.00000000000006,
+        "width": 112.00000000000001,
+        "height": 18.40000000000001,
+        "text": "Disclosure",
+        "class": "text"
+      },
+      {
+        "top": 1280.8000000000004,
+        "left": 537.6000000000001,
+        "width": 104.80000000000004,
+        "height": 17.6,
+        "text": "Statement",
+        "class": "text"
+      },
+      {
+        "top": 1280.0000000000002,
+        "left": 649.6000000000004,
+        "width": 76.80000000000003,
+        "height": 24.000000000000004,
+        "text": "portion",
+        "class": "text"
+      },
+      {
+        "top": 1280.0000000000002,
+        "left": 734.4000000000002,
+        "width": 23.200000000000006,
+        "height": 18.40000000000001,
+        "text": "of",
+        "class": "text"
+      },
+      {
+        "top": 1280.0000000000002,
+        "left": 761.6000000000004,
+        "width": 37.60000000000002,
+        "height": 18.40000000000001,
+        "text": "this",
+        "class": "text"
+      },
+      {
+        "top": 1280.0000000000002,
+        "left": 807.2000000000002,
+        "width": 51.20000000000001,
+        "height": 18.40000000000001,
+        "text": "form",
+        "class": "text"
+      },
+      {
+        "top": 1280.8000000000004,
+        "left": 866.4000000000003,
+        "width": 51.20000000000001,
+        "height": 23.200000000000006,
+        "text": "(Part",
+        "class": "text"
+      },
+      {
+        "top": 1280.8000000000004,
+        "left": 924.8000000000003,
+        "width": 32.00000000000001,
+        "height": 23.200000000000006,
+        "text": "V).",
+        "class": "text"
+      },
+      {
+        "top": 1342.4,
+        "left": 166.4000000000001,
+        "width": 36.80000000000002,
+        "height": 18.40000000000001,
+        "text": "See",
+        "class": "text"
+      },
+      {
+        "top": 1342.4,
+        "left": 211.20000000000005,
+        "width": 31.20000000000001,
+        "height": 18.40000000000001,
+        "text": "the",
+        "class": "text"
+      },
+      {
+        "top": 1342.4,
+        "left": 250.40000000000003,
+        "width": 100.80000000000004,
+        "height": 24.000000000000004,
+        "text": "definition",
+        "class": "text"
+      },
+      {
+        "top": 1342.4,
+        "left": 359.2000000000001,
+        "width": 25.600000000000005,
+        "height": 24.000000000000004,
+        "text": "of",
+        "class": "text"
+      },
+      {
+        "top": 1339.2000000000007,
+        "left": 393.6000000000001,
+        "width": 88.80000000000003,
+        "height": 30.40000000000001,
+        "text": "“Amount",
+        "class": "text"
+      },
+      {
+        "top": 1339.2000000000007,
+        "left": 492.00000000000006,
+        "width": 125.60000000000004,
+        "height": 30.40000000000001,
+        "text": "Reaffirmed”",
+        "class": "text"
+      },
+      {
+        "top": 1344.8000000000004,
+        "left": 632.0000000000001,
+        "width": 19.200000000000006,
+        "height": 16.000000000000004,
+        "text": "in",
+        "class": "text"
+      },
+      {
+        "top": 1343.2000000000007,
+        "left": 656.8000000000002,
+        "width": 49.600000000000016,
+        "height": 17.6,
+        "text": "Part",
+        "class": "text"
+      },
+      {
+        "top": 1343.2000000000007,
+        "left": 715.2000000000002,
+        "width": 16.800000000000004,
+        "height": 20.80000000000001,
+        "text": "V,",
+        "class": "text"
+      },
+      {
+        "top": 1342.4,
+        "left": 742.4000000000002,
+        "width": 77.60000000000004,
+        "height": 18.40000000000001,
+        "text": "Section",
+        "class": "text"
+      },
+      {
+        "top": 1342.4,
+        "left": 828.0000000000001,
+        "width": 16.800000000000004,
+        "height": 18.40000000000001,
+        "text": "C",
+        "class": "text"
+      },
+      {
+        "top": 1342.4,
+        "left": 853.6000000000003,
+        "width": 64.80000000000003,
+        "height": 18.40000000000001,
+        "text": "below.",
+        "class": "text"
+      },
+      {
+        "top": 1404.8000000000004,
+        "left": 80.80000000000003,
+        "width": 20.80000000000001,
+        "height": 17.6,
+        "text": "C.",
+        "class": "text"
+      },
+      {
+        "top": 1404,
+        "left": 118.40000000000005,
+        "width": 39.2,
+        "height": 18.40000000000001,
+        "text": "The",
+        "class": "text"
+      },
+      {
+        "top": 1404,
+        "left": 164.00000000000003,
+        "width": 110.40000000000002,
+        "height": 18.40000000000001,
+        "text": "ANNUAL",
+        "class": "text"
+      },
+      {
+        "top": 1404,
+        "left": 280.80000000000007,
+        "width": 179.20000000000005,
+        "height": 18.40000000000001,
+        "text": "PERCENTAGE",
+        "class": "text"
+      },
+      {
+        "top": 1404,
+        "left": 464.80000000000007,
+        "width": 54.40000000000002,
+        "height": 18.40000000000001,
+        "text": "RATE",
+        "class": "text"
+      },
+      {
+        "top": 1404,
+        "left": 542.4000000000002,
+        "width": 108.00000000000001,
+        "height": 24.000000000000004,
+        "text": "applicable",
+        "class": "text"
+      },
+      {
+        "top": 1406.4000000000003,
+        "left": 657.6000000000004,
+        "width": 20.000000000000004,
+        "height": 16.000000000000004,
+        "text": "to",
+        "class": "text"
+      },
+      {
+        "top": 1404,
+        "left": 684.8000000000002,
+        "width": 32.00000000000001,
+        "height": 18.40000000000001,
+        "text": "the",
+        "class": "text"
+      },
+      {
+        "top": 1404.8000000000004,
+        "left": 725.6000000000004,
+        "width": 86.40000000000002,
+        "height": 17.6,
+        "text": "Amount",
+        "class": "text"
+      },
+      {
+        "top": 1404,
+        "left": 820.0000000000001,
+        "width": 120.00000000000001,
+        "height": 18.40000000000001,
+        "text": "Reaffirmed",
+        "class": "text"
+      },
+      {
+        "top": 1404,
+        "left": 948.0000000000001,
+        "width": 15.200000000000005,
+        "height": 18.40000000000001,
+        "text": "is",
+        "class": "text"
+      },
+      {
+        "top": 1404.8000000000004,
+        "left": 1092.8000000000004,
+        "width": 24.800000000000008,
+        "height": 17.6,
+        "text": "%.",
+        "class": "text"
+      },
+      {
+        "top": 1466.4000000000003,
+        "left": 160.00000000000003,
+        "width": 36.00000000000001,
+        "height": 18.40000000000001,
+        "text": "See",
+        "class": "text"
+      },
+      {
+        "top": 1466.4000000000003,
+        "left": 204.80000000000004,
+        "width": 100.80000000000004,
+        "height": 24.000000000000004,
+        "text": "definition",
+        "class": "text"
+      },
+      {
+        "top": 1466.4000000000003,
+        "left": 313.6,
+        "width": 25.600000000000005,
+        "height": 24.000000000000004,
+        "text": "of",
+        "class": "text"
+      },
+      {
+        "top": 1466.4000000000003,
+        "left": 344.8000000000002,
+        "width": 87.20000000000005,
+        "height": 18.40000000000001,
+        "text": "“Annual",
+        "class": "text"
+      },
+      {
+        "top": 1467.2000000000007,
+        "left": 436.8000000000001,
+        "width": 123.20000000000002,
+        "height": 23.200000000000006,
+        "text": "Percentage",
+        "class": "text"
+      },
+      {
+        "top": 1466.4000000000003,
+        "left": 565.6000000000001,
+        "width": 64.00000000000001,
+        "height": 18.40000000000001,
+        "text": "Rate”",
+        "class": "text"
+      },
+      {
+        "top": 1468.8000000000004,
+        "left": 638.4000000000002,
+        "width": 19.200000000000006,
+        "height": 16.000000000000004,
+        "text": "in",
+        "class": "text"
+      },
+      {
+        "top": 1467.2000000000007,
+        "left": 663.2,
+        "width": 49.600000000000016,
+        "height": 17.6,
+        "text": "Part",
+        "class": "text"
+      },
+      {
+        "top": 1467.2000000000007,
+        "left": 721.6000000000004,
+        "width": 16.800000000000004,
+        "height": 20.80000000000001,
+        "text": "V,",
+        "class": "text"
+      },
+      {
+        "top": 1466.4000000000003,
+        "left": 748.8000000000002,
+        "width": 77.60000000000004,
+        "height": 18.40000000000001,
+        "text": "Section",
+        "class": "text"
+      },
+      {
+        "top": 1466.4000000000003,
+        "left": 834.4000000000003,
+        "width": 16.800000000000004,
+        "height": 18.40000000000001,
+        "text": "C",
+        "class": "text"
+      },
+      {
+        "top": 1466.4000000000003,
+        "left": 860.0000000000001,
+        "width": 65.60000000000001,
+        "height": 18.40000000000001,
+        "text": "below.",
+        "class": "text"
+      },
+      {
+        "top": 1528.0000000000002,
+        "left": 160.8,
+        "width": 44.80000000000001,
+        "height": 18.40000000000001,
+        "text": "This",
+        "class": "text"
+      },
+      {
+        "top": 1528.0000000000002,
+        "left": 215.20000000000005,
+        "width": 15.200000000000005,
+        "height": 18.40000000000001,
+        "text": "is",
+        "class": "text"
+      },
+      {
+        "top": 1534.4000000000003,
+        "left": 239.20000000000007,
+        "width": 11.200000000000003,
+        "height": 12.000000000000002,
+        "text": "a",
+        "class": "text"
+      },
+      {
+        "top": 1530.4000000000003,
+        "left": 258.40000000000003,
+        "width": 57.60000000000001,
+        "height": 20.80000000000001,
+        "text": "(check",
+        "class": "text"
+      },
+      {
+        "top": 1530.4000000000003,
+        "left": 321.6,
+        "width": 36.80000000000002,
+        "height": 20.80000000000001,
+        "text": "one)",
+        "class": "text"
+      },
+      {
+        "top": 1512.0000000000002,
+        "left": 365.6000000000001,
+        "width": 43.20000000000001,
+        "height": 46.40000000000001,
+        "text": "[|",
+        "class": "text"
+      },
+      {
+        "top": 1528.0000000000002,
+        "left": 419.20000000000016,
+        "width": 60.00000000000001,
+        "height": 18.40000000000001,
+        "text": "Fixed",
+        "class": "text"
+      },
+      {
+        "top": 1530.4000000000003,
+        "left": 486.40000000000015,
+        "width": 38.40000000000001,
+        "height": 16.000000000000004,
+        "text": "rate",
+        "class": "text"
+      },
+      {
+        "top": 1512.8000000000004,
+        "left": 703.2000000000002,
+        "width": 43.20000000000001,
+        "height": 47.20000000000001,
+        "text": "[|",
+        "class": "text"
+      },
+      {
+        "top": 1528.0000000000002,
+        "left": 754.4000000000002,
+        "width": 89.60000000000002,
+        "height": 18.40000000000001,
+        "text": "Variable",
+        "class": "text"
+      },
+      {
+        "top": 1530.4000000000003,
+        "left": 852.0000000000001,
+        "width": 39.2,
+        "height": 16.000000000000004,
+        "text": "rate",
+        "class": "text"
+      },
+      {
+        "top": 1590.4000000000003,
+        "left": 80.80000000000003,
+        "width": 19.200000000000006,
+        "height": 18.40000000000001,
+        "text": "If",
+        "class": "text"
+      },
+      {
+        "top": 1590.4000000000003,
+        "left": 104.00000000000001,
+        "width": 32.00000000000001,
+        "height": 18.40000000000001,
+        "text": "the",
+        "class": "text"
+      },
+      {
+        "top": 1590.4000000000003,
+        "left": 144.8,
+        "width": 44.80000000000001,
+        "height": 18.40000000000001,
+        "text": "loan",
+        "class": "text"
+      },
+      {
+        "top": 1590.4000000000003,
+        "left": 196.80000000000004,
+        "width": 33.60000000000001,
+        "height": 18.40000000000001,
+        "text": "has",
+        "class": "text"
+      },
+      {
+        "top": 1587.2000000000005,
+        "left": 234.40000000000003,
+        "width": 10.400000000000006,
+        "height": 30.40000000000001,
+        "text": "a",
+        "class": "text"
+      },
+      {
+        "top": 1590.4000000000003,
+        "left": 257.6,
+        "width": 84.00000000000001,
+        "height": 18.40000000000001,
+        "text": "variable",
+        "class": "text"
+      },
+      {
+        "top": 1592.8000000000006,
+        "left": 350.4000000000001,
+        "width": 44.80000000000001,
+        "height": 20.000000000000004,
+        "text": "rate,",
+        "class": "text"
+      },
+      {
+        "top": 1590.4000000000003,
+        "left": 402.4000000000001,
+        "width": 32.00000000000001,
+        "height": 18.40000000000001,
+        "text": "the",
+        "class": "text"
+      },
+      {
+        "top": 1590.4000000000003,
+        "left": 443.20000000000016,
+        "width": 61.60000000000001,
+        "height": 18.40000000000001,
+        "text": "future",
+        "class": "text"
+      },
+      {
+        "top": 1590.4000000000003,
+        "left": 514.4000000000002,
+        "width": 77.60000000000004,
+        "height": 18.40000000000001,
+        "text": "interest",
+        "class": "text"
+      },
+      {
+        "top": 1592.8000000000006,
+        "left": 598.4000000000002,
+        "width": 39.2,
+        "height": 16.000000000000004,
+        "text": "rate",
+        "class": "text"
+      },
+      {
+        "top": 1596.8000000000006,
+        "left": 645.6000000000004,
+        "width": 44.80000000000001,
+        "height": 17.6,
+        "text": "may",
+        "class": "text"
+      },
+      {
+        "top": 1590.4000000000003,
+        "left": 698.4000000000002,
+        "width": 85.60000000000002,
+        "height": 18.40000000000001,
+        "text": "increase",
+        "class": "text"
+      },
+      {
+        "top": 1596.8000000000006,
+        "left": 792.8000000000002,
+        "width": 21.600000000000005,
+        "height": 12.000000000000002,
+        "text": "or",
+        "class": "text"
+      },
+      {
+        "top": 1590.4000000000003,
+        "left": 821.6000000000003,
+        "width": 89.60000000000002,
+        "height": 18.40000000000001,
+        "text": "decrease",
+        "class": "text"
+      },
+      {
+        "top": 1590.4000000000003,
+        "left": 920.0000000000001,
+        "width": 50.40000000000002,
+        "height": 18.40000000000001,
+        "text": "from",
+        "class": "text"
+      },
+      {
+        "top": 1590.4000000000003,
+        "left": 976.8000000000003,
+        "width": 32.00000000000001,
+        "height": 18.40000000000001,
+        "text": "the",
+        "class": "text"
+      },
+      {
+        "top": 1590.4000000000003,
+        "left": 1018.4000000000003,
+        "width": 76.80000000000003,
+        "height": 18.40000000000001,
+        "text": "Annual",
+        "class": "text"
+      },
+      {
+        "top": 1591.2000000000005,
+        "left": 1103.2000000000003,
+        "width": 115.20000000000002,
+        "height": 23.200000000000006,
+        "text": "Percentage",
+        "class": "text"
+      },
+      {
+        "top": 1591.2000000000005,
+        "left": 1227.2000000000007,
+        "width": 47.20000000000001,
+        "height": 17.6,
+        "text": "Rate",
+        "class": "text"
+      },
+      {
+        "top": 1621.6000000000004,
+        "left": 80.80000000000003,
+        "width": 98.40000000000002,
+        "height": 18.40000000000001,
+        "text": "disclosed",
+        "class": "text"
+      },
+      {
+        "top": 1621.6000000000004,
+        "left": 186.4000000000001,
+        "width": 49.600000000000016,
+        "height": 18.40000000000001,
+        "text": "here.",
+        "class": "text"
+      }
+    ],
+    [
+      {
+        "top": 1896.8000000000006,
+        "left": 113.60000000000002,
+        "width": 44.80000000000001,
+        "height": 11.200000000000003,
+        "text": "Debtor",
+        "class": "text"
+      },
+      {
+        "top": 1896.8000000000006,
+        "left": 164.8,
+        "width": 4.000000000000001,
+        "height": 11.200000000000003,
+        "text": "1",
+        "class": "text"
+      },
+      {
+        "top": 1896.8000000000006,
+        "left": 783.2000000000002,
+        "width": 34.40000000000001,
+        "height": 11.200000000000003,
+        "text": "Case",
+        "class": "text"
+      },
+      {
+        "top": 1896.8000000000006,
+        "left": 824.0000000000001,
+        "width": 51.20000000000001,
+        "height": 11.200000000000003,
+        "text": "number",
+        "class": "text"
+      },
+      {
+        "top": 1893.6000000000006,
+        "left": 874.4000000000003,
+        "width": 16.000000000000004,
+        "height": 20.000000000000004,
+        "text": "(it",
+        "class": "text"
+      },
+      {
+        "top": 1900.0000000000002,
+        "left": 893.6000000000003,
+        "width": 34.40000000000001,
+        "height": 10.400000000000006,
+        "text": "known)",
+        "class": "text"
+      },
+      {
+        "top": 1905.6000000000006,
+        "left": 223.20000000000005,
+        "width": 20.80000000000001,
+        "height": 24.000000000000004,
+        "text": "First",
+        "class": "text"
+      },
+      {
+        "top": 1913.6000000000006,
+        "left": 252.00000000000003,
+        "width": 24.000000000000004,
+        "height": 8.000000000000002,
+        "text": "Name",
+        "class": "text"
+      },
+      {
+        "top": 1913.6000000000006,
+        "left": 332.8000000000002,
+        "width": 32.00000000000001,
+        "height": 8.000000000000002,
+        "text": "Midale",
+        "class": "text"
+      },
+      {
+        "top": 1913.6000000000006,
+        "left": 371.2000000000001,
+        "width": 25.600000000000005,
+        "height": 8.000000000000002,
+        "text": "Name",
+        "class": "text"
+      },
+      {
+        "top": 1905.6000000000006,
+        "left": 480.00000000000006,
+        "width": 23.200000000000006,
+        "height": 24.000000000000004,
+        "text": "Last",
+        "class": "text"
+      },
+      {
+        "top": 1913.6000000000006,
+        "left": 509.6000000000002,
+        "width": 25.600000000000005,
+        "height": 8.000000000000002,
+        "text": "Name",
+        "class": "text"
+      },
+      {
+        "top": 2099.2000000000003,
+        "left": 132.00000000000003,
+        "width": 33.60000000000001,
+        "height": 14.400000000000002,
+        "text": "The",
+        "class": "text"
+      },
+      {
+        "top": 2103.2000000000003,
+        "left": 173.60000000000005,
+        "width": 58.40000000000002,
+        "height": 14.400000000000002,
+        "text": "person",
+        "class": "text"
+      },
+      {
+        "top": 2099.2000000000003,
+        "left": 239.20000000000007,
+        "width": 94.40000000000002,
+        "height": 18.40000000000001,
+        "text": "completing",
+        "class": "text"
+      },
+      {
+        "top": 2099.2000000000003,
+        "left": 340.8000000000002,
+        "width": 31.20000000000001,
+        "height": 14.400000000000002,
+        "text": "this",
+        "class": "text"
+      },
+      {
+        "top": 2099.2000000000003,
+        "left": 379.2000000000001,
+        "width": 54.40000000000002,
+        "height": 14.400000000000002,
+        "text": "Notice",
+        "class": "text"
+      },
+      {
+        "top": 2100.0000000000005,
+        "left": 441.6000000000001,
+        "width": 41.60000000000002,
+        "height": 13.600000000000005,
+        "text": "must",
+        "class": "text"
+      },
+      {
+        "top": 2099.2000000000003,
+        "left": 489.6000000000002,
+        "width": 34.40000000000001,
+        "height": 18.40000000000001,
+        "text": "sign",
+        "class": "text"
+      },
+      {
+        "top": 2099.2000000000003,
+        "left": 532.0000000000001,
+        "width": 12.800000000000002,
+        "height": 14.400000000000002,
+        "text": "it.",
+        "class": "text"
+      },
+      {
+        "top": 2099.2000000000003,
+        "left": 553.6000000000001,
+        "width": 37.60000000000002,
+        "height": 18.40000000000001,
+        "text": "Sign",
+        "class": "text"
+      },
+      {
+        "top": 2099.2000000000003,
+        "left": 598.4000000000002,
+        "width": 31.20000000000001,
+        "height": 14.400000000000002,
+        "text": "and",
+        "class": "text"
+      },
+      {
+        "top": 2099.2000000000003,
+        "left": 638.4000000000002,
+        "width": 37.60000000000002,
+        "height": 18.40000000000001,
+        "text": "print",
+        "class": "text"
+      },
+      {
+        "top": 2103.2000000000003,
+        "left": 681.6000000000004,
+        "width": 38.40000000000001,
+        "height": 14.400000000000002,
+        "text": "your",
+        "class": "text"
+      },
+      {
+        "top": 2103.2000000000003,
+        "left": 727.2000000000002,
+        "width": 48.00000000000001,
+        "height": 10.400000000000006,
+        "text": "name",
+        "class": "text"
+      },
+      {
+        "top": 2099.2000000000003,
+        "left": 782.4000000000003,
+        "width": 30.40000000000001,
+        "height": 14.400000000000002,
+        "text": "and",
+        "class": "text"
+      },
+      {
+        "top": 2103.2000000000003,
+        "left": 821.6000000000003,
+        "width": 37.60000000000002,
+        "height": 14.400000000000002,
+        "text": "your",
+        "class": "text"
+      },
+      {
+        "top": 2099.2000000000003,
+        "left": 864.8000000000002,
+        "width": 34.40000000000001,
+        "height": 17.6,
+        "text": "title,",
+        "class": "text"
+      },
+      {
+        "top": 2099.2000000000003,
+        "left": 908.8000000000002,
+        "width": 8.000000000000002,
+        "height": 14.400000000000002,
+        "text": "if",
+        "class": "text"
+      },
+      {
+        "top": 2103.2000000000003,
+        "left": 923.2000000000004,
+        "width": 34.40000000000001,
+        "height": 14.400000000000002,
+        "text": "any,",
+        "class": "text"
+      },
+      {
+        "top": 2099.2000000000003,
+        "left": 966.4000000000003,
+        "width": 31.20000000000001,
+        "height": 14.400000000000002,
+        "text": "and",
+        "class": "text"
+      },
+      {
+        "top": 2100.0000000000005,
+        "left": 1005.6000000000001,
+        "width": 41.60000000000002,
+        "height": 13.600000000000005,
+        "text": "state",
+        "class": "text"
+      },
+      {
+        "top": 2103.2000000000003,
+        "left": 1055.2000000000003,
+        "width": 37.60000000000002,
+        "height": 14.400000000000002,
+        "text": "your",
+        "class": "text"
+      },
+      {
+        "top": 2099.2000000000003,
+        "left": 1099.2000000000003,
+        "width": 69.60000000000002,
+        "height": 14.400000000000002,
+        "text": "address",
+        "class": "text"
+      },
+      {
+        "top": 2099.2000000000003,
+        "left": 1176.0000000000002,
+        "width": 30.40000000000001,
+        "height": 14.400000000000002,
+        "text": "and",
+        "class": "text"
+      },
+      {
+        "top": 2126.4000000000005,
+        "left": 132.00000000000003,
+        "width": 87.20000000000005,
+        "height": 18.40000000000001,
+        "text": "telephone",
+        "class": "text"
+      },
+      {
+        "top": 2126.4000000000005,
+        "left": 227.20000000000005,
+        "width": 69.60000000000002,
+        "height": 14.400000000000002,
+        "text": "number.",
+        "class": "text"
+      },
+      {
+        "top": 2162.4000000000005,
+        "left": 133.60000000000005,
+        "width": 48.80000000000001,
+        "height": 12.800000000000002,
+        "text": "Check",
+        "class": "text"
+      },
+      {
+        "top": 2162.4000000000005,
+        "left": 188.80000000000004,
+        "width": 23.200000000000006,
+        "height": 12.800000000000002,
+        "text": "the",
+        "class": "text"
+      },
+      {
+        "top": 2162.4000000000005,
+        "left": 218.40000000000006,
+        "width": 88,
+        "height": 16.000000000000004,
+        "text": "appropriate",
+        "class": "text"
+      },
+      {
+        "top": 2162.4000000000005,
+        "left": 312.8000000000002,
+        "width": 31.20000000000001,
+        "height": 12.800000000000002,
+        "text": "box.",
+        "class": "text"
+      },
+      {
+        "top": 2199.2000000000007,
+        "left": 134.40000000000003,
+        "width": 17.6,
+        "height": 17.6,
+        "text": "QO)",
+        "class": "text"
+      },
+      {
+        "top": 2203.2000000000007,
+        "left": 164.00000000000003,
+        "width": 1.6000000000000003,
+        "height": 13.600000000000005,
+        "text": "|",
+        "class": "text"
+      },
+      {
+        "top": 2206.4000000000005,
+        "left": 173.60000000000005,
+        "width": 24.000000000000004,
+        "height": 10.400000000000006,
+        "text": "am",
+        "class": "text"
+      },
+      {
+        "top": 2203.2000000000007,
+        "left": 204.00000000000003,
+        "width": 25.600000000000005,
+        "height": 13.600000000000005,
+        "text": "the",
+        "class": "text"
+      },
+      {
+        "top": 2203.2000000000007,
+        "left": 236.8000000000001,
+        "width": 64.80000000000003,
+        "height": 13.600000000000005,
+        "text": "creditor.",
+        "class": "text"
+      },
+      {
+        "top": 2234.4000000000005,
+        "left": 134.40000000000003,
+        "width": 17.6,
+        "height": 17.6,
+        "text": "O)",
+        "class": "text"
+      },
+      {
+        "top": 2238.4000000000005,
+        "left": 164.00000000000003,
+        "width": 1.6000000000000003,
+        "height": 13.600000000000005,
+        "text": "|",
+        "class": "text"
+      },
+      {
+        "top": 2241.600000000001,
+        "left": 173.60000000000005,
+        "width": 24.000000000000004,
+        "height": 10.400000000000006,
+        "text": "am",
+        "class": "text"
+      },
+      {
+        "top": 2238.4000000000005,
+        "left": 204.00000000000003,
+        "width": 25.600000000000005,
+        "height": 13.600000000000005,
+        "text": "the",
+        "class": "text"
+      },
+      {
+        "top": 2238.4000000000005,
+        "left": 236.8000000000001,
+        "width": 75.20000000000005,
+        "height": 13.600000000000005,
+        "text": "creditor's",
+        "class": "text"
+      },
+      {
+        "top": 2238.4000000000005,
+        "left": 318.40000000000015,
+        "width": 86.40000000000002,
+        "height": 13.600000000000005,
+        "text": "authorized",
+        "class": "text"
+      },
+      {
+        "top": 2238.4000000000005,
+        "left": 411.20000000000016,
+        "width": 50.40000000000002,
+        "height": 17.6,
+        "text": "agent.",
+        "class": "text"
+      },
+      {
+        "top": 2309.600000000001,
+        "left": 133.60000000000005,
+        "width": 2.400000000000001,
+        "height": 14.400000000000002,
+        "text": "|",
+        "class": "text"
+      },
+      {
+        "top": 2309.600000000001,
+        "left": 144.00000000000003,
+        "width": 68.80000000000003,
+        "height": 14.400000000000002,
+        "text": "declare",
+        "class": "text"
+      },
+      {
+        "top": 2309.600000000001,
+        "left": 220.80000000000004,
+        "width": 53.600000000000016,
+        "height": 14.400000000000002,
+        "text": "under",
+        "class": "text"
+      },
+      {
+        "top": 2309.600000000001,
+        "left": 281.6,
+        "width": 68.00000000000001,
+        "height": 18.40000000000001,
+        "text": "penalty",
+        "class": "text"
+      },
+      {
+        "top": 2309.600000000001,
+        "left": 356,
+        "width": 18.40000000000001,
+        "height": 14.400000000000002,
+        "text": "of",
+        "class": "text"
+      },
+      {
+        "top": 2309.600000000001,
+        "left": 380.8000000000002,
+        "width": 66.4,
+        "height": 18.40000000000001,
+        "text": "perjury",
+        "class": "text"
+      },
+      {
+        "top": 2309.600000000001,
+        "left": 452.8000000000001,
+        "width": 36.80000000000002,
+        "height": 14.400000000000002,
+        "text": "that",
+        "class": "text"
+      },
+      {
+        "top": 2309.600000000001,
+        "left": 495.20000000000016,
+        "width": 29.600000000000012,
+        "height": 14.400000000000002,
+        "text": "the",
+        "class": "text"
+      },
+      {
+        "top": 2309.600000000001,
+        "left": 532.8000000000002,
+        "width": 106.40000000000002,
+        "height": 14.400000000000002,
+        "text": "information",
+        "class": "text"
+      },
+      {
+        "top": 2309.600000000001,
+        "left": 648.0000000000001,
+        "width": 80.80000000000003,
+        "height": 18.40000000000001,
+        "text": "provided",
+        "class": "text"
+      },
+      {
+        "top": 2309.600000000001,
+        "left": 737.6000000000004,
+        "width": 14.400000000000002,
+        "height": 14.400000000000002,
+        "text": "in",
+        "class": "text"
+      },
+      {
+        "top": 2309.600000000001,
+        "left": 760.0000000000001,
+        "width": 34.40000000000001,
+        "height": 14.400000000000002,
+        "text": "this",
+        "class": "text"
+      },
+      {
+        "top": 2309.600000000001,
+        "left": 801.6000000000003,
+        "width": 48.00000000000001,
+        "height": 14.400000000000002,
+        "text": "claim",
+        "class": "text"
+      },
+      {
+        "top": 2309.600000000001,
+        "left": 859.2000000000002,
+        "width": 14.400000000000002,
+        "height": 14.400000000000002,
+        "text": "is",
+        "class": "text"
+      },
+      {
+        "top": 2309.600000000001,
+        "left": 880.0000000000001,
+        "width": 36.80000000000002,
+        "height": 14.400000000000002,
+        "text": "true",
+        "class": "text"
+      },
+      {
+        "top": 2309.600000000001,
+        "left": 924.0000000000001,
+        "width": 32.800000000000004,
+        "height": 14.400000000000002,
+        "text": "and",
+        "class": "text"
+      },
+      {
+        "top": 2309.600000000001,
+        "left": 964.8000000000003,
+        "width": 67.20000000000002,
+        "height": 14.400000000000002,
+        "text": "correct",
+        "class": "text"
+      },
+      {
+        "top": 2309.600000000001,
+        "left": 1037.6000000000001,
+        "width": 17.6,
+        "height": 14.400000000000002,
+        "text": "to",
+        "class": "text"
+      },
+      {
+        "top": 2309.600000000001,
+        "left": 1061.6000000000004,
+        "width": 29.600000000000012,
+        "height": 14.400000000000002,
+        "text": "the",
+        "class": "text"
+      },
+      {
+        "top": 2309.600000000001,
+        "left": 1099.2000000000003,
+        "width": 39.2,
+        "height": 14.400000000000002,
+        "text": "best",
+        "class": "text"
+      },
+      {
+        "top": 2332.8,
+        "left": 132.8,
+        "width": 18.40000000000001,
+        "height": 14.400000000000002,
+        "text": "of",
+        "class": "text"
+      },
+      {
+        "top": 2336.0000000000005,
+        "left": 158.4000000000001,
+        "width": 26.400000000000006,
+        "height": 15.200000000000005,
+        "text": "my",
+        "class": "text"
+      },
+      {
+        "top": 2332.8,
+        "left": 192.00000000000003,
+        "width": 106.40000000000002,
+        "height": 18.40000000000001,
+        "text": "knowledge,",
+        "class": "text"
+      },
+      {
+        "top": 2332.8,
+        "left": 307.2000000000001,
+        "width": 112.00000000000001,
+        "height": 17.6,
+        "text": "information,",
+        "class": "text"
+      },
+      {
+        "top": 2332.8,
+        "left": 427.20000000000016,
+        "width": 33.60000000000001,
+        "height": 14.400000000000002,
+        "text": "and",
+        "class": "text"
+      },
+      {
+        "top": 2332.8,
+        "left": 469.6000000000002,
+        "width": 103.20000000000003,
+        "height": 14.400000000000002,
+        "text": "reasonable",
+        "class": "text"
+      },
+      {
+        "top": 2332.8,
+        "left": 580.8000000000002,
+        "width": 54.40000000000002,
+        "height": 14.400000000000002,
+        "text": "belief.",
+        "class": "text"
+      },
+      {
+        "top": 2417.600000000001,
+        "left": 215.20000000000005,
+        "width": 34.40000000000001,
+        "height": 30.40000000000001,
+        "text": "x",
+        "class": "text"
+      },
+      {
+        "top": 2446.4000000000015,
+        "left": 724.8000000000002,
+        "width": 9.600000000000003,
+        "height": 1.6000000000000003,
+        "text": "_",
+        "class": "text"
+      },
+      {
+        "top": 2430.4000000000015,
+        "left": 784.0000000000001,
+        "width": 30.40000000000001,
+        "height": 20.80000000000001,
+        "text": "Date",
+        "class": "text"
+      },
+      {
+        "top": 2433.600000000001,
+        "left": 866.4000000000003,
+        "width": 4.800000000000002,
+        "height": 11.200000000000003,
+        "text": "/",
+        "class": "text"
+      },
+      {
+        "top": 2433.600000000001,
+        "left": 914.4000000000003,
+        "width": 4.800000000000002,
+        "height": 11.200000000000003,
+        "text": "i",
+        "class": "text"
+      },
+      {
+        "top": 2457.600000000001,
+        "left": 243.20000000000007,
+        "width": 55.20000000000001,
+        "height": 12.000000000000002,
+        "text": "Signature",
+        "class": "text"
+      },
+      {
+        "top": 2520.0000000000005,
+        "left": 125.60000000000004,
+        "width": 38.40000000000001,
+        "height": 28.800000000000004,
+        "text": "Print:",
+        "class": "text"
+      },
+      {
+        "top": 2528.0000000000005,
+        "left": 783.2000000000002,
+        "width": 28.000000000000004,
+        "height": 12.000000000000002,
+        "text": "Title",
+        "class": "text"
+      },
+      {
+        "top": 2543.200000000001,
+        "left": 240.00000000000003,
+        "width": 28.000000000000004,
+        "height": 20.80000000000001,
+        "text": "First",
+        "class": "text"
+      },
+      {
+        "top": 2546.4000000000015,
+        "left": 277.6,
+        "width": 28.800000000000004,
+        "height": 10.400000000000006,
+        "text": "Name",
+        "class": "text"
+      },
+      {
+        "top": 2546.4000000000015,
+        "left": 432.8000000000001,
+        "width": 37.60000000000002,
+        "height": 10.400000000000006,
+        "text": "Middle",
+        "class": "text"
+      },
+      {
+        "top": 2546.4000000000015,
+        "left": 476.00000000000006,
+        "width": 33.60000000000001,
+        "height": 10.400000000000006,
+        "text": "Name.",
+        "class": "text"
+      },
+      {
+        "top": 2546.4000000000015,
+        "left": 583.2,
+        "width": 24.000000000000004,
+        "height": 10.400000000000006,
+        "text": "Last",
+        "class": "text"
+      },
+      {
+        "top": 2546.4000000000015,
+        "left": 616.0000000000001,
+        "width": 29.600000000000012,
+        "height": 10.400000000000006,
+        "text": "Name",
+        "class": "text"
+      },
+      {
+        "top": 2609.600000000001,
+        "left": 124.80000000000004,
+        "width": 75.20000000000005,
+        "height": 16.800000000000004,
+        "text": "Company",
+        "class": "text"
+      },
+      {
+        "top": 2678.4000000000015,
+        "left": 124.00000000000001,
+        "width": 64.80000000000003,
+        "height": 13.600000000000005,
+        "text": "Address",
+        "class": "text"
+      },
+      {
+        "top": 2700.0000000000005,
+        "left": 243.20000000000007,
+        "width": 46.40000000000001,
+        "height": 10.400000000000006,
+        "text": "Number",
+        "class": "text"
+      },
+      {
+        "top": 2700.0000000000005,
+        "left": 396.8000000000001,
+        "width": 34.40000000000001,
+        "height": 10.400000000000006,
+        "text": "Street",
+        "class": "text"
+      },
+      {
+        "top": 2744,
+        "left": 243.20000000000007,
+        "width": 21.600000000000005,
+        "height": 12.800000000000002,
+        "text": "City",
+        "class": "text"
+      },
+      {
+        "top": 2744,
+        "left": 583.2,
+        "width": 28.800000000000004,
+        "height": 10.400000000000006,
+        "text": "State",
+        "class": "text"
+      },
+      {
+        "top": 2744,
+        "left": 682.4000000000002,
+        "width": 20.000000000000004,
+        "height": 10.400000000000006,
+        "text": "ZIP",
+        "class": "text"
+      },
+      {
+        "top": 2744,
+        "left": 707.2000000000002,
+        "width": 30.40000000000001,
+        "height": 10.400000000000006,
+        "text": "Code",
+        "class": "text"
+      },
+      {
+        "top": 2815.2000000000007,
+        "left": 124.80000000000004,
+        "width": 52.00000000000001,
+        "height": 11.200000000000003,
+        "text": "Contact",
+        "class": "text"
+      },
+      {
+        "top": 2815.2000000000007,
+        "left": 182.4000000000001,
+        "width": 41.60000000000002,
+        "height": 14.400000000000002,
+        "text": "phone",
+        "class": "text"
+      },
+      {
+        "top": 2813.600000000001,
+        "left": 243.20000000000007,
+        "width": 68.80000000000003,
+        "height": 16.000000000000004,
+        "text": "(_____)",
+        "class": "text"
+      },
+      {
+        "top": 2820.8000000000006,
+        "left": 348,
+        "width": 53.600000000000016,
+        "height": 8.8,
+        "text": "_-_.",
+        "class": "text"
+      },
+      {
+        "top": 2810.4000000000015,
+        "left": 461.6000000000002,
+        "width": 12.800000000000002,
+        "height": 23.200000000000006,
+        "text": "on",
+        "class": "text"
+      },
+      {
+        "top": 2814.4000000000015,
+        "left": 784.0000000000001,
+        "width": 36.00000000000001,
+        "height": 12.000000000000002,
+        "text": "Email",
+        "class": "text"
+      },
+      {
+        "top": 3430.400000000001,
+        "left": 112.80000000000004,
+        "width": 52.00000000000001,
+        "height": 12.800000000000002,
+        "text": "Official",
+        "class": "text"
+      },
+      {
+        "top": 3430.400000000001,
+        "left": 172.80000000000004,
+        "width": 38.40000000000001,
+        "height": 12.800000000000002,
+        "text": "Form",
+        "class": "text"
+      },
+      {
+        "top": 3430.400000000001,
+        "left": 218.40000000000006,
+        "width": 49.600000000000016,
+        "height": 12.800000000000002,
+        "text": "410S2",
+        "class": "text"
+      },
+      {
+        "top": 3430.400000000001,
+        "left": 451.20000000000016,
+        "width": 52.00000000000001,
+        "height": 12.800000000000002,
+        "text": "Notice",
+        "class": "text"
+      },
+      {
+        "top": 3430.400000000001,
+        "left": 510.40000000000015,
+        "width": 16.000000000000004,
+        "height": 12.800000000000002,
+        "text": "of",
+        "class": "text"
+      },
+      {
+        "top": 3430.400000000001,
+        "left": 532.8000000000002,
+        "width": 100.00000000000001,
+        "height": 16.000000000000004,
+        "text": "Postpetition",
+        "class": "text"
+      },
+      {
+        "top": 3430.400000000001,
+        "left": 639.2,
+        "width": 78.4,
+        "height": 16.000000000000004,
+        "text": "Mortgage",
+        "class": "text"
+      },
+      {
+        "top": 3430.400000000001,
+        "left": 724.8000000000002,
+        "width": 42.40000000000001,
+        "height": 16.000000000000004,
+        "text": "Fees,",
+        "class": "text"
+      },
+      {
+        "top": 3430.400000000001,
+        "left": 775.2000000000002,
+        "width": 84.80000000000003,
+        "height": 16.000000000000004,
+        "text": "Expenses,",
+        "class": "text"
+      },
+      {
+        "top": 3430.400000000001,
+        "left": 868.0000000000001,
+        "width": 28.800000000000004,
+        "height": 12.800000000000002,
+        "text": "and",
+        "class": "text"
+      },
+      {
+        "top": 3430.400000000001,
+        "left": 904.0000000000001,
+        "width": 69.60000000000002,
+        "height": 16.000000000000004,
+        "text": "Charges",
+        "class": "text"
+      },
+      {
+        "top": 3433.6000000000013,
+        "left": 1183.2000000000007,
+        "width": 37.60000000000002,
+        "height": 12.800000000000002,
+        "text": "page",
+        "class": "text"
+      },
+      {
+        "top": 3430.400000000001,
+        "left": 1228.0000000000002,
+        "width": 8.000000000000002,
+        "height": 12.800000000000002,
+        "text": "2",
+        "class": "text"
+      }
+    ]
+  ],
+  "labelRelations": {
+    "420c5b91-806f-451b-b0ce-90bec87b8ca7": "52c4608f-3f53-4630-a3f6-e3f5eb6e8663",
+    "0a03f4c3-970a-47ba-8903-8411ce4cb672": "47645bfb-0f87-477b-9ba7-a301273eec5b",
+    "87630ca5-da56-4489-b8ff-72c5090ee9e8": "811e3e2b-de84-4683-bd95-61796d05b6fa",
+    "457d22ed-15a6-4819-b0dd-40090ffd9e6a": "afa254ef-104a-442e-ae0d-e078582e1bd7",
+    "cf3634f5-f3f6-45c7-846b-a0416e9b1474": "533399d6-4621-49b4-bce0-618534404861",
+    "5857a2ff-0260-45c0-adc8-f1396d17e977": "f5d19bf7-7cb6-4d74-8d0b-1307c2835fd4",
+    "bd75d0df-87d1-4fd6-bf4c-cc6e5fc03172": "1daa0122-2174-4d63-a8e9-c8d8c6fc2a1b",
+    "5815ecbb-07c7-4514-b594-583d25cd8336": "3f159590-4c3c-43fe-92a1-ccc59b450301",
+    "31bc0b5c-d7bf-4074-b25a-dba2bca0c99e": "95359474-e369-4b26-b79a-bef1ec4bc06b",
+    "f895ac81-6993-4070-88c6-4b43e13902eb": "bdc62196-3d23-472c-ae3a-ee0a8c790644",
+    "ea10a820-718e-40d1-8bed-0944526ee956": "ecbae637-b712-4562-bd14-2985e4729e52",
+    "14ca7724-d114-44b2-b0b8-b5b7dccf0cd1": "768c683d-1951-40b1-a32a-5fb423176d6d",
+    "483dd0d1-a41c-44a4-8abf-e993ac06c972": "40a6fe05-2f95-4d0c-89bb-2398f83505e5",
+    "bb7edaed-23d4-4793-a680-350887c13049": "ffb14836-1303-48e4-8473-0845e463effb",
+    "4c347cb2-6b37-4ebe-a93b-b45faff8d841": "14e55d68-780b-4e19-8b07-24de511a0cde",
+    "09ba9d28-2ae6-4bc7-86d6-12113ed2046e": "553b928d-98d7-4cf6-8569-167a9decb9f4",
+    "20aff05f-a1c4-40a7-8607-5cb1462b6f90": "69c01fa2-c732-4d0e-aeb8-f9e231f19988",
+    "dcceb380-b4ce-47c5-95b1-848cac77ec81": "16cb9db5-e7e2-42e5-bdd6-c8b0a95c3f0b",
+    "52d6abe5-7a89-422b-a90f-a35ea12dd103": "6bbb6774-1201-42db-bd55-1ba011a6cabb",
+    "7c055905-1437-4598-b5f3-db2cc2019053": "9bf5b968-cd83-4c83-bab0-cc2a6c41ac06",
+    "babbdc1e-bb30-4b41-a6b4-e7b050e106da": "ab2a9497-e9ec-434b-8f07-50ef8ccb6d7d",
+    "f99528fb-888d-409e-9649-ff8eed5f7518": "9fa81279-7fe3-4e1a-aa47-4645894d4d8f",
+    "4166edf1-631d-4e51-a475-d3edcab84247": "8bf2228e-34f7-4c6e-bd98-5e5f05e592b1",
+    "1f5cb478-e70b-4f3b-b0a2-b94b3992767c": "6d60f39d-274f-4133-95bf-36389e48a75f",
+    "e93433e7-e9ea-425c-98d7-71beac164ffd": "9e35ed02-0cb4-4a92-9072-a00e4dcf72d3",
+    "3f1ce987-392d-4b5a-9322-704f3748db5a": "9fa4dce0-97b1-4f15-bef6-448d7338bc6f",
+    "c0674b19-f990-487c-8a86-b979250f4ff7": "c0188159-ee16-4621-8c81-1284690ec0f3",
+    "0de2eadf-2a14-4ca6-bb27-3e155553f3f6": "079a7624-91b0-402b-9d3a-3c4dde65f69d",
+    "67476c63-f8aa-4e07-9575-fe81bf20b802": "56bd49c8-c750-4d1a-96d9-2b6d74d5d110",
+    "4ed6c278-3d96-4bd3-81a3-becb30ebd933": "fe51442e-170a-4527-bd8f-5eea06f4d413",
+    "94a6ba89-5799-4a30-b0a6-7b9a554d0c6f": "1e939fdf-b9f1-4372-89a0-e047362d39eb",
+    "d69e8d65-8bc6-4407-8190-c59e3f0b6b47": "af0c14ab-6923-4d97-aa5c-319a5df1f6ce",
+    "395304fb-9a3d-4117-af8d-eac691003a45": "210733d4-99a6-49e8-9589-beeb271f72b2",
+    "0a639c00-8111-4fa3-8b97-124f1c8a7bc2": "c9a9c626-4df2-472a-ab19-bdcb273d7a22"
+  },
+  "groupRelations": {
+    "0a639c00-8111-4fa3-8b97-124f1c8a7bc2": [
+      "0b6a3ac2-e124-4673-bfe0-2a3b6b4c8f3c",
+      "df44878c-16ad-4785-a495-13f47dd57e8d"
+    ],
+    "f895ac81-6993-4070-88c6-4b43e13902eb": [
+      "ea10a820-718e-40d1-8bed-0944526ee956",
+      "14ca7724-d114-44b2-b0b8-b5b7dccf0cd1"
+    ],
+    "20aff05f-a1c4-40a7-8607-5cb1462b6f90": [
+      "dcceb380-b4ce-47c5-95b1-848cac77ec81",
+      "52d6abe5-7a89-422b-a90f-a35ea12dd103"
+    ]
+  },
+  "haveScaled": true,
+  "showLoadingScreen": false,
+  "previewTooltips": true
+}
