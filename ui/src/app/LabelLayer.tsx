@@ -348,7 +348,9 @@ const GroupAndField: React.FC<AnnotationStatic> = (props) => {
   if (groupIdForCurrentAnnotation) {
     const isGroupLabeled = Boolean(labelRelations[groupIdForCurrentAnnotation]);
     groupLabel = isGroupLabeled
-      ? annotations[labelRelations[groupIdForCurrentAnnotation]].customTooltip
+      ? `${
+          annotations[labelRelations[groupIdForCurrentAnnotation]].customTooltip
+        }: `
       : "";
   }
 
