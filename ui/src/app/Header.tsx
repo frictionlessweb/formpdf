@@ -75,12 +75,15 @@ const Divider = () => {
 };
 
 // Left Side of Header
+export const getCurrentFormNumber = () => {
+  return window.location.hash === "" ? "1" : window.location.hash.substring(1);
+};
 
 const LogoAndFormSelect: React.FC = () => {
   // we cannot use useState here as we are reloading the page and clearing state
   // and all information will be lost this way.
-  const currentForm =
-    window.location.hash === "" ? "1" : window.location.hash.substring(1);
+  const currentForm = getCurrentFormNumber();
+
   return (
     <Box
       sx={{
