@@ -18,6 +18,7 @@ import ZoomInIcon from "./assets/images/zoom_in.svg";
 import ZoomOutIcon from "./assets/images/zoom_out.svg";
 import HelpIcon from "./assets/images/help.svg";
 import tutorialImage from "./assets/images/tooltip_tutorial_image.png";
+import { handleFormChange } from "./utils";
 
 const getStepIndex = (activeStep: string) => {
   return STEPS.findIndex((step) => step.id === activeStep);
@@ -74,12 +75,15 @@ const Divider = () => {
 };
 
 // Left Side of Header
+export const getCurrentFormNumber = () => {
+  return window.location.hash === "" ? "1" : window.location.hash.substring(1);
+};
 
 const LogoAndFormSelect: React.FC = () => {
   // we cannot use useState here as we are reloading the page and clearing state
   // and all information will be lost this way.
-  const currentForm =
-    window.location.hash === "" ? "1" : window.location.hash.substring(1);
+  const currentForm = getCurrentFormNumber();
+
   return (
     <Box
       sx={{
@@ -107,13 +111,7 @@ const LogoAndFormSelect: React.FC = () => {
             color: color.gray.dark,
           }}
           value={currentForm}
-          onChange={(e) => {
-            window.location.href =
-              window.location.origin + "#" + e.target.value;
-            // we clear the current state present in local storage, when page is reloaded new state is loaded automatically from the URL.
-            window.localStorage.clear();
-            window.location.reload();
-          }}
+          onChange={handleFormChange}
           displayEmpty
           inputProps={{ "aria-label": "Without label" }}>
           <MenuItem value={1}>Form 1</MenuItem>
@@ -146,7 +144,6 @@ const NextStepButton: React.FC = () => {
         textTransform: "none",
         fontWeight: "600",
         backgroundColor: color.blue.medium,
-        zIndex: 100,
         width: "6.5rem",
       }}
       size="small"
@@ -218,7 +215,7 @@ const ExitButtonForCreateTool: React.FC = () => {
             position: "absolute",
             top: "80px",
             left: "50%",
-            zIndex: 300,
+            zIndex: 500,
             backgroundColor: color.white.medium,
             borderRadius: "12px",
             "&:hover": {

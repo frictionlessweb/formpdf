@@ -37,12 +37,12 @@ export const Container: React.FC<ContainerProps> = ({ children, position }) => {
           "0 4px 4px rgba(100, 100, 100, 0.4) ",
           "0 8px 8px rgba(100, 100, 100, 0.4) ",
         ],
-        border: `1px solid ${color.gray.medium}`,
+        border: `1px solid ${color.gray.line}`,
         borderRadius: "0.5rem",
         display: "flex",
         alignItems: "center",
         "& > span": {
-          borderRight: `1px solid ${color.gray.medium}`,
+          borderRight: `1px solid ${color.gray.line}`,
         },
         "& > span:first-of-type": {
           borderRadius: "0.5rem 0 0 0.5rem",
@@ -100,7 +100,7 @@ const ActionMenuItem: React.FC<ActionMenuItemProps> = (props) => {
           borderRight: "none",
         },
         "&:hover": {
-          background: color.gray.medium,
+          background: color.gray.line,
           cursor: "pointer",
           borderRadius: "0.5rem",
         },

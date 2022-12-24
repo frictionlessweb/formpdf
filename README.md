@@ -141,6 +141,12 @@ if there's an easier/better way to do the styling.
 
 ### Props/Store
 
-Should things like the current page/zoom level be part of the store, or should
-they be passed as props? We might need to do refactoring; I'm not sure what the
-right answer is in this case.
+```
+index.tsx passes StoreProvider to the whole app
+    - this line of code in reduceAccessibleForm always runs when a page is refreshed, this is where we get our first state data.
+        if (previous === undefined) return DEFAULT_ACCESSIBLE_FORM;
+App.tsx uses useSaveState, this hook internally
+    - useEffect to fetchState, it runs straight away.
+    - useEffect to saveState, it runs on whenever
+    state changes in the store.
+```

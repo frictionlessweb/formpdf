@@ -118,7 +118,7 @@ export const ResizeHandle: React.FC<ResizeHandleProps> = (props) => {
             backgroundColor: beforeCurrentSection
               ? color.gray.lineTransparent
               : "transparent",
-            zIndex: 300,
+            zIndex: 500,
           }}>
           <Chip
             sx={{
@@ -146,7 +146,7 @@ export const ResizeHandle: React.FC<ResizeHandleProps> = (props) => {
           backgroundColor: color.gray.lineTransparent,
           borderTop: `6px solid ${color.yellow.medium}`,
           position: "absolute",
-          zIndex: 10,
+          zIndex: 400,
         }}
         disableDragging
         onMouseUp={stopTopClicks}
