@@ -142,6 +142,10 @@ const GroupLayerSelectAnnotation: React.FC<AnnotationStatic> = (
           zIndex: isSelected ? 100 : 0,
           border: isSelected ? "3px solid black" : css.border,
         }}
+        onMouseDown={(e) => {
+          // We stop propagation with the goal of preventing annotation being selected.
+          e.stopPropagation();
+        }}
         onClick={(e: React.MouseEvent<HTMLElement>) => {
           e.stopPropagation();
           const shiftNotPressed = !e.shiftKey;
