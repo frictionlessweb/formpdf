@@ -454,7 +454,11 @@ const TooltipPreview: React.FC<{
     width: (annotation.width * 4) / 5,
     minWidth: "24px",
     "&:hover": {
+      display: "flex",
       width: "auto",
+      whiteSpace: "normal",
+      wordWrap: "break-word",
+      maxWidth: "50ch",
       // this is important or the hovered tooltip will be hidden by other tooltips.
       zIndex: 210,
     },
