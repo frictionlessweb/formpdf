@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react */
 
 import { GroupLayerActionMenu } from "../components/ActionMenu";
+import color from "../components/color";
 import {
   TranslucentBox,
   HandlerLayer,
@@ -82,7 +83,7 @@ const GroupLayerSelectAnnotation: React.FC<AnnotationStatic> = (
         id={id}
         css={{
           ...css,
-          border: css.border,
+          border: `3px solid ${color.brown.dark}`,
           zIndex: 0,
           pointerEvents: "none",
         }}

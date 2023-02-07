@@ -36,6 +36,7 @@ const color = {
   },
   brown: {
     medium: "rgba(162,132,94,1)",
+    dark: "#a52a2a",
     transparent: "rgba(162,132,94,0)",
   },
   white: {
