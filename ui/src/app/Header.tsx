@@ -239,7 +239,7 @@ const PrevStepButton: React.FC = () => {
       disabled={isFirstStep && isFirstSection}
       onClick={onPrev}
       variant="outlined">
-      {isFirstStep ? "Prev Section" : "Prev Step"}
+      Prev Step
     </Button>
   );
 };
