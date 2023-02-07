@@ -1,13 +1,13 @@
 {
-  "step": "SECTION_LAYER",
-  "tool": "CREATE",
+  "step": "FIELD_LAYER",
+  "tool": "SELECT",
   "zoom": 0.7,
   "page": 1,
   "pdfHeight": 1540,
   "pdfWidth": 1190.0000000000002,
   "showResizeModal": false,
   "currentSection": 0,
-  "sections": [{ "y": 300 }],
+  "sections": [{ "y": 3080 }],
   "annotations": {
     "0a03f4c3-970a-47ba-8903-8411ce4cb672": {
       "id": "0a03f4c3-970a-47ba-8903-8411ce4cb672",

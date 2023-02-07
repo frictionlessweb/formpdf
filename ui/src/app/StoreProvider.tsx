@@ -91,11 +91,7 @@ export type ApiAnnotation = Bounds & {
   type: ANNOTATION_TYPE;
 };
 
-export type Step =
-  | "SECTION_LAYER"
-  | "FIELD_LAYER"
-  | "LABEL_LAYER"
-  | "GROUP_LAYER";
+export type Step = "FIELD_LAYER" | "LABEL_LAYER" | "GROUP_LAYER";
 
 interface StepDescription {
   // Which step are we referring to?
@@ -109,13 +105,6 @@ interface StepDescription {
 }
 
 export const STEPS: Array<StepDescription> = [
-  {
-    id: "SECTION_LAYER",
-    title: "Section",
-    description:
-      "Use the Handle to select an area or part of the form that you want to fix. This may include one or more rows of fields. Make sure that the selected section does not cut off fields or groups in half",
-    toolDescription: {},
-  },
   {
     id: "FIELD_LAYER",
     title: "Fields",
@@ -280,7 +269,7 @@ const getPredictedAnnotations = (pdfHeight: number) => {
 };
 
 export const DEFAULT_ACCESSIBLE_FORM: AccessibleForm = {
-  step: "SECTION_LAYER",
+  step: "FIELD_LAYER",
   tool: "CREATE",
   zoom: 1,
   page: 1,
@@ -464,13 +453,7 @@ export const reduceAccessibleForm = (
 
         const isFirstStep = idx === 0;
 
-        if (isFirstStep && draft.currentSection === 0) return;
-
-        // when on first step
-        if (isFirstStep && draft.currentSection > 0) {
-          draft.currentSection -= 1;
-          draft.step = STEPS[STEPS.length - 1].id;
-        }
+        if (isFirstStep) return;
 
         //normal case
         const prevStep = STEPS[idx - 1]?.id;
@@ -486,20 +469,7 @@ export const reduceAccessibleForm = (
 
         const isLastStep = idx === STEPS.length - 1;
         // when on last step and section exists
-        if (isLastStep && draft.currentSection < draft.sections.length - 1) {
-          draft.currentSection += 1;
-          draft.step = STEPS[0].id;
-          return;
-        }
-
-        // when on last step and section needs to be created
-        if (isLastStep && draft.currentSection === draft.sections.length - 1) {
-          const currentSection = draft.currentSection;
-          draft.sections.push({
-            y: draft.sections[currentSection].y + 300,
-          });
-          draft.currentSection = currentSection + 1;
-          draft.step = STEPS[0].id;
+        if (isLastStep) {
           return;
         }
 
@@ -562,7 +532,7 @@ export const reduceAccessibleForm = (
     case "MOVE_SECTION_SLIDER": {
       return produceWithUndo(previous, (draft) => {
         draft.sections[draft.currentSection].y = action.payload;
-        if (draft.step === "SECTION_LAYER" || draft.step === "FIELD_LAYER") {
+        if (draft.step === "FIELD_LAYER") {
           // If we're in the section layer or field layer, we don't need to
           // show the resize modal. Section layer is obvious. Field layer is
           // where we are directed after users uses resize hande. So it doesn't
@@ -918,7 +888,7 @@ export const reduceAccessibleForm = (
     case "SET_CURRENT_SECTION": {
       return produceWithUndo(previous, (draft) => {
         draft.currentSection = action.payload;
-        draft.step = "SECTION_LAYER";
+        draft.step = "FIELD_LAYER";
         draft.tool = "SELECT";
         draft.selectedAnnotations = {};
         return;

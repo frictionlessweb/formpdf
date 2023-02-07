@@ -149,7 +149,7 @@ const ToolSelect: React.FC<BoxProps> = (props) => {
         justifyContent: "space-between",
       }}>
       {tools}
-      <DownloadState />
+      {/* <DownloadState /> */}
     </Box>
   );
 };
