@@ -65,6 +65,7 @@ const GroupLayerSelectAnnotation: React.FC<AnnotationStatic> = (
 ) => {
   const selectedAnnotations = useSelector((state) => state.selectedAnnotations);
   const annotations = useSelector((state) => state.annotations);
+  const groupRelations = useSelector((state) => state.groupRelations);
   const dispatch = useDispatch();
   const { id, children, type, ...cssProps } = annotationProps;
   const css = {
@@ -75,6 +76,16 @@ const GroupLayerSelectAnnotation: React.FC<AnnotationStatic> = (
   const isSelected = Boolean(selectedAnnotations[annotationProps.id]);
   const isFirstSelection =
     Object.keys(selectedAnnotations)[0] === annotationProps.id;
+
+  const groupRelationIds = new Set(Object.values(groupRelations).flat());
+  const trulySelectedAnnotations: Array<string> = Object.keys(
+    selectedAnnotations
+  ).filter((key) => {
+    return selectedAnnotations[key] === true;
+  });
+  const shouldShowGroupDelete = trulySelectedAnnotations.every((annotation) => {
+    return groupRelationIds.has(annotation);
+  });
 
   if (type === "GROUP") {
     // Render just a normal div that doesn't have interactions.
@@ -98,6 +109,7 @@ const GroupLayerSelectAnnotation: React.FC<AnnotationStatic> = (
             left: css.left,
             top: css.top,
           }}
+          showDelete={shouldShowGroupDelete}
           onDelete={() => {
             if (type === "RADIOBOX" || "CHECKBOX") {
               dispatch({

@@ -219,25 +219,33 @@ interface GroupLayerActionMenuProps {
   onDelete: () => void;
   onCreateNewGroup: () => void;
   position: React.CSSProperties;
+  showDelete?: boolean;
+  showCreate?: boolean;
 }
 
 export const GroupLayerActionMenu: React.FC<GroupLayerActionMenuProps> = ({
   onDelete,
   onCreateNewGroup,
   position,
+  showDelete = true,
+  showCreate = true,
 }) => {
   return (
     <Container position={position}>
-      <ActionMenuItem onClick={onCreateNewGroup} onMouseDown={NO_OP}>
-        <ViewCompactAltOutlinedIcon
-          sx={{ color: color.gray.darker, strokeWidth: 0.2 }}
-        />
-        Create Group
-      </ActionMenuItem>
-      <ActionMenuItem onClick={onDelete} onMouseDown={NO_OP}>
-        <DeleteOutlineIcon />
-        Remove from Group
-      </ActionMenuItem>
+      {showCreate && (
+        <ActionMenuItem onClick={onCreateNewGroup} onMouseDown={NO_OP}>
+          <ViewCompactAltOutlinedIcon
+            sx={{ color: color.gray.darker, strokeWidth: 0.2 }}
+          />
+          Create Group
+        </ActionMenuItem>
+      )}
+      {showDelete && (
+        <ActionMenuItem onClick={onDelete} onMouseDown={NO_OP}>
+          <DeleteOutlineIcon />
+          Remove from Group
+        </ActionMenuItem>
+      )}
     </Container>
   );
 };
