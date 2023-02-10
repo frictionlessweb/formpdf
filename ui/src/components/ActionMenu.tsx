@@ -4,7 +4,7 @@ import React from "react";
 import color from "./color";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
-import { ANNOTATION_TYPE, fieldTypes } from "../app/StoreProvider";
+import { ANNOTATION_TYPE, fieldTypes, useSelector } from "../app/StoreProvider";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import CableOutlinedIcon from "@mui/icons-material/CableOutlined";
 import ViewCompactAltOutlinedIcon from "@mui/icons-material/ViewCompactAltOutlined";
@@ -125,18 +125,42 @@ export const FieldLayerActionMenu: React.FC<FieldLayerActionMenuProps> = (
   props
 ) => {
   const { value, onDelete, onFieldTypeChange, position } = props;
+  const multipleFieldsAreSelected = useSelector((store): boolean => {
+    const theSelectedAnnotations = Object.keys(
+      store.selectedAnnotations
+    ).filter((key) => {
+      return store.selectedAnnotations[key] === true;
+    });
+
+    const theAnnotations = theSelectedAnnotations.map((selected) => {
+      return store.annotations[selected];
+    });
+
+    return theAnnotations.some((annotation) => {
+      return annotation.type !== theAnnotations[0].type;
+    });
+  });
   return (
     <Container position={position}>
       <span>
         <Select
-          value={value}
-          onChange={(e) => onFieldTypeChange(e.target.value as ANNOTATION_TYPE)}
+          value={multipleFieldsAreSelected ? "Multiple" : value}
           sx={{
             height: "40px",
             ".MuiOutlinedInput-notchedOutline": { border: 0 },
           }}>
+          {multipleFieldsAreSelected && (
+            <MenuItem value="Multiple" disabled>
+              Multiple
+            </MenuItem>
+          )}
           {fieldTypes.map((fieldType) => (
-            <MenuItem key={fieldType} value={fieldType as ANNOTATION_TYPE}>
+            <MenuItem
+              key={fieldType}
+              value={fieldType as ANNOTATION_TYPE}
+              onClick={() => {
+                onFieldTypeChange(fieldType as ANNOTATION_TYPE);
+              }}>
               {capitalizeFirstLetterOfText(fieldType)}
             </MenuItem>
           ))}
