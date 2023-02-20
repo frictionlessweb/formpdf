@@ -16,6 +16,7 @@ import PREDICTIONS_3 from "./predictions/predictions_3.json";
 import PREDICTIONS_4 from "./predictions/predictions_4.json";
 import SAVED_STATE_FORM_1 from "./savedStates/form_1.json";
 import SAVED_STATE_FORM_2 from "./savedStates/form_2.json";
+import SAVED_STATE_FORM_3 from "./savedStates/form_3.json";
 import SAVED_STATE_FORM_4 from "./savedStates/form_4.json";
 
 import { SelectChangeEvent } from "@mui/material";
@@ -114,6 +115,13 @@ export const handleFormChange = (e: SelectChangeEvent<string>) => {
       window.localStorage.setItem(
         LOCAL_STORAGE_KEY,
         JSON.stringify(SAVED_STATE_FORM_2)
+      );
+      break;
+    }
+    case 3: {
+      window.localStorage.setItem(
+        LOCAL_STORAGE_KEY,
+        JSON.stringify(SAVED_STATE_FORM_3)
       );
       break;
     }
