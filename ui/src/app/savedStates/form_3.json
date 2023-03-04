@@ -485,8 +485,8 @@
       "backgroundColor": "rgba(248,122,27,0.2)",
       "border": "3px solid #F87A1B",
       "type": "TEXTBOX",
-      "top": 1452.333251953125,
-      "left": 504.3333740234375,
+      "top": 1444.333251953125,
+      "left": 561.3333740234375,
       "height": 31,
       "width": 81
     },
@@ -1101,20 +1101,6 @@
       "customTooltip": "",
       "page": 1
     },
-    "ca9ec774-73d3-4c7f-92f8-b7b4e839efa1": {
-      "id": "ca9ec774-73d3-4c7f-92f8-b7b4e839efa1",
-      "backgroundColor": "rgba(48,176,199,0.2)",
-      "border": "3px solid rgba(48,176,199,1)",
-      "borderRadius": 50,
-      "type": "LABEL",
-      "page": 1,
-      "corrected": true,
-      "top": 350,
-      "left": 51.199999999999996,
-      "width": 241.4,
-      "height": 20,
-      "customTooltip": " 1. NAME OF CLAIMANT (First-Middle-Last)"
-    },
     "5937df4a-4dfe-483e-9814-8b0f138d33fc": {
       "id": "5937df4a-4dfe-483e-9814-8b0f138d33fc",
       "backgroundColor": "rgba(48,176,199,0.2)",
@@ -1353,20 +1339,6 @@
       "height": 30.19999999999997,
       "customTooltip": " 18. DATE OF DEATH OR DATE LISTED AS MISSING IN ACTION OR P.O.W. (MM-DD-YYYY)"
     },
-    "9da39114-27b7-4a8f-a9ea-bf73bdc3cdb5": {
-      "id": "9da39114-27b7-4a8f-a9ea-bf73bdc3cdb5",
-      "backgroundColor": "rgba(48,176,199,0.2)",
-      "border": "3px solid rgba(48,176,199,1)",
-      "borderRadius": 50,
-      "type": "LABEL",
-      "page": 1,
-      "corrected": true,
-      "top": 1015.4,
-      "left": 45.8,
-      "width": 149,
-      "height": 16.399999999999938,
-      "customTooltip": " 16. BRANCH OF SERVICE"
-    },
     "4ab2ad53-8bcb-4bf1-b1a0-d4471933803d": {
       "id": "4ab2ad53-8bcb-4bf1-b1a0-d4471933803d",
       "backgroundColor": "rgba(48,176,199,0.2)",
@@ -1576,20 +1548,6 @@
       "width": 194.00000000000009,
       "height": 18.79999999999988,
       "customTooltip": " 28B. DATE SIGNED (MM-DD-YYYY)"
-    },
-    "1de4dbac-2682-4556-aaf3-fa718de76866": {
-      "id": "1de4dbac-2682-4556-aaf3-fa718de76866",
-      "backgroundColor": "rgba(48,176,199,0.2)",
-      "border": "3px solid rgba(48,176,199,1)",
-      "borderRadius": 50,
-      "type": "LABEL",
-      "page": 1,
-      "corrected": true,
-      "top": 2540,
-      "left": 610.4000000000001,
-      "width": 266.59999999999997,
-      "height": 18.20000000000012,
-      "customTooltip": " 30. DATE REFERRED TO VR & E (MM-DD-rvr¥)"
     },
     "d2e183ce-a189-487f-80ec-ae55a9fde286": {
       "id": "d2e183ce-a189-487f-80ec-ae55a9fde286",
@@ -8794,7 +8752,6 @@
     ]
   ],
   "labelRelations": {
-    "aff58527-3542-45a7-ab84-dd31a7e2e3ea": "ca9ec774-73d3-4c7f-92f8-b7b4e839efa1",
     "4f756fd5-d557-443d-bf8e-14061b2742a9": "5937df4a-4dfe-483e-9814-8b0f138d33fc",
     "a11a487d-13a2-4f1e-923d-90131a2862cb": "f8b659d6-24fe-4e91-8b8d-bf310c1c33af",
     "44b8f919-fe85-4d3f-ad34-59645593d351": "7decef17-7a43-4848-a5aa-5d13755cbc50",
@@ -8812,7 +8769,6 @@
     "428b4455-c1b3-45b0-85aa-a75f4503f2ab": "09342d1d-3d24-49f0-89e7-f81739ad2053",
     "eabc9a06-91f2-428f-b759-f78ead1e863d": "da860874-8b7a-4ed0-857c-c2e58012d474",
     "8b8b2268-c08d-47dc-9073-a66fb113934f": "8c6aa723-4497-430a-a19a-8d59be9bd297",
-    "07ee09dd-af25-4e71-acd6-6fe7c3ee3f19": "9da39114-27b7-4a8f-a9ea-bf73bdc3cdb5",
     "0c6d70aa-c44d-4db1-a965-f9487c93ddbf": "4ab2ad53-8bcb-4bf1-b1a0-d4471933803d",
     "55d6af97-6627-42c9-a5b1-b31a58ee3df9": "a3eafea2-a28f-4373-8df6-15ca38c4563d",
     "61427451-34a9-4a12-b962-b150c56a4678": "3e9ea0d9-c1fc-4654-bedb-edc77a85a8c8",
@@ -8828,7 +8784,6 @@
     "9b3ce48c-409f-4489-abdc-150b3efef287": "685fb3ce-a5be-4761-9dbe-04ece54c55f7",
     "a7170ea3-443d-42f4-ace2-54ed1f16ee80": "115a2332-f101-46f4-89df-ecbeaa131792",
     "db0cba9e-161d-4097-8532-488da619fa34": "ac848a8f-48b4-407c-b129-8f79a7f72b75",
-    "aa095d66-1d9f-43d0-9153-0e435375f5b7": "1de4dbac-2682-4556-aaf3-fa718de76866",
     "cecb2b58-7c84-4c7d-ab2b-ba645f3531fe": "d2e183ce-a189-487f-80ec-ae55a9fde286",
     "2a56155c-2bec-4f37-86e1-c86a4290617f": "2e0c3a1a-da2b-4488-bc80-ae3f0d59d117",
     "52dbd992-a9bf-4527-bb48-fa952a3e1c25": "0d8256f5-414e-4db3-9617-c9b554e58a83",
