@@ -554,10 +554,10 @@ describe("Our form reducer", () => {
   });
   test("We can goto the next step", () => {
     const res = reduce(init, { type: "GOTO_NEXT_STEP" });
-    expect(res.step).toEqual("FIELD_LAYER");
+    expect(res.step).toEqual("GROUP_LAYER");
   });
   test("We can goto a previous step", () => {
     const prev = reduce(init, { type: "GOTO_PREVIOUS_STEP" });
-    expect(prev.step).toEqual("SECTION_LAYER");
+    expect(prev.step).toEqual("FIELD_LAYER");
   });
 });

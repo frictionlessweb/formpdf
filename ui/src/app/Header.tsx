@@ -7,7 +7,14 @@ import color from "../components/color";
 import { useHotkeys } from "react-hotkeys-hook";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
-import { FormControl } from "@mui/material";
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  FormControl,
+} from "@mui/material";
 import ClearIcon from "@mui/icons-material/Clear";
 import DividerIcon from "./assets/images/divider.svg";
 import Box, { BoxProps } from "@mui/material/Box";
@@ -18,7 +25,7 @@ import ZoomInIcon from "./assets/images/zoom_in.svg";
 import ZoomOutIcon from "./assets/images/zoom_out.svg";
 import HelpIcon from "./assets/images/help.svg";
 import tutorialImage from "./assets/images/tooltip_tutorial_image.png";
-import { handleFormChange } from "./utils";
+import { handleFormChange, LOCAL_STORAGE_KEY } from "./utils";
 
 const getStepIndex = (activeStep: string) => {
   return STEPS.findIndex((step) => step.id === activeStep);
@@ -127,31 +134,71 @@ const LogoAndFormSelect: React.FC = () => {
 // Middle of Header
 
 const NextStepButton: React.FC = () => {
+  const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
   const step = useSelector((state) => state.step);
   const isLastStep = step === "LABEL_LAYER";
 
+  const saveState = () => {
+    const fileName = "form_" + getCurrentFormNumber() + ".json";
+    const state: string = window.localStorage.getItem(LOCAL_STORAGE_KEY) ?? "";
+    const data = new Blob([state], { type: "text/json" });
+    const jsonURL = window.URL.createObjectURL(data);
+    const link = document.createElement("a");
+    document.body.appendChild(link);
+    link.href = jsonURL;
+    link.setAttribute("download", fileName);
+    link.click();
+    document.body.removeChild(link);
+    return;
+  };
+
   const onNext = () => {
+    if (isLastStep) {
+      setOpen(true);
+    }
     dispatch({ type: "GOTO_NEXT_STEP" });
   };
 
   useHotkeys("n", onNext, [step]);
 
   return (
-    <Button
-      sx={{
-        borderRadius: "50px",
-        textTransform: "none",
-        fontWeight: "600",
-        backgroundColor: color.blue.medium,
-        width: "6.5rem",
-      }}
-      size="small"
-      disableElevation
-      onClick={onNext}
-      variant="contained">
-      {isLastStep ? "Next Section" : "Next Step"}
-    </Button>
+    <>
+      <Button
+        sx={{
+          borderRadius: "50px",
+          textTransform: "none",
+          fontWeight: "600",
+          backgroundColor: color.blue.medium,
+          width: "6.5rem",
+        }}
+        size="small"
+        disableElevation
+        onClick={onNext}
+        variant="contained">
+        {isLastStep ? "Finish" : "Next Step"}
+      </Button>
+      <Dialog
+        open={open}
+        onClose={() => setOpen(false)}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description">
+        <DialogTitle id="alert-dialog-title">{"Save PDF?"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Congratulations! You have successfully made your PDF form
+            accessible. To save the changes, simply click the 'Save' button
+            below.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setOpen(false)}>Cancel</Button>
+          <Button onClick={saveState} autoFocus>
+            Save
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </>
   );
 };
 
@@ -160,7 +207,7 @@ const PrevStepButton: React.FC = () => {
   const step = useSelector((state) => state.step);
   const currentSection = useSelector((state) => state.currentSection);
 
-  const isFirstStep = step === "SECTION_LAYER";
+  const isFirstStep = step === "FIELD_LAYER";
   const isFirstSection = currentSection === 0;
   const onPrev = () => {
     dispatch({
@@ -192,7 +239,7 @@ const PrevStepButton: React.FC = () => {
       disabled={isFirstStep && isFirstSection}
       onClick={onPrev}
       variant="outlined">
-      {isFirstStep ? "Prev Section" : "Prev Step"}
+      Prev Step
     </Button>
   );
 };

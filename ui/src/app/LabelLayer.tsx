@@ -291,7 +291,9 @@ const GroupAndField: React.FC<AnnotationStatic> = (props) => {
           css={{
             ...css,
             pointerEvents: "none",
-            border: isSelected ? "3px solid black" : css.border,
+            border: isSelected
+              ? "3px solid black"
+              : `3px solid ${color.brown.dark}`,
             zIndex: isSelected ? 100 : 0,
           }}>
           <div
@@ -301,10 +303,11 @@ const GroupAndField: React.FC<AnnotationStatic> = (props) => {
               position: "absolute",
               top: "-10px",
               left: "-10px",
+              borderRadius: "2px",
               cursor: "pointer",
               width: "20px",
               height: "20px",
-              backgroundColor: "brown",
+              backgroundColor: isSelected ? "black" : "brown",
             }}
             onMouseDown={(e) => {
               // We stop propagation with the goal of preventing annotation being selected.
@@ -454,7 +457,11 @@ const TooltipPreview: React.FC<{
     width: (annotation.width * 4) / 5,
     minWidth: "24px",
     "&:hover": {
+      display: "flex",
       width: "auto",
+      whiteSpace: "normal",
+      wordWrap: "break-word",
+      maxWidth: "50ch",
       // this is important or the hovered tooltip will be hidden by other tooltips.
       zIndex: 210,
     },

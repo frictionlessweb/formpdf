@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react */
 
 import { GroupLayerActionMenu } from "../components/ActionMenu";
+import color from "../components/color";
 import {
   TranslucentBox,
   HandlerLayer,
@@ -64,6 +65,7 @@ const GroupLayerSelectAnnotation: React.FC<AnnotationStatic> = (
 ) => {
   const selectedAnnotations = useSelector((state) => state.selectedAnnotations);
   const annotations = useSelector((state) => state.annotations);
+  const groupRelations = useSelector((state) => state.groupRelations);
   const dispatch = useDispatch();
   const { id, children, type, ...cssProps } = annotationProps;
   const css = {
@@ -75,6 +77,16 @@ const GroupLayerSelectAnnotation: React.FC<AnnotationStatic> = (
   const isFirstSelection =
     Object.keys(selectedAnnotations)[0] === annotationProps.id;
 
+  const groupRelationIds = new Set(Object.values(groupRelations).flat());
+  const trulySelectedAnnotations: Array<string> = Object.keys(
+    selectedAnnotations
+  ).filter((key) => {
+    return selectedAnnotations[key] === true;
+  });
+  const shouldShowGroupDelete = trulySelectedAnnotations.every((annotation) => {
+    return groupRelationIds.has(annotation);
+  });
+
   if (type === "GROUP") {
     // Render just a normal div that doesn't have interactions.
     return (
@@ -82,7 +94,7 @@ const GroupLayerSelectAnnotation: React.FC<AnnotationStatic> = (
         id={id}
         css={{
           ...css,
-          border: css.border,
+          border: `3px solid ${color.brown.dark}`,
           zIndex: 0,
           pointerEvents: "none",
         }}
@@ -97,6 +109,7 @@ const GroupLayerSelectAnnotation: React.FC<AnnotationStatic> = (
             left: css.left,
             top: css.top,
           }}
+          showDelete={shouldShowGroupDelete}
           onDelete={() => {
             if (type === "RADIOBOX" || "CHECKBOX") {
               dispatch({
@@ -141,6 +154,10 @@ const GroupLayerSelectAnnotation: React.FC<AnnotationStatic> = (
           ...css,
           zIndex: isSelected ? 100 : 0,
           border: isSelected ? "3px solid black" : css.border,
+        }}
+        onMouseDown={(e) => {
+          // We stop propagation with the goal of preventing annotation being selected.
+          e.stopPropagation();
         }}
         onClick={(e: React.MouseEvent<HTMLElement>) => {
           e.stopPropagation();

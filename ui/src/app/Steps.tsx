@@ -84,7 +84,7 @@ const Steps: React.FC<{
   //BUG: is not boxProps inline style ?
   return (
     <Stepper
-      css={{ width: "400px", maxWidth: "30rem" }}
+      css={{ width: "300px", maxWidth: "30rem" }}
       connector={<Connector />}
       activeStep={stepIndex}>
       {STEPS.map((step, index) => (
